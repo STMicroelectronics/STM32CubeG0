@@ -6,7 +6,7 @@ This guide mainly focuses on the proper use of Git.
 
 ### 1. Before opening an issue
 To report a bug/request please file an issue in the right repository
-(example for [STM32CubeF4](https://github.com/STMicroelectronics/STM32CubeF4/issues/new/choose)).
+(example for [STM32CubeG0](https://github.com/STMicroelectronics/STM32CubeG0/issues/new/choose)).
 But check the following boxes before posting an issue:
 
 - [ ] `Make sure you are using the latest commit (major releases are Tagged, but corrections are available as new commits).`
