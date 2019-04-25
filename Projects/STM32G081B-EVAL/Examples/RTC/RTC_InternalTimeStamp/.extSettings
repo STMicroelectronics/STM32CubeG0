@@ -1,0 +1,9 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Inc;..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32G0xx\Include;..\..\..\..\..\..\Drivers\BSP\STM32G081B_EVAL;..\..\..\..\..\..\Drivers\BSP\Components\Common
+[Others]
+Define=
+HALModule=SPI;SPI
+[Groups]
+Doc=../readme.txt;
+Drivers/BSP/STM32G081B_EVAL=../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval_lcd.c;../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval.c;
+Drivers/BSP/Components=../../../../../../Drivers/BSP/Components/hx8347d/hx8347d.c;

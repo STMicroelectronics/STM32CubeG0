@@ -1,0 +1,12 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G081B_EVAL;..\..\..\..\..\..\Drivers\BSP\Components\Common
+[Others]
+Define=
+HALModule=SPI
+[Groups]
+Application/User/FatFs/App=../FATFS/App/app_fatfs.c;
+Doc=../readme.txt;
+Drivers/STM32G0xx_HAL_Driver=../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi.c;../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi_ex.c;
+Application/User/FatFs/Target=../FATFS/Target/sd_diskio.c;
+Application/User/Core=../Core/Src/main.c;../Core/Src/stm32g0xx_it.c;../Core/Src/stm32g0xx_hal_msp.c;
+Drivers/BSP/STM32G081B_EVAL=../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval_sd.c;../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval.c;

@@ -1,0 +1,8 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G081B_EVAL
+[Others]
+Define=
+HALModule=UART
+[Groups]
+Doc=../readme.txt;../Expected_Results.txt;
+Drivers/BSP/STM32G081B_EVAL=../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval.c;

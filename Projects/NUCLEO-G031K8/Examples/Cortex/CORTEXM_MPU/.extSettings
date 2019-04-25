@@ -1,0 +1,9 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Inc;..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Inc\Legacy;..\..\..\..\..\..\Drivers\CMSIS\Include;..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32G0xx\Include;..\..\..\..\..\..\Drivers\BSP\STM32G0xx_Nucleo_32
+[Others]
+Define=
+HALModule=
+[Groups]
+Doc=../readme.txt;../readme.txt;
+Drivers/BSP/STM32G0xx_Nucleo_32=../../../../../../Drivers/BSP/STM32G0xx_Nucleo_32/stm32g0xx_nucleo_32.c;
+Application/User=../Src/stm32_mpu.c;

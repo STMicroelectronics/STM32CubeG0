@@ -1,0 +1,9 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G071B-Discovery
+[Others]
+Define=
+HALModule=
+[Groups]
+Doc=../readme.txt;
+Application/User=../Src/stm32_mpu.c;
+Drivers/BSP/STM32G071B-Discovery=../../../../../../Drivers/BSP/STM32G071B-Discovery/stm32g071b_discovery.c;

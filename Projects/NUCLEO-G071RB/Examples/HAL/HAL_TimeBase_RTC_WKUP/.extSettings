@@ -1,0 +1,9 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G0xx_Nucleo
+[Others]
+Define=
+HALModule=RTC
+[Groups]
+Application/User=../Src/stm32g0xx_hal_timebase_rtc_wakeup.c;
+Drivers/BSP/STM32G0xx_Nucleo=../../../../../../Drivers/BSP/STM32G0xx_Nucleo/stm32g0xx_nucleo.c;
+Doc=../readme.txt;

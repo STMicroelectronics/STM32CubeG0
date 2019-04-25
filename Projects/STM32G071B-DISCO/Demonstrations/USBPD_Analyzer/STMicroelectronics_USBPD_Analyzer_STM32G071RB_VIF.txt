@@ -1,0 +1,174 @@
+; 
+; USB-IF Vendor Info File Generator, Version 1.2.2.2
+; 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Intro tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+$VIF_Specification: "Revision 1.36, Version 1.0"
+$VIF_Producer: "USB-IF Vendor Info File Generator, Version 1.2.2.2"
+$Vendor_Name: "STMicroelectronics"
+$Model_Part_Number: "STM32G0XX_PD3_SNK_VDM"
+$Product_Revision: "1.0"
+$TID: "0"
+VIF_Product_Type: 0        ; Port
+$Port_Label: "0"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   VIF Product tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Connector_Type: 2        ; USB Type-C
+USB_PD_Support: YES
+PD_Port_Type: 0        ; Consumer Only
+Type_C_State_Machine: 1        ; SNK
+Port_Battery_Powered: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   General PD Settings tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Specification_Revision: 2        ; Revision 3.0
+SOP_Capable: YES
+SOP_P_Capable: NO
+SOP_PP_Capable: NO
+SOP_P_Debug_Capable: NO
+SOP_PP_Debug_Capable: NO
+Security_Msgs_Supported_SOP: NO
+Manufacturer_Info_Supported_Port: NO
+Num_Fixed_Batteries: 0
+Num_Swappable_Battery_Slots: 0
+USB_Comms_Capable: YES
+VCONN_Swap_To_On_Supported: NO
+VCONN_Swap_To_Off_Supported: NO
+Responds_To_Discov_SOP_UFP: YES
+Responds_To_Discov_SOP_DFP: YES
+Attempts_Discov_SOP: NO
+Chunking_Implemented_SOP: YES
+Unchunked_Extended_Messages_Supported: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   USB Type-C tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type_C_Supports_VCONN_Powered_Accessory: NO
+Type_C_Is_VCONN_Powered_Accessory: NO
+Type_C_Is_Debug_Target_SNK: NO
+Type_C_Can_Act_As_Host: NO
+Type_C_Can_Act_As_Device     : YES
+Type_C_Is_Alt_Mode_Adapter   : YES
+Type_C_Is_Alt_Mode_Controller: NO
+Type_C_Power_Source: 0        ; Self-Powered
+Type_C_Port_On_Hub: NO
+Type_C_Supports_Audio_Accessory: NO
+Captive_Cable: NO
+Type_C_Sources_VCONN: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   USB Device tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Device_Speed: 0        ; USB 2
+Device_Contains_Captive_Retimer: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Sink tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_as_Sink: 7500        ; (7500 mW)
+No_USB_Suspend_May_Be_Set: YES
+GiveBack_May_Be_Set: NO
+Higher_Capability_Set: NO
+FR_Swap_Reqd_Type_C_Current: 0        ; FR_Swap not supported
+Num_Snk_PDOs: 2
+
+    Snk_PDO_Supply_Type1: 0        ; Fixed
+    Snk_PDO_Voltage1: 100        ; (5000 mV)
+    Snk_PDO_Op_Current1: 150        ; (1500 mA)
+
+    Snk_PDO_Supply_Type2: 3        ; PPS
+    Snk_PDO_Op_Current2: 30        ; (1500 mA)
+    Snk_PDO_Min_Voltage2: 33        ; (3300 mV)
+    Snk_PDO_Max_Voltage2: 59        ; (5900 mV)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SOP Discovery - Part One tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+XID_SOP: 43690
+Data_Capable_as_USB_Host_SOP: NO
+Data_Capable_as_USB_Device_SOP: YES
+Product_Type_UFP_SOP: 5        ; Alternate Mode Adapter (AMA)
+Product_Type_DFP_SOP: 0        ; Undefined
+Modal_Operation_Supported_SOP: YES
+USB_VID_SOP: 0x0483
+PID_SOP: 0xAAAA
+bcdDevice_SOP: 0xAAAA
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SOP Discovery - Part Two tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SVID_fixed_SOP: YES
+Num_SVIDs_min_SOP: 1
+Num_SVIDs_max_SOP: 1
+
+    SVID1_SOP: 0xFF01
+    SVID1_modes_fixed_SOP: YES
+    SVID1_num_modes_min_SOP: 2
+    SVID1_num_modes_max_SOP: 2
+    SVID1_mode1_enter_SOP: YES
+    SVID1_mode2_enter_SOP: YES
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   AMA tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+AMA_HW_Vers: 0x1
+AMA_FW_Vers: 0x1
+AMA_VCONN_reqd: NO
+AMA_VBUS_reqd: YES
+AMA_Superspeed_Support                : 0       ; USB 2.0 only
+
+; --------------------------------------------------------------------------------
+; DisplayPort Alt-Mode
+; --------------------------------------------------------------------------------
+
+DP_Modes_Count                            : 2               
+
+; Mode 1
+DP_mode1_Port_Cap                         : 1               ; UFP_D Capable
+DP_mode1_Support_DPv13                    : Yes             
+DP_mode1_Support_UsbGen2                  : No              
+DP_mode1_Receptacle                       : No              ; DP on Type-C Plug
+DP_mode1_Usb20_Not_Used                   : Yes              
+
+; DFP_D Pin Assignments Supported
+DP_mode1_Dfp_D_A_Supported                : No              
+DP_mode1_Dfp_D_B_Supported                : No              
+DP_mode1_Dfp_D_C_Supported                : Yes             
+DP_mode1_Dfp_D_D_Supported                : No              
+DP_mode1_Dfp_D_E_Supported                : Yes             
+DP_mode1_Dfp_D_F_Supported                : No              
+
+; UFP_D Pin Assignments Supported
+DP_mode1_Ufp_D_A_Supported                : No              
+DP_mode1_Ufp_D_B_Supported                : No              
+DP_mode1_Ufp_D_C_Supported                : No              
+DP_mode1_Ufp_D_D_Supported                : No              
+DP_mode1_Ufp_D_E_Supported                : No              
+
+; Mode 2
+DP_mode2_Port_Cap                         : 3               ; Both DFP_D and UFP_D Capable
+DP_mode2_Support_DPv13                    : Yes             
+DP_mode2_Support_UsbGen2                  : No              
+DP_mode2_Receptacle                       : Yes             ; DP on Type-C Receptacle
+DP_mode2_Usb20_Not_Used                   : No              
+
+; DFP_D Pin Assignments Supported
+DP_mode2_Dfp_D_A_Supported                : No              
+DP_mode2_Dfp_D_B_Supported                : No              
+DP_mode2_Dfp_D_C_Supported                : Yes             
+DP_mode2_Dfp_D_D_Supported                : Yes             
+DP_mode2_Dfp_D_E_Supported                : No              
+DP_mode2_Dfp_D_F_Supported                : No              
+
+; UFP_D Pin Assignments Supported
+DP_mode2_Ufp_D_A_Supported                : No              
+DP_mode2_Ufp_D_B_Supported                : No              
+DP_mode2_Ufp_D_C_Supported                : No              
+DP_mode2_Ufp_D_D_Supported                : No              
+DP_mode2_Ufp_D_E_Supported                : No              

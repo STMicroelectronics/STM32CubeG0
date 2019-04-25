@@ -1,0 +1,8 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G0316-DISCO
+[Others]
+Define=
+HALModule=TIM;WWDG
+[Groups]
+Doc=../readme.txt;
+Drivers/BSP/STM32G0316-DISCO=../../../../../../Drivers/BSP/STM32G0316-DISCO/stm32g0316_discovery.c;

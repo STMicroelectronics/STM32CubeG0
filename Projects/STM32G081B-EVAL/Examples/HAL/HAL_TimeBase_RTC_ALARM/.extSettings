@@ -1,0 +1,9 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G081B_EVAL
+[Others]
+Define=
+HALModule=RTC
+[Groups]
+Application/User=../Src/stm32g0xx_hal_timebase_rtc_alarm.c;
+Drivers/BSP/STM32G081B_EVAL=../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval.c;
+Doc=../readme.txt;

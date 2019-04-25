@@ -1,0 +1,9 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G081B_EVAL
+[Others]
+Define=
+HALModule=TIM
+[Groups]
+Application/User=../Src/main.c;../Src/stm32g0xx_it.c;../Src/stm32g0xx_hal_timebase_tim.c;../Src/app_freertos.c;../Src/stm32g0xx_hal_msp.c;
+Doc=../readme.txt;
+Drivers/BSP/STM32G081B_EVAL=../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval.c;

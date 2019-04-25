@@ -1,0 +1,8 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G0xx_Nucleo_32
+[Others]
+Define=
+HALModule=UART
+[Groups]
+Doc=../readme.txt;
+Drivers/BSP/STM32G0xx_Nucleo_32=../../../../../../Drivers/BSP/STM32G0xx_Nucleo_32/stm32g0xx_nucleo_32.c;

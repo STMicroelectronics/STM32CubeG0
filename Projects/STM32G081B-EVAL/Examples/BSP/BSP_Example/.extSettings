@@ -1,0 +1,11 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G081B_EVAL;..\..\..\..\..\..\Drivers\BSP\Components\Common;..\..\..\..\..\..\Utilities\Log;..\..\..\..\..\..\Utilities\CPU
+[Others]
+Define=USE_STM32G081B_EVAL
+HALModule=SPI;I2C
+[Groups]
+Application/User=../Src/lcd.c;../Src/log.c;../Src/sd.c;../Src/joystick.c;../Src/temperature_sensor.c;
+Doc=../readme.txt;
+Application/Utilities=../../../../../../Utilities/Log/lcd_log.c;
+Drivers/BSP/Components=../../../../../../Drivers/BSP/Components/hx8347d/hx8347d.c;../../../../../../Drivers/BSP/Components/stlm75/stlm75.c;
+Drivers/BSP/STM32G081B_EVAL=../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval.c;../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval_lcd.c;../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval_sd.c;../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval_tsensor.c;

@@ -1,0 +1,14 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G0xx_Nucleo;..\..\..\..\..\..\Drivers\BSP\Adafruit_Shield;..\..\..\..\..\..\Drivers\BSP\Components;..\..\..\..\..\..\Drivers\BSP\Components\Common
+[Others]
+Define=
+HALModule=SPI
+[Groups]
+Drivers/BSP/STM32G0xx_Nucleo=../../../../../../Drivers/BSP/STM32G0xx_Nucleo/stm32g0xx_nucleo.c;
+Drivers/BSP/Adafruit_Shield=../../../../../../Drivers/BSP/Adafruit_Shield/stm32_adafruit_sd.c;../../../../../../Drivers/BSP/Adafruit_Shield/stm32_adafruit_lcd.c;
+Doc=../readme.txt;
+Drivers/STM32G0xx_HAL_Driver=../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi.c;../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi_ex.c;
+Application/User/FatFs/Target=../FATFS/Target/sd_diskio.c;
+Application/User/Core=../Core/Src/main.c;../Core/Src/stm32g0xx_it.c;../Core/Src/stm32g0xx_hal_msp.c;
+Drivers/BSP/Components=../../../../../../Drivers/BSP/Components/st7735/st7735.c;
+Application/User/FatFs/App=../FATFS/App/app_fatfs.c;

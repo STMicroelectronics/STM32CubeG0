@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspace>
+    <project>
+        <path>$WS_DIR$\Project.ewp</path>
+    </project>
+    <batchBuild>
+        <batchDefinition>
+            <name>FULL</name>
+            <member>
+                <project>Project</project>
+                <configuration>STM32G081B-EVAL_Demo-UCPD-Relocate</configuration>
+            </member>
+            <member>
+                <project>Project</project>
+                <configuration>STM32G081B-EVAL_Demo-UCPD-Standalone</configuration>
+            </member>
+        </batchDefinition>
+    </batchBuild>
+</workspace>
