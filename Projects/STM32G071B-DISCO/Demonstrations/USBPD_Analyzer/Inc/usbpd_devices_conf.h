@@ -1,13 +1,12 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    usbpd_devices_conf.h
   * @author  MCD Application Team
   * @brief   This file contains the device define.
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics International N.V.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2019 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -16,6 +15,8 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
+
 
 #ifndef USBPD_DEVICE_CONF_H
 #define USBPD_DEVICE_CONF_H
@@ -37,6 +38,8 @@ extern "C" {
 
 #include "stm32g071b_discovery_pwr.h"
 
+/* USER CODE END Includes */
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -46,11 +49,11 @@ extern "C" {
       usbpd_hw.c
 -------------------------------------------------------------------------------*/
 
-/* defined used to configure function : USBPD_HW_GetUSPDInstance */
+/* defined used to configure function : BSP_USBPD_GetUSPDInstance */
 #define UCPD_INSTANCE0 UCPD1
 #define UCPD_INSTANCE1 UCPD2
 
-/* defined used to configure function : USBPD_HW_Init_DMARxInstance,USBPD_HW_DeInit_DMARxInstance */
+/* defined used to configure function : BSP_USBPD_Init_DMARxInstance,BSP_USBPD_DeInit_DMARxInstance */
 #define UCPDDMA_INSTANCE0_CLOCKENABLE_RX  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 #define UCPDDMA_INSTANCE1_CLOCKENABLE_RX  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 
@@ -66,7 +69,7 @@ extern "C" {
 #define UCPDDMA_INSTANCE0_CHANNEL_RX   DMA1_Channel5
 #define UCPDDMA_INSTANCE1_CHANNEL_RX   DMA1_Channel2
 
-/* defined used to configure function : USBPD_HW_Init_DMATxInstance, USBPD_HW_DeInit_DMATxInstance */
+/* defined used to configure function : BSP_USBPD_Init_DMATxInstance, BSP_USBPD_DeInit_DMATxInstance */
 #define UCPDDMA_INSTANCE0_CLOCKENABLE_TX  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 #define UCPDDMA_INSTANCE1_CLOCKENABLE_TX  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 
@@ -82,18 +85,18 @@ extern "C" {
 #define UCPDDMA_INSTANCE0_CHANNEL_TX   DMA1_Channel3
 #define UCPDDMA_INSTANCE1_CHANNEL_TX   DMA1_Channel4
 
-/* defined used to configure  USBPD_HW_SetFRSSignalling */
-#define UCPDFRS_INSTANCE0_FRSCC1   {                                                                   \
+/* defined used to configure  BSP_USBPD_SetFRSSignalling */
+#define UCPDFRS_INSTANCE0_FRSCC1   do{                                                                   \
                                      LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);                \
                                      LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_2, LL_GPIO_MODE_ALTERNATE); \
                                      LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_2, LL_GPIO_AF_4);         \
-                                   }
+                                   } while(0)
 
-#define UCPDFRS_INSTANCE0_FRSCC2   {                                                                   \
+#define UCPDFRS_INSTANCE0_FRSCC2   do{                                                                   \
                                      LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);                \
                                      LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_0, LL_GPIO_MODE_ALTERNATE); \
                                      LL_GPIO_SetAFPin_0_7(GPIOB, LL_GPIO_PIN_0, LL_GPIO_AF_6);         \
-                                   }
+                                   } while(0)
 #define UCPDFRS_INSTANCE1_FRSCC1
 #define UCPDFRS_INSTANCE1_FRSCC2
 
@@ -107,43 +110,11 @@ extern "C" {
                                         NVIC_EnableIRQ(UCPD1_2_IRQn);                                  \
                                     } while(0)
 /* -----------------------------------------------------------------------------
-      Definitions for TRACE feature
--------------------------------------------------------------------------------*/
-
-/* Enable below USE_FULL_LL_DRIVER_USART compilation flag to use generic LL_USART_Init() function */
-/* #define USE_FULL_LL_DRIVER_USART */
-
-#define TRACE_BAUDRATE                          921600u
-
-#define TRACE_USART_INSTANCE                    USART3
-
-#define TRACE_TX_GPIO                           GPIOC
-#define TRACE_TX_PIN                            LL_GPIO_PIN_10
-#define TRACE_TX_AF                             LL_GPIO_AF_0
-#define TRACE_RX_GPIO                           GPIOC
-#define TRACE_RX_PIN                            LL_GPIO_PIN_11
-#define TRACE_RX_AF                             LL_GPIO_AF_0
-#define TRACE_GPIO_ENABLE_CLOCK()               LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOC)
-
-#define TRACE_ENABLE_CLK_USART()                LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART3)
-#define TRACE_SET_CLK_SOURCE_USART()            /* No need for clock source selection in case of USART3 // LL_RCC_SetUSARTClockSource(LL_RCC_USART3_CLKSOURCE_PCLK2) */
-#define TRACE_USART_IRQ                         USART3_4_LPUART1_IRQn
-#define TRACE_TX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
-#define TRACE_RX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
-#define TRACE_DMA_INSTANCE                      DMA1
-#define TRACE_ENABLE_CLK_DMA()                  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
-#define TRACE_TX_DMA_REQUEST                    LL_DMAMUX_REQ_USART3_TX
-#define TRACE_TX_DMA_CHANNEL                    LL_DMA_CHANNEL_7
-#define TRACE_TX_DMA_IRQ                        DMA1_Ch4_7_DMAMUX1_OVR_IRQn
-#define TRACE_TX_DMA_IRQHANDLER                 DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler
-#define TRACE_TX_DMA_ACTIVE_FLAG                LL_DMA_IsActiveFlag_TC7
-#define TRACE_TX_DMA_CLEAR_FLAG                 LL_DMA_ClearFlag_GI7
-
-/* -----------------------------------------------------------------------------
       Definitions for timer service feature
 -------------------------------------------------------------------------------*/
 #define TIMX                           TIM2
 #define TIMX_CLK_ENABLE                LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM2)
+#define TIMX_CLK_DISABLE               LL_APB1_GRP1_DisableClock(LL_APB1_GRP1_PERIPH_TIM2)
 #define TIMX_IRQ                       TIM2_IRQn
 #define TIMX_CHANNEL_CH1               LL_TIM_CHANNEL_CH1
 #define TIMX_CHANNEL_CH2               LL_TIM_CHANNEL_CH2

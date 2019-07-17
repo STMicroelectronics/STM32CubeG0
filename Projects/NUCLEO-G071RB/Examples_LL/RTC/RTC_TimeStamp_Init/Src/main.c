@@ -104,6 +104,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   /* USER CODE END 1 */
+  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -133,9 +134,6 @@ int main(void)
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
   LL_PWR_EnableBkUpAccess();
-
-  /* Enable RTC APB clock  */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_RTC);
 
   /*## Configure LSE/LSI as RTC clock source ###############################*/
 #ifdef RTC_CLOCK_SOURCE_LSE
@@ -271,6 +269,7 @@ static void MX_RTC_Init(void)
 
   /* Peripheral clock enable */
   LL_RCC_EnableRTC();
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_RTC);
 
   /* USER CODE BEGIN RTC_Init 1 */
 

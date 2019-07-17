@@ -49,33 +49,34 @@ typedef struct
 {
   /**
    * @brief  Reports that a message has been received on a specified port.
-   * @param  PortNum:    The handle of the port
-   * @param  Type:    The type of the message received
+   * @note   Received data are stored inside PortNum->pRxBuffPtr
+   *         function called in the interrupt context
+   * @param  PortNum The handle of the port
+   * @param  Type    The type of the message received @ref USBPD_SOPType_TypeDef
    * @retval None
-   * @note Received data are stored inside PortNum->pRxBuffPtr
    */
   void (*USBPD_PHY_MessageReceived)(uint8_t PortNum, USBPD_SOPType_TypeDef Type);
 
   /**
    * @brief  Reports to the PRL that a Reset received from channel.
-   * @param  PortNum:    The handle of the port
-   * @param  Type:    The type of reset performed
+   * @param  PortNum The handle of the port
+   * @param  Type The type of reset performed @ref USBPD_SOPTYPE_HARD_RESET or @ref USBPD_SOPTYPE_CABLE_RESET
    * @retval None
    */
   void (*USBPD_PHY_ResetIndication)(uint8_t PortNum, USBPD_SOPType_TypeDef Type);
 
   /**
    * @brief  Reports to the PRL that a Reset operation has been completed.
-   * @param  PortNum:    The handle of the port
-   * @param  Type:    The type of reset performed
+   * @param  PortNum The handle of the port
+   * @param  Type The type of reset performed @ref USBPD_SOPTYPE_HARD_RESET or @ref USBPD_SOPTYPE_CABLE_RESET
    * @retval None
    */
   void (*USBPD_PHY_ResetCompleted)(uint8_t PortNum, USBPD_SOPType_TypeDef Type);
 
   /**
    * @brief  Reports to the PRL that a Bist operation has been completed.
-   * @param  PortNum:    The handle of the port
-   * @param  Type:    The type of Bist performed
+   * @param  PortNum The handle of the port
+   * @param  Type The type of Bist performed @ref USBPD_BISTMsg_TypeDef
    * @retval None
    */
   void (*USBPD_PHY_BistCompleted)(uint8_t PortNum, USBPD_BISTMsg_TypeDef bistmode);
@@ -114,7 +115,7 @@ void                USBPD_PHY_SetResistor_SinkTxNG(uint8_t PortNum);
 void                USBPD_PHY_SetResistor_SinkTxOK(uint8_t PortNum);
 uint8_t             USBPD_PHY_IsResistor_SinkTxOk(uint8_t PortNum);
 void                USBPD_PHY_FastRoleSwapSignalling(uint8_t PortNum);
-void                USBPD_PHY_SOPSupported(uint8_t PortNum,uint32_t SOPSupported);
+void                USBPD_PHY_SOPSupported(uint8_t PortNum, uint32_t SOPSupported);
 
 void                USBPD_PHY_EnableRX(uint8_t PortNum);
 void                USBPD_PHY_DisableRX(uint8_t PortNum);

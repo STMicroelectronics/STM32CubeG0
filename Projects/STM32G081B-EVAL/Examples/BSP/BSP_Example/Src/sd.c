@@ -95,7 +95,7 @@ void SD_demo (void)
       SD_state = BSP_SD_Erase(BLOCK_START_ADDR, (BLOCKSIZE * NUM_OF_BLOCKS));
     
       /* Verify that SD card is ready to use after the Erase */
-      SD_state |= BSP_SD_GetStatus();
+      SD_state |= BSP_SD_GetCardInfo(&CardInfo);
 
       if(SD_state != MSD_OK)
       {

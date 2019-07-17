@@ -77,7 +77,6 @@ void HAL_MspInit(void)
   /* USER CODE END MspInit 1 */
 }
 
-#if defined(WAVEFORM_VOLTAGE_GENERATION_FOR_TEST)
 /**
 * @brief DAC MSP Initialization
 * This function configures the hardware resources used in this example
@@ -149,7 +148,6 @@ void HAL_DAC_MspDeInit(DAC_HandleTypeDef* hdac)
   }
 
 }
-#endif /* WAVEFORM_VOLTAGE_GENERATION_FOR_TEST */
 
 /* USER CODE BEGIN 1 */
 /**

@@ -79,6 +79,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
+  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -305,6 +306,7 @@ static void MX_TIM1_Init(void)
   /* USER CODE BEGIN TIM1_Init 2 */
 
   /* USER CODE END TIM1_Init 2 */
+  LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
   /**TIM1 GPIO Configuration  
   PA10   ------> TIM1_CH3 
   */
@@ -317,6 +319,7 @@ static void MX_TIM1_Init(void)
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
+
 /** 
   * Enable DMA controller clock
   */
@@ -330,6 +333,7 @@ static void MX_DMA_Init(void)
   /* DMA1_Ch4_7_DMAMUX1_OVR_IRQn interrupt configuration */
   NVIC_SetPriority(DMA1_Ch4_7_DMAMUX1_OVR_IRQn, 0);
   NVIC_EnableIRQ(DMA1_Ch4_7_DMAMUX1_OVR_IRQn);
+
 }
 
 /**

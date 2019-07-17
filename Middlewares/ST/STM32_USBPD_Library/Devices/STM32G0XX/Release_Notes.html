@@ -1,243 +1,349 @@
 <!DOCTYPE html>
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-
-<title>Release Notes for STM32 USB-C Power Delivery Core Stack Library</title><style>
-div.Section1 {
-page: Section1;
-font-family: Arial,Helvetica,sans-serif;
-}
-h1 {
-font-size: 24pt;
-font-weight: bold;
-font-family: Arial,Helvetica,sans-serif;
-text-align: center;
-color: #3366ff;
-}
-h2 {
-margin: 12pt 0in 3pt;
-page-break-after: avoid;
-font-weight: bold;
-font-family: Arial,Helvetica,sans-serif;
-background-color: #3366ff;
-color: white;
-padding-left: 5px;
-font-size: 16pt;
-}
-h3 {
-margin-left: 0in;
-font-weight: bold;
-font-family: Arial,Helvetica,sans-serif;
-background-color: #3366ff;
-width: 200px;
-margin-right: 500pt;
-color: white;
-padding-left: 5px;
-padding-top: 2px;
-padding-bottom: 2px;
-font-size: 12pt;
-}
-h4 {
-font-family: Arial,Helvetica,sans-serif;
-font-weight: bold;
-text-decoration: underline;
-font-size: 12pt;
-}
-p {
-margin: 0px 0px 0px 0in;
-font-family: Arial,Helvetica,sans-serif;
-padding-top: 3px;
-padding-bottom: 3px;
-font-size: 12pt;
-}
-ul {
-font-family: Arial,Helvetica,sans-serif;
-margin-top: 3px;
-margin-bottom: 3px;
-font-size: 10pt;
-}
-caption {
-margin-top: 10px;
-font-family: Arial,Helvetica,sans-serif;
-font-size: 11pt;
-}
-hr {
-width: 100%;
-}
-.guidance {
-background-color: #e5b8b7;
-font-style: italic;
-font-family: Arial,Helvetica,sans-serif;
-padding-top: 3px;
-padding-bottom: 3px;
-margin-top: 3px;
-margin-bottom: 3px;
-font-size: 10pt;
-}
-.guidance_title {
-font-style: normal;
-font-weight: bold;
-text-decoration: underline;
-font-family: Arial,Helvetica,sans-serif;
-font-size: 10pt;
-}
-.tickets {
-border: 1pt solid #9cc2e5;
-font-family: Arial,Helvetica,sans-serif;
-margin-bottom: 3px;
-margin-top: 3px;
-font-size: 10pt;
-}
-.tickets th {
-border: 1pt solid #9cc2e5;
-font-size: 12pt;
-background-color: #39a9dc;
-color: white;
-text-align: center;
-}
-.tickets td {
-border: 1pt solid #9cc2e5;
-min-height: 32px;
-}
-tr:nth-child(even) {background-color: #cee2f2;}
-tr:nth-child(even) {background-color: #e8f1f9;}
-.topic1 {
-margin-top: 3px;
-margin-bottom: 3px;
-margin-left: 40px;
-}
-.topic2 {
-margin-top: 3px;
-margin-bottom: 3px;
-}
-.topic3 {
-margin-top: 3px;
-margin-bottom: 3px;
-margin-left: 20px;
-}
-#purpose {
-margin-top: 3px;
-margin-bottom: 3px;
-}
-#identification {
-margin-top: 3px;
-margin-bottom: 3px;
-}
-</style></head>
-<body link="blue" vlink="blue">
-<script type="text/javascript">
-var toggle_hist_disp = true;
-function toggle_history()
-{
-if (toggle_hist_disp)
-{
-toggle_hist_disp = false;
-var filter_off_text = document.createTextNode("Hide History");
-document.getElementById('filter_hist').innerHTML = "";
-document.getElementById('filter_hist').appendChild(filter_off_text);
-document.getElementById("history").hidden = false;
-}
-else
-{
-toggle_hist_disp = true;
-var filter_on_text = document.createTextNode("Show History");
-document.getElementById('filter_hist').innerHTML = "";
-document.getElementById('filter_hist').appendChild(filter_on_text);
-document.getElementById("history").hidden = true;
-}
-}</script><small><a href="../../../../../Release_Notes.html">Back to Release page</a></small>
-<div style="width: 1034px;" class="Section1">
-
-<div id="header">
-<h1>Release
-Notes for&nbsp;<span style="background-color: white;">STM32 USB-C Power Delivery G0 Device Driver</span></h1>
-<p style="text-align: center;">Copyright 2018
-STMicroelectronics</p>
-<p style="text-align: center;"><img style="width: 104px; height: 77px;" id="st_logo" alt="&lt;ST logo&gt; image" src="../../../../../_htmresc/st_logo.png"></p>
-</div>
-<div id="license" class="topic1">
-<h2>License</h2>
-<p>This software component is licensed by ST under Ultimate Liberty
-license SLA0044, the "License"; You may not use this component except
-in compliance with the License. You may obtain a copy of the License at:</p>
-<p style="text-align: center; color: white;"><a href="http://www.st.com/SLA0044" target="_blank">http://www.st.com/SLA0044</a></p>
-</div>
-
-<div id="release_container" class="topic1">
-<div class="topic2" id="identification">
-<h3>2.5.0 / 10-Dec.-2018</h3>
-</div><div class="topic3" id="contents"><h4>Contents</h4>
-<ul><li>Correction link with renaming toogle by toggle</li></ul>
-<ul><li>Wrong parameter for errorrecovery</li></ul>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Release Notes for STM32 USB-C Power Delivery G0 Device Driver</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="_htmresc/mini-st.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="row">
+<div class="col-sm-12 col-lg-4">
+<div class="card fluid">
+<div class="sectione dark">
+<center>
+<h1 id="release-notes-for-stm32-usb-c-power-delivery-g0-device-driver"><small>Release Notes for</small> STM32 USB-C Power Delivery G0 Device Driver</h1>
+<p>Copyright © 2018 STMicroelectronics<br />
+</p>
+<a href="https://www.st.com" class="logo"><img src="_htmresc/st_logo.png" alt="ST logo" /></a>
+</center>
 </div>
 </div>
-<div style="margin-left: 40px;"><button id="filter_hist" onclick="toggle_history()">Show
-History</button><br>
+<h1 id="license">License</h1>
+<p>This software component is licensed by ST under Ultimate Liberty license SLA0044, the “License”; You may not use this component except in compliance with the License. You may obtain a copy of the License at:</p>
+<p><a href="http://www.st.com/SLA0044">http://www.st.com/SLA0044</a></p>
+<h1 id="purpose">Purpose</h1>
+The USB-PD devices corresponds to physical layer + type C state machine of the USB-PD specification:
+<ul>
+<li>
+Type C state machine: SRC, SNK and DRP
+</li>
+</ul>
+<ul>
+<li>
+Physical layer: message handling SOP, SOP’, SOP’’, HARDRESET, ….
+</li>
+</ul>
+<ul>
+<li>
+Timer server to handle GOODCRC, PRL repetition timing
+</li>
+</ul>
+<p>The USB-PD library is developed following the Universal Serial Bus Power Delivery Specification Revision 3.0, V1.2 (June 06, 2018) and Universal Serial Bus type-C Cable and Connector Specification, Revision 1.3 (July 14, 2017). It has passed successfully the official certification.</p>
 </div>
-<div id="history" class="topic1" hidden="">
-<h2>Update History</h2>
-<br>
-
-<div id="release_container" class="topic1">
-
-<div class="topic2" id="identification">
-<h3>2.4.0 / 15-November-2018</h3>
-<div class="topic3" id="contents"><h4>Contents</h4>
-<ul><li>update for cubemx integration</li></ul>
-<ul><li>remove BSP reference, now managed trough the header file usbpd_devices_conf.h</li></ul>
-<ul><li>remove reference to disco board</li></ul>
-<ul><li>update for errorrecovery managment</li></ul>
+<div class="col-sm-12 col-lg-8">
+<h1 id="update-history">Update History</h1>
+<div class="collapse">
+<input type="checkbox" id="collapse-section7" checked aria-hidden="true"> <label for="collapse-section7" aria-hidden="true">V2.6.0 / 10-April-2019</label>
+<div>
+<h2 id="main-changes">Main Changes</h2>
+<h3 id="maintenance-release">Maintenance release</h3>
+<h2 id="contents">Contents</h2>
+<table>
+<caption>Fixed bugs list</caption>
+<thead>
+<tr class="header">
+<th>Headline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>[LOWPOWER] update to allow stop mode in attached cases</td>
+</tr>
+<tr class="even">
+<td>[LOWPOWER] improvement link with lowpower management</td>
+</tr>
+<tr class="odd">
+<td>[LOWPOWER] rework aroun VBUS init/deinit TIMER Init/Deinit</td>
+</tr>
+<tr class="even">
+<td>Ticket 64288 - USBPD_PHY_GetRetryTimerValue</td>
+</tr>
+<tr class="odd">
+<td>Udpate to improve the state machine : increase timing detection, symetrie VBUSInit, VBUSDeInit</td>
+</tr>
+<tr class="even">
+<td>Change switch SRC to _SRC</td>
+</tr>
+<tr class="odd">
+<td>Conf_template.h updates.</td>
+</tr>
+<tr class="even">
+<td>Add DMA LL Struct initialisation function call.</td>
+</tr>
+<tr class="odd">
+<td>Rework around CC disabled</td>
+</tr>
+<tr class="even">
+<td>Add TIMDenit management - add VBUSDenit - add VCONNDeinit - state machine detection optimization</td>
+</tr>
+<tr class="odd">
+<td>Detach not detected in NRTOS in case of switch from SRC to RA (ellisys)</td>
+</tr>
+<tr class="even">
+<td>Update to avoid wrong detection</td>
+</tr>
+<tr class="odd">
+<td>Trace in case of attachement read the CC state from register</td>
+</tr>
+<tr class="even">
+<td>Change return value from uint32_t to uint16_t for HW_IF_PWR_GetVoltage (compatibility with F0)</td>
+</tr>
+<tr class="odd">
+<td>Add a workaround to fix a glitch issue in NRTOS version</td>
+</tr>
+<tr class="even">
+<td>Udpate exported function description for CAD and timerserver</td>
+</tr>
+<tr class="odd">
+<td>Update PHY function description</td>
+</tr>
+<tr class="even">
+<td>Remove USE_STM32G081B_EVAL_REVx switches</td>
+</tr>
+</tbody>
+</table>
+<h2 id="known-limitations">known limitations</h2>
+<h2 id="development-toolchains-and-compilers">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
+<li>System Workbench STM32 (SW4STM32) toolchain V2.7.2</li>
+</ul>
+<h2 id="supported-devices-and-boards">Supported Devices and boards</h2>
+<h2 id="backward-compatibility">backward compatibility</h2>
+<h2 id="dependencies">Dependencies</h2>
 </div>
 </div>
-<div class="topic2" id="identification">
-<h3>V2.3.0 / 09-October-2018</h3>
-
-<div class="topic3" id="contents">
-<h4>Contents</h4>
-<ul><li>LL_UCPD_Init prototype misalignment</li></ul>
+<div class="collapse">
+<input type="checkbox" id="collapse-section6" aria-hidden="true"> <label for="collapse-section6" aria-hidden="true">V2.5.0 / 10-Dec.-2018</label>
+<div>
+<h2 id="main-changes-1">Main Changes</h2>
+<h3 id="maintenance-release-1">Maintenance release</h3>
+<p>Maintenance release</p>
+<h2 id="contents-1">Contents</h2>
+<table>
+<caption>Fixed bugs list</caption>
+<thead>
+<tr class="header">
+<th>Headline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Correction link with renaming toogle by toggle</td>
+</tr>
+<tr class="even">
+<td>Wrong parameter for errorrecovery</td>
+</tr>
+</tbody>
+</table>
+<h2 id="known-limitations-1">known limitations</h2>
+<h2 id="development-toolchains-and-compilers-1">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
+<li>System Workbench STM32 (SW4STM32) toolchain V2.7.2</li>
+</ul>
+<h2 id="supported-devices-and-boards-1">Supported Devices and boards</h2>
+<h2 id="backward-compatibility-1">backward compatibility</h2>
+<h2 id="dependencies-1">Dependencies</h2>
 </div>
 </div>
-
-<div class="topic2" id="identification">
+<div class="collapse">
+<input type="checkbox" id="collapse-section5" aria-hidden="true"> <label for="collapse-section5" aria-hidden="true">V2.4.0 / 15-November-2018</label>
+<div>
+<h2 id="main-changes-2">Main Changes</h2>
+<h3 id="maintenance-release-2">Maintenance release</h3>
+<p>Maintenance release</p>
+<h2 id="contents-2">Contents</h2>
+<table>
+<caption>Fixed bugs list</caption>
+<thead>
+<tr class="header">
+<th>Headline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Update for cubemx integration</td>
+</tr>
+<tr class="even">
+<td>Remove BSP reference, now managed trough the header file usbpd_devices_conf.h</td>
+</tr>
+<tr class="odd">
+<td>Remove reference to disco board</td>
+</tr>
+<tr class="even">
+<td>Update for error recovery management</td>
+</tr>
+</tbody>
+</table>
+<h2 id="known-limitations-2">known limitations</h2>
+<h2 id="development-toolchains-and-compilers-2">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
+<li>System Workbench STM32 (SW4STM32) toolchain V2.7.2</li>
+</ul>
+<h2 id="supported-devices-and-boards-2">Supported Devices and boards</h2>
+<h2 id="backward-compatibility-2">backward compatibility</h2>
+<h2 id="dependencies-2">Dependencies</h2>
 </div>
-<h3>V2.2.0 / 07-Sep-2018</h3>
-<div class="topic3" id="contents">
-<h4>Contents</h4>
-<ul><li>minor update to avoid detection behavior in case of vconn management</li></ul>
 </div>
-
-
-<div class="topic2" id="identification">
-<h3>V2.1.1 / 15-June-2018</h3>
-</div>
-<div class="topic3" id="contents">
-<h4>Contents</h4>
-<ul><li>main change add a file usbpd_devices_conf.h to configure the device</li></ul>
-</div>
-</div>
-
-<div id="release_container" class="topic1">
-
-
-
-<div class="topic2" id="identification">
-<h3>V1.0.0 / 13-Sep-2017</h3>
-</div>
-<div class="topic3" id="contents">
-<h4>Contents</h4>
-<ul><li>First official version for STM32G0xx device (source code available).</li></ul>
-</div>
-</div>
-
-<br>
-<br>
-</div>
-<div id="product_doc" class="topic1">
-<hr>
-<p style="text-align: center;">For complete
-documentation on&nbsp;<span style="background-color: white;">STM32 Microcontrollers</span>, visit: <span style="background-color: white;"><a href="http://www.st.com/STM32" target="_blank">www.st.com/STM32</a></span></p>
-
+<div class="collapse">
+<input type="checkbox" id="collapse-section4" aria-hidden="true"> <label for="collapse-section4" aria-hidden="true">V2.3.0 / 09-October-2018</label>
+<div>
+<h2 id="main-changes-3">Main Changes</h2>
+<h3 id="maintenance-release-3">Maintenance release</h3>
+<p>Maintenance release</p>
+<h2 id="contents-3">Contents</h2>
+<table>
+<caption>Fixed bugs list</caption>
+<thead>
+<tr class="header">
+<th>Headline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LL_UCPD_Init prototype misalignment</td>
+</tr>
+</tbody>
+</table>
+<h2 id="known-limitations-3">known limitations</h2>
+<h2 id="development-toolchains-and-compilers-3">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
+<li>System Workbench STM32 (SW4STM32) toolchain V2.7.2</li>
+</ul>
+<h2 id="supported-devices-and-boards-3">Supported Devices and boards</h2>
+<h2 id="backward-compatibility-3">backward compatibility</h2>
+<h2 id="dependencies-3">Dependencies</h2>
 </div>
 </div>
-</body></html>
+<div class="collapse">
+<input type="checkbox" id="collapse-section3" aria-hidden="true"> <label for="collapse-section3" aria-hidden="true">V2.2.0 / 07-Sep-2018</label>
+<div>
+<h2 id="main-changes-4">Main Changes</h2>
+<h3 id="maintenance-release-4">Maintenance release</h3>
+<p>Maintenance release</p>
+<h2 id="contents-4">Contents</h2>
+<table>
+<caption>Fixed bugs list</caption>
+<thead>
+<tr class="header">
+<th>Headline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Minor update to avoid detection behavior in case of vconn management</td>
+</tr>
+</tbody>
+</table>
+<h2 id="known-limitations-4">known limitations</h2>
+<h2 id="development-toolchains-and-compilers-4">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
+<li>System Workbench STM32 (SW4STM32) toolchain V2.7.2</li>
+</ul>
+<h2 id="supported-devices-and-boards-4">Supported Devices and boards</h2>
+<h2 id="backward-compatibility-4">backward compatibility</h2>
+<h2 id="dependencies-4">Dependencies</h2>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section2" aria-hidden="true"> <label for="collapse-section2" aria-hidden="true">V2.1.1 / 15-June-2018</label>
+<div>
+<h2 id="main-changes-5">Main Changes</h2>
+<h3 id="maintenance-release-5">Maintenance release</h3>
+<p>Maintenance release</p>
+<h2 id="contents-5">Contents</h2>
+<table>
+<caption>Fixed bugs list</caption>
+<thead>
+<tr class="header">
+<th>Headline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Main change add a file usbpd_devices_conf.h to configure the device</td>
+</tr>
+</tbody>
+</table>
+<h2 id="known-limitations-5">known limitations</h2>
+<h2 id="development-toolchains-and-compilers-5">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
+<li>System Workbench STM32 (SW4STM32) toolchain V2.7.2</li>
+</ul>
+<h2 id="supported-devices-and-boards-5">Supported Devices and boards</h2>
+<h2 id="backward-compatibility-5">backward compatibility</h2>
+<h2 id="dependencies-5">Dependencies</h2>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section2" aria-hidden="true"> <label for="collapse-section2" aria-hidden="true">V1.0.0 / 13-Sep-2017</label>
+<div>
+<h2 id="main-changes-6">Main Changes</h2>
+<h3 id="maintenance-release-6">Maintenance release</h3>
+<p>Maintenance release</p>
+<h2 id="contents-6">Contents</h2>
+<table>
+<caption>Fixed bugs list</caption>
+<thead>
+<tr class="header">
+<th>Headline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>First official version for STM32G0xx device (source code available).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="known-limitations-6">known limitations</h2>
+<h2 id="development-toolchains-and-compilers-6">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
+<li>System Workbench STM32 (SW4STM32) toolchain V2.7.2</li>
+</ul>
+<h2 id="supported-devices-and-boards-6">Supported Devices and boards</h2>
+<h2 id="backward-compatibility-6">backward compatibility</h2>
+<h2 id="dependencies-6">Dependencies</h2>
+</div>
+</div>
+</div>
+</div>
+<footer class="sticky">
+<p>For complete documentation on STM32,visit: [<a href="http://www.st.com">www.st.com/stm32</a>]</p>
+This release note uses up to date web standards and, for this reason, should not be opened with Internet Explorer but preferably with popular browsers such as Google Chrome, Mozilla Firefox, Opera or Microsoft Edge.
+</footer>
+</body>
+</html>

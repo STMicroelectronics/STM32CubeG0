@@ -96,7 +96,7 @@ int32_t MX_FATFS_Process(void)
   switch(Appli_state)
   {
   case APPLICATION_INIT:
-    if(BSP_SD_IsDetected() != SD_NOT_PRESENT)
+    if(BSP_SD_GetCardState() == BSP_SD_OK)
     {
 #if FATFS_MKFS_ALLOWED
       FRESULT res;

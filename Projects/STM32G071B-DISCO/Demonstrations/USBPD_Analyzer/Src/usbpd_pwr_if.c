@@ -1,13 +1,12 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    usbpd_pwr_if.c
   * @author  MCD Application Team
   * @brief   This file contains power interface control functions.
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics International N.V.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2019 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -16,25 +15,30 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 #define __USBPD_PWR_IF_C
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32g0xx.h"
-
 #include "usbpd_pwr_if.h"
 #include "usbpd_hw_if.h"
-#include "usbpd_pwr_if.h"
 #include "usbpd_dpm_core.h"
 #include "usbpd_dpm_conf.h"
 #include "usbpd_pdo_defs.h"
 #include "usbpd_devices_conf.h"
-#ifdef _TRACE
 #include "usbpd_core.h"
+#if defined (_TRACE)
 #include "usbpd_trace.h"
-#endif
+#endif /* _TRACE */
+#if defined(_GUI_INTERFACE)
+#include "gui_api.h"
+#endif /* _GUI_INTERFACE */
+/* USER CODE BEGIN Include */
 #include "string.h"
-#include "stdio.h"
+#include <stdio.h>
+#include "cmsis_os.h"
+/* USER CODE END Include */
 
 /** @addtogroup STM32_USBPD_APPLICATION
   * @{
@@ -45,7 +49,12 @@
   */
 
 /* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN Private_Typedef */
+
+/* USER CODE END Private_Typedef */
+
 /* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN Private_Define */
 /** @addtogroup STM32_USBPD_APPLICATION_POWER_IF_Private_Defines
   * @{
   */
@@ -56,10 +65,12 @@
 
 #define ABS(__VAL__) ((__VAL__) < 0 ? - (__VAL__) : (__VAL__))
 
+/* USER CODE END Private_Define */
 /**
   * @}
   */
 /* Private macros ------------------------------------------------------------*/
+/* USER CODE BEGIN Private_Macro */
 /** @addtogroup STM32_USBPD_APPLICATION_POWER_IF_Private_Macros
   * @{
   */
@@ -136,7 +147,10 @@
 /**
   * @}
   */
+/* USER CODE END Private_Macro */
+
 /* Private variables ---------------------------------------------------------*/
+/* USER CODE BEGIN Private_Variables */
 /** @addtogroup STM32_USBPD_APPLICATION_POWER_IF_Private_Variables
   * @{
   */
@@ -150,7 +164,10 @@ USBPD_PWR_Port_PDO_Storage_TypeDef PWR_Port_PDO_Storage[USBPD_PORT_COUNT];
 /**
   * @}
   */
+/* USER CODE END Private_Variables */
+
 /* Private function prototypes -----------------------------------------------*/
+/* USER CODE BEGIN USBPD_USER_PRIVATE_FUNCTIONS_Prototypes */
 /** @addtogroup STM32_USBPD_APPLICATION_POWER_IF_Private_Functions
   * @{
   */
@@ -179,12 +196,12 @@ uint32_t _PWR_SNKFixedPDO(float  _C_, float _V_,
 uint32_t _PWR_SNKVariablePDO(float  _MAXV_,float _MINV_,float _C_);
 
 uint32_t _PWR_SNKBatteryPDO(float _MAXV_,float _MINV_,float _PWR_);
-
 uint32_t _PWR_ProgrammablePowerSupplyAPDO(float _MAXC_,float _MINV_,float _MAXV_);
 
 /**
   * @}
   */
+/* USER CODE END USBPD_USER_PRIVATE_FUNCTIONS_Prototypes */
 
 /* Private functions ---------------------------------------------------------*/
 /** @addtogroup STM32_USBPD_APPLICATION_POWER_IF_Exported_Functions
@@ -196,16 +213,9 @@ uint32_t _PWR_ProgrammablePowerSupplyAPDO(float _MAXC_,float _MINV_,float _MAXV_
   *         used by Sink and Source, for all available ports.
   * @retval USBPD status
 */
-/* GNU Compiler */
-#if defined(__GNUC__)
-/* ARM Compiler */
-#elif defined(__CC_ARM)
-/* IAR Compiler */
-#elif defined(__ICCARM__)
-#pragma optimize=none
-#endif
 USBPD_StatusTypeDef USBPD_PWR_IF_Init(void)
 {
+/* USER CODE BEGIN USBPD_PWR_IF_Init */
   USBPD_StatusTypeDef _status = USBPD_OK;
 #if defined(_GUI_INTERFACE)
   uint32_t index;
@@ -213,56 +223,23 @@ USBPD_StatusTypeDef USBPD_PWR_IF_Init(void)
 
   /* Set links to PDO values and number for Port 0 (defined in PDO arrays in H file).
    */
-
-#if defined(_SNK)||defined(_DRP)
 #if defined(_GUI_INTERFACE)
   for (index = 0; index < USBPD_MAX_NB_PDO; index++)
   {
+    /* SNK PDO for Port 0 */
     PWR_Port_PDO_Storage[USBPD_PORT_0].SinkPDO.ListOfPDO[index] = PORT0_PDO_ListSNK[index];
   }
 #else
   PWR_Port_PDO_Storage[USBPD_PORT_0].SinkPDO.ListOfPDO = (uint32_t *)PORT0_PDO_ListSNK;
 #endif /* _GUI_INTERFACE */
   PWR_Port_PDO_Storage[USBPD_PORT_0].SinkPDO.NumberOfPDO = USBPD_NbPDO[0];
+
   _status |= USBPD_PWR_IF_CheckUpdateSNKPower(USBPD_PORT_0);
-#endif
 
   return _status;
+/* USER CODE END USBPD_PWR_IF_Init */
 }
 
-
-
-/**
-  * @brief  Resets the Power Board
-  * @retval USBPD status
-*/
-USBPD_StatusTypeDef USBPD_PWR_IF_PowerResetGlobal(void)
-{
-  int i = 0;
-
-  /* Resets all the ports */
-  for(i = 0; i < USBPD_PORT_COUNT; i++)
-  {
-    USBPD_PWR_IF_PowerReset(i);
-  }
-  return USBPD_OK;
-}
-
-/**
-  * @brief  Resets the Power on a specified port
-  * @param  PortNum Port number
-  * @retval USBPD status
-*/
-USBPD_StatusTypeDef USBPD_PWR_IF_PowerReset(uint8_t PortNum)
-{
-  /* check for valid port */
-  if (!USBPD_PORT_IsValid(PortNum))
-  {
-    return USBPD_ERROR;
-  }
-  /* Put the usbpd port into ready to start the application */
-  return USBPD_PWR_IF_InitPower(PortNum);
-}
 
 /**
   * @brief  Checks if the power on a specified port is ready
@@ -272,7 +249,9 @@ USBPD_StatusTypeDef USBPD_PWR_IF_PowerReset(uint8_t PortNum)
   */
 USBPD_StatusTypeDef USBPD_PWR_IF_SupplyReady(uint8_t PortNum, USBPD_VSAFE_StatusTypeDef Vsafe)
 {
+/* USER CODE BEGIN USBPD_PWR_IF_SupplyReady */
   USBPD_StatusTypeDef status = USBPD_ERROR;
+  uint32_t _voltage;
 
   /* check for valid port */
   if (!USBPD_PORT_IsValid(PortNum))
@@ -280,28 +259,20 @@ USBPD_StatusTypeDef USBPD_PWR_IF_SupplyReady(uint8_t PortNum, USBPD_VSAFE_Status
     return USBPD_ERROR;
   }
 
+  _voltage = BSP_PWR_VBUSGetVoltage(PortNum);
   if (USBPD_VSAFE_0V == Vsafe)
   {
     /* Vsafe0V */
-    status = ((BSP_PWR_VBUSGetVoltage(PortNum) < BSP_PWR_HIGH_VBUS_THRESHOLD)? USBPD_OK: USBPD_ERROR);
+    status = ((_voltage < BSP_PWR_LOW_VBUS_THRESHOLD)? USBPD_OK: USBPD_ERROR);
   }
   else
   {
     /* Vsafe5V */
-    status = ((BSP_PWR_VBUSGetVoltage(PortNum) > BSP_PWR_HIGH_VBUS_THRESHOLD)? USBPD_OK: USBPD_ERROR);
+    status = ((_voltage > BSP_PWR_HIGH_VBUS_THRESHOLD)? USBPD_OK: USBPD_ERROR);
   }
 
   return status;
-}
-
-/**
-  * @brief  Initialize power on a specified port
-  * @param  PortNum Port number
-  * @retval USBPD status
-  */
-USBPD_StatusTypeDef USBPD_PWR_IF_InitPower(uint8_t PortNum)
-{
-  return USBPD_OK;
+/* USER CODE END USBPD_PWR_IF_SupplyReady */
 }
 
 /**
@@ -324,6 +295,7 @@ USBPD_FunctionalState USBPD_PWR_IF_VBUSIsEnabled(uint8_t PortNum)
 */
 USBPD_StatusTypeDef USBPD_PWR_IF_ReadVA(uint8_t PortNum, uint16_t *pVoltage, uint16_t *pCurrent)
 {
+/* USER CODE BEGIN USBPD_PWR_IF_ReadVA */
   /* check for valid port */
   if (!USBPD_PORT_IsValid(PortNum))
   {
@@ -346,6 +318,7 @@ USBPD_StatusTypeDef USBPD_PWR_IF_ReadVA(uint8_t PortNum, uint16_t *pVoltage, uin
   }
 
   return ret;
+/* USER CODE END USBPD_PWR_IF_ReadVA */
 }
 
 
@@ -362,6 +335,7 @@ USBPD_StatusTypeDef USBPD_PWR_IF_ReadVA(uint8_t PortNum, uint16_t *pVoltage, uin
   */
 void USBPD_PWR_IF_GetPortPDOs(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef DataId, uint8_t *Ptr, uint32_t *Size)
 {
+/* USER CODE BEGIN USBPD_PWR_IF_GetPortPDOs */
   uint32_t   nbpdo, index, nb_valid_pdo = 0;
   uint32_t   *ptpdoarray = NULL;
   USBPD_PDO_TypeDef pdo_first;
@@ -416,6 +390,7 @@ void USBPD_PWR_IF_GetPortPDOs(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef D
     /* Set nb of read PDO (nb of u32 elements); */
     *Size = nb_valid_pdo;
   }
+/* USER CODE END USBPD_PWR_IF_GetPortPDOs */
 }
 
 /**
@@ -480,6 +455,8 @@ USBPD_StatusTypeDef USBPD_PWR_IF_CheckUpdateSNKPower(uint8_t PortNum)
 
   return _status;
 }
+
+
 /**
   * @}
   */
@@ -656,7 +633,6 @@ uint32_t _PWR_ProgrammablePowerSupplyAPDO(float _MAXC_,float _MINV_,float _MAXV_
 /**
   * @}
   */
-
 
 /**
   * @}

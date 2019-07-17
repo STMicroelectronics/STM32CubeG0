@@ -1,13 +1,11 @@
 /**
   ******************************************************************************
-  * @file    usbpd_devices_conf_template.h
+  * @file    usbpd_devices_conf.h
   * @author  MCD Application Team
   * @brief   This file contains the device define.
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -38,7 +36,7 @@ extern "C" {
 #include "stm32g0xx_ll_rcc.h"
 #include "stm32g0xx_ll_tim.h"
 
-#if defined(USE_STM32G081B_EVAL_REVA) ||defined(USE_STM32G081B_EVAL_REVB) || defined(USE_STM32G081B_EVAL_REVC)
+#if defined(STM32G081xx)
 #include "stm32g081b_eval_pwr.h"
 #else
 #include "usbpd_bsp_pwr.h"
@@ -115,43 +113,11 @@ extern "C" {
                                     } while(0)
 
 /* -----------------------------------------------------------------------------
-      Definitions for TRACE feature
--------------------------------------------------------------------------------*/
-
-/* Enable below USE_FULL_LL_DRIVER_USART compilation flag to use generic LL_USART_Init() function */
-/* #define USE_FULL_LL_DRIVER_USART */
-
-#define TRACE_BAUDRATE                          921600u
-
-#define TRACE_USART_INSTANCE                    USART3
-
-#define TRACE_TX_GPIO                           GPIOC
-#define TRACE_TX_PIN                            LL_GPIO_PIN_10
-#define TRACE_TX_AF                             LL_GPIO_AF_0
-#define TRACE_RX_GPIO                           GPIOC
-#define TRACE_RX_PIN                            LL_GPIO_PIN_11
-#define TRACE_RX_AF                             LL_GPIO_AF_0
-#define TRACE_GPIO_ENABLE_CLOCK()               LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOC)
-
-#define TRACE_ENABLE_CLK_USART()                LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART3)
-#define TRACE_SET_CLK_SOURCE_USART()            /* No need for clock source selection in case of USART3 // LL_RCC_SetUSARTClockSource(LL_RCC_USART3_CLKSOURCE_PCLK2) */
-#define TRACE_USART_IRQ                         USART3_4_LPUART1_IRQn
-#define TRACE_TX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
-#define TRACE_RX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
-#define TRACE_DMA_INSTANCE                      DMA1
-#define TRACE_ENABLE_CLK_DMA()                  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
-#define TRACE_TX_DMA_REQUEST                    LL_DMAMUX_REQ_USART3_TX
-#define TRACE_TX_DMA_CHANNEL                    LL_DMA_CHANNEL_7
-#define TRACE_TX_DMA_IRQ                        DMA1_Ch4_7_DMAMUX1_OVR_IRQn
-#define TRACE_TX_DMA_IRQHANDLER                 DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler
-#define TRACE_TX_DMA_ACTIVE_FLAG                LL_DMA_IsActiveFlag_TC7
-#define TRACE_TX_DMA_CLEAR_FLAG                 LL_DMA_ClearFlag_GI7
-
-/* -----------------------------------------------------------------------------
       Definitions for timer service feature
 -------------------------------------------------------------------------------*/
 #define TIMX                           TIM2
 #define TIMX_CLK_ENABLE                LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM2)
+#define TIMX_CLK_DISABLE               LL_APB1_GRP1_DisableClock(LL_APB1_GRP1_PERIPH_TIM2)
 #define TIMX_IRQ                       TIM2_IRQn
 #define TIMX_CHANNEL_CH1               LL_TIM_CHANNEL_CH1
 #define TIMX_CHANNEL_CH2               LL_TIM_CHANNEL_CH2

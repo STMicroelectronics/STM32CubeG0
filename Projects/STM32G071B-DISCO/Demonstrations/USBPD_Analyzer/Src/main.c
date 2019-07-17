@@ -1,13 +1,11 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    main.c
-  * @author  MCD Application Team
-  * @brief   USBPD demo main file
+  * @file           : main.c
+  * @brief          : Main program body
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2019 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -16,50 +14,74 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "stm32g0xx_ll_utils.h"
-#include "stm32g0xx_ll_system.h"
-#include "stm32g0xx_ll_rcc.h"
-#include "stm32g0xx_ll_cortex.h"
-#include "cmsis_os.h"
-#include "demo_disco.h"
-#include "usbpd_trace.h"
-#include "stm32g071b_discovery.h"
-#include "stm32g071b_discovery_pwrmon.h"
-#include "stm32g0xx_ll_gpio.h"
-#include "usbpd_dpm_user.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
 /* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
 #define _HSE_ENABLE 1
+/* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
 /* Private variables ---------------------------------------------------------*/
 
-/* Private function prototypes -----------------------------------------------*/
-static void SystemClock_Config(void);
+/* USER CODE BEGIN PV */
+/* USER CODE END PV */
 
-/* Private functions ---------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+/* USER CODE BEGIN PFP */
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
 
 /**
-  * @brief  Main program
-  * @param  None
-  * @retval None
+  * @brief  The application entry point.
+  * @retval int
   */
 int main(void)
 {
+  /* USER CODE BEGIN 1 */
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
   
-  /* Configure the system clock */
+  /* USER CODE BEGIN Init */
+   /* USER CODE END Init */
+
+  /* USER CODE BEGIN SysInit */
+ /* Configure the system clock */
   SystemClock_Config();
 
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+ /* USER CODE BEGIN 2 */
   HAL_NVIC_SetPriority(SysTick_IRQn, TICK_INT_PRIORITY ,0U);
   LL_SYSTICK_EnableIT();
   DOOR_SENSE_GPIO_CLK_ENABLE();
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  GPIO_InitTypeDef GPIO_InitStruct;
 
   GPIO_InitStruct.Pin = DOOR_SENSE_PIN;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
@@ -93,20 +115,25 @@ int main(void)
     osKernelStart();
   }
 
+  /* USER CODE END 2 */
+
+  /* USBPD initialisation ---------------------------------*/
   /* Global Init of USBPD HW */
   USBPD_HW_IF_GlobalHwInit();
 
-#if defined(_GUI_INTERFACE)
-  /* Initialize GUI */
-  GUI_Init(BSP_GetHWBoardVersionName, BSP_GetPDTypeName);
-#endif /* _GUI_INTERFACE */
+
 
   /* Initialize the Device Policy Manager */
   if( USBPD_ERROR == USBPD_DPM_InitCore())
   {
-    /* error the RTOS can't be started  */
+    /* error on core init  */
     while(1);
   }
+
+#if defined(_GUI_INTERFACE)
+  /* Initialize GUI before retrieving PDO from RAM */
+  GUI_Init(BSP_GetHWBoardVersionName, BSP_GetPDTypeName, HW_IF_PWR_GetVoltage, HW_IF_PWR_GetCurrent);
+#endif /* _GUI_INTERFACE */
 
   /* Initialise the DPM application */
   if (USBPD_OK != USBPD_DPM_UserInit())
@@ -114,12 +141,14 @@ int main(void)
     while(1);
   }
 
-  /* Initialize the Device Policy Manager */
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
   if( USBPD_ERROR == USBPD_DPM_InitOS())
   {
     /* error the RTOS can't be started  */
     while(1);
   }
+  /* USER CODE END RTOS_THREADS */
 
   USBPD_DPM_Run();
 }
@@ -182,9 +211,13 @@ void SystemClock_Config(void)
   LL_SetSystemCoreClock(64000000);
 }
 
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_StartDefaultTask */
 
 #ifdef  USE_FULL_ASSERT
-
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -194,6 +227,7 @@ void SystemClock_Config(void)
   */
 void assert_failed(char* file, uint32_t line)
 { 
+  /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
@@ -201,7 +235,8 @@ void assert_failed(char* file, uint32_t line)
   while (1)
   {
   }
+  /* USER CODE END 6 */
 }
-#endif
+#endif /* USE_FULL_ASSERT */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

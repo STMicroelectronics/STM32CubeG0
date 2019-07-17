@@ -6,13 +6,13 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -37,6 +37,7 @@ void  HW_TRACER_EMB_IRQHandlerDMA(void);
 void  HW_TRACER_EMB_IRQHandlerUSART(void);
 void  HW_TRACER_EMB_StartRX(void);
 void  HW_TRACER_EMB_SendData(uint8_t *data, uint32_t size);
+uint8_t HW_TRACER_EMB_ReadData(void);
 
 #ifdef __cplusplus
 }

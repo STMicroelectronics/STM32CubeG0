@@ -1,10 +1,9 @@
 /**
   ******************************************************************************
-  * @file    main.h
-  * @author  MCD Application Team
-  * @brief   Header for main.c module
+  * @file           : main.h
+  * @brief          : Header for main.c file.
+  *                   This file contains the common defines of the application.
   ******************************************************************************
-   * @attention
   *
   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
@@ -21,14 +20,25 @@
 #define __MAIN_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "cmsis_os.h"
+#include "stm32g0xx.h"
+#include "stm32g0xx_ll_rcc.h"
+#include "stm32g0xx_ll_bus.h"
+#include "stm32g0xx_ll_gpio.h"
+#include "stm32g0xx_ll_system.h"
+#include "stm32g0xx_ll_utils.h"
 #include "usbpd_core.h"
 #include "usbpd_dpm_user.h"
 #include "usbpd_dpm_core.h"
 #include "usbpd_hw_if.h"
+#include "usbpd_trace.h"
+#include "cmsis_os.h"
+#include "stm32g081b_eval.h"
 #ifdef _GUI_INTERFACE
 #include "gui_api.h"
 #endif
+
+#include "stdio.h"
+#include "string.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported variables --------------------------------------------------------*/

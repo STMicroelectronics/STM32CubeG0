@@ -24,7 +24,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32g0xx_it.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -61,6 +60,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -68,7 +68,6 @@
 /******************************************************************************/
 /*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
 /******************************************************************************/
-
 /**
   * @brief This function handles Non maskable interrupt.
   */

@@ -177,6 +177,11 @@ static uint8_t indexAPDO = 0;
 static DEMO_MENU next_menu;
 static uint8_t pe_disabled = 0; /* 0 by default, 1 if PE is disabled (in case of no PD device attached) */
 
+#if defined(_TRACE) || defined(_GUI_INTERFACE)
+osMessageQDef(DemoTRACE, 1, uint16_t);
+extern osMessageQId TraceQueueId;
+#endif /* _TRACE || _GUI_INTERFACE */
+
 /*
  * Definition of control message
  */
@@ -388,6 +393,7 @@ DEMO_ErrorCode DEMO_InitTask(DEMO_MODE mode)
     {
       while(1);
     }
+    TraceQueueId = osMessageCreate(osMessageQ(DemoTRACE), NULL);
     osThreadDef(TRA_TX, SPY_TRACE_TX_Task, osPriorityLow, 0, configMINIMAL_STACK_SIZE * 2);
     osThreadCreate(osThread(TRA_TX), NULL);
   }
@@ -1370,7 +1376,7 @@ static void Display_dual_role_power_menu()
 /**
   * @brief  Display Unchunked Mode capabilities
   * @retval None
- **/
+  **/
 static void Display_unchunkedmode_menu()
 {
   uint8_t _str[20];
@@ -1761,7 +1767,7 @@ static void Display_menu_version()
   BSP_LCD_DisplayStringAtLine(2, (uint8_t*)"MonitorUCPD");
 
   /* Display the version of firmware */
-  sprintf((char *)str_version, "w14.5 C");
+  sprintf((char *)str_version, "w26.5 C");
 #if defined(_GUI_INTERFACE)
   if(MODE_SPY != hmode) {
   sprintf((char *)str_version,"%s GUI", str_version);

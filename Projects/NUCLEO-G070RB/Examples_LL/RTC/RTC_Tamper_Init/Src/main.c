@@ -86,6 +86,7 @@ int main(void)
 
 
   /* USER CODE END 1 */
+  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -207,6 +208,7 @@ static void MX_RTC_Init(void)
 
   /* Peripheral clock enable */
   LL_RCC_EnableRTC();
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_RTC);
 
   /* USER CODE BEGIN RTC_Init 1 */
 
@@ -214,8 +216,7 @@ static void MX_RTC_Init(void)
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
   LL_PWR_EnableBkUpAccess();
-  /* Enable RTC APB clock  */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_RTC);
+
   /* USER CODE END RTC_Init 1 */
   RTC_InitStruct.HourFormat = LL_RTC_HOURFORMAT_24HOUR;
   RTC_InitStruct.AsynchPrescaler = 127;
@@ -224,14 +225,13 @@ static void MX_RTC_Init(void)
   /** Enable the RTC Tamper 1 
   */
   LL_RTC_TAMPER_Enable(TAMP, LL_RTC_TAMPER_1);
-  LL_RTC_TAMPER_DisableActiveLevel(TAMP, LL_RTC_TAMPER_ACTIVELEVEL_TAMP1);
-  LL_RTC_TAMPER_DisableMask(TAMP, LL_RTC_TAMPER_MASK_TAMPER1);
-  LL_RTC_TAMPER_EnableEraseBKP(TAMP, LL_RTC_TAMPER_NOERASE_TAMPER1);
   LL_RTC_TAMPER_SetFilterCount(TAMP, LL_RTC_TAMPER_FILTER_DISABLE);
   LL_RTC_TAMPER_SetPrecharge(TAMP, LL_RTC_TAMPER_DURATION_1RTCCLK);
   LL_RTC_TAMPER_SetSamplingFreq(TAMP, LL_RTC_TAMPER_SAMPLFREQDIV_32768);
+  LL_RTC_TAMPER_EnableActiveLevel(TAMP, LL_RTC_TAMPER_ACTIVELEVEL_TAMP1);
+  LL_RTC_TAMPER_DisableMask(TAMP, LL_RTC_TAMPER_MASK_TAMPER1);
+  LL_RTC_TAMPER_EnableEraseBKP(TAMP, LL_RTC_TAMPER_NOERASE_TAMPER1);
   LL_RTC_TAMPER_EnablePullUp(TAMP);
-  LL_RTC_TS_EnableOnTamper(RTC);
   /* USER CODE BEGIN RTC_Init 2 */
   LL_RTC_EnableIT_TAMP1(TAMP);
 

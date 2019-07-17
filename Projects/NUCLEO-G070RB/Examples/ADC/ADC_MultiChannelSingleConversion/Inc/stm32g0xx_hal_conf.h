@@ -2,15 +2,15 @@
   ******************************************************************************
   * @file    stm32g0xx_hal_conf.h
   * @author  MCD Application Team
-  * @brief   HAL configuration template file.
+  * @brief   HAL configuration file.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics. 
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
+  * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
   *
@@ -54,7 +54,6 @@ extern "C" {
 /* #define HAL_TIM_MODULE_ENABLED   */
 /* #define HAL_UART_MODULE_ENABLED   */
 /* #define HAL_USART_MODULE_ENABLED   */
-
 /* #define HAL_WWDG_MODULE_ENABLED   */
 #define HAL_GPIO_MODULE_ENABLED
 #define HAL_EXTI_MODULE_ENABLED
@@ -146,7 +145,7 @@ in voltage and temperature.*/
   * @brief This is the HAL system configuration section
   */
 #define  VDD_VALUE                    3300U                                         /*!< Value of VDD in mv */
-#define  TICK_INT_PRIORITY            0 /*!< tick interrupt priority */       
+#define  TICK_INT_PRIORITY            0U /*!< tick interrupt priority */       
 #define  USE_RTOS                     0U
 #define  PREFETCH_ENABLE              1U
 #define  INSTRUCTION_CACHE_ENABLE     1U
@@ -158,12 +157,11 @@ in voltage and temperature.*/
 * Deactivated: CRC code cleaned from driver
 */
 
-#define USE_SPI_CRC                     1U
+#define USE_SPI_CRC                     0U
 
 /* ################## CRYP peripheral configuration ########################## */
 
 #define USE_HAL_CRYP_SUSPEND_RESUME     1U
-
 
 /* ########################## Assert Selection ############################## */
 /**
@@ -183,7 +181,7 @@ in voltage and temperature.*/
 
 #ifdef HAL_GPIO_MODULE_ENABLED
 #include "stm32g0xx_hal_gpio.h"
-#endif /* HAL_GPIO_MODULE_ENABLED */   
+#endif /* HAL_GPIO_MODULE_ENABLED */
 
 #ifdef HAL_DMA_MODULE_ENABLED
 #include "stm32g0xx_hal_dma.h"
@@ -282,8 +280,6 @@ in voltage and temperature.*/
 #include "stm32g0xx_hal_usart.h"
 #endif /* HAL_USART_MODULE_ENABLED */
 
-
-
 #ifdef HAL_WWDG_MODULE_ENABLED
 #include "stm32g0xx_hal_wwdg.h"
 #endif /* HAL_WWDG_MODULE_ENABLED */
@@ -291,7 +287,7 @@ in voltage and temperature.*/
 /* Exported macro ------------------------------------------------------------*/
 #ifdef  USE_FULL_ASSERT
 /**
-  * @brief  The assert_param macro is used for function's parameters check.
+  * @brief  The assert_param macro is used for functions parameters check.
   * @param  expr If expr is false, it calls assert_failed function
   *         which reports the name of the source file and the source
   *         line number of the call that failed.

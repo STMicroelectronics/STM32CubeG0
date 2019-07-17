@@ -482,10 +482,10 @@ LPTIM_HandleTypeDef hlptim  = {0};
 /**
  * @brief  Get the VSENSE_DCDC measurement with  DCDC_EN = 0 and = 1
  *         controller.
- * @param  voltageDCDCOff.
- * @param  voltageDCDCOn at T0.
-* @param  voltageDCDCOn  at T10 = 100ms.
- * @retval none.
+ * @param  voltageDCDCOff
+ * @param  voltageDCDCOnT0 at T0
+ * @param  voltageDCDCOnT10 at T10 = 100ms
+ * @retval none
  */
 void BSP_PWR_VBUSIsGPIO(uint32_t *voltageDCDCOff, uint32_t *voltageDCDCOnT0, uint32_t *voltageDCDCOnT10)
 {

@@ -73,6 +73,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
+  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -179,6 +180,7 @@ static void MX_LPTIM1_Init(void)
   /* Peripheral clock enable */
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_LPTIM1);
   
+  LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
   /**LPTIM1 GPIO Configuration  
   PB5   ------> LPTIM1_IN1 
   */
@@ -223,6 +225,7 @@ static void MX_LPTIM1_Init(void)
   /* USER CODE END LPTIM1_Init 2 */
 
 }
+
 /**
   * @brief GPIO Initialization Function
   * @param None

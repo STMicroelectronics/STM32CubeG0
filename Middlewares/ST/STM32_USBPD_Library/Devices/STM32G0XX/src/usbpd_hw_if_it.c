@@ -22,15 +22,18 @@
 #include "usbpd_core.h"
 #include "usbpd_hw_if.h"
 #include "usbpd_trace.h"
-
+#if defined(_LOW_POWER)
+#include "usbpd_lowpower.h"
+#endif
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
+
+
 void PORTx_IRQHandler(uint8_t PortNum);
 
 void USBPD_PORT0_IRQHandler(void)
@@ -66,6 +69,10 @@ void PORTx_IRQHandler(uint8_t PortNum)
       Ports[PortNum].cbs.USBPD_HW_IF_TxCompleted(PortNum);
       CLEAR_BIT(Ports[PortNum].hdmatx->CCR, DMA_CCR_EN);
       LL_UCPD_ClearFlag_TxMSGSENT(hucpd);
+
+#if defined(_LOW_POWER)       
+      LPM_SetStopMode((LPM_Id_t)(LPM_PE_0 + PortNum), LPM_Enable);
+#endif      
       return;
     }
 
@@ -102,11 +109,13 @@ void PORTx_IRQHandler(uint8_t PortNum)
     }
 
     /* RXNE : not needeed the stack only perform transfer by DMA */
-
     /* RXORDDET: not needed so stack will not enabled this interrupt */
     if (UCPD_SR_RXORDDET == (_interrupt & UCPD_SR_RXORDDET))
     {
       LL_UCPD_ClearFlag_RxOrderSet(hucpd);
+#if defined(_LOW_POWER)
+      LPM_SetStopMode((LPM_Id_t)(LPM_PE_0 + PortNum), LPM_Disable);
+#endif
       return;
     }
 
@@ -138,13 +147,17 @@ void PORTx_IRQHandler(uint8_t PortNum)
       /* disable DMA */
       CLEAR_BIT(Ports[PortNum].hdmarx->CCR, DMA_CCR_EN);
 
+#if defined(_LOW_POWER)       
+      LPM_SetStopMode((LPM_Id_t)(LPM_PE_0 + PortNum), LPM_Enable);
+#endif
+      
       if (((_interrupt & UCPD_SR_RXERR) == 0u) && (ovrflag == 0u))
       {
         /* Rx message has been recieved without error */
         Ports[PortNum].cbs.USBPD_HW_IF_RX_Completed(PortNum, hucpd->RX_ORDSET & UCPD_RX_ORDSET_RXORDSET, _datasize);
       }
       ovrflag = 0;
-
+      
       /* Ready for next transaction */
       WRITE_REG(Ports[PortNum].hdmarx->CMAR, (uint32_t)Ports[PortNum].ptr_RxBuff);
       WRITE_REG(Ports[PortNum].hdmarx->CNDTR, SIZE_MAX_PD_TRANSACTION_UNCHUNK);

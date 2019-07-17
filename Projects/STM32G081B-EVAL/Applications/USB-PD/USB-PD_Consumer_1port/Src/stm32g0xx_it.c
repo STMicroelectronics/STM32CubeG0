@@ -162,6 +162,22 @@ void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void)
   /* USER CODE END DMA1_Ch4_7_DMAMUX1_OVR_IRQn 1 */
 }
 
+/**
+  * @brief This function handles USART3, USART4 and LPUART1 interrupts / LPUART1 wake-up interrupt through EXTI line 28.
+  */
+void USART3_4_LPUART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART3_4_LPUART1_IRQn 0 */
+#if defined(_TRACE)
+  TRACER_EMB_IRQHandlerUSART();
+#endif /* _TRACE */
+  /* USER CODE END USART3_4_LPUART1_IRQn 0 */
+  
+  /* USER CODE BEGIN USART3_4_LPUART1_IRQn 1 */
+
+  /* USER CODE END USART3_4_LPUART1_IRQn 1 */
+}
+
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */

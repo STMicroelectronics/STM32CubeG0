@@ -493,14 +493,14 @@ LPTIM_HandleTypeDef hlptim  = {0};
   * @{
   */
 /**
-  * @brief  Initialize the hardware resources used by the Type-C power delivery (PD)
-  *         controller.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  *         @arg TYPE_C_PORT_2
-  * @retval PD controller status
-  */
+ * @brief  Initialize the hardware resources used by the Type-C power delivery (PD)
+ *         controller.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ *         @arg TYPE_C_PORT_2
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VBUSInit(uint32_t               PortId)
 {
 /* USER CODE BEGIN BSP_PWR_VBUSInit */
@@ -547,14 +547,14 @@ PWR_StatusTypeDef BSP_PWR_VBUSInit(uint32_t               PortId)
 }
 
 /**
-  * @brief  Release the hardware resources used by the Type-C power delivery (PD)
-  *         controller.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  *         @arg TYPE_C_PORT_2
-  * @retval PD controller status
-  */
+ * @brief  Release the hardware resources used by the Type-C power delivery (PD)
+ *         controller.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ *         @arg TYPE_C_PORT_2
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VBUSDeInit(uint32_t PortId)
 {
 /* USER CODE BEGIN BSP_PWR_VBUSDeInit */
@@ -593,12 +593,12 @@ PWR_StatusTypeDef BSP_PWR_VBUSDeInit(uint32_t PortId)
 }
 
 /**
-  * @brief  Enable power supply over VBUS.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  * @retval PD controller status
-  */
+ * @brief  Enable power supply over VBUS.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VBUSOn(uint32_t PortId)
 {
 /* USER CODE BEGIN BSP_PWR_VBUSOn */
@@ -655,12 +655,12 @@ PWR_StatusTypeDef BSP_PWR_VBUSOn(uint32_t PortId)
 }
 
 /**
-  * @brief  Disable power supply over VBUS.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  * @retval PD controller status
-  */
+ * @brief  Disable power supply over VBUS.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VBUSOff(uint32_t PortId)
 {
 /* USER CODE BEGIN BSP_PWR_VBUSOff */
@@ -690,14 +690,14 @@ PWR_StatusTypeDef BSP_PWR_VBUSOff(uint32_t PortId)
 
 /**
   * @brief  Set a fixed/variable PDO and manage the power control.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  * @param  VbusTargetInmv the vbus Target (in mV)
-  * @param  OperatingCurrent the Operating Current (in mA)
-  * @param  MaxOperatingCurrent the Max Operating Current (in mA)
-  * @retval PD controller status
-  */
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ * @param  VbusTargetInmv the vbus Target (in mV)
+ * @param  OperatingCurrent the Operating Current (in mA)
+ * @param  MaxOperatingCurrent the Max Operating Current (in mA)
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Fixed(uint32_t PortId,
                                                uint32_t VbusTargetInmv,
                                                uint32_t OperatingCurrent,
@@ -730,16 +730,16 @@ PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Fixed(uint32_t PortId,
 }
 
 /**
-  * @brief  Set a fixed/variable PDO and manage the power control.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  * @param  VbusTargetMinInmv the vbus Target min (in mV)
-  * @param  VbusTargetMaxInmv the vbus Target max (in mV)
-  * @param  OperatingCurrent the Operating Current (in mA)
-  * @param  MaxOperatingCurrent the Max Operating Current (in mA)
-  * @retval PD controller status
-  */
+ * @brief  Set a fixed/variable PDO and manage the power control.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ * @param  VbusTargetMinInmv the vbus Target min (in mV)
+ * @param  VbusTargetMaxInmv the vbus Target max (in mV)
+ * @param  OperatingCurrent the Operating Current (in mA)
+ * @param  MaxOperatingCurrent the Max Operating Current (in mA)
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Variable(uint32_t PortId,
                                                   uint32_t VbusTargetMinInmv,
                                                   uint32_t VbusTargetMaxInmv,
@@ -752,16 +752,16 @@ PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Variable(uint32_t PortId,
 }
 
 /**
-  * @brief  Set a Battery PDO and manage the power control.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  * @param  VbusTargetMin the vbus Target min (in mV)
-  * @param  VbusTargetMax the vbus Target max (in mV)
-  * @param  OperatingPower the Operating Power (in mW)
-  * @param  MaxOperatingPower the Max Operating Power (in mW)
-  * @retval PD controller status
-  */
+ * @brief  Set a Battery PDO and manage the power control.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ * @param  VbusTargetMin the vbus Target min (in mV)
+ * @param  VbusTargetMax the vbus Target max (in mV)
+ * @param  OperatingPower the Operating Power (in mW)
+ * @param  MaxOperatingPower the Max Operating Power (in mW)
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Battery(uint32_t PortId,
                                                  uint32_t VbusTargetMin,
                                                  uint32_t VbusTargetMax,
@@ -774,15 +774,15 @@ PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Battery(uint32_t PortId,
 }
 
 /**
-  * @brief  Set a APDO and manage the power control.
-  * @param  PortId            Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  * @param  VbusTargetInmv    the vbus Target (in mV)
-  * @param  OperatingCurrent  the Operating current (in mA)
-  * @param  Delta             Delta between with previous APDO (in mV), 0 means APDO start
-  * @retval PD controller status
-  */
+* @brief  Set a APDO and manage the power control.
+* @param  PortId Type-C port identifier
+*         This parameter can be take one of the following values:
+*         @arg TYPE_C_PORT_1
+* @param  VbusTargetInmv the vbus Target (in mV)
+* @param  OperatingCurrent the Operating current (in mA)
+* @param  Delta Delta between with previous APDO (in mV), 0 means APDO start
+* @retval PD controller status
+*/
 PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_APDO(uint32_t PortId,
                                               uint32_t VbusTargetInmv,
                                               uint32_t OperatingCurrent,
@@ -794,13 +794,13 @@ PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_APDO(uint32_t PortId,
 }
 
 /**
-  * @brief  Get actual voltage level measured on the VBUS line.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  *         @arg TYPE_C_PORT_2
-  * @retval Voltage measured voltage level (in mV)
-  */
+ * @brief  Get actual voltage level measured on the VBUS line.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ *         @arg TYPE_C_PORT_2
+ * @retval Voltage measured voltage level (in mV)
+ */
 uint32_t  BSP_PWR_VBUSGetVoltage(uint32_t PortId)
 {
 /* USER CODE BEGIN BSP_PWR_VBUSGetVoltage */
@@ -819,13 +819,13 @@ uint32_t  BSP_PWR_VBUSGetVoltage(uint32_t PortId)
 }
 
 /**
-  * @brief  Get actual current level measured on the VBUS line.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  *         @arg TYPE_C_PORT_2
-  * @retval Current measured current level (in mA)
-  */
+ * @brief  Get actual current level measured on the VBUS line.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ *         @arg TYPE_C_PORT_2
+ * @retval Current measured current level (in mA)
+ */
 int32_t BSP_PWR_VBUSGetCurrent(uint32_t PortId)
 {
 /* USER CODE BEGIN BSP_PWR_VBUSGetCurrent */
@@ -845,17 +845,17 @@ int32_t BSP_PWR_VBUSGetCurrent(uint32_t PortId)
 }
 
 /**
-  * @brief  Initialize VCONN sourcing.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  *         @arg TYPE_C_PORT_2
-  * @param  CCPinId Type-C CC pin identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_CC1
-  *         @arg TYPE_C_CC2
-  * @retval PD controller status
-  */
+ * @brief  Initialize VCONN sourcing.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ *         @arg TYPE_C_PORT_2
+ * @param  CCPinId Type-C CC pin identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_CC1
+ *         @arg TYPE_C_CC2
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VCONNInit(uint32_t PortId,
                                     uint32_t CCPinId)
 {
@@ -887,17 +887,17 @@ PWR_StatusTypeDef BSP_PWR_VCONNInit(uint32_t PortId,
 }
 
 /**
-  * @brief  Un-Initialize VCONN sourcing.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  *         @arg TYPE_C_PORT_2
-  * @param  CCPinId Type-C CC pin identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_CC1
-  *         @arg TYPE_C_CC2
-  * @retval PD controller status
-  */
+ * @brief  Un-Initialize VCONN sourcing.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ *         @arg TYPE_C_PORT_2
+ * @param  CCPinId Type-C CC pin identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_CC1
+ *         @arg TYPE_C_CC2
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VCONNDeInit(uint32_t PortId,
                                       uint32_t CCPinId)
 {
@@ -929,17 +929,17 @@ PWR_StatusTypeDef BSP_PWR_VCONNDeInit(uint32_t PortId,
 }
 
 /**
-  * @brief  Enable VCONN sourcing.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  *         @arg TYPE_C_PORT_2
-  * @param  CCPinId Type-C CC pin identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_CC1
-  *         @arg TYPE_C_CC2
-  * @retval PD controller status
-  */
+ * @brief  Enable VCONN sourcing.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ *         @arg TYPE_C_PORT_2
+ * @param  CCPinId Type-C CC pin identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_CC1
+ *         @arg TYPE_C_CC2
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VCONNOn(uint32_t PortId,
                                   uint32_t CCPinId)
 {
@@ -965,17 +965,17 @@ PWR_StatusTypeDef BSP_PWR_VCONNOn(uint32_t PortId,
 }
 
 /**
-  * @brief  Disable VCONN sourcing.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  *         @arg TYPE_C_PORT_2
-  * @param  CCPinId CC pin identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_CC1
-  *         @arg TYPE_C_CC2
-  * @retval PD controller status
-  */
+ * @brief  Disable VCONN sourcing.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ *         @arg TYPE_C_PORT_2
+ * @param  CCPinId CC pin identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_CC1
+ *         @arg TYPE_C_CC2
+ * @retval PD controller status
+ */
 PWR_StatusTypeDef BSP_PWR_VCONNOff(uint32_t PortId,
                                    uint32_t CCPinId)
 {
@@ -1017,17 +1017,17 @@ PWR_StatusTypeDef BSP_PWR_VCONNOff(uint32_t PortId,
 }
 
 /**
-  * @brief  Set the VBUS disconnection voltage threshold.
-  * @note   Callback funtion registered through BSP_PWR_RegisterVBUSDetectCallback
-  *         function call is invoked when VBUS falls below programmed threshold.
-  * @note   By default VBUS disconnection threshold is set to 3.3V
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  *         @arg TYPE_C_PORT_2
-  * @param  VoltageThreshold: VBUS disconnection voltage threshold (in mV)
-  * @retval PD controller status
-  */
+ * @brief  Set the VBUS disconnection voltage threshold.
+ * @note   Callback funtion registered through BSP_PWR_RegisterVBUSDetectCallback
+ *         function call is invoked when VBUS falls below programmed threshold.
+ * @note   By default VBUS disconnection threshold is set to 3.3V
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ *         @arg TYPE_C_PORT_2
+ * @param  VoltageThreshold: VBUS disconnection voltage threshold (in mV)
+ * @retval PD controller status
+ */
 void BSP_PWR_SetVBUSDisconnectionThreshold(uint32_t PortId,
                                            uint32_t VoltageThreshold)
 {
@@ -1041,18 +1041,18 @@ void BSP_PWR_SetVBUSDisconnectionThreshold(uint32_t PortId,
 }
 
 /**
-  * @brief  Register USB Type-C Current callback function.
-  * @note   Callback function invoked when VBUS rises above 4V (VBUS present) or
-  *         when VBUS falls below programmed threshold (VBUS absent).
-  * @note   Callback funtion is un-registered when callback function pointer
-  *         argument is NULL.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  *         @arg TYPE_C_PORT_2
-  * @param  pfnVBUSDetectCallback callback function pointer
-  * @retval 0 success else fail
-  */
+ * @brief  Register USB Type-C Current callback function.
+ * @note   Callback function invoked when VBUS rises above 4V (VBUS present) or
+ *         when VBUS falls below programmed threshold (VBUS absent).
+ * @note   Callback funtion is un-registered when callback function pointer
+ *         argument is NULL.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ *         @arg TYPE_C_PORT_2
+ * @param  pfnVBUSDetectCallback callback function pointer
+* @retval 0 success else fail
+ */
 PWR_StatusTypeDef BSP_PWR_RegisterVBUSDetectCallback(uint32_t                       PortId,
                                                      PWR_VBUSDetectCallbackFunc *   pfnVBUSDetectCallback)
 {
@@ -1062,12 +1062,12 @@ PWR_StatusTypeDef BSP_PWR_RegisterVBUSDetectCallback(uint32_t                   
 }
 
 /**
-  * @brief  Get actual VBUS status.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  * @retval VBUS status (1: On, 0: Off)
-  */
+ * @brief  Get actual VBUS status.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ * @retval VBUS status (1: On, 0: Off)
+ */
 uint8_t BSP_PWR_VBUSIsOn(uint32_t PortId)
 {
 /* USER CODE BEGIN BSP_PWR_VBUSIsOn */
@@ -1083,17 +1083,17 @@ uint8_t BSP_PWR_VBUSIsOn(uint32_t PortId)
 }
 
 /**
-  * @brief  Get actual VCONN status.
-  * @param  PortId Type-C port identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_PORT_1
-  * @param  CCPinId Type-C CC pin identifier
-  *         This parameter can be take one of the following values:
-  *         @arg TYPE_C_CC1
-  *         @arg TYPE_C_CC2
-  * @retval VCONN status (1: On, 0: Off)
-  */
-  uint8_t BSP_PWR_VCONNIsOn(uint32_t PortId,
+ * @brief  Get actual VCONN status.
+ * @param  PortId Type-C port identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_PORT_1
+ * @param  CCPinId Type-C CC pin identifier
+ *         This parameter can be take one of the following values:
+ *         @arg TYPE_C_CC1
+ *         @arg TYPE_C_CC2
+ * @retval VCONN status (1: On, 0: Off)
+ */
+uint8_t BSP_PWR_VCONNIsOn(uint32_t PortId,
                           uint32_t CCPinId)
 {
 /* USER CODE BEGIN BSP_PWR_VCONNIsOn */

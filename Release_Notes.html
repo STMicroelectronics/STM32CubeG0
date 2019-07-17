@@ -63,21 +63,333 @@
 <li><a href="https://www.st.com/resource/en/user_manual/DM00610474.pdf">UM2568</a> : STM32CubeG0 demonstration firmware for STM32G0316-DISCO board</li>
 <li><a href="https://www.st.com/resource/en/user_manual/DM00105259.pdf">UM1721</a> : Developing Applications on STM32Cube with FatFs.</li>
 <li><a href="https://www.st.com/resource/en/user_manual/DM00105262.pdf">UM1722</a> : Developing Applications on STM32Cube with RTOS.</li>
-<li><a href="https://www.st.com/resource/en/user_manual/DM00298101.pdf">UM2552</a> : STM32Cube USBPD stack User Manual</li>
+<li><a href="https://www.st.com/resource/en/user_manual/DM00598101.pdf">UM2552</a> : Managing USB power delivery systems with STM32 microcontrollers</li>
 </ul>
 </div>
 <div class="col-sm-12 col-lg-8">
 <h1 id="update-history">Update History</h1>
 <div class="collapse">
-<input type="checkbox" id="collapse-section3" checked aria-hidden="true"> <label for="collapse-section3" aria-hidden="true">V1.2.0 / 05-April-2019</label>
+<input type="checkbox" id="collapse-section4" checked aria-hidden="true"> <label for="collapse-section4" aria-hidden="true">V1.3.0 / 25-June-2019</label>
 <div>
 <h2 id="main-changes">Main Changes</h2>
+<h3 id="maintenance-release">Maintenance release</h3>
+<p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware package supporting STM32G041xx/31xx/30xx devices and STM32G081xx/71xx/70xx devices.</p>
+<p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
+<p>Demonstrations binaries are no more delivered within the STM32CubeG0 MCU package. They are available for download, in addition to their required media files if any, in a standalone package accessible through each hardware board official webpage. Please refer to the corresponding demonstration binary readme.txt to get webpage for each board.</p>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><strong>CMSIS Core</strong> updates
+<ul>
+<li>Update to new version <strong>V5.4.0</strong></li>
+</ul></li>
+<li><strong>CMSIS Device</strong> updates
+<ul>
+<li>Fix known defect</li>
+</ul></li>
+<li><strong>HAL / LL Drivers</strong> updates
+<ul>
+<li>Fix known defects and add several enhancements implementation</li>
+</ul></li>
+<li><strong>BSP Drivers</strong> updates
+<ul>
+<li>Update <strong>BSP STM32G081B_EVAL</strong> following changes in latest version of FatFS Middleware</li>
+<li>Update <strong>BSP Adafruit Shield</strong> following changes in latest version of FatFS Middleware</li>
+</ul></li>
+<li><strong>Middlewares</strong> updates
+<ul>
+<li>Update to new version of <strong>FatFS R0.12c (ST modified 20190329)</strong></li>
+<li>Update to new version of <strong>STM32_USBPD_Library - Core &amp; devices V2.6.0</strong></li>
+</ul></li>
+<li><strong>Utilities</strong> updates
+<ul>
+<li>Update to new version of <strong>CPU V1.1.1</strong></li>
+<li>Update to new version of <strong>Fonts V1.0.1</strong></li>
+<li>Update to new version of <strong>Log V1.0.2</strong></li>
+<li>Update to new version of <strong>GUI_INTERFACE V1.7.0</strong></li>
+<li>Update to new version of <strong>TRACER_EMB V1.2.0</strong></li>
+</ul></li>
+<li><strong>Projects</strong> updates
+<ul>
+<li>The STM32CubeG0 Firmware package comes with a rich set of examples running on STMicroelectronics boards, organized by board and provided with preconfigured projects for the main supported toolchains.</li>
+<li>The exhaustive list of projects is provided in this table (<a href="Projects/STM32CubeProjectsList.html">STM32CubeProjectsList.html</a>).</li>
+<li>Update of FW projects following changes in latest version of HAL/LL, BSP and Middlewares</li>
+</ul></li>
+</ul>
+<table>
+<caption>Projects</caption>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Version</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Release notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Projects</strong></td>
+<td><strong>V1.3.0</strong></td>
+<td style="text-align: left;">see Projects Release note for details</td>
+<td style="text-align: left;"><a href="Projects/Release_Notes.html">release notes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="components">Components</h2>
+<p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
+<table>
+<caption>Released drivers components</caption>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th style="text-align: left;">Version</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Release notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Cortex-M CMSIS V5.4</strong></td>
+<td style="text-align: left;"><strong>V5.4.0</strong></td>
+<td style="text-align: left;"><a href="Drivers/CMSIS/LICENSE.txt">Apache License v2.0</a></td>
+<td style="text-align: left;"><a href="Drivers/CMSIS/README.md">release notes</a></td>
+</tr>
+<tr class="even">
+<td><strong>STM32G0xx CMSIS</strong></td>
+<td style="text-align: left;"><strong>V1.3.0</strong></td>
+<td style="text-align: left;"><a href="Drivers/CMSIS/LICENSE.txt">Apache License v2.0</a></td>
+<td style="text-align: left;"><a href="Drivers/CMSIS/Device/ST/STM32G0xx/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td><strong>STM32G0xx_HAL_Driver</strong></td>
+<td style="text-align: left;"><strong>V1.3.0</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/STM32G0xx_HAL_Driver/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP STM32G0xx_Nucleo</td>
+<td style="text-align: left;">V1.1.0</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G0xx_Nucleo/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td><strong>BSP STM32G081B_EVAL</strong></td>
+<td style="text-align: left;"><strong>V1.2.0</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G081B_EVAL/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP STM32G071B-Discovery</td>
+<td style="text-align: left;">V1.1.0</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G071B-Discovery/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP STM32G0316-DISCO</td>
+<td style="text-align: left;">V1.0.0</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G0316-DISCO/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP STM32G0xx_Nucleo_32</td>
+<td style="text-align: left;">V1.0.0</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G0xx_Nucleo_32/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td><strong>BSP Adafruit Shield</strong> (reference ID 802)</td>
+<td style="text-align: left;"><strong>V3.0.4</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/Adafruit_Shield/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP Common</td>
+<td style="text-align: left;">V5.1.2</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/Common/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP hx8347d</td>
+<td style="text-align: left;">V1.1.2</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/hx8347d/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP stlm75</td>
+<td style="text-align: left;">V2.0.2</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/stlm75/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP st7735</td>
+<td style="text-align: left;">V1.1.5</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/st7735/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP cbtl08gp053</td>
+<td style="text-align: left;">V1.0.0</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/cbtl08gp053/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP tusb546</td>
+<td style="text-align: left;">V1.0.2</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/tusb546/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP sn65dp141</td>
+<td style="text-align: left;">V1.0.1</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/sn65dp141/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP ina230</td>
+<td style="text-align: left;">V1.0.0</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/ina230/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP ssd1315</td>
+<td style="text-align: left;">V1.0.0</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/ssd1315/Release_Notes.html">release notes</a></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Released Middlewares components</caption>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th style="text-align: left;">Version</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Release notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>FatFS</strong></td>
+<td style="text-align: left;">R0.12c</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Middlewares/Third_Party/FatFs/src/00history.txt">release notes</a></td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: left;"><strong>ST modified 20190329</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Middlewares/Third_Party/FatFs/src/st_readme.txt">release notes ST</a></td>
+</tr>
+<tr class="odd">
+<td>FreeRTOS</td>
+<td style="text-align: left;">V10.0.1</td>
+<td style="text-align: left;"><a href="Middlewares/Third_Party/FreeRTOS/License/license.txt">MIT</a></td>
+<td style="text-align: left;"><a href="Middlewares/Third_Party/FreeRTOS/Source/readme.txt">release notes</a></td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: left;">ST modified 20190329</td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Middlewares/Third_Party/FreeRTOS/Source/st_readme.txt">release notes ST</a></td>
+</tr>
+<tr class="odd">
+<td><strong>STM32_USBPD_Library - Core</strong></td>
+<td style="text-align: left;"><strong>V2.6.0</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;"><a href="Middlewares/ST/STM32_USBPD_Library/Core/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td><strong>STM32_USBPD_Library - Devices</strong></td>
+<td style="text-align: left;"><strong>V2.6.0</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;"><a href="Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/Release_Notes.html">release notes</a></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Released Utilities components</caption>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th style="text-align: left;">Version</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Release notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>CPU</strong></td>
+<td style="text-align: left;"><strong>V1.1.1</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Utilities/CPU/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td><strong>Fonts</strong></td>
+<td style="text-align: left;"><strong>V1.0.1</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Utilities/Fonts/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Log </strong></td>
+<td style="text-align: left;"><strong>V1.0.2</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Utilities/Log/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td><strong>GUI_INTERFACE</strong></td>
+<td style="text-align: left;"><strong>V1.7.0</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Utilities/GUI_INTERFACE/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td><strong>TRACER_EMB</strong></td>
+<td style="text-align: left;"><strong>V1.2.0</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;"><a href="Utilities/TRACER_EMB/Release_Notes.html">release notes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="development-toolchains-and-compilers">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25 + ST-Link</li>
+<li>System Workbench for STM32 (SW4STM32) toolchain V2.7.2 + ST-Link</li>
+</ul>
+<h2 id="supported-devices-and-boards">Supported Devices and boards</h2>
+<ul>
+<li>STM32G041xx, STM32G031xx and STM32G030xx devices</li>
+<li>STM32G081xx, STM32G071xx and STM32G070xx devices</li>
+<li>STM32G071RB Nucleo kit RevC (MB1360 C-01)</li>
+<li>STM32G070RB Nucleo kit RevC (MB1360 C-01)</li>
+<li>STM32G081B Evaluation board RevB (MB1350 B-01)</li>
+<li>STM32G081B Legacy daughter board RevA (MB1351 A-01)</li>
+<li>STM32G081B UCPD daughter board RevC (MB1352 C-01)</li>
+<li>STM32G071B Discovery kit RevC (MB1378 C-01)</li>
+<li>STM32G031K8 Nucleo32 kit (MB1455)</li>
+<li>STM32G0316 Discovery kit (MB1454)</li>
+</ul>
+<h2 id="known-limitations">Known Limitations</h2>
+<h2 id="backward-compatibility">Backward compatibility</h2>
+<ul>
+<li>This release is compatible with the previous versions</li>
+</ul>
+<h2 id="other-compatibilities">Other compatibilities</h2>
+<p>This software release is compatible with:</p>
+<ul>
+<li>STM32CubeMX V5.3.0</li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section3" aria-hidden="true"> <label for="collapse-section3" aria-hidden="true">V1.2.0 / 05-April-2019</label>
+<div>
+<h2 id="main-changes-1">Main Changes</h2>
 <h3 id="maintenance-release-and-product-update">Maintenance release and product Update</h3>
 <p>First Official release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware package supporting <strong>STM32G041xx/31xx/30xx</strong> devices and introducing new <strong>STM32G0316-DISCO</strong> and <strong>NUCLEO-G031K8</strong> boards.</p>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware package supporting <strong>STM32G081xx/71xx/70xx</strong> devices</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
 <p>Demonstrations binaries are no more delivered within the STM32CubeG0 MCU package. They are available for download, in addition to their required media files if any, in a standalone package accessible through each hardware board official webpage. Please refer to the corresponding demonstration binary readme.txt to get webpage for each board.</p>
-<h2 id="contents">Contents</h2>
+<h2 id="contents-1">Contents</h2>
 <h3 id="projects">Projects</h3>
 <p>The STM32CubeG0 Firmware package comes with a rich set of examples running on STMicroelectronics boards, organized by board and provided with preconfigured projects for the main supported toolchains.</p>
 <p>The exhaustive list of projects is provided in this table (<a href="Projects/STM32CubeProjectsList.html">STM32CubeProjectsList.html</a>).</p>
@@ -100,7 +412,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="components">Components</h3>
+<h3 id="components-1">Components</h3>
 <table>
 <caption>Released drivers components</caption>
 <thead>
@@ -315,13 +627,13 @@
 </tbody>
 </table>
 <p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
-<h2 id="development-toolchains-and-compilers">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-1">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25 + ST-Link</li>
 <li>System Workbench for STM32 (SW4STM32) toolchain V2.7.2 + ST-Link</li>
 </ul>
-<h2 id="supported-devices-and-boards">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-1">Supported Devices and boards</h2>
 <ul>
 <li>STM32G041xx, STM32G031xx and STM32G030xx devices</li>
 <li>STM32G081xx, STM32G071xx and STM32G070xx devices</li>
@@ -334,12 +646,12 @@
 <li><strong>STM32G031K8 Nucleo32 kit (MB1455)</strong></li>
 <li><strong>STM32G0316 Discovery kit (MB1454)</strong></li>
 </ul>
-<h2 id="known-limitations">Known Limitations</h2>
-<h2 id="backward-compatibility">Backward compatibility</h2>
+<h2 id="known-limitations-1">Known Limitations</h2>
+<h2 id="backward-compatibility-1">Backward compatibility</h2>
 <ul>
 <li>This release is compatible with the previous versions</li>
 </ul>
-<h2 id="other-compatibilities">Other compatibilities</h2>
+<h2 id="other-compatibilities-1">Other compatibilities</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V5.2.0</li>
@@ -349,12 +661,12 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section2" aria-hidden="true"> <label for="collapse-section2" aria-hidden="true">V1.1.0 / 06-February-2019</label>
 <div>
-<h2 id="main-changes-1">Main Changes</h2>
-<h3 id="maintenance-release">Maintenance release</h3>
+<h2 id="main-changes-2">Main Changes</h2>
+<h3 id="maintenance-release-1">Maintenance release</h3>
 <p>Official release of STM32CubeG0 (STM32Cube for STM32G0 Series) supporting STM32G081xx/71xx/70xx devices and introducing new <strong>STM32G071-DISCO</strong> board, designed to highlight USBPD features.</p>
 <p>NUCLEO-G071RB, NUCLEO-G070RB and STM32G081B-EVAL completed with new examples in CubeMx format.</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
-<h2 id="contents-1">Contents</h2>
+<h2 id="contents-2">Contents</h2>
 <h3 id="projects-1">Projects</h3>
 <p>The STM32CubeG0 Firmware package comes with a rich set of examples running on STMicroelectronics boards, organized by board and provided with preconfigured projects for the main supported toolchains.</p>
 <p>The exhaustive list of projects is provided in this table (<a href="Projects/STM32CubeProjectsList.html">STM32CubeProjectsList.html</a>).</p>
@@ -378,7 +690,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="components-1">Components</h3>
+<h3 id="components-2">Components</h3>
 <table>
 <caption>Released drivers components</caption>
 <thead>
@@ -581,13 +893,13 @@
 </tbody>
 </table>
 <p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
-<h2 id="development-toolchains-and-compilers-1">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-2">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
 <li>System Workbench STM32 (SW4STM32) toolchain V2.5</li>
 </ul>
-<h2 id="supported-devices-and-boards-1">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-2">Supported Devices and boards</h2>
 <ul>
 <li>STM32G081xx devices RevB</li>
 <li>STM32G071xx devices RevB</li>
@@ -599,12 +911,12 @@
 <li>STM32G081B UCPD daughter board RevC (MB1352 C-01)</li>
 <li><strong>STM32G071B Discovery kit RevC (MB1378 C-01</strong>)</li>
 </ul>
-<h2 id="known-limitations-1">Known limitations</h2>
-<h2 id="backward-compatibility-1">Backward compatibility</h2>
+<h2 id="known-limitations-2">Known limitations</h2>
+<h2 id="backward-compatibility-2">Backward compatibility</h2>
 <ul>
 <li>This release is compatible with the previous versions</li>
 </ul>
-<h2 id="other-compatibilities-1">Other compatibilities</h2>
+<h2 id="other-compatibilities-2">Other compatibilities</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V5.1.x</li>
@@ -614,11 +926,11 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section1" aria-hidden="true"> <label for="collapse-section1" aria-hidden="true">V1.0.0 / 26-October-2018</label>
 <div>
-<h2 id="main-changes-2">Main Changes</h2>
+<h2 id="main-changes-3">Main Changes</h2>
 <h3 id="first-release">First release</h3>
 <p>First release of STM32CubeG0 (STM32Cube for STM32G0 Series) supporting STM32G081xx/71xx/70xx devices</p>
 <p>In the STM32CubeG0 MCU Package, most of the examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
-<h2 id="contents-2">Contents</h2>
+<h2 id="contents-3">Contents</h2>
 <h3 id="projects-2">Projects</h3>
 <p>The STM32CubeG0 Firmware package comes with a rich set of examples running on STMicroelectronics boards, organized by board and provided with preconfigured projects for the main supported toolchains.</p>
 <p>The exhaustive list of projects is provided in this table (<a href="Projects/STM32CubeProjectsList.html">STM32CubeProjectsList.html</a>).</p>
@@ -641,7 +953,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="components-2">Components</h3>
+<h3 id="components-3">Components</h3>
 <table>
 <caption>Released drivers components</caption>
 <thead>
@@ -819,7 +1131,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="development-toolchains-and-compilers-2">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-3">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2+ ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
@@ -836,7 +1148,7 @@
 <li>STM32G081B Legacy daughter board RevA (MB1351 A-01)</li>
 <li>STM32G081B UCPD daughter board RevC (MB1352 C-01)</li>
 </ul>
-<h2 id="known-limitations-2">Known limitations</h2>
+<h2 id="known-limitations-3">Known limitations</h2>
 </div>
 </div>
 </div>

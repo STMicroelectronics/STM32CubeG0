@@ -64,7 +64,6 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
-static void Configure_EXTI(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -79,7 +78,9 @@ static void Configure_EXTI(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+
   /* USER CODE END 1 */
+  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -118,9 +119,6 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
- /* Configure the EXTI Line on User Button */
-  Configure_EXTI();
-  
   /* Clear the update flag */
   LL_TIM_ClearFlag_UPDATE(TIM1);
 
@@ -251,10 +249,12 @@ static void MX_TIM1_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
+  LL_EXTI_InitTypeDef EXTI_InitStruct = {0};
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
   LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOC);
+  LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
 
   /**/
   LL_GPIO_ResetOutputPin(LED3_GPIO_Port, LED3_Pin);
@@ -266,36 +266,30 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(LED3_GPIO_Port, &GPIO_InitStruct);
+
+  /**/
+  LL_EXTI_SetEXTISource(LL_EXTI_CONFIG_PORTA, LL_EXTI_CONFIG_LINE15);
+
+  /**/
+  EXTI_InitStruct.Line_0_31 = LL_EXTI_LINE_15;
+  EXTI_InitStruct.LineCommand = ENABLE;
+  EXTI_InitStruct.Mode = LL_EXTI_MODE_IT;
+  EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_FALLING;
+  LL_EXTI_Init(&EXTI_InitStruct);
+
+  /**/
+  LL_GPIO_SetPinPull(USER_BUTTON_GPIO_Port, USER_BUTTON_Pin, LL_GPIO_PULL_UP);
+
+  /**/
+  LL_GPIO_SetPinMode(USER_BUTTON_GPIO_Port, USER_BUTTON_Pin, LL_GPIO_MODE_INPUT);
+
+  /* EXTI interrupt init*/
+  NVIC_SetPriority(EXTI4_15_IRQn, 0);
+  NVIC_EnableIRQ(EXTI4_15_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
-/**
-  * @brief  This function configures EXTI Line as Button
-  * @note   Peripheral configuration is minimal configuration from reset values.  
-  * @param  None
-  * @retval None
-  */
-static void Configure_EXTI()
-{
-  /* -1- GPIO Config */
-  /* Enable GPIO Clock (to be able to program the configuration registers) */
-  VIRTUAL_BUTTON_GPIO_CLK_ENABLE();
-  /* Configure IO */
-  LL_GPIO_SetPinMode(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_MODE_INPUT);
-  LL_GPIO_SetPinPull(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_PULL_UP); 
-
-  /* -2- Connect External Line to the GPIO*/
-  VIRTUAL_BUTTON_SYSCFG_SET_EXTI();
-
-  /*-3- Enable a falling trigger External line 15 Interrupt */
-  VIRTUAL_BUTTON_EXTI_LINE_ENABLE();
-  VIRTUAL_BUTTON_EXTI_RISING_TRIG_ENABLE();
-  
-  /*-4- Configure NVIC for EXTI4_15_IRQn */
-  NVIC_EnableIRQ(VIRTUAL_BUTTON_EXTI_IRQn); 
-  NVIC_SetPriority(VIRTUAL_BUTTON_EXTI_IRQn,0);
-}
-
 
 /******************************************************************************/
 /*   USER IRQ HANDLER TREATMENT                                               */

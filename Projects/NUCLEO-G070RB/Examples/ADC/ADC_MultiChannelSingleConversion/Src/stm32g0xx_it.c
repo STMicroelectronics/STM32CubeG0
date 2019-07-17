@@ -24,7 +24,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32g0xx_it.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -71,7 +70,6 @@ extern ADC_HandleTypeDef hadc1;
 /******************************************************************************/
 /*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
 /******************************************************************************/
-
 /**
   * @brief This function handles Non maskable interrupt.
   */

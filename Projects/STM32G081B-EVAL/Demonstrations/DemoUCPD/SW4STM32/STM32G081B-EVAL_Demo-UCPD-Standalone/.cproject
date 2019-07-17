@@ -62,6 +62,8 @@
 									<listOptionValue builtIn="false" value="LCD_DEFAULT_FONT=Font16"/>
 									<listOptionValue builtIn="false" value="_VCONN_SUPPORT"/>
 									<listOptionValue builtIn="false" value="_GUI_INTERFACE"/>
+									<listOptionValue builtIn="false" value="_SRC_CAPA_EXT"/>
+									<listOptionValue builtIn="false" value="_MANU_INFO"/>
 								</option>
 								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.315614510" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string"/>
 								<option id="fr.ac6.managedbuid.gnu.c.compiler.option.misc.other.1696325871" name="Other flags" superClass="fr.ac6.managedbuid.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0 -Wno-format" valueType="string"/>

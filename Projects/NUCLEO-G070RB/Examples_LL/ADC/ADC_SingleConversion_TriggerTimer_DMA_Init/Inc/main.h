@@ -39,6 +39,7 @@ extern "C" {
 #include "stm32g0xx_ll_pwr.h"
 #include "stm32g0xx_ll_tim.h"
 #include "stm32g0xx_ll_gpio.h"
+
 #if defined(USE_FULL_ASSERT)
 #include "stm32_assert.h"
 #endif /* USE_FULL_ASSERT */
@@ -110,7 +111,6 @@ void AdcGrpRegularOverrunError_Callback(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED4_Pin LL_GPIO_PIN_5
 #define LED4_GPIO_Port GPIOA
-
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

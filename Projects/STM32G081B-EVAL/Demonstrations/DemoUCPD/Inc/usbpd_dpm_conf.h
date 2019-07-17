@@ -4,10 +4,8 @@
   * @author  MCD Application Team
   * @brief   Header file for stack/application settings file
   ******************************************************************************
-   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -28,7 +26,9 @@
 #include "usbpd_pdo_defs.h"
 #include "usbpd_vdm_user.h"
 #include "usbpd_dpm_user.h"
+#if defined(_GUI_INTERFACE)
 #include "usbpd_gui_memmap.h"
+#endif /* _GUI_INTERFACE */
 
 /* Define   ------------------------------------------------------------------*/
 /* Define VID, PID,... manufacturer parameters */
@@ -40,7 +40,10 @@
 /* Private variables ---------------------------------------------------------*/
 #ifndef __USBPD_DPM_CORE_C
 extern USBPD_SettingsTypeDef            DPM_Settings[USBPD_PORT_COUNT];
+#if !defined(_GUI_INTERFACE)
+extern USBPD_IdSettingsTypeDef          DPM_ID_Settings[USBPD_PORT_COUNT];
 extern USBPD_USER_SettingsTypeDef       DPM_USER_Settings[USBPD_PORT_COUNT];
+#endif /* !_GUI_INTERFACE */
 #else /* __USBPD_DPM_CORE_C */
 USBPD_SettingsTypeDef       DPM_Settings[USBPD_PORT_COUNT] =
 {
@@ -101,13 +104,29 @@ USBPD_SettingsTypeDef       DPM_Settings[USBPD_PORT_COUNT] =
       .Is_GetCountryCodes_Supported     = USBPD_FALSE,  /*!< Country_Codes message supported or not by DPM */
       .Is_GetCountryInfo_Supported      = USBPD_FALSE,  /*!< Country_Info message supported or not by DPM */
       .Is_SecurityRequest_Supported     = USBPD_FALSE,  /*!< Security_Response message supported or not by DPM */
-      .Is_FirmUpdateRequest_Supported   = USBPD_FALSE,  /*!< Firmware update response message supported by PE */
+      .Is_FirmUpdateRequest_Supported   = USBPD_FALSE,  /*!< Firmware update response message not supported by PE */
       .Is_SnkCapaExt_Supported          = USBPD_FALSE,     /*!< Sink_Capabilities_Extended message supported or not by DPM */
     },
     .CAD_DefaultResistor = vRp_3_0A,
     .CAD_SRCToggleTime = 40,                    /* uint8_t CAD_SRCToggleTime; */
     .CAD_SNKToggleTime = 40,                    /* uint8_t CAD_SNKToggleTime; */
   }
+};
+#if !defined(_GUI_INTERFACE)
+USBPD_IdSettingsTypeDef          DPM_ID_Settings[USBPD_PORT_COUNT] =
+{
+  {
+    .XID = USBPD_XID,     /*!< Value provided by the USB-IF assigned to the product   */
+    .VID = USBPD_VID,     /*!< Vendor ID (assigned by the USB-IF)                     */
+    .PID = USBPD_PID,     /*!< Product ID (assigned by the manufacturer)              */
+      },
+#if USBPD_PORT_COUNT >= 2
+  {
+    .XID = USBPD_XID,     /*!< Value provided by the USB-IF assigned to the product   */
+    .VID = USBPD_VID,     /*!< Vendor ID (assigned by the USB-IF)                     */
+    .PID = USBPD_PID,     /*!< Product ID (assigned by the manufacturer)              */
+  }
+#endif /* USBPD_PORT_COUNT >= 2 */
 };
 
 USBPD_USER_SettingsTypeDef       DPM_USER_Settings[USBPD_PORT_COUNT] =
@@ -150,18 +169,6 @@ USBPD_USER_SettingsTypeDef       DPM_USER_Settings[USBPD_PORT_COUNT] =
       .PID = USBPD_PID,                      /*!< Product ID (assigned by the manufacturer) */
       .ManuString = "STMicroelectronics",    /*!< Vendor defined byte array                 */
     },
-#if defined(_GUI_INTERFACE)
-    .PWR_AccessoryDetection     = USBPD_FALSE,  /*!< It enables or disables powered accessory detection */
-    .PWR_AccessoryTransition    = USBPD_FALSE,  /*!< It enables or disables transition from Powered.accessory to Try.SNK */
-    .PWR_UnconstrainedPower     = USBPD_CORE_PDO_NOT_EXT_POWERED, /*!< UUT has an external power source available that is sufficient to adequately power the system while charging external devices or the UUT’s primary function is to charge external devices. */
-    .PWR_RpResistorValue        = vRd_3_0A,     /*!< RP resitor value based on @ref CAD_SNK_Source_Current_Adv_Typedef */
-    .USB_Support                = USBPD_CORE_PDO_USBCOMM_NOT_CAPABLE, /*!< USB_Comms_Capable, is the UUT capable of enumerating as a USB host or device? */
-    .USB_Device                 = USBPD_FALSE,  /*!< Type_C_Can_Act_As_Device, Indicates whether the UUT can communicate with USB 2.0 or USB 3.1 as a device or as the Upstream Facing Port of a hub. */
-    .USB_Host                   = USBPD_FALSE,  /*!<  Type_C_Can_Act_As_Host, Indicates whether the UUT can communicate with USB 2.0 or USB 3.1 as a host or as the Downstream Facing Port of a hub */
-    .USB_SuspendSupport         = USBPD_CORE_PDO_USBSUSP_NOT_SUPPORTED, /*!<  USB Suspend support values in PDO definition (Source) */
-    .CAD_tDRP                   = 80,           /*!<  Type_C_Can_Act_As_Host, Indicates whether the UUT can communicate with USB 2.0 or USB 3.1 as a host or as the Downstream Facing Port of a hub */
-    .CAD_dcSRC_DRP              = 50,           /*!<  USB Suspend support values in PDO definition (Source) */
-#endif /* _GUI_INTERFACE */
   },
   {
     .DPM_SNKRequestedPower =                                             /*!< Requested Power by the sink board                                    */
@@ -200,27 +207,13 @@ USBPD_USER_SettingsTypeDef       DPM_USER_Settings[USBPD_PORT_COUNT] =
       .PID = USBPD_PID,                      /*!< Product ID (assigned by the manufacturer) */
       .ManuString = "STMicroelectronics",    /*!< Vendor defined byte array                 */
     },
-#if defined(_GUI_INTERFACE)
-    .PWR_AccessoryDetection     = USBPD_FALSE,  /*!< It enables or disables powered accessory detection */
-    .PWR_AccessoryTransition    = USBPD_FALSE,  /*!< It enables or disables transition from Powered.accessory to Try.SNK */
-    .PWR_UnconstrainedPower     = USBPD_CORE_PDO_NOT_EXT_POWERED, /*!< UUT has an external power source available that is sufficient to adequately power the system while charging external devices or the UUT’s primary function is to charge external devices. */
-    .PWR_RpResistorValue        = vRd_3_0A,     /*!< RP resitor value based on @ref CAD_SNK_Source_Current_Adv_Typedef */
-    .USB_Support                = USBPD_CORE_PDO_USBCOMM_NOT_CAPABLE, /*!< USB_Comms_Capable, is the UUT capable of enumerating as a USB host or device? */
-    .USB_Device                 = USBPD_FALSE,  /*!< Type_C_Can_Act_As_Device, Indicates whether the UUT can communicate with USB 2.0 or USB 3.1 as a device or as the Upstream Facing Port of a hub. */
-    .USB_Host                   = USBPD_FALSE,  /*!<  Type_C_Can_Act_As_Host, Indicates whether the UUT can communicate with USB 2.0 or USB 3.1 as a host or as the Downstream Facing Port of a hub */
-    .USB_SuspendSupport         = USBPD_CORE_PDO_USBSUSP_NOT_SUPPORTED, /*!<  USB Suspend support values in PDO definition (Source) */
-    .CAD_tDRP                   = 80,           /*!<  Type_C_Can_Act_As_Host, Indicates whether the UUT can communicate with USB 2.0 or USB 3.1 as a host or as the Downstream Facing Port of a hub */
-    .CAD_dcSRC_DRP              = 50,           /*!<  USB Suspend support values in PDO definition (Source) */
-#endif /* _GUI_INTERFACE */
   }
 };
+#endif /* !_GUI_INTERFACE */
 #endif /* !__USBPD_DPM_CORE_C */
 
-/* Exported define -----------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
-/* Exported variables --------------------------------------------------------*/
-/* Exported functions --------------------------------------------------------*/
 
 #ifdef __cplusplus
 }

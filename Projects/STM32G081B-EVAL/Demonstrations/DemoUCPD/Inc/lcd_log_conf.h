@@ -30,17 +30,15 @@
 #include <stdio.h>
 
 
-/** @addtogroup LCD_LOG
+/** @addtogroup STM32_USBPD_APPLICATION
   * @{
   */
 
-/** @defgroup LCD_LOG
-  * @brief This file is the
+/** @addtogroup STM32_USBPD_APPLICATION_LCD_LOG_CONF
   * @{
   */
 
-
-/** @defgroup LCD_LOG_CONF_Exported_Defines
+/** @addtogroup LCD_LOG_CONF_Exported_Defines
   * @{
   */
 
@@ -77,42 +75,12 @@
 #define LCD_LOG_PUTCHAR int fputc(int ch, FILE *f)
 #endif /* __GNUC__ */
 
-/** @defgroup LCD_LOG_CONF_Exported_TypesDefinitions
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-
-/** @defgroup LCD_LOG_Exported_Macros
-  * @{
-  */
-
-
-/**
-  * @}
-  */
-
-/** @defgroup LCD_LOG_CONF_Exported_Variables
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @defgroup LCD_LOG_CONF_Exported_FunctionsPrototype
-  * @{
-  */
-
-/**
-  * @}
-  */
-
 
 #endif //__LCD_LOG_CONF_H__
+
+/**
+  * @}
+  */
 
 /**
   * @}

@@ -6,13 +6,13 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -20,81 +20,67 @@
 /* Includes ------------------------------------------------------------------*/
 #if defined(_GUI_INTERFACE)
 #include "bsp_gui.h"
-#include "usbpd_pdo_defs.h"
-#include "usbpd_gui_memmap.h"
-#if defined(STM32F072xB)  || defined(STM32F051x8)
-#include "stm32f0xx.h"
-#include "usbpd_pwr_if.h"
-#else
-#include "stm32g0xx.h"
-#endif /* STM32F072xB */
-#include "usbpd_dpm_user.h"
-#if defined(_VDM)
-#include "usbpd_vdm_user.h"
-#endif /* _VDM */
-#include "string.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private Defines */
-extern USBPD_PWR_Port_PDO_Storage_TypeDef PWR_Port_PDO_Storage[USBPD_PORT_COUNT];
 extern USBPD_SettingsTypeDef       DPM_Settings[USBPD_PORT_COUNT];
-extern USBPD_USER_SettingsTypeDef  DPM_USER_Settings[USBPD_PORT_COUNT];
 #if defined(_VDM)
 extern USBPD_VDM_SettingsTypeDef   DPM_VDM_Settings[USBPD_PORT_COUNT];
 #endif /* _VDM */
 
 /* Private function prototypes -----------------------------------------------*/
-static void                     LoadPDOFromFlash(uint32_t Address, uint32_t *pListOfPDO);
-static void                     LoadSettingsFromFlash(uint32_t Address, uint32_t *pSettings, uint32_t Size);
+static GUI_StatusTypeDef        LoadPDOFromFlash(uint32_t Address, uint32_t *pListOfPDO);
+static GUI_StatusTypeDef        LoadSettingsFromFlash(uint32_t Address, uint32_t *pSettings, uint32_t Size);
 static GUI_StatusTypeDef        SavePDOInFlash(uint32_t Address, uint32_t* pListOfPDO);
 static GUI_StatusTypeDef        SaveSettingsInFlash(uint32_t Address, uint32_t *pSettings, uint32_t Size);
 
 GUI_StatusTypeDef BSP_GUI_LoadDataFromFlash(void)
 {
-  GUI_StatusTypeDef status = GUI_OK;
+  GUI_StatusTypeDef _status = GUI_ERROR;
   uint32_t _addr = GUI_FLASH_ADDR_NB_PDO_SNK_P0;
 
-  /* Update USBPD_NbPDO? */
+  /* Update GUI_NbPDO? */
   if (0xFFFFFFFFu != *((uint32_t*)_addr))
   {
-    uint32_t* _ptr = (uint32_t*)USBPD_NbPDO;
+    uint32_t* _ptr = (uint32_t*)GUI_NbPDO;
     USPBPD_WRITE32 (_ptr,*((uint32_t*)_addr));
+    _status = GUI_OK;
   }
 
 #if defined(_SRC) || defined(_DRP)
   /* Save PORT0_PDO_ListSRC */
-  LoadPDOFromFlash(GUI_FLASH_ADDR_PDO_SRC_P0, PORT0_PDO_ListSRC);
+  _status |= LoadPDOFromFlash(GUI_FLASH_ADDR_PDO_SRC_P0, PORT0_PDO_ListSRC);
 #endif /* _SRC || _DRP */
 
 #if defined(_SNK) || defined(_DRP)
   /* Save PORT0_PDO_ListSNK */
-  LoadPDOFromFlash(GUI_FLASH_ADDR_PDO_SNK_P0, PORT0_PDO_ListSNK);
+  _status |= LoadPDOFromFlash(GUI_FLASH_ADDR_PDO_SNK_P0, PORT0_PDO_ListSNK);
 #endif /* _SNK || _DRP */
 
 #if USBPD_PORT_COUNT==2
 #if defined(_SRC) || defined(_DRP)
   /* Save PORT1_PDO_ListSRC */
-  LoadPDOFromFlash(GUI_FLASH_ADDR_PDO_SRC_P1, PORT1_PDO_ListSRC);
+  _status |= LoadPDOFromFlash(GUI_FLASH_ADDR_PDO_SRC_P1, PORT1_PDO_ListSRC);
 #endif /* _SRC || _DRP */
 
 #if defined(_SNK) || defined(_DRP)
   /* Save PORT1_PDO_ListSNK */
-  LoadPDOFromFlash(GUI_FLASH_ADDR_PDO_SNK_P1, PORT1_PDO_ListSNK);
+  _status |= LoadPDOFromFlash(GUI_FLASH_ADDR_PDO_SNK_P1, PORT1_PDO_ListSNK);
 #endif /* _SNK || _DRP */
 #endif /* USBPD_PORT_COUNT==2 */
 
   /* Save DPM_Settings of port 0 */
-  LoadSettingsFromFlash(GUI_FLASH_ADDR_DPM_SETTINGS, (uint32_t*)DPM_Settings, sizeof(USBPD_SettingsTypeDef) * USBPD_PORT_COUNT);
+  _status |= LoadSettingsFromFlash(GUI_FLASH_ADDR_DPM_SETTINGS, (uint32_t*)DPM_Settings, sizeof(USBPD_SettingsTypeDef) * USBPD_PORT_COUNT);
 
   /* Save DPM_Settings of port 0 */
-  LoadSettingsFromFlash(GUI_FLASH_ADDR_DPM_USER_SETTINGS, (uint32_t*)DPM_USER_Settings, sizeof(USBPD_USER_SettingsTypeDef) * USBPD_PORT_COUNT);
+  _status |= LoadSettingsFromFlash(GUI_FLASH_ADDR_DPM_USER_SETTINGS, (uint32_t*)DPM_USER_Settings, sizeof(USBPD_USER_SettingsTypeDef) * USBPD_PORT_COUNT);
 
 #if defined(_VDM)
   /* Save DPM_Settings of port 0 */
-  LoadSettingsFromFlash(GUI_FLASH_ADDR_DPM_VDM_SETTINGS, (uint32_t*)DPM_VDM_Settings, sizeof(USBPD_VDM_SettingsTypeDef) * USBPD_PORT_COUNT);
+  _status |= LoadSettingsFromFlash(GUI_FLASH_ADDR_DPM_VDM_SETTINGS, (uint32_t*)DPM_VDM_Settings, sizeof(USBPD_VDM_SettingsTypeDef) * USBPD_PORT_COUNT);
 #endif /* _VDM */
 
-  return status;
+  return _status;
 }
 
 GUI_StatusTypeDef BSP_GUI_SaveDataInFlash(void)
@@ -134,20 +120,10 @@ GUI_StatusTypeDef BSP_GUI_SaveDataInFlash(void)
 #ifdef GUI_FLASH_ADDR_NB_PDO_SNK_P0
     /* Save the nb of sink and src PDO */
     uint64_t value = 0;
-#if defined(_SNK) || defined(_DRP)
-    value |= PWR_Port_PDO_Storage[USBPD_PORT_0].SinkPDO.NumberOfPDO;
-#endif /* _SNK || _DRP */
-#if defined(_SRC) || defined(_DRP)
-    value |= (PWR_Port_PDO_Storage[USBPD_PORT_0].SourcePDO.NumberOfPDO << 8);
-#endif /* _SRC || _DRP */
-#if USBPD_PORT_COUNT==2
-#if defined(_SNK) || defined(_DRP)
-    value |= (PWR_Port_PDO_Storage[USBPD_PORT_1].SinkPDO.NumberOfPDO   << 16);
-#endif /* _SNK || _DRP */
-#if defined(_SRC) || defined(_DRP)
-    value |= (PWR_Port_PDO_Storage[USBPD_PORT_1].SourcePDO.NumberOfPDO << 24);
-#endif /* _SRC || _DRP */
-#endif /* USBPD_PORT_COUNT==2 */
+    value |= GUI_NbPDO[0];
+    value |= (GUI_NbPDO[1] << 8);
+    value |= (GUI_NbPDO[2] << 16);
+    value |= (GUI_NbPDO[3] << 24);
    status = HAL_OK == HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, GUI_FLASH_ADDR_NB_PDO_SNK_P0, value)? GUI_OK : GUI_WRITE_ERROR;
 #endif  /* GUI_FLASH_ADDR_NB_PDO_SNK_P0 */
 
@@ -155,7 +131,7 @@ GUI_StatusTypeDef BSP_GUI_SaveDataInFlash(void)
     /* Save PORT0_PDO_ListSRC */
     if (GUI_OK == status)
     {
-      status = SavePDOInFlash(GUI_FLASH_ADDR_PDO_SRC_P0, PWR_Port_PDO_Storage[USBPD_PORT_0].SourcePDO.ListOfPDO);
+      status = SavePDOInFlash(GUI_FLASH_ADDR_PDO_SRC_P0, PORT0_PDO_ListSRC);
     }
 #endif /* _SRC || _DRP */
 
@@ -163,7 +139,7 @@ GUI_StatusTypeDef BSP_GUI_SaveDataInFlash(void)
     /* Save PORT0_PDO_ListSNK */
     if (GUI_OK == status)
     {
-      status = SavePDOInFlash(GUI_FLASH_ADDR_PDO_SNK_P0, PWR_Port_PDO_Storage[USBPD_PORT_0].SinkPDO.ListOfPDO);
+      status = SavePDOInFlash(GUI_FLASH_ADDR_PDO_SNK_P0, PORT0_PDO_ListSNK);
     }
 #endif /* _SNK || _DRP */
 
@@ -172,7 +148,7 @@ GUI_StatusTypeDef BSP_GUI_SaveDataInFlash(void)
         /* Save PORT1_PDO_ListSRC */
         if (GUI_OK == status)
         {
-          status = SavePDOInFlash(GUI_FLASH_ADDR_PDO_SRC_P1, PWR_Port_PDO_Storage[USBPD_PORT_1].SourcePDO.ListOfPDO);
+          status = SavePDOInFlash(GUI_FLASH_ADDR_PDO_SRC_P1, PORT1_PDO_ListSRC);
         }
 #endif /* _SRC || _DRP */
 
@@ -180,7 +156,7 @@ GUI_StatusTypeDef BSP_GUI_SaveDataInFlash(void)
         /* Save PORT1_PDO_ListSNK */
         if (GUI_OK == status)
         {
-          status = SavePDOInFlash(GUI_FLASH_ADDR_PDO_SNK_P1, PWR_Port_PDO_Storage[USBPD_PORT_1].SinkPDO.ListOfPDO);
+          status = SavePDOInFlash(GUI_FLASH_ADDR_PDO_SNK_P1, PORT1_PDO_ListSNK);
         }
 #endif /* _SNK || _DRP */
 #endif /* USBPD_PORT_COUNT==2 */
@@ -278,9 +254,10 @@ static GUI_StatusTypeDef SaveSettingsInFlash(uint32_t Address, uint32_t *pSettin
   return status;
 }
 
-static void LoadPDOFromFlash(uint32_t Address, uint32_t *pListOfPDO)
+static GUI_StatusTypeDef LoadPDOFromFlash(uint32_t Address, uint32_t *pListOfPDO)
 {
   uint32_t _addr = Address;
+  GUI_StatusTypeDef _status = GUI_ERROR;
 
   /* Check if FLASH is not empty to retrieve the data. Nethertheless keep data in the RAM */
   if (0xFFFFFFFFu != *((uint32_t*)_addr))
@@ -291,18 +268,23 @@ static void LoadPDOFromFlash(uint32_t Address, uint32_t *pListOfPDO)
       pListOfPDO[_index] = *((uint32_t*)_addr);
       _addr = _addr + 4u;
     }
+    _status = GUI_OK;
   }
+  return _status;
 }
 
-static void LoadSettingsFromFlash(uint32_t Address, uint32_t *pSettings, uint32_t Size)
+static GUI_StatusTypeDef LoadSettingsFromFlash(uint32_t Address, uint32_t *pSettings, uint32_t Size)
 {
   uint32_t _addr = Address;
+  GUI_StatusTypeDef _status = GUI_ERROR;
 
   /* Check if FLASH is not empty to retrieve the data. Nethertheless keep data in the RAM */
   if (0xFFFFFFFFu != *((uint32_t*)_addr))
   {
     memcpy(pSettings, ((uint32_t*)_addr), Size);
+    _status = GUI_OK;
   }
+  return _status;
 }
 #endif /* _GUI_INTERFACE */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

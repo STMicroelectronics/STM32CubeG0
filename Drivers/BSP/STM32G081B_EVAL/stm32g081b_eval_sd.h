@@ -43,18 +43,32 @@ extern "C" {
 /** @defgroup STM32G081B_EVAL_SD_Exported_Types Exported Types
   * @{
   */
+  
+/** 
+  * @brief  SD status structure definition  
+  */     
+enum {
+      BSP_SD_OK = 0x00,
+      MSD_OK = 0x00,
+      BSP_SD_ERROR = 0x01,
+      MSD_ERROR = 0x01,
+      BSP_SD_TIMEOUT
+};
 
+/** 
+  * @brief  SD transfer state definition  
+  */     
+#define   SD_TRANSFER_OK                ((uint8_t)0x00)
+#define   SD_TRANSFER_BUSY              ((uint8_t)0x01)
+#define   SD_TRANSFER_ERROR             ((uint8_t)0x02)
+
+/**
+  * @}
+  */
+  
 /**
   * @brief  SD status structure definition
   */
-enum {
-    BSP_SD_OK = 0x00,
-    MSD_OK = 0x00,
-    BSP_SD_ERROR = 0x01,
-    MSD_ERROR    = 0x01,
-    BSP_SD_TIMEOUT
-};
-
 typedef struct
 {
     uint8_t  Reserved1:2;               /* Reserved */
@@ -142,13 +156,11 @@ typedef struct
 {
     SD_CSD Csd;
     SD_CID Cid;
-    uint32_t CardCapacity;  /* Card Capacity */
-    uint32_t CardBlockSize; /* Card Block Size */
+  uint32_t CardCapacity;              /*!< Card Capacity */
+  uint32_t CardBlockSize;             /*!< Card Block Size */
+  uint32_t LogBlockNbr;               /*!< Specifies the Card logical Capacity in blocks   */
+  uint32_t LogBlockSize;              /*!< Specifies logical block size in bytes           */
 } SD_CardInfo;
-
-/**
-  * @}
-  */
 
 /** @defgroup STM32G081B_EVAL_SPI_SD_Exported_Constants Exported Constants
   * @{
@@ -165,13 +177,12 @@ typedef struct
 #define SD_PRESENT               ((uint8_t)0x01)
 #define SD_NOT_PRESENT           ((uint8_t)0x00)
 
-/**
-  * @}
-  */
+#define SD_DATATIMEOUT           ((uint32_t)100000000)
 
-/** @defgroup STM32G081B_EVAL_SD_Exported_Macro Exported Macro
-  * @{
+/**
+  * @brief SD Card information structure
   */
+#define BSP_SD_CardInfo SD_CardInfo
 
 /**
   * @}
@@ -182,10 +193,10 @@ typedef struct
   */
 uint8_t BSP_SD_Init(void);
 uint8_t BSP_SD_IsDetected(void);
-uint8_t BSP_SD_ReadBlocks(uint32_t *pData, uint32_t ReadAddr, uint16_t BlockSize, uint32_t NumberOfBlocks);
-uint8_t BSP_SD_WriteBlocks(uint32_t *pData, uint32_t WriteAddr, uint16_t BlockSize, uint32_t NumberOfBlocks);
+uint8_t BSP_SD_ReadBlocks(uint32_t *pData, uint32_t ReadAddr, uint32_t NumOfBlocks, uint32_t Timeout);
+uint8_t BSP_SD_WriteBlocks(uint32_t *pData, uint32_t WriteAddr, uint32_t NumOfBlocks, uint32_t Timeout);
 uint8_t BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr);
-uint8_t BSP_SD_GetStatus(void);
+uint8_t BSP_SD_GetCardState(void);
 uint8_t BSP_SD_GetCardInfo(SD_CardInfo *pCardInfo);
 
 /* Link functions for SD Card peripheral */
@@ -198,10 +209,6 @@ uint8_t SD_IO_WriteByte(uint8_t Data);
   * @}
   */
 
-/** @defgroup STM32G081B_EVAL_SD_LINK_Operations_Functions LINK Operations Functions
-  * @{
-  */
-
 /**
   * @}
   */
@@ -216,7 +223,7 @@ uint8_t SD_IO_WriteByte(uint8_t Data);
 
 /**
   * @}
-  */
+  */  
 
 #ifdef __cplusplus
 }

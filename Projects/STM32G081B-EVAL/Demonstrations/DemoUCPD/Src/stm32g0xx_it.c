@@ -1,19 +1,16 @@
 /**
   ******************************************************************************
   * @file    stm32g0xx_it.c
-  * @author  MCD Application Team
-  * @brief   Main Interrupt Service Routines.
-  *          This file provides template for all exceptions handler and
-  *          peripherals interrupt service routine.
+  * @brief   Interrupt Service Routines.
   ******************************************************************************
    * @attention
   *
   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -42,12 +39,11 @@
 extern ADC_HandleTypeDef    hadc;
 
 /******************************************************************************/
-/*            Cortex-M0 Processor Exceptions Handlers                         */
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 
 /**
-  * @brief  This function handles NMI exception.
-  * @param  None
+  * @brief This function handles Non maskable interrupt.
   * @retval None
   */
 void NMI_Handler(void)
@@ -60,8 +56,7 @@ void NMI_Handler(void)
 }
 
 /**
-  * @brief  This function handles Hard Fault exception.
-  * @param  None
+  * @brief This function handles Hard fault interrupt.
   * @retval None
   */
 void HardFault_Handler(void)
@@ -75,13 +70,15 @@ void HardFault_Handler(void)
 
 /**
   * @brief  This function handles SysTick Handler.
-  * @param  None
   * @retval None
   */
 void SysTick_Handler(void)
 {
   HAL_IncTick();
   USBPD_DPM_TimerCounter();
+#if defined(_GUI_INTERFACE)
+  GUI_TimerCounter();
+#endif /* _GUI_INTERFACE */
 }
 
 /******************************************************************************/
@@ -92,7 +89,6 @@ void SysTick_Handler(void)
 /******************************************************************************/
 /**
   * @brief  This function handles ADC interrupt request.
-  * @param  None
   * @retval None
   */
 void ADC1_COMP_IRQHandler(void)
@@ -101,20 +97,18 @@ void ADC1_COMP_IRQHandler(void)
 }
 
 /**
-* @brief  This function handles DMA interrupt request.
-* @param  None
-* @retval None
-*/
+  * @brief  This function handles DMA interrupt request.
+  * @retval None
+  */
 void DMA1_Channel1_IRQHandler(void)
 {
   HAL_DMA_IRQHandler(hadc.DMA_Handle);
 }
 
 /**
-* @brief  This function handles DMA channel 4 to 7 interrupt request.
-* @param  None
-* @retval None
-*/
+  * @brief  This function handles DMA channel 4 to 7 interrupt request.
+  * @retval None
+  */
 void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void)
 {
    TRACER_EMB_IRQHandlerDMA();
@@ -122,13 +116,13 @@ void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void)
 
 
 /**
-  * @brief  This function handles UCPD interrupt.
-  * @param  None
+  * @brief This function handles UCPD1 and UCPD2 interrupts / UCPD1 and UCPD2 wake-up interrupts through EXTI lines 32 and 33.
   * @retval None
   */
 void UCPD1_2_IRQHandler(void)
 {
   USBPD_PORT0_IRQHandler();
+
 #if USBPD_PORT_COUNT == 2
   USBPD_PORT1_IRQHandler();
 #endif
@@ -136,7 +130,6 @@ void UCPD1_2_IRQHandler(void)
 
 /**
   * @brief  This function handles USART 3 and 4 interrupts.
-  * @param  None
   * @retval None
   */
 void USART3_4_LPUART1_IRQHandler(void)
@@ -146,7 +139,6 @@ void USART3_4_LPUART1_IRQHandler(void)
 
 /**
   * @brief  This function handles EXTI 0 and 1 interrupts.
-  * @param  None
   * @retval None
   */
 void EXTI0_1_IRQHandler(void)
@@ -156,7 +148,6 @@ void EXTI0_1_IRQHandler(void)
 
 /**
   * @brief  This function handles EXTI 2 and 3 interrupts.
-  * @param  None
   * @retval None
   */
 void EXTI2_3_IRQHandler(void)
@@ -167,7 +158,6 @@ void EXTI2_3_IRQHandler(void)
 
 /**
   * @brief  This function handles EXTI 4 to 15 interrupts.
-  * @param  None
   * @retval None
   */
 void EXTI4_15_IRQHandler(void)
@@ -180,7 +170,6 @@ void EXTI4_15_IRQHandler(void)
 
 /**
   * @brief  This function handles debounce timer interrupt request.
-  * @param  None
   * @retval None
   */
 void DEBOUNCE_TIM_IRQHandler(void)

@@ -80,6 +80,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
+  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -127,10 +128,7 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  if(USBPD_OK != USBPD_DPM_InitOS())
-  {
-    while(1);
-  }
+
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
@@ -437,6 +435,10 @@ void MX_USART3_UART_Init(void)
 
   LL_DMA_SetMemorySize(DMA1, LL_DMA_CHANNEL_4, LL_DMA_MDATAALIGN_BYTE);
 
+  /* USART3 interrupt Init */
+  NVIC_SetPriority(USART3_4_LPUART1_IRQn, 3);
+  NVIC_EnableIRQ(USART3_4_LPUART1_IRQn);
+
   /* USER CODE BEGIN USART3_Init 1 */
 
   /* USER CODE END USART3_Init 1 */
@@ -472,6 +474,7 @@ void MX_USART3_UART_Init(void)
   */
 void MX_DMA_Init(void) 
 {
+
   /* DMA controller clock enable */
   __HAL_RCC_DMA1_CLK_ENABLE();
 

@@ -144,6 +144,29 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles EXTI line 4 to 15 interrupts.
+  */
+void EXTI4_15_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI4_15_IRQn 0 */
+
+  /* USER CODE END EXTI4_15_IRQn 0 */
+  if (LL_EXTI_IsActiveFallingFlag_0_31(LL_EXTI_LINE_15) != RESET)
+  {
+    LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_15);
+    /* USER CODE BEGIN LL_EXTI_LINE_15_FALLING */
+    
+    /* Handle user button press in dedicated function */
+    UserButton_Callback();
+    /* USER CODE END LL_EXTI_LINE_15_FALLING */
+  }
+  /* USER CODE BEGIN EXTI4_15_IRQn 1 */
+
+
+  /* USER CODE END EXTI4_15_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM1 break, update, trigger and commutation interrupts.
   */
 void TIM1_BRK_UP_TRG_COM_IRQHandler(void)
@@ -165,20 +188,6 @@ void TIM1_BRK_UP_TRG_COM_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-
-/**
-  * @brief This function handles External line 15 interrupt request.
-  */
-void VIRTUAL_BUTTON_IRQHANDLER(void)
-{
-  if (VIRTUAL_BUTTON_EXTI_IS_ACTIVE_FLAG() != RESET)
-  {
-    VIRTUAL_BUTTON_EXTI_CLEAR_FLAG();
-
-    UserButton_Callback(); 
-  }
-}
-
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

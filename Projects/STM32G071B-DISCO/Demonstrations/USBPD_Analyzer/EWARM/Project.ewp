@@ -663,7 +663,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>STM32G071B-DISCO_USBPD_Analyzer.hex</state>
+                    <state>..\..\..\..\Binary\STM32G071B-DISCO_USBPD_Analyzer.hex</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -718,7 +718,7 @@
                 </option>
                 <option>
                     <name>IlinkOutputFile</name>
-                    <state>STM32G071B-DISCO_USBPD_Analyzer.out</state>
+                    <state>Project.out</state>
                 </option>
                 <option>
                     <name>IlinkDebugInfoEnable</name>

@@ -1,13 +1,12 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    usbpd_pwr_if.h
   * @author  MCD Application Team
   * @brief   This file contains the headers of usbpd_pw_if.h.
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2019 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -16,6 +15,7 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 #ifndef __USBPD_PW_IF_H_
 #define __USBPD_PW_IF_H_
@@ -27,20 +27,20 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usbpd_def.h"
 
-/** @addtogroup STM32_USBPD_USER
+/** @addtogroup STM32_USBPD_APPLICATION
   * @{
   */
 
-/** @addtogroup USBPD_USER
-  * @{
-  */
-
-/** @addtogroup USBPD_USER_PWR_IF
+/** @addtogroup STM32_USBPD_APPLICATION_POWER_IF
   * @{
   */
 
 /* Exported typedef ----------------------------------------------------------*/
 /* Exported define -----------------------------------------------------------*/
+#define BSP_PWR_INVALID_VALUE           0xFFFFFFFFu   /* Invalid value set during issue with voltage setting */
+#define BSP_PWR_TIMEOUT_PDO             250u          /* Timeout for PDO to PDO or PDO to APDO at 250ms */
+#define USBPD_PWR_TIMEOUT_APDO            25u           /* Timeout for APDO to APDO at 25ms */
+
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /** @defgroup USBPD_USER_PWR_IF_Exported_Macros USBPD PWR IF Exported Macros
@@ -56,11 +56,11 @@
 #define PWR_W(_W_)             ((uint16_t)(( (_W_) * 1000.0) / 250.0))  /* From Watt to 250mW multiples     */
 
 /* Macros used to get values from PDO representation */
-#define PWR_DECODE_50MV(_Value_)           ((uint16_t)(( (float)(_Value_) * 50.0)))     /* From 50mV multiples to mV        */
-#define PWR_DECODE_100MV(_Value_)          ((uint16_t)(( (float)(_Value_) * 100.0)))    /* From 100mV multiples to mV       */
-#define PWR_DECODE_10MA(_Value_)           ((uint16_t)(( (float)(_Value_) * 10.0)))     /* From 10mA multiples to mA        */
-#define PWR_DECODE_50MA(_Value_)           ((uint16_t)(( (float)(_Value_) * 50.0)))     /* From 50mA multiples to mA        */
-#define PWR_DECODE_MW(_Value_)             ((uint16_t)(( (float)(_Value_) * 250.0)))    /* From 250mW multiples to mW       */
+#define PWR_DECODE_50MV(_Value_)           ((uint16_t)(((_Value_) * 50)))     /* From 50mV multiples to mV        */
+#define PWR_DECODE_100MV(_Value_)          ((uint16_t)(((_Value_) * 100)))    /* From 100mV multiples to mV       */
+#define PWR_DECODE_10MA(_Value_)           ((uint16_t)(((_Value_) * 10)))     /* From 10mA multiples to mA        */
+#define PWR_DECODE_50MA(_Value_)           ((uint16_t)(((_Value_) * 50)))     /* From 50mA multiples to mA        */
+#define PWR_DECODE_MW(_Value_)             ((uint16_t)(((_Value_) * 250)))    /* From 250mW multiples to mW       */
 
 #define USBPD_PORT_IsValid(__Port__) ((__Port__) < (USBPD_PORT_COUNT))
 
@@ -70,10 +70,9 @@
 
 /* Exported variables --------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
-/** @defgroup USBPD_USER_PWR_IF_Exported_Functions USBPD PWR IF Exported Functions
+/** @defgroup STM32_USBPD_APPLICATION_POWER_IF_Exported_Functions USBPD PWR IF Exported Functions
   * @{
   */
-
 /**
   * @brief  Initialize structures and variables related to power board profiles
   *         used by Sink and Source, for all available ports.
@@ -96,32 +95,12 @@ USBPD_StatusTypeDef USBPD_PWR_IF_StartMonitoring(void);
 USBPD_StatusTypeDef USBPD_PWR_IF_SetProfile(uint8_t PortNum);
 
 /**
-  * @brief  Resets the Power Board
-  * @retval USBPD status
-  */
-USBPD_StatusTypeDef USBPD_PWR_IF_PowerResetGlobal(void);
-
-/**
-  * @brief  Resets the Power on a specified port
-  * @param  PortNum Port number
-  * @retval USBPD status
-  */
-USBPD_StatusTypeDef USBPD_PWR_IF_PowerReset(uint8_t PortNum);
-
-/**
   * @brief  Checks if the power on a specified port is ready
   * @param  PortNum Port number
   * @param  Vsafe   Vsafe status based on @ref USBPD_VSAFE_StatusTypeDef
   * @retval USBPD status
   */
 USBPD_StatusTypeDef USBPD_PWR_IF_SupplyReady(uint8_t PortNum, USBPD_VSAFE_StatusTypeDef Vsafe);
-
-/**
-  * @brief  Initialize the power on a specified port
-  * @param  PortNum Port number
-  * @retval USBPD status
-  */
-USBPD_StatusTypeDef USBPD_PWR_IF_InitPower(uint8_t PortNum);
 
 
 /**

@@ -95,7 +95,7 @@ int32_t MX_FATFS_Process(void)
   switch(Appli_state)
   {
   case APPLICATION_INIT:
-    if(BSP_SD_GetStatus() == BSP_SD_OK)
+    if(BSP_SD_GetCardState() == BSP_SD_OK)
     {
 #if FATFS_MKFS_ALLOWED
       FRESULT res;
@@ -107,8 +107,6 @@ int32_t MX_FATFS_Process(void)
         process_res = APP_ERROR;
       }
 #endif
-
-      process_res = APP_INIT;
       Appli_state = APPLICATION_RUNNING;
     }
     else

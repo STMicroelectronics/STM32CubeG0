@@ -88,7 +88,7 @@ typedef struct
   * @param  PortNum The current port number
   * @retval The status of the decoding process
   */
-  USBPD_PHY_RX_Status_TypeDef (*USBPD_HW_IF_RX_Reset)(uint8_t PortNum);
+  USBPD_PHY_RX_Status_TypeDef(*USBPD_HW_IF_RX_Reset)(uint8_t PortNum);
 
   /**
   * @brief  The reception phase of an hard reset is completed notify it.
@@ -229,14 +229,14 @@ USBPD_StatusTypeDef HW_IF_PWR_SetVoltage(uint8_t PortNum, uint16_t Voltage);
   * @param  PortNum The port handle.
   * @retval The voltage value
   */
-uint32_t HW_IF_PWR_GetVoltage(uint8_t PortNum);
+uint16_t HW_IF_PWR_GetVoltage(uint8_t PortNum);
 
 /**
   * @brief  Get the current level on a specified port.
   * @param  PortNum The port handle.
   * @retval The current value
   */
-int32_t HW_IF_PWR_GetCurrent(uint8_t PortNum);
+int16_t HW_IF_PWR_GetCurrent(uint8_t PortNum);
 
 /**
   * @brief  Connect the Rp resitors on the CC lines

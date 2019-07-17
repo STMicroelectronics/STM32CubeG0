@@ -225,7 +225,7 @@
                     <state>USBPDCORE_LIB_PD3_FULL</state>
                     <state>_DRP</state>
                     <state>_VDM</state>
-                    <state>_TRACE</state>
+                    <state>_TRACE_NA</state>
                     <state>_RTOS</state>
                     <state>USBPD_PORT_COUNT=2</state>
                     <state>_PPS</state>
@@ -665,7 +665,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>Ucpd.bin</state>
+                    <state>..\..\..\..\Binary\SD_card\BIN\Ucpd.bin</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -1277,6 +1277,8 @@
                     <state>_GUI_INTERFACE</state>
                     <state>LCD_DEFAULT_FONT=Font16</state>
                     <state>_VCONN_SUPPORT</state>
+                    <state>_MANU_INFO</state>
+                    <state>_SRC_CAPA_EXT</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>

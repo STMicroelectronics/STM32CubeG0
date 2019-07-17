@@ -2,15 +2,15 @@
   ******************************************************************************
   * @file    stm32g0xx_hal_conf.h
   * @author  MCD Application Team
-  * @brief   HAL configuration template file.
+  * @brief   HAL configuration file.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics. 
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
+  * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
   *
@@ -34,7 +34,7 @@ extern "C" {
   */
 #define HAL_MODULE_ENABLED
 
-#define HAL_ADC_MODULE_ENABLED
+  #define HAL_ADC_MODULE_ENABLED
 /* #define HAL_CEC_MODULE_ENABLED   */
 /* #define HAL_COMP_MODULE_ENABLED   */
 /* #define HAL_CRC_MODULE_ENABLED   */

@@ -1,13 +1,12 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    usbpd_vdm_user.h
   * @author  MCD Application Team
   * @brief   Header file for usbpd_vdm_user.c file
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2019 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -16,6 +15,7 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 #ifndef __USBPD_VDM_USER_H_
 #define __USBPD_VDM_USER_H_
@@ -25,6 +25,13 @@
 #endif 
 
 /* Includes ------------------------------------------------------------------*/
+/** @addtogroup STM32_USBPD_APPLICATION
+  * @{
+  */
+
+/** @addtogroup STM32_USBPD_APPLICATION_VDM_USER
+  * @{
+  */
 
 /* Exported typedef ----------------------------------------------------------*/
 typedef struct
@@ -69,14 +76,12 @@ typedef union
 /*
  * DisplayPort Config capabilities
  */
+#define MODE_DP_CONFIG_SELECT_USB               0u            /*!< Set configuration for USB.           */
+#define MODE_DP_CONFIG_SELECT_UFP_U_AS_DFP_D    1u /*!< Set configuration for UFP_U_AS_DFP_. */
+#define MODE_DP_CONFIG_SELECT_UFP_U_AS_UFP_D    2u /*!< Set configuration for UFP_U_AS_UFP_D.*/
+#define MODE_DP_CONFIG_SELECT_RESERVED          3u       /*!< Reserved                             */
 
-typedef enum {
-  MODE_DP_CONFIG_SELECT_USB,            /*!< Set configuration for USB.           */
-  MODE_DP_CONFIG_SELECT_UFP_U_AS_DFP_D, /*!< Set configuration for UFP_U_AS_DFP_. */
-  MODE_DP_CONFIG_SELECT_UFP_U_AS_UFP_D, /*!< Set configuration for UFP_U_AS_UFP_D.*/
-  MODE_DP_CONFIG_SELECT_RESERVED,       /*!< Reserved                             */
-} USBPD_MODE_DP_CONFIG_SELECT;
-
+typedef uint32_t USBPD_MODE_DP_CONFIG_SELECT;
 
 typedef union
 {
@@ -110,6 +115,13 @@ void                USBPD_VDM_UserReset(uint8_t PortNum);
 void                USBPD_VDM_FillDPStatus(uint8_t PortNum, USBPD_DPStatus_TypeDef *dp_status);
 void                USBPD_VDM_FillDPConfig(uint8_t PortNum, USBPD_DPConfig_TypeDef *pDP_Config);
 void                USBPD_VDM_UserCallback(uint8_t PortNum);
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 #ifdef __cplusplus
 }

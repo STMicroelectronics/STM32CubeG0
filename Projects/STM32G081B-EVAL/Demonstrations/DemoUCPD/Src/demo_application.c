@@ -22,15 +22,23 @@
 #include "usbpd_dpm_core.h"
 #include "usbpd_dpm_conf.h"
 #include "usbpd_dpm_user.h"
+#include "usbpd_devices_conf.h"
 #include "usbpd_pwr_if.h"
-#include "stm32g081b_eval.h"
-#include "stm32g081b_eval_lcd.h"
-#include "stm32g081b_eval_mux.h"
-#include "stm32g081b_eval_pwr.h"
 #include "logo_STM32_G0.h"
 #include "demo_application.h"
 #include "string.h"
 #include "cmsis_os.h"
+#if defined(_GUI_INTERFACE)
+#include "gui_api.h"
+#endif /* _GUI_INTERFACE */
+
+/* Exported variables --------------------------------------------------------*/
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+
+/** @addtogroup STM32_USBPD_APPLICATION_DEMO
+  * @{
+  */
 
 /* Exported variables --------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
@@ -97,6 +105,10 @@
 #define MAX_LINE_PDO      4u
 #define MAX_LINE_COMMAND  4u
 #define MAX_LINE_EXTCAPA  5u
+
+/* DEMO Error messages max size 
+*/
+#define DEMO_ERROR_MAX_MSG_SIZE  25U
 
 
 typedef enum {
@@ -177,6 +189,11 @@ static  int8_t   g_tab_menu_pos[2] = { 0, 0};
 /* avoid multiple joystick event */
 static uint8_t joyevent = 0;
 
+const uint8_t g_tab_error_strings[DEMO_ERROR_TYPE_MAXNBITEMS][DEMO_ERROR_MAX_MSG_SIZE] = {
+  "  POWER SUPPLY ERROR  ",    /* Power Supply error */
+  " FLASH SETTINGS ERROR ",    /* Error in settings stored in flash */
+};
+
 /* Private variables ---------------------------------------------------------*/
 
 /* Counter for Sel Joystick pressed*/
@@ -228,7 +245,7 @@ DEMO_ErrorCode DEMO_InitBSP(void)
 
   BSP_LCD_DrawBitmap(0, 0, (uint8_t *)header_data_logo);
 
-    /* Protection against bad compilation configuration */
+  /* Protection against bad compilation configuration */
   if (BSP_PWR_DCDCGetCtrlMode(0) == DCDC_CTRL_MODE_GPIO)
   {
        BSP_LCD_SetFont(&Font16);
@@ -247,13 +264,17 @@ DEMO_ErrorCode DEMO_InitBSP(void)
        BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
        BSP_LCD_DisplayStringAt(0, 1 + (6 * Font16.Height), (uint8_t*)"Board configuration unknown", CENTER_MODE);
   }
-
+  
   Display_Selected_port();
   Display_border();
 
  return DEMO_OK;
 }
 
+/**
+  * @brief  Demo Task initialisation
+  * @retval DEMO_ErrorCode status
+  */
 DEMO_ErrorCode DEMO_InitTask()
 {
   osMessageQDef(MsgBox, LCD_ALARMBOX_MESSAGES_MAX, uint32_t);
@@ -302,7 +323,8 @@ void DEMO_PostNotificationMessage(uint8_t PortNum, USBPD_NotifyEventValue_TypeDe
 void DEMO_PostMMIMessage(uint32_t EventVal)
 {
   uint32_t event = DEMO_MSG_MMI | EventVal;
-  if (joyevent == 0 ) {
+  if (joyevent == 0 )
+  {
     if(osMessagePut(LCDMsgBox, event, 0) != osErrorOS) joyevent = 1;
   }
 }
@@ -367,8 +389,8 @@ void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
   */
 static void Display_power(void)
 {
-  uint32_t vsense = 0;
-  int32_t isense = 0;
+  uint32_t vsense;
+  int32_t isense;
   char  pstr[20]={0};
   static uint8_t counter = 0;
 
@@ -456,40 +478,42 @@ static void Display_power(void)
 static void Display_contract_port(uint8_t PortNum)
 {
   uint32_t pos;
-
+  uint32_t height;
+  
   BSP_LCD_SetFont(&Font16);
   BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
   BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE_DARK);
 
   pos = (PortNum == 0)? 54:181;
   pos = pos +  Font16.Width;
+  height = 10+ Font16.Height;
 
   /* PDX */
   if(DPM_Ports[PortNum].DPM_IsConnected)
   {
     if (USBPD_SPECIFICATION_REV3 == DPM_Params[PortNum].PE_SpecRevision)
     {
-      BSP_LCD_DisplayStringAt(pos, 10+ Font16.Height, (uint8_t*)"PD3", LEFT_MODE);
+      BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"PD3", LEFT_MODE);
     }
     else
     {
-      BSP_LCD_DisplayStringAt(pos, 10+Font16.Height, (uint8_t*)"PD2", LEFT_MODE);
+      BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"PD2", LEFT_MODE);
     }
 
     /* UFP/DFP */
     if (USBPD_PORTDATAROLE_UFP == DPM_Params[PortNum].PE_DataRole)
     {
-      BSP_LCD_DisplayStringAt(pos + 38, 10+ Font16.Height, (uint8_t*)"UFP", LEFT_MODE);
+      BSP_LCD_DisplayStringAt(pos + 38, height, (uint8_t*)"UFP", LEFT_MODE);
     }
     else
     {
-      BSP_LCD_DisplayStringAt(pos + 38, 10 + Font16.Height, (uint8_t*)"DFP", LEFT_MODE);
+      BSP_LCD_DisplayStringAt(pos + 38, height, (uint8_t*)"DFP", LEFT_MODE);
     }
 
   }
   else
   {
-    BSP_LCD_DisplayStringAt(pos, 10+Font16.Height, (uint8_t*)"          ", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"          ", LEFT_MODE);
   }
 }
 
@@ -522,11 +546,14 @@ static void Display_hpd(uint8_t PortNum, uint8_t status)
 
 /**
   * @brief  Display error message
-  * @param  PortNum The handle of the port
+  * @param  PortNum   Port Number
+  * @param  ErrorType Demo error type
   * @retval None
   */
-void DEMO_Display_Error(uint8_t PortNum)
+void DEMO_Display_Error(uint8_t PortNum, uint8_t ErrorType)
 {
+  uint8_t *pmsg;
+  
   Display_clear_info();
 
   BSP_LCD_SetFont(&Font16);
@@ -534,7 +561,11 @@ void DEMO_Display_Error(uint8_t PortNum)
   BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE_LIGHT);
 
   /* Display error info */
-  BSP_LCD_DisplayStringAt(0, 1 + 6 * Font16.Height, (uint8_t *)"  POWER SUPPLY ERROR  ", CENTER_MODE);
+  if (ErrorType < DEMO_ERROR_TYPE_MAXNBITEMS)
+  {
+    pmsg = (uint8_t *) g_tab_error_strings[ErrorType];
+    BSP_LCD_DisplayStringAt(0, 1 + 6 * Font16.Height, pmsg, CENTER_MODE);
+  }
 }
 
 /**
@@ -546,6 +577,7 @@ void DEMO_Display_Error(uint8_t PortNum)
 static void Display_cc_port(uint8_t PortNum, CCxPin_TypeDef cc)
 {
   uint32_t pos;
+  uint32_t height;
 
   BSP_LCD_SetFont(&Font16);
   BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
@@ -553,17 +585,18 @@ static void Display_cc_port(uint8_t PortNum, CCxPin_TypeDef cc)
 
   pos = (PortNum == 0)? 54+30:181+30;
   pos = pos +  5*Font16.Width;
+  height = 10+ Font16.Height;
 
   switch(cc)
   {
   case CCNONE :
-    BSP_LCD_DisplayStringAt(pos, 10+ Font16.Height, (uint8_t*)"    ", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"    ", LEFT_MODE);
     break;
   case CC1 :
-    BSP_LCD_DisplayStringAt(pos, 10+ Font16.Height, (uint8_t*)"CC1", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"CC1", LEFT_MODE);
     break;
   case CC2 :
-    BSP_LCD_DisplayStringAt(pos, 10+ Font16.Height, (uint8_t*)"CC2", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"CC2", LEFT_MODE);
     break;
   }
 }
@@ -574,12 +607,13 @@ static void Display_cc_port(uint8_t PortNum, CCxPin_TypeDef cc)
   */
 static void Display_border(void)
 {
+  uint16_t height = Font12.Height;
   BSP_LCD_SetBackColor(LCD_COLOR_CYAN);
   BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE_DARK);
 
-  BSP_LCD_DrawLine(0, 5 * Font12.Height, 320, 5 * Font12.Height);
-  BSP_LCD_DrawLine(0, 16 * Font12.Height -1 , 320, 16 * Font12.Height - 1);
-  BSP_LCD_DrawLine(160, 16 * Font12.Height - 1,  160, 240);
+  BSP_LCD_DrawLine(0, 5 * height, 320, 5 * height);
+  BSP_LCD_DrawLine(0, 16 * height -1 , 320, 16 * height - 1);
+  BSP_LCD_DrawLine(160, 16 * height - 1,  160, 240);
 }
 
 /**
@@ -776,7 +810,7 @@ static void Display_cableinfo_menu(uint8_t PortNum)
 
   if(pIdentity.CableVDO_Presence == 0)
   {
-    sprintf((char *)str, "no information availble");
+    sprintf((char *)str, "no information available");
     BSP_LCD_DisplayStringAt(0, 1 + 8 * Font12.Height + Font16.Height , str, LEFT_MODE);
   }
   else
@@ -1328,7 +1362,7 @@ static void Display_command_menu_exec(uint8_t PortNum)
     break;
   case COMMAND_CONTROLMSG_GET_SRC_CAPEXT :
     if( USBPD_OK == USBPD_PE_Request_CtrlMessage(PortNum, USBPD_CONTROLMSG_GET_SRC_CAPEXT, USBPD_SOPTYPE_SOP))
-      Display_debug_port(PortNum, (uint8_t*)"request extcapa");
+      Display_debug_port(PortNum, (uint8_t*)"request src extcapa");
     else
       Display_debug_port(PortNum, (uint8_t*)"request not sent");
     break;
@@ -1579,8 +1613,8 @@ static void DEMO_Manage_event(uint32_t Event)
       case DEMO_MMI_ACTION_HPD_DETECT_LOW_PORT1 :
         Display_hpd(1, USBPD_FALSE);
         break;
-      case DEMO_MMI_ACTION_ERROR :
-        DEMO_Display_Error(portSel);
+      case DEMO_MMI_ACTION_ERROR_POWER :
+        DEMO_Display_Error(portSel, DEMO_ERROR_TYPE_POWER);
         break;
       }
       joyevent = 0;
@@ -1717,7 +1751,6 @@ static void DEMO_Manage_event(uint32_t Event)
 
   }
   Display_Selected_port();
-
 }
 
 /**

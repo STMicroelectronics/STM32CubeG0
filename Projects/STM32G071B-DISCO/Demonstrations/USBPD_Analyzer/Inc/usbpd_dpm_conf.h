@@ -1,13 +1,12 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    usbpd_dpm_core.h
+  * @file    usbpd_dpm_conf.h
   * @author  MCD Application Team
-  * @brief   Header file for usbpd_dpm_core.c file
+  * @brief   Header file for stack/application settings file
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2019 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -16,6 +15,7 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 #ifndef __USBPD_DPM_CONF_H_
 #define __USBPD_DPM_CONF_H_
@@ -31,6 +31,10 @@
 #if defined(_GUI_INTERFACE)
 #include "usbpd_gui_memmap.h"
 #endif /* _GUI_INTERFACE */
+/* USER CODE BEGIN Includes */
+/* Section where include file can be added */
+
+/* USER CODE END Includes */
 
 /* Define   ------------------------------------------------------------------*/
 /* Define VID, PID,... manufacturer parameters */
@@ -38,11 +42,24 @@
 #define USBPD_PID (0x0002u)     /*!< Product ID (assigned by the manufacturer)              */
 #define USBPD_XID (0xF0000003u) /*!< Value provided by the USB-IF assigned to the product   */
 
+/* USER CODE BEGIN Define */
+/* Section where Define can be added */
+
+/* USER CODE END Define */
+
 /* Exported typedef ----------------------------------------------------------*/
+/* USER CODE BEGIN Typedef */
+/* Section where Typedef can be added */
+
+/* USER CODE END Typedef */
+
 /* Private variables ---------------------------------------------------------*/
 #ifndef __USBPD_DPM_CORE_C
 extern USBPD_SettingsTypeDef      DPM_Settings[USBPD_PORT_COUNT];
+#if !defined(_GUI_INTERFACE)
+extern USBPD_IdSettingsTypeDef          DPM_ID_Settings[USBPD_PORT_COUNT];
 extern USBPD_USER_SettingsTypeDef DPM_USER_Settings[USBPD_PORT_COUNT];
+#endif /* !_GUI_INTERFACE */
 #else /* __USBPD_DPM_CORE_C */
 USBPD_SettingsTypeDef       DPM_Settings[USBPD_PORT_COUNT] =
 {
@@ -56,17 +73,17 @@ USBPD_SettingsTypeDef       DPM_Settings[USBPD_PORT_COUNT] =
     .PE_AttemptsDiscovSOP = USBPD_TRUE,         /*!< Can send a Discover Identity */
     .PE_PingSupport = USBPD_FALSE,              /* support Ping (only for PD3.0)                           */
     .PE_CapscounterSupport = USBPD_FALSE,       /* support caps counter                                    */
-    .CAD_RoleToggle = USBPD_FALSE,              /* cad role toogle                                         */
+    .CAD_RoleToggle = USBPD_FALSE,              /* cad role toggle                                         */
     .CAD_TryFeature = USBPD_FALSE,              /* cad try feature                                         */
     .CAD_AccesorySupport = USBPD_FALSE,         /* cas accessory support                                   */
     .PE_PD3_Support.d =                           /*!< PD3 SUPPORT FEATURE                                              */
     {
       .PE_UnchunkSupport                = USBPD_FALSE,  /*!< Unchunked mode Support                */
-      .PE_FastRoleSwapSupport           = USBPD_FALSE,  /* support fast role swap only spec revsion 3.0            */
+      .PE_FastRoleSwapSupport           = USBPD_FALSE,  /*!< support fast role swap only spec revsion 3.0            */
       .Is_GetPPSStatus_Supported        = USBPD_TRUE,   /*!< PPS message supported or not by DPM */
       .Is_SrcCapaExt_Supported          = USBPD_TRUE,   /*!< Source_Capabilities_Extended message supported or not by DPM */
       .Is_Alert_Supported               = USBPD_FALSE,  /*!< Alert message supported or not by DPM */
-      .Is_GetStatus_Supported           = USBPD_FALSE,  /*!< Status message supported or not by DPM */
+      .Is_GetStatus_Supported           = USBPD_FALSE,  /*!< Status message supported or not by DPM (Is_Alert_Supported should be enabled) */
       .Is_GetManufacturerInfo_Supported = USBPD_FALSE,  /*!< Manufacturer_Info message supported or not by DPM */
       .Is_GetCountryCodes_Supported     = USBPD_FALSE,  /*!< Country_Codes message supported or not by DPM */
       .Is_GetCountryInfo_Supported      = USBPD_FALSE,  /*!< Country_Info message supported or not by DPM */
@@ -79,7 +96,25 @@ USBPD_SettingsTypeDef       DPM_Settings[USBPD_PORT_COUNT] =
     .CAD_SNKToggleTime          = 40,                    /* uint8_t CAD_SNKToggleTime; */
   }
 };
+#if !defined(_GUI_INTERFACE)
+USBPD_IdSettingsTypeDef          DPM_ID_Settings[USBPD_PORT_COUNT] =
+{
+  {
+    .XID = USBPD_XID,     /*!< Value provided by the USB-IF assigned to the product   */
+    .VID = USBPD_VID,     /*!< Vendor ID (assigned by the USB-IF)                     */
+    .PID = USBPD_PID,     /*!< Product ID (assigned by the manufacturer)              */
+      },
+#if USBPD_PORT_COUNT >= 2
+  {
+    .XID = USBPD_XID,     /*!< Value provided by the USB-IF assigned to the product   */
+    .VID = USBPD_VID,     /*!< Vendor ID (assigned by the USB-IF)                     */
+    .PID = USBPD_PID,     /*!< Product ID (assigned by the manufacturer)              */
+  }
+#endif /* USBPD_PORT_COUNT >= 2 */
+};
 
+/* USER CODE BEGIN Variable */
+/* Section where Variable can be added */
 USBPD_USER_SettingsTypeDef DPM_USER_Settings[USBPD_PORT_COUNT] =
 {
   {
@@ -94,27 +129,23 @@ USBPD_USER_SettingsTypeDef DPM_USER_Settings[USBPD_PORT_COUNT] =
     },
     .PE_DataSwap = USBPD_TRUE,                  /* support data swap    */
     .PE_VconnSwap = USBPD_FALSE,                /* support VCONN swap   */
-#if defined(_GUI_INTERFACE)
-    .PWR_AccessoryDetection     = USBPD_FALSE,  /*!< It enables or disables powered accessory detection */
-    .PWR_AccessoryTransition    = USBPD_FALSE,  /*!< It enables or disables transition from Powered.accessory to Try.SNK */
-    .PWR_UnconstrainedPower     = USBPD_CORE_PDO_NOT_EXT_POWERED, /*!< UUT has an external power source available that is sufficient to adequately power the system while charging external devices or the UUT’s primary function is to charge external devices. */
-    .PWR_RpResistorValue        = vRd_3_0A,     /*!< RP resitor value based on @ref CAD_SNK_Source_Current_Adv_Typedef */
-    .USB_Support                = USBPD_CORE_PDO_USBCOMM_NOT_CAPABLE, /*!< USB_Comms_Capable, is the UUT capable of enumerating as a USB host or device? */
-    .USB_Device                 = USBPD_FALSE,  /*!< Type_C_Can_Act_As_Device, Indicates whether the UUT can communicate with USB 2.0 or USB 3.1 as a device or as the Upstream Facing Port of a hub. */
-    .USB_Host                   = USBPD_FALSE,  /*!<  Type_C_Can_Act_As_Host, Indicates whether the UUT can communicate with USB 2.0 or USB 3.1 as a host or as the Downstream Facing Port of a hub */
-    .USB_SuspendSupport         = USBPD_CORE_PDO_USBSUSP_NOT_SUPPORTED, /*!<  USB Suspend support values in PDO definition (Source) */
-    .CAD_tDRP                   = 80,           /*!<  Type_C_Can_Act_As_Host, Indicates whether the UUT can communicate with USB 2.0 or USB 3.1 as a host or as the Downstream Facing Port of a hub */
-    .CAD_dcSRC_DRP              = 50,           /*!<  USB Suspend support values in PDO definition (Source) */
-#endif /* _GUI_INTERFACE */
   },
 };
+#endif /* !_GUI_INTERFACE */
 #endif /* !__USBPD_DPM_CORE_C */
+/* USER CODE END Variable */
 
-/* Exported define -----------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
+/* USER CODE BEGIN Constant */
+/* Section where Constant can be added */
+
+/* USER CODE END Constant */
+
 /* Exported macro ------------------------------------------------------------*/
-/* Exported variables --------------------------------------------------------*/
-/* Exported functions --------------------------------------------------------*/
+/* USER CODE BEGIN Macro */
+/* Section where Macro can be added */
+
+/* USER CODE END Macro */
 
 #ifdef __cplusplus
 }

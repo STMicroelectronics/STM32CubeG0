@@ -143,14 +143,12 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32g0xx.s).                    */
 /******************************************************************************/
 
-/* USER CODE BEGIN 1 */
 /**
-  * Brief   This function handles I2C1 (Slave) event interrupt request.
-  * Param   None
-  * Retval  None
+  * @brief This function handles I2C1 event global interrupt / I2C1 wake-up interrupt through EXTI line 23.
   */
 void I2C1_IRQHandler(void)
 {
+  /* USER CODE BEGIN I2C1_IRQn 0 */
 /* Check ADDR flag value in ISR register */
 if (LL_I2C_IsActiveFlag_ADDR(I2C1))
 {
@@ -204,9 +202,14 @@ else
   /* Call Error function */
   Error_Callback();
 }
+  /* USER CODE END I2C1_IRQn 0 */
+  
+  /* USER CODE BEGIN I2C1_IRQn 1 */
+
+  /* USER CODE END I2C1_IRQn 1 */
 }
 
-
+/* USER CODE BEGIN 1 */
 
 /**
   * @brief This function handles External line 15 interrupt request.

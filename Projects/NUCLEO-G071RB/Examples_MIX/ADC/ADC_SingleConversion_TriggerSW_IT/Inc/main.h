@@ -85,8 +85,8 @@ extern "C" {
 #define ADCx_CHANNELa_PIN               GPIO_PIN_4
 
 
-#if defined(WAVEFORM_VOLTAGE_GENERATION_FOR_TEST)
 /* ## Definition of DAC related resources ################################### */
+/* Note: Definition will be used only if literal "WAVEFORM_VOLTAGE_GENERATION_FOR_TEST" is defined */
 /* Definition of DACx clock resources */
 #define DACx                            DAC
 #define DACx_CLK_ENABLE()               __HAL_RCC_DAC1_CLK_ENABLE()
@@ -106,7 +106,6 @@ extern "C" {
 #define DACx_IRQn                       TIM6_DAC_LPTIM1_IRQn
 #define DACx_IRQHandler                 TIM6_DAC_LPTIM1_IRQHandler
 
-#endif /* WAVEFORM_VOLTAGE_GENERATION_FOR_TEST */
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

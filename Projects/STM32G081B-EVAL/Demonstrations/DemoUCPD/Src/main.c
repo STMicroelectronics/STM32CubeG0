@@ -1,10 +1,9 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    main.c
-  * @author  MCD Application Team
-  * @brief   USBPD demo main file
+  * @file           : main.c
+  * @brief          : Main program body
   ******************************************************************************
-   * @attention
   *
   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
@@ -15,9 +14,13 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 #include "stm32g0xx.h"
 #include "stm32g0xx_ll_bus.h"
 #include "stm32g0xx_ll_utils.h"
@@ -25,26 +28,51 @@
 #include "stm32g0xx_ll_rcc.h"
 #include "stm32g081b_eval.h"
 #include "stm32g081b_eval_lcd.h"
+/* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
 /* Private define ------------------------------------------------------------*/
-#define _HSE_ENABLE 1
+/* USER CODE BEGIN PD */
+
+/* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
 /* Private variables ---------------------------------------------------------*/
+
+/* USER CODE BEGIN PV */
+
+/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 
-/* Private functions ---------------------------------------------------------*/
+/* USER CODE BEGIN PFP */
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
 
 /**
-  * @brief  Main program
-  * @param  None
-  * @retval None
+  * @brief  The application entry point.
+  * @retval int
   */
 int main(void)
 {
+  /* USER CODE BEGIN 1 */
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
   /* Get back current CPU clock config */
   SystemCoreClockUpdate();
 
@@ -57,17 +85,19 @@ int main(void)
     SystemClock_Config();
   }
 
-  /* ## Backup register access ## */
-  RCC->APBENR1 |= RCC_APBENR1_PWREN;
-  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_CRC);
+  /* USER CODE BEGIN Init */
+  /* USER CODE END Init */
 
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* USER CODE BEGIN 2 */
+  /* USER CODE END 2 */
+
+  /* USBPD initialisation ---------------------------------*/
   /* Global Init of USBPD HW */
   USBPD_HW_IF_GlobalHwInit();
-
-#if defined(_GUI_INTERFACE)
-  /* Initialize GUI */
-  GUI_Init(BSP_GetHWBoardVersionName, BSP_GetPDTypeName);
-#endif /* _GUI_INTERFACE */
 
   /* Initialize the Device Policy Manager */
   if( USBPD_ERROR == USBPD_DPM_InitCore())
@@ -76,20 +106,38 @@ int main(void)
     while(1);
   }
 
+#if defined(_GUI_INTERFACE)
+  /* Initialize GUI before retrieving PDO from RAM */
+  GUI_Init(BSP_GetHWBoardVersionName, BSP_GetPDTypeName, HW_IF_PWR_GetVoltage, HW_IF_PWR_GetCurrent);
+#endif /* _GUI_INTERFACE */
+
   /* Initialise the DPM application */
   if (USBPD_OK != USBPD_DPM_UserInit())
   {
     while(1);
   }
 
-  /* Initialize the Device Policy Manager */
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
   if( USBPD_ERROR == USBPD_DPM_InitOS())
   {
-    /* error the OS init  */
+    /* error the RTOS can't be started  */
     while(1);
   }
+  /* USER CODE END RTOS_THREADS */
 
   USBPD_DPM_Run();
+  /* We should never get here as control is now taken by the scheduler */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
 }
 
 /**
@@ -105,7 +153,6 @@ int main(void)
   *            PLLN                           = 64
   *            PLLR                           = 4
   *            Flash Latency(WS)              = 2
-  * @param  None
   * @retval None
   */
 void SystemClock_Config(void)
@@ -149,6 +196,9 @@ void SystemClock_Config(void)
   LL_SetSystemCoreClock(64000000);
 }
 
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
 #ifdef  USE_FULL_ASSERT
 
 /**
@@ -160,6 +210,7 @@ void SystemClock_Config(void)
   */
 void assert_failed(uint8_t* file, uint32_t line)
 {
+  /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
@@ -167,6 +218,7 @@ void assert_failed(uint8_t* file, uint32_t line)
   while (1)
   {
   }
+  /* USER CODE END 6 */
 }
 #endif
 

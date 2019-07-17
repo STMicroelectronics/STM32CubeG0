@@ -9,10 +9,10 @@
   * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -25,6 +25,10 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#if defined(_GUI_INTERFACE)
+#include "usbpd_gui_memmap.h"
+#endif /* _GUI_INTERFACE */
+
 /* Define   ------------------------------------------------------------------*/
 /* Exported typedef ----------------------------------------------------------*/
 /**
@@ -33,8 +37,13 @@
   */
 typedef struct
 {
+#if defined(_GUI_INTERFACE)
   uint32_t ListOfPDO[USBPD_MAX_NB_PDO];         /*!< List of Power Data Objects list, defining
                                                      port capabilities */
+#else
+  uint32_t *ListOfPDO;                          /*!< Pointer on Power Data Objects list, defining
+                                                     port capabilities */
+#endif /* _GUI_INTERFACE */
   uint8_t  NumberOfPDO;                         /*!< Number of Power Data Objects defined in ListOfPDO
                                                      This parameter must be set at max to @ref USBPD_MAX_NB_PDO value */
 } USBPD_PortPDO_TypeDef;
@@ -53,7 +62,7 @@ typedef struct
 #define USBPD_PDP_SNK_IN_WATTS          7.5 /* SINK PD Power in Watts */
 
 /* Define board operating power and max power */
-/* Request 5V and 1500mA in sink mode */
+/* Request 5V */
 #define USBPD_BOARD_REQUESTED_VOLTAGE_MV       5000
 #define USBPD_BOARD_MIN_VOLTAGE_MV_PORT0       5000
 #define USBPD_BOARD_MIN_VOLTAGE_MV_PORT1       3300
@@ -224,7 +233,9 @@ uint32_t PORT1_PDO_ListSNK[USBPD_MAX_NB_PDO] =
   /* PDO 6 */ (0x00000000U),
   /* PDO 7 */ (0x00000000U)
 };
-#endif
+
+#endif /* __USBPD_PWR_IF_C */
+
 
 /* Exported functions --------------------------------------------------------*/
 

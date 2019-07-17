@@ -104,6 +104,7 @@ int main(void)
 
 
   /* USER CODE END 1 */
+  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -289,11 +290,8 @@ static void MX_RTC_Init(void)
 
   /* Peripheral clock enable */
   LL_RCC_EnableRTC();
-
-  /* USER CODE BEGIN RTC_Init 1 */
-  /* Enable RTC APB clock  */
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_RTC);
-  /* USER CODE END RTC_Init 1 */
+
   RTC_InitStruct.HourFormat = LL_RTC_HOURFORMAT_24HOUR;
   RTC_InitStruct.AsynchPrescaler = RTC_ASYNCH_PREDIV;
   RTC_InitStruct.SynchPrescaler = RTC_SYNCH_PREDIV;

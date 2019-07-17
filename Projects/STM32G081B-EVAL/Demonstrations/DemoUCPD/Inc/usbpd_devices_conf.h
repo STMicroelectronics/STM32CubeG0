@@ -4,10 +4,8 @@
   * @author  MCD Application Team
   * @brief   This file contains the device define.
   ******************************************************************************
-   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -34,7 +32,11 @@
 #include "stm32g0xx_ll_ucpd.h"
 #include "stm32g0xx_ll_rcc.h"
 #include "stm32g0xx_ll_tim.h"
+#include "stm32g081b_eval.h"
+#include "stm32g081b_eval_lcd.h"
+#include "stm32g081b_eval_mux.h"
 #include "stm32g081b_eval_pwr.h"
+
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -142,6 +144,7 @@
 -------------------------------------------------------------------------------*/
 #define TIMX                           TIM2
 #define TIMX_CLK_ENABLE                LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM2)
+#define TIMX_CLK_DISABLE               LL_APB1_GRP1_DisableClock(LL_APB1_GRP1_PERIPH_TIM2)
 #define TIMX_IRQ                       TIM2_IRQn
 #define TIMX_CHANNEL_CH1               LL_TIM_CHANNEL_CH1
 #define TIMX_CHANNEL_CH2               LL_TIM_CHANNEL_CH2
@@ -174,3 +177,4 @@
 
 #endif /* USBPD_DEVICE_CONF_H */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+

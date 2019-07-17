@@ -6,13 +6,13 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -20,9 +20,12 @@
 #ifndef BSP_GUI_H
 #define BSP_GUI_H
 /* Includes ------------------------------------------------------------------*/
-#if defined(_GUI_INTERFACE)
-#include "usbpd_def.h"
-#endif /* _GUI_INTERFACE */
+#include "usbpd_gui_memmap.h"
+#include "gui_api.h"
+#if defined(_VDM)
+#include "usbpd_vdm_user.h"
+#endif /* _VDM */
+#include "string.h"
 
 /* Private typedef -----------------------------------------------------------*/
 typedef enum {
@@ -36,7 +39,16 @@ typedef enum {
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
+/**
+  * @brief  Load User settings from FLASH if GUI saving area is not empty (0xFFFFFFFF)
+  * @retval GUI status state (GUI_OK: USER Settings from GUI saving area else from original FW)
+  */
 GUI_StatusTypeDef     BSP_GUI_LoadDataFromFlash(void);
+
+/**
+  * @brief  Save User settings in GUI saving area
+  * @retval GUI status state
+  */
 GUI_StatusTypeDef     BSP_GUI_SaveDataInFlash(void);
 
 #endif /* BSP_GUI_H */

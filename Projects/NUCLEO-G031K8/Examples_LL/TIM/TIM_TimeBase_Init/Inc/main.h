@@ -55,22 +55,6 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-/**
-  * @brief User Button
-  */
-#define VIRTUAL_BUTTON_PIN                         LL_GPIO_PIN_15
-#define VIRTUAL_BUTTON_GPIO_PORT                   GPIOA
-#define VIRTUAL_BUTTON_GPIO_CLK_ENABLE()           LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA)
-#define VIRTUAL_BUTTON_EXTI_LINE                   LL_EXTI_LINE_15
-#define VIRTUAL_BUTTON_EXTI_IRQn                   EXTI4_15_IRQn
-#define VIRTUAL_BUTTON_EXTI_LINE_ENABLE()          LL_EXTI_EnableIT_0_31(VIRTUAL_BUTTON_EXTI_LINE)
-#define VIRTUAL_BUTTON_EXTI_RISING_TRIG_ENABLE()   LL_EXTI_EnableRisingTrig_0_31(VIRTUAL_BUTTON_EXTI_LINE)
-#define VIRTUAL_BUTTON_EXTI_IS_ACTIVE_FLAG()       LL_EXTI_IsActiveRisingFlag_0_31(VIRTUAL_BUTTON_EXTI_LINE)
-#define VIRTUAL_BUTTON_EXTI_CLEAR_FLAG()           LL_EXTI_ClearRisingFlag_0_31(VIRTUAL_BUTTON_EXTI_LINE)
-#define VIRTUAL_BUTTON_SYSCFG_SET_EXTI()           do {\
-                                                  LL_EXTI_SetEXTISource(LL_EXTI_CONFIG_PORTA, LL_EXTI_CONFIG_LINE15);\
-                                                } while(0)
-#define VIRTUAL_BUTTON_IRQHANDLER                  EXTI4_15_IRQHandler
 
 /* USER CODE END EC */
 
@@ -93,7 +77,9 @@ void TimerUpdate_Callback(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED3_Pin LL_GPIO_PIN_6
 #define LED3_GPIO_Port GPIOC
-
+#define USER_BUTTON_Pin LL_GPIO_PIN_15
+#define USER_BUTTON_GPIO_Port GPIOA
+#define USER_BUTTON_EXTI_IRQn EXTI4_15_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

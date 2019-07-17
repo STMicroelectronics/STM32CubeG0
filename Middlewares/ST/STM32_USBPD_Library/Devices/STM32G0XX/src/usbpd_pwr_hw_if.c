@@ -60,14 +60,14 @@ USBPD_StatusTypeDef HW_IF_PWR_SetVoltage(uint8_t PortNum, uint16_t voltage)
   return USBPD_OK;
 }
 
-uint32_t HW_IF_PWR_GetVoltage(uint8_t PortNum)
+uint16_t HW_IF_PWR_GetVoltage(uint8_t PortNum)
 {
-  return BSP_PWR_VBUSGetVoltage(PortNum);;
+  return (uint16_t)BSP_PWR_VBUSGetVoltage(PortNum);;
 }
 
-int32_t HW_IF_PWR_GetCurrent(uint8_t PortNum)
+int16_t HW_IF_PWR_GetCurrent(uint8_t PortNum)
 {
-  return BSP_PWR_VBUSGetCurrent(PortNum);;
+  return (int16_t)BSP_PWR_VBUSGetCurrent(PortNum);;
 }
 
 #if defined(_SRC) || defined(_DRP)
@@ -75,26 +75,28 @@ USBPD_StatusTypeDef HW_IF_PWR_Enable(uint8_t PortNum, USBPD_FunctionalState stat
 {
   UNUSED(role);
   PWR_StatusTypeDef status;
-  if(USBPD_ENABLE == state)
+  if (USBPD_ENABLE == state)
   {
-     POWER_DEBUG((uint8_t *)"VBUS ON", 7);
 #if defined(_VCONN_SUPPORT)
-     if (USBPD_TRUE == VconnState) {
-       POWER_DEBUG((uint8_t *)"VCONN ON", 8);
-       (void)BSP_PWR_VCONNOn(PortNum, Cc);
-     }
+    if (USBPD_TRUE == VconnState)
+    {
+      POWER_DEBUG((uint8_t *)"VCONN ON", 8);
+      (void)BSP_PWR_VCONNOn(PortNum, Cc);
+    }
 #endif /* _VCONN_SUPPORT */
-     status = BSP_PWR_VBUSOn(PortNum);
+    POWER_DEBUG((uint8_t *)"VBUS ON", 7);
+    status = BSP_PWR_VBUSOn(PortNum);
   }
   else
   {
-    POWER_DEBUG((uint8_t *)"VBUS OFF", 8);
 #if defined(_VCONN_SUPPORT)
-    if (VconnState == USBPD_TRUE){
+    if (VconnState == USBPD_TRUE)
+    {
       POWER_DEBUG((uint8_t *)"VCONN OFF", 9);
       (void)BSP_PWR_VCONNOff(PortNum, Cc);
     }
 #endif /* _VCONN_SUPPORT */
+    POWER_DEBUG((uint8_t *)"VBUS OFF", 8);
     status = BSP_PWR_VBUSOff(PortNum);
   }
   return (status == PWR_OK) ? USBPD_OK : USBPD_FAIL;
