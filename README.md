@@ -11,6 +11,9 @@
    
 The **STM32CubeG0 MCU Package** projects are directly running on the STM32G0 series boards. You can find in each Projects/*Board name* directories a set of software projects (Applications/Demonstration/Examples)
 
+## Release note
+
+Details about the content of this release are available in the release note [here](https://htmlpreview.github.io/?https://github.com/STMicroelectronics/STM32CubeG0/blob/master/Release_Notes.html).
 
 ## Boards available
   * STM32G0
