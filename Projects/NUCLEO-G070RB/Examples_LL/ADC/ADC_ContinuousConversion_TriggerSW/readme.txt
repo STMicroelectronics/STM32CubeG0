@@ -59,6 +59,10 @@ Other peripherals used:
   1 GPIO for LED4
   1 GPIO for analog input: PA.04 (Arduino connector CN8 pin A2, Morpho connector CN7 pin 32)
 
+@par Keywords
+
+Analog, ADC, Analog to Digital, continuous mode, Continuous conversion, trigger software
+
 @par Directory contents 
 
   - ADC/ADC_ContinuousConversion_TriggerSW/Inc/stm32g0xx_it.h          Interrupt handlers header file

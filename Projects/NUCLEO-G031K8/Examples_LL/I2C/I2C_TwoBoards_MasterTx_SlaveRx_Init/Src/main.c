@@ -9,18 +9,17 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics. 
+  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
+  * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -90,7 +89,7 @@ __IO uint8_t ubReceiveIndex      = 0;
   * @brief Variables related to MasterTransmit process
   */
 __IO uint8_t  ubNbDataToTransmit = sizeof(aLedOn);
-uint8_t*      pTransmitBuffer    = (uint8_t*)aLedOn;
+uint8_t      *pTransmitBuffer    = (uint8_t *)aLedOn;
 __IO uint8_t ubButtonPress = 0;
 #endif /* SLAVE_BOARD */
 
@@ -110,7 +109,7 @@ void     LED_Blinking(uint32_t Period);
 #ifdef SLAVE_BOARD
 void     Configure_I2C_Slave(void);
 void     Handle_I2C_Slave(void);
-uint8_t  Buffercmp8(uint8_t* pBuffer1, uint8_t* pBuffer2, uint8_t BufferLength);
+uint8_t  Buffercmp8(uint8_t *pBuffer1, uint8_t *pBuffer2, uint8_t BufferLength);
 #else /* MASTER_BOARD */
 void     WaitForUserButtonPress(void);
 void     Handle_I2C_Master(void);
@@ -136,7 +135,6 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
 
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
@@ -200,16 +198,15 @@ int main(void)
 void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_2);
-  if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_2)
+  while(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_2)
   {
-    Error_Handler();  
-  };
+  }
 
   /* HSI configuration and activation */
   LL_RCC_HSI_Enable();
   while(LL_RCC_HSI_IsReady() != 1)
   {
-  };
+  }
 
   /* Main PLL configuration and activation */
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_1, 8, LL_RCC_PLLR_DIV_2);
@@ -217,7 +214,7 @@ void SystemClock_Config(void)
   LL_RCC_PLL_EnableDomain_SYS();
   while(LL_RCC_PLL_IsReady() != 1)
   {
-  };
+  }
 
   /* Set AHB prescaler*/
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
@@ -226,14 +223,13 @@ void SystemClock_Config(void)
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
-  };
+  }
 
   /* Set APB1 prescaler*/
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
 
   LL_Init1msTick(64000000);
 
-  LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
   /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
   LL_SetSystemCoreClock(64000000);
   LL_RCC_SetI2CClockSource(LL_RCC_I2C1_CLKSOURCE_PCLK1);
@@ -256,9 +252,9 @@ static void MX_I2C1_Init(void)
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
-  /**I2C1 GPIO Configuration  
+  /**I2C1 GPIO Configuration
   PB9   ------> I2C1_SDA
-  PB8   ------> I2C1_SCL 
+  PB8   ------> I2C1_SCL
   */
   GPIO_InitStruct.Pin = LL_GPIO_PIN_9;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
@@ -282,7 +278,7 @@ static void MX_I2C1_Init(void)
   /* USER CODE BEGIN I2C1_Init 1 */
 
   /* USER CODE END I2C1_Init 1 */
-  /** I2C Initialization 
+  /** I2C Initialization
   */
   I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;
   I2C_InitStruct.Timing = 0x00303D5B;
@@ -333,7 +329,7 @@ static void MX_GPIO_Init(void)
 #ifndef SLAVE_BOARD
 /**
   * @brief  This function configures EXTI Line as Button
-  * @note   Peripheral configuration is minimal configuration from reset values.  
+  * @note   Peripheral configuration is minimal configuration from reset values.
   * @param  None
   * @retval None
   */
@@ -344,18 +340,18 @@ void Configure_EXTI()
   VIRTUAL_BUTTON_GPIO_CLK_ENABLE();
   /* Configure IO */
   LL_GPIO_SetPinMode(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_MODE_INPUT);
-  LL_GPIO_SetPinPull(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_PULL_UP); 
+  LL_GPIO_SetPinPull(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_PULL_UP);
 
   /* -2- Connect External Line to the GPIO*/
   VIRTUAL_BUTTON_SYSCFG_SET_EXTI();
-  
+
   /*-3- Enable a rising trigger External line 15 Interrupt */
   VIRTUAL_BUTTON_EXTI_LINE_ENABLE();
   VIRTUAL_BUTTON_EXTI_RISING_TRIG_ENABLE();
-  
+
   /*-4- Configure NVIC for EXTI4_15_IRQn */
-  NVIC_EnableIRQ(VIRTUAL_BUTTON_EXTI_IRQn); 
-  NVIC_SetPriority(VIRTUAL_BUTTON_EXTI_IRQn,0);
+  NVIC_EnableIRQ(VIRTUAL_BUTTON_EXTI_IRQn);
+  NVIC_SetPriority(VIRTUAL_BUTTON_EXTI_IRQn, 0);
 }
 
 #endif /* MASTER_BOARD */
@@ -385,7 +381,7 @@ void LED_Off(void)
 /**
   * @brief  Set LED3 to Blinking mode for an infinite loop (toggle period based on value provided as input parameter).
   * @param  Period : Period of time (in ms) between each toggling of LED
-  *   This parameter can be user defined values. Pre-defined values used in that example are :   
+  *   This parameter can be user defined values. Pre-defined values used in that example are :
   *     @arg LED_BLINK_FAST : Fast Blinking
   *     @arg LED_BLINK_SLOW : Slow Blinking
   *     @arg LED_BLINK_ERROR : Error specific Blinking
@@ -399,7 +395,7 @@ void LED_Blinking(uint32_t Period)
   /* Toggle IO in an infinite loop */
   while (1)
   {
-    LL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);  
+    LL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
     LL_mDelay(Period);
   }
 }
@@ -419,15 +415,15 @@ void LED_Blinking(uint32_t Period)
 void Handle_I2C_Slave(void)
 {
   /* (1) Wait ADDR flag and check address match code and direction ************/
-  while(!LL_I2C_IsActiveFlag_ADDR(I2C1))
+  while (!LL_I2C_IsActiveFlag_ADDR(I2C1))
   {
   }
 
   /* Verify the Address Match with the OWN Slave address */
-  if(LL_I2C_GetAddressMatchCode(I2C1) == SLAVE_OWN_ADDRESS)
+  if (LL_I2C_GetAddressMatchCode(I2C1) == SLAVE_OWN_ADDRESS)
   {
     /* Verify the transfer direction, a write direction, Slave enters receiver mode */
-    if(LL_I2C_GetTransferDirection(I2C1) == LL_I2C_DIRECTION_WRITE)
+    if (LL_I2C_GetTransferDirection(I2C1) == LL_I2C_DIRECTION_WRITE)
     {
       /* Clear ADDR flag value in ISR register */
       LL_I2C_ClearFlag_ADDR(I2C1);
@@ -445,7 +441,7 @@ void Handle_I2C_Slave(void)
   {
     /* Clear ADDR flag value in ISR register */
     LL_I2C_ClearFlag_ADDR(I2C1);
-      
+
     /* Call Error function */
     Error_Callback();
   }
@@ -457,12 +453,12 @@ void Handle_I2C_Slave(void)
 #endif /* USE_TIMEOUT */
 
   /* Loop until STOP flag is raised  */
-  while(!LL_I2C_IsActiveFlag_STOP(I2C1))
+  while (!LL_I2C_IsActiveFlag_STOP(I2C1))
   {
     /* (2.1) Receive data (RXNE flag raised) **********************************/
 
     /* Check RXNE flag value in ISR register */
-    if(LL_I2C_IsActiveFlag_RXNE(I2C1))
+    if (LL_I2C_IsActiveFlag_RXNE(I2C1))
     {
       /* Read character in Receive Data register.
       RXNE flag is cleared by reading data in RXDR register */
@@ -475,9 +471,9 @@ void Handle_I2C_Slave(void)
 
 #if (USE_TIMEOUT == 1)
     /* Check Systick counter flag to decrement the time-out value */
-    if (LL_SYSTICK_IsActiveCounterFlag()) 
+    if (LL_SYSTICK_IsActiveCounterFlag())
     {
-      if(Timeout-- == 0)
+      if (Timeout-- == 0)
       {
         /* Time-out occurred. Set LED3 to blinking mode */
         LED_Blinking(LED_BLINK_SLOW);
@@ -491,8 +487,8 @@ void Handle_I2C_Slave(void)
   /* End of I2C_SlaveReceiver_MasterTransmitter_DMA Process */
   LL_I2C_ClearFlag_STOP(I2C1);
 
-  /* Check if datas request to turn on the LED3 */
-  if(Buffercmp8((uint8_t*)aReceiveBuffer, (uint8_t*)aLedOn, (ubReceiveIndex-1)) == 0)
+  /* Check if data request to turn on the LED3 */
+  if (Buffercmp8((uint8_t *)aReceiveBuffer, (uint8_t *)aLedOn, (ubReceiveIndex - 1)) == 0)
   {
     /* Turn LED3 On:
      *  - Expected bytes have been received
@@ -515,7 +511,7 @@ void Handle_I2C_Slave(void)
   *    - 0: Comparison is OK (the two Buffers are identical)
   *    - Value different from 0: Comparison is NOK (Buffers are different)
   */
-uint8_t Buffercmp8(uint8_t* pBuffer1, uint8_t* pBuffer2, uint8_t BufferLength)
+uint8_t Buffercmp8(uint8_t *pBuffer1, uint8_t *pBuffer2, uint8_t BufferLength)
 {
   while (BufferLength--)
   {
@@ -536,10 +532,10 @@ uint8_t Buffercmp8(uint8_t* pBuffer1, uint8_t* pBuffer2, uint8_t BufferLength)
 
 /**
   * @brief  Wait for put and remove a jumper between PA.15 (Arduino D2) and GND to start transfer.
-  * @param  None 
+  * @param  None
   * @retval None
   */
-  /*  */
+/*  */
 void WaitForUserButtonPress(void)
 {
   while (ubButtonPress == 0)
@@ -577,12 +573,12 @@ void Handle_I2C_Master(void)
 #endif /* USE_TIMEOUT */
 
   /* Loop until STOP flag is raised  */
-  while(!LL_I2C_IsActiveFlag_STOP(I2C1))
+  while (!LL_I2C_IsActiveFlag_STOP(I2C1))
   {
     /* (2.1) Transmit data (TXIS flag raised) *********************************/
 
     /* Check TXIS flag value in ISR register */
-    if(LL_I2C_IsActiveFlag_TXIS(I2C1))
+    if (LL_I2C_IsActiveFlag_TXIS(I2C1))
     {
       /* Write data in Transmit Data register.
       TXIS flag is cleared by writing data in TXDR register */
@@ -595,9 +591,9 @@ void Handle_I2C_Master(void)
 
 #if (USE_TIMEOUT == 1)
     /* Check Systick counter flag to decrement the time-out value */
-    if (LL_SYSTICK_IsActiveCounterFlag()) 
+    if (LL_SYSTICK_IsActiveCounterFlag())
     {
-      if(Timeout-- == 0)
+      if (Timeout-- == 0)
       {
         /* Time-out occurred. Set LED3 to blinking mode */
         LED_Blinking(LED_BLINK_SLOW);
@@ -658,7 +654,7 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
- 
+
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -671,7 +667,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

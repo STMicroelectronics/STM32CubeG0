@@ -137,6 +137,7 @@ const USBPD_VDM_Callbacks vdmCallbacks =
 
 extern USBPD_ParamsTypeDef DPM_Params[USBPD_PORT_COUNT];
 uint8_t VDM_Mode_On[USBPD_PORT_COUNT];
+
 USBPD_IDHeaderVDO_TypeDef IDHeaderVDO[USBPD_PORT_COUNT];
 
 USBPD_DiscoveryIdentity_TypeDef sIdentity[USBPD_PORT_COUNT];

@@ -60,7 +60,7 @@ it to analog input pin (cf pin below).
 Other peripherals used:
   1 GPIO for PA.15 (Arduino D2)
   1 GPIO for LED3
-  1 GPIO for analog input: PA.04 (Connector CN3 pin 10, Arduino pin A2)
+  1 GPIO for analog input: PA.04 (Connector CN4 pin 10, Arduino pin A2)
 @par Keywords
 
 ADC,ADC channel,ADC analog watchdog, conversion, single channel, single conversion mode, interrupt,

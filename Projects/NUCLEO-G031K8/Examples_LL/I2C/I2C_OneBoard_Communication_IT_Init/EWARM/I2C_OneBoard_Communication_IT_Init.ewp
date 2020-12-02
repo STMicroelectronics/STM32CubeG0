@@ -321,7 +321,7 @@
         </option>
         <option>
           <name>CCRequirePrototypes</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>CCDiagWarnAreErr</name>
@@ -1058,6 +1058,12 @@
   <group>
     <name>Drivers</name>
     <group>
+      <name>CMSIS</name>
+      <file>
+        <name>$PROJ_DIR$/../Src/system_stm32g0xx.c</name>
+      </file>
+    </group>
+    <group>
       <name>STM32G0xx_HAL_Driver</name>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_utils.c</name>
@@ -1077,11 +1083,11 @@
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_pwr.c</name>
       </file>
-    </group>
-    <group>
-      <name>CMSIS</name>
       <file>
-        <name>$PROJ_DIR$/../Src/system_stm32g0xx.c</name>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_pwr.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../..//Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_rcc.c</name>
       </file>
     </group>
   </group>

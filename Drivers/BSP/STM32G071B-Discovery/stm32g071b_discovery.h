@@ -118,7 +118,6 @@ typedef enum
   MOSFET_ENCC1 = 0,
   MOSFET_ENCC2,
   MOSFET_RD_CC1,
-  MOSFET_RD_CC2,
 }Mosfet_TypeDef;
 
 /**

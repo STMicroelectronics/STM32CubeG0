@@ -42,7 +42,7 @@ For debug: variables to monitor with debugger watch window:
  - "aADCxConvertedData": ADC group regular conversion data (array of data)
  - "uhADCxConvertedData_VoltageGPIO_mVolt": Value of voltage on GPIO pin (on which is mapped ADC channel) calculated from ADC conversion data (unit: mV)
  - "uhADCxConvertedData_VrefInt_mVolt": Value of internal voltage reference VrefInt calculated from ADC conversion data (unit: mV)
- - "hADCxConvertedData_Temperature_DegreeCelsius": Value of temperature calculated from ADC conversion data (unit: degree Celcius)
+ - "hADCxConvertedData_Temperature_DegreeCelsius": Value of temperature calculated from ADC conversion data (unit: degree Celsius)
  - "uhADCxConvertedData_VrefAnalog_mVolt": Value of analog reference voltage (Vref+), connected to analog voltage supply Vdda, calculated from ADC conversion data (unit: mV)
 
 Connection needed:

@@ -120,7 +120,7 @@ typedef enum
 #define LCD_G(__G_COLOR__)       (((__G_COLOR__>>2)&0x3F)<<5)
 #define LCD_B(__B_COLOR__)       ((__B_COLOR__>>3)&0x1F)
 
-/* Defintion of Official ST COLOR */
+/* Definition of Official ST COLOR */
 #define LCD_COLOR_ST_BLUE_DARK   (LCD_R(0x00)|LCD_G(0x20)|LCD_B(0x52))
 #define LCD_COLOR_ST_BLUE        (LCD_R(0x39)|LCD_G(0xA9)|LCD_B(0xDC))
 #define LCD_COLOR_ST_BLUE_LIGHT  (LCD_R(0xD1)|LCD_G(0xE4)|LCD_B(0xF3))

@@ -612,7 +612,7 @@
         </option>
         <option>
           <name>AUserIncludes</name>
-          <state>$PROJ_DIR$\..\\Inc</state>
+          <state>$PROJ_DIR$\..\Inc</state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>
@@ -1087,6 +1087,9 @@
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rcc_ex.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_rcc.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_flash.c</name>
       </file>
       <file>
@@ -1109,6 +1112,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_exti.c</name>
       </file>
     </group>
     <group>

@@ -144,7 +144,7 @@ void sn65dp141_DeInit(uint16_t Address)
 /**
   * @brief  Power on the SN65DP141.
   * @param  Address SN65DP141 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t sn65dp141_PowerOn(uint16_t Address)
 {
@@ -164,7 +164,7 @@ uint32_t sn65dp141_PowerOn(uint16_t Address)
 /**
   * @brief  Power down the SN65DP141.
   * @param  Address SN65DP141 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t sn65dp141_PowerOff(uint16_t Address)
 {
@@ -192,7 +192,7 @@ uint32_t sn65dp141_PowerOff(uint16_t Address)
   *         CHANNEL_DP3
   * @param  EQGain    Equalizer gain.
   *         This parameter must be a value between 0x00 and 0x07.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t sn65dp141_SetEQGain(uint16_t                    Address,
                              DPREDRIVER_ChannelId_t      ChannelId,
@@ -245,7 +245,7 @@ uint32_t sn65dp141_SetEQGain(uint16_t                    Address,
   *         CHANNEL_DP1
   *         CHANNEL_DP2
   *         CHANNEL_DP3
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t sn65dp141_EnableChannel(uint16_t               Address,
                                  DPREDRIVER_ChannelId_t ChannelId)
@@ -290,7 +290,7 @@ uint32_t sn65dp141_EnableChannel(uint16_t               Address,
   *         CHANNEL_DP1
   *         CHANNEL_DP2
   *         CHANNEL_DP3
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t sn65dp141_DisableChannel(uint16_t               Address,
                                   DPREDRIVER_ChannelId_t ChannelId)

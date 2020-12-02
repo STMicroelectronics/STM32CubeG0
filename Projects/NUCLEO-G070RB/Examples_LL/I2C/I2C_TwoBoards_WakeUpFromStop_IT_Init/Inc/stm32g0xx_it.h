@@ -25,7 +25,7 @@
 
 #ifdef __cplusplus
  extern "C" {
-#endif 
+#endif
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -60,7 +60,7 @@ void EXTI4_15_IRQHandler(void);
 void I2C1_IRQHandler(void);
 #else
 void I2C1_IRQHandler(void);
-#endif /* SLAVE_BOARD */
+#endif/* SLAVE_BOARD */
 
 /* USER CODE END EFP */
 

@@ -63,8 +63,11 @@ Configuration of TIM1 in One Pulse Mode
                                <---Delay----><------Pulse--------------->
   
 
+@par Keywords
 
-@par Directory contents 
+Timer, Output, signals, One Pulse, PWM, Oscilloscope, External signal, Autoreload, Waveform
+
+@par Directory contents
 
   - TIM/TIM_OnePulse/Inc/stm32g0xx_hal_conf.h    HAL configuration file
   - TIM/TIM_OnePulse/Inc/stm32g0xx_it.h          Interrupt handlers header file

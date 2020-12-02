@@ -1,5 +1,5 @@
 /**
-  @page USART_Communication_Rx_IT_Continuous_Init USART Receiver example (IT Mode, Continous reception)
+  @page USART_Communication_Rx_IT_Continuous_Init USART Receiver example (IT Mode, Continuous reception)
   
   @verbatim
   ******************************************************************************
@@ -40,6 +40,10 @@ Each time a reception buffer is full, user data process callback is called.
 Data processing consists in echoing data buffer content on PC Com port, and making LED4 toggle.
 In case of errors, LED4 is blinking.
 
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, Interrupt, HyperTerminal, Continuous Reception,
+Receiver
 
 @par Directory contents 
 

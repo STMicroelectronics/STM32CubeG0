@@ -65,10 +65,11 @@
 
 #define ABS(__VAL__) ((__VAL__) < 0 ? - (__VAL__) : (__VAL__))
 
-/* USER CODE END Private_Define */
 /**
   * @}
   */
+/* USER CODE END Private_Define */
+
 /* Private macros ------------------------------------------------------------*/
 /* USER CODE BEGIN Private_Macro */
 /** @addtogroup STM32_USBPD_APPLICATION_POWER_IF_Private_Macros
@@ -154,6 +155,9 @@
 /** @addtogroup STM32_USBPD_APPLICATION_POWER_IF_Private_Variables
   * @{
   */
+uint32_t                 vbus_disconnect = 0;
+uint32_t                 vbus_transition = 0;
+
 /**
   * @brief  USBPD Port PDO Storage array declaration
   */
@@ -203,7 +207,6 @@ uint32_t _PWR_ProgrammablePowerSupplyAPDO(float _MAXC_,float _MINV_,float _MAXV_
   */
 /* USER CODE END USBPD_USER_PRIVATE_FUNCTIONS_Prototypes */
 
-/* Private functions ---------------------------------------------------------*/
 /** @addtogroup STM32_USBPD_APPLICATION_POWER_IF_Exported_Functions
   * @{
   */
@@ -217,23 +220,11 @@ USBPD_StatusTypeDef USBPD_PWR_IF_Init(void)
 {
 /* USER CODE BEGIN USBPD_PWR_IF_Init */
   USBPD_StatusTypeDef _status = USBPD_OK;
-#if defined(_GUI_INTERFACE)
-  uint32_t index;
-#endif /* _GUI_INTERFACE */
 
   /* Set links to PDO values and number for Port 0 (defined in PDO arrays in H file).
    */
-#if defined(_GUI_INTERFACE)
-  for (index = 0; index < USBPD_MAX_NB_PDO; index++)
-  {
-    /* SNK PDO for Port 0 */
-    PWR_Port_PDO_Storage[USBPD_PORT_0].SinkPDO.ListOfPDO[index] = PORT0_PDO_ListSNK[index];
-  }
-#else
   PWR_Port_PDO_Storage[USBPD_PORT_0].SinkPDO.ListOfPDO = (uint32_t *)PORT0_PDO_ListSNK;
-#endif /* _GUI_INTERFACE */
-  PWR_Port_PDO_Storage[USBPD_PORT_0].SinkPDO.NumberOfPDO = USBPD_NbPDO[0];
-
+  PWR_Port_PDO_Storage[USBPD_PORT_0].SinkPDO.NumberOfPDO = &USBPD_NbPDO[0];
   _status |= USBPD_PWR_IF_CheckUpdateSNKPower(USBPD_PORT_0);
 
   return _status;
@@ -259,7 +250,7 @@ USBPD_StatusTypeDef USBPD_PWR_IF_SupplyReady(uint8_t PortNum, USBPD_VSAFE_Status
     return USBPD_ERROR;
   }
 
-  _voltage = BSP_PWR_VBUSGetVoltage(PortNum);
+  _voltage = HW_IF_PWR_GetVoltage(PortNum);
   if (USBPD_VSAFE_0V == Vsafe)
   {
     /* Vsafe0V */
@@ -348,7 +339,7 @@ void USBPD_PWR_IF_GetPortPDOs(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef D
     switch (DataId)
     {
     case USBPD_CORE_DATATYPE_SNK_PDO:
-      nbpdo       = PWR_Port_PDO_Storage[PortNum].SinkPDO.NumberOfPDO;
+      nbpdo       = *PWR_Port_PDO_Storage[PortNum].SinkPDO.NumberOfPDO;
       ptpdoarray  = PWR_Port_PDO_Storage[PortNum].SinkPDO.ListOfPDO;
       /* Save the 1st PDO */
       pdo_first.d32 = *ptpdoarray;
@@ -406,7 +397,7 @@ USBPD_StatusTypeDef USBPD_PWR_IF_CheckUpdateSNKPower(uint8_t PortNum)
   uint16_t _voltage = 0, _current = 0, _power = 0;
   uint16_t _min_voltage = 0xFFFF, _max_voltage = 0, _max_current = 0;
 
-  for (uint32_t _index = 0; _index < PWR_Port_PDO_Storage[PortNum].SinkPDO.NumberOfPDO; _index++)
+  for (uint32_t _index = 0; _index < *PWR_Port_PDO_Storage[PortNum].SinkPDO.NumberOfPDO; _index++)
   {
     pdo.d32 = PWR_Port_PDO_Storage[PortNum].SinkPDO.ListOfPDO[_index];
     switch (pdo.GenericPDO.PowerObject)
@@ -454,6 +445,137 @@ USBPD_StatusTypeDef USBPD_PWR_IF_CheckUpdateSNKPower(uint8_t PortNum)
   _PWR_CHECK_POWER_MAX(_max_power, DPM_USER_Settings[PortNum].DPM_SNKRequestedPower.MaxOperatingPowerInmWunits);
 
   return _status;
+}
+
+
+/**
+  * @brief Function is called to get VBUS power status.
+  * @param PortNum Port number
+  * @param PowerTypeStatus  Power type status based on @ref USBPD_VBUSPOWER_STATUS
+  * @retval UBBPD_TRUE or USBPD_FALSE
+  */
+uint8_t USBPD_PWR_IF_GetVBUSStatus(uint8_t PortNum, USBPD_VBUSPOWER_STATUS PowerTypeStatus)
+{
+/* USER CODE BEGIN USBPD_PWR_IF_GetVBUSStatus */
+  uint8_t _status = USBPD_FALSE;
+  uint32_t _vbus = HW_IF_PWR_GetVoltage(PortNum);
+#if defined (_TRACE)
+  uint8_t str[20];
+#endif /* _TRACE */
+  
+  switch(PowerTypeStatus)
+  {
+  case USBPD_PWR_BELOWVSAFE0V :
+    if (_vbus < BSP_PWR_LOW_VBUS_THRESHOLD) _status = USBPD_TRUE;
+    break;
+  case USBPD_PWR_VSAFE5V :
+    if (_vbus >= BSP_PWR_HIGH_VBUS_THRESHOLD) _status = USBPD_TRUE;
+    vbus_disconnect = vbus_transition = BSP_PWR_HIGH_VBUS_THRESHOLD;
+    break;
+  case USBPD_PWR_SNKDETACH:
+    if(vbus_transition != vbus_disconnect)
+    {
+      if( vbus_transition > vbus_disconnect)
+      {
+        /* Voltage increase the disconnect value is under vbus_transition */
+        if (_vbus > (vbus_transition*1.1))
+        {
+          /* the power transition is complete so disconnect threshold shall be updated */
+          vbus_disconnect = vbus_transition;
+#if defined (_TRACE)
+          POWER_IF_TRACE(PortNum,"TRANSITION COMPLETE", 19);
+          sprintf((char *)str,"THRESHOLD::%ld",vbus_disconnect);
+          POWER_IF_TRACE(PortNum,str, strlen((char *)str));
+#endif /* _TRACE */
+        }
+      }
+      else
+      {
+        /* voltage decrease, the disconnect voltage shall be switched to new level */
+        vbus_disconnect = vbus_transition;
+#if defined (_TRACE)
+        POWER_IF_TRACE(PortNum,"NEW THRESHOLD", 14);
+        sprintf((char *)str,"THRESHOLD::%ld",vbus_disconnect);
+        POWER_IF_TRACE(PortNum,str, strlen((char *)str));
+#endif /* _TRACE */
+      }
+    }
+
+    /* check disconnect according the current threshold */
+    if (_vbus < vbus_disconnect) _status = USBPD_TRUE;
+    break;
+  default :
+    break;
+  }
+  return _status;
+/* USER CODE END USBPD_PWR_IF_GetVBUSStatus */
+}
+
+/**
+  * @brief Function is called to set the VBUS threshold when a request has been accepted.
+  * @param PortNum Port number
+  * @retval None
+  */
+void USBPD_PWR_IF_UpdateVbusThreshold(uint8_t PortNum)
+{
+/* USER CODE BEGIN USBPD_PWR_IF_UpdateVbusThreshold */
+  USBPD_SNKRDO_TypeDef rdo;              /* get the requested RDO */
+  USBPD_PDO_TypeDef    SelectedPDO;
+  
+  rdo.d32 = DPM_Ports[PortNum].DPM_RequestDOMsg;
+  SelectedPDO.d32 = DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[rdo.GenericRDO.ObjectPosition-1];
+  
+  switch(SelectedPDO.GenericPDO.PowerObject)
+  {
+  case USBPD_CORE_PDO_TYPE_FIXED : 
+    {
+      switch(SelectedPDO.SRCFixedPDO.VoltageIn50mVunits * 50)
+      {
+      case 5000 :
+        vbus_transition = USBPD_PWR_VBUS_THRESHOLD_5V;
+        break;
+      case 9000 :
+        vbus_transition = USBPD_PWR_VBUS_THRESHOLD_9V;
+        break;
+      case 15000 :
+        vbus_transition = USBPD_PWR_VBUS_THRESHOLD_15V;
+        break;
+      case 20000 :
+        vbus_transition = USBPD_PWR_VBUS_THRESHOLD_20V;
+        break;
+      }
+      break;
+    }
+    
+#if defined(USBPD_REV30_SUPPORT) && defined(USBPDCORE_PPS)
+  case USBPD_CORE_PDO_TYPE_APDO :
+    {
+      vbus_transition = USBPD_PWR_VBUS_THRESHOLD_APDO;
+      break;
+    }
+#endif /*_USBPD_REV30_SUPPORT && PPS*/
+    
+  case USBPD_CORE_PDO_TYPE_BATTERY : 
+  case USBPD_CORE_PDO_TYPE_VARIABLE :
+    {
+      /* Not yet handled */
+      break;
+    }
+  }
+/* USER CODE END USBPD_PWR_IF_UpdateVbusThreshold */
+}
+
+/**
+  * @brief Function is called to reset the VBUS threshold when there is a power reset.
+  * @param PortNum Port number
+  * @retval None
+  */
+void USBPD_PWR_IF_ResetVbusThreshold(uint8_t PortNum)
+{
+/* USER CODE BEGIN USBPD_PWR_IF_ResetVbusThreshold */
+  POWER_IF_TRACE(PortNum,"RESET THRESHOLD", 15);
+  vbus_disconnect = vbus_transition = BSP_PWR_HIGH_VBUS_THRESHOLD;
+/* USER CODE END USBPD_PWR_IF_ResetVbusThreshold */
 }
 
 

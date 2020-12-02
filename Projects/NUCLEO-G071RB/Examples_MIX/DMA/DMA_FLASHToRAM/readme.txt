@@ -55,6 +55,10 @@ example by modifying defines values in the file main.h.
 @note This example need to ensure that the SysTick time base is always set to 1 millisecond
       to have correct HAL operation.
 
+@par Keywords
+
+System, DMA, Data Transfer, Memory to memory, Flash, RAM
+
 @par Directory contents
 
   - DMA/DMA_FLASHToRAM/Src/system_stm32g0xx.c      STM32G0xx system clock configuration file
@@ -69,7 +73,7 @@ example by modifying defines values in the file main.h.
 
   - This example runs on STM32G071RBTx Devices.
 
-  - This example has been tested with STMicroelectronics NUCLEO-G071RB
+  - This example has been tested with NUCLEO-G071RB
     board and can be easily tailored to any other supported device
     and development board.
 

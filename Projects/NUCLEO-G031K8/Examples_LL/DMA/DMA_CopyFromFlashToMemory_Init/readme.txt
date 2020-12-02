@@ -45,6 +45,9 @@ NUCLEO-G031K8's LED3 can be used to monitor the transfer status:
 - LED3 is turned ON if the DMA data transfer is successfully completed.
 - LED3 is blinking every 1 sec in case of error.
 
+@par Keywords
+
+System, DMA, Data Transfer, Memory to memory, Flash, SRAM
 
 @par Directory contents 
 

@@ -11,7 +11,7 @@
       <name>General</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <version>30</version>
+        <version>29</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -66,7 +66,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>8.20.2.14834</state>
+          <state>8.20.1.14181</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -117,7 +117,7 @@
         <option>
           <name>GBECoreSlave</name>
           <version>26</version>
-          <state>0</state>
+          <state></state>
         </option>
         <option>
           <name>OGUseCmsis</name>
@@ -134,21 +134,21 @@
         <option>
           <name>CoreVariant</name>
           <version>26</version>
-          <state>35</state>
+          <state>39</state>
         </option>
         <option>
           <name>GFPUDeviceSlave</name>
-          <state>STM32G081RB	ST STM32G081RB</state>
+          <state></state>
         </option>
         <option>
           <name>FPU2</name>
           <version>0</version>
-          <state>0</state>
+          <state>4</state>
         </option>
         <option>
           <name>NrRegs</name>
           <version>0</version>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>NEON</name>
@@ -157,7 +157,7 @@
         <option>
           <name>GFPUCoreSlave2</name>
           <version>26</version>
-          <state>35</state>
+          <state>39</state>
         </option>
         <option>
           <name>OGCMSISPackSelectDevice</name>
@@ -198,11 +198,7 @@
         </option>
         <option>
           <name>DSPExtension</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>TrustZone</name>
-          <state>0</state>
+          <state>1</state>
         </option>
       </data>
     </settings>
@@ -221,6 +217,7 @@
           <name>CCDefines</name>
           <state>USE_HAL_DRIVER</state>
           <state>STM32G081xx</state>
+          <state></state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -347,12 +344,13 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$/../Inc</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc</state>
-          <state>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM0</state>
-          <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include</state>
+          <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy</state>
           <state>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/include</state>
           <state>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</state>
-          <state>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32G081B_EVAL</state>
+          <state>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM0</state>
+          <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Include</state>
+          <state>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32G081B_EVAL</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -614,7 +612,7 @@
         </option>
         <option>
           <name>AUserIncludes</name>
-          <state>$PROJ_DIR$\..\\Inc</state>
+          <state>$PROJ_DIR$\..\Inc</state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>
@@ -1032,32 +1030,32 @@
     <group>
       <name>EWARM</name>
       <file>
-        <name>$PROJ_DIR$\startup_stm32g081xx.s</name>
+        <name>$PROJ_DIR$/startup_stm32g081xx.s</name>
       </file>
     </group>
     <group>
       <name>User</name>
       <file>
-        <name>$PROJ_DIR$\..\Src\main.c</name>
+        <name>$PROJ_DIR$/../Src/main.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\stm32g0xx_it.c</name>
+        <name>$PROJ_DIR$/../Src/stm32g0xx_it.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\stm32g0xx_hal_msp.c</name>
+        <name>$PROJ_DIR$/../Src/stm32g0xx_hal_msp.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\stm32g0xx_hal_timebase_tim.c</name>
+        <name>$PROJ_DIR$/../Src/stm32g0xx_hal_timebase_tim.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\app_freertos.c</name>
+        <name>$PROJ_DIR$/../Src/app_freertos.c</name>
       </file>
     </group>
   </group>
   <group>
     <name>Doc</name>
     <file>
-      <name>$PROJ_DIR$\..\readme.txt</name>
+      <name>$PROJ_DIR$/../readme.txt</name>
     </file>
   </group>
   <group>
@@ -1067,56 +1065,62 @@
       <group>
         <name>STM32G081B_EVAL</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\STM32G081B_EVAL\stm32g081b_eval.c</name>
+          <name>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32G081B_EVAL/stm32g081b_eval.c</name>
         </file>
       </group>
     </group>
     <group>
-      <name>CMSIS</name>
+      <name>STM32G0xx_HAL_Driver</name>
       <file>
-        <name>$PROJ_DIR$\..\Src\system_stm32g0xx.c</name>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_tim.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_tim_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_gpio.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rcc.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rcc_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_rcc.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_flash.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_flash_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_dma.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_dma_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_pwr.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_pwr_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_cortex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_exti.c</name>
       </file>
     </group>
     <group>
-      <name>STM32G0xx_HAL_Driver</name>
+      <name>CMSIS</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_cortex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_dma.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_dma_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_flash.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_flash_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_gpio.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_pwr.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_pwr_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_rcc.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_rcc_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_tim.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_tim_ex.c</name>
+        <name>$PROJ_DIR$/../Src/system_stm32g0xx.c</name>
       </file>
     </group>
   </group>
@@ -1125,37 +1129,37 @@
     <group>
       <name>FreeRTOS</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS\cmsis_os.c</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/croutine.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\croutine.c</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/event_groups.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\event_groups.c</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/list.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\portable\MemMang\heap_4.c</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/queue.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\list.c</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM0\port.c</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/tasks.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM0\portasm.s</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/timers.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\queue.c</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\stream_buffer.c</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\tasks.c</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM0/port.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\timers.c</name>
+        <name>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM0/portasm.s</name>
       </file>
     </group>
   </group>

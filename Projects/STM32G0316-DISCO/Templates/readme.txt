@@ -49,7 +49,7 @@ STM32G031J6Mx devices using STM32CubeG0 HAL and running on STM32G0316-DISCO boar
 
   - This example runs on STM32G031J6 devices.
     
-  - This example has been tested with STMicroelectronics STM32G0316-DISCO
+  - This example has been tested with STM32G0316-DISCO
     boards and can be easily tailored to any other supported device 
     and development board.
 

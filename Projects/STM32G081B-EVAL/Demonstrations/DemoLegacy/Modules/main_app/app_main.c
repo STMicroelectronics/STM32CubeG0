@@ -136,7 +136,7 @@ static KMODULE_RETURN AppMainExec(void)
 }
 
 /**
-  * @brief  check the main application ressources 
+  * @brief  check the main application resources 
   * @param  None.
   * @note   None.
   * @retval None.

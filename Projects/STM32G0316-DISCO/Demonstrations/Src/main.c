@@ -255,7 +255,7 @@ static void GpioDemoModeShortPress(void)
   /* Disable User Button */
   HAL_GPIO_DeInit(ButtonPort, ButtonPin);
 
-  /* Desactivate Blinking scheme */
+  /* Deactivate Blinking scheme */
   LedBlinkSchemeOff();
 
   HAL_Delay(100);
@@ -368,7 +368,7 @@ static void SystemClockConfig(DemoMode_t DemoMode)
     RCC_ClkInitStruct.SYSCLKSource   = RCC_SYSCLKSOURCE_PLLCLK;
     flashlatency = FLASH_LATENCY_2;
 
-    /* Increase volatage scaling : set range 1 (default value) */
+    /* Increase voltage scaling : set range 1 (default value) */
     if(HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
     {
       ErrorHandler();
@@ -395,7 +395,7 @@ static void SystemClockConfig(DemoMode_t DemoMode)
 
   if(DemoMode == DEMO_MODE_NRST)
   {
-    /* Decrease volatage scaling : set range 2 */
+    /* Decrease voltage scaling : set range 2 */
     if(HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE2) != HAL_OK)
     {
       ErrorHandler();
@@ -430,7 +430,7 @@ static void RtcConfig(void)
   }
   else
   {
-    /* There potentially wakeup timer auto-reloaded : desactivate it */
+    /* There potentially wakeup timer auto-reloaded : deactivate it */
     HAL_RTCEx_DeactivateWakeUpTimer(&RtcHandle);
     __HAL_RTC_CLEAR_FLAG(&RtcHandle, RTC_CLEAR_WUTF);
   }
@@ -471,7 +471,7 @@ static void LedBlinkSchemeOn(DemoSubMode_t DemoSubMode)
   */
 static void LedBlinkSchemeOff(void)
 {
-  /* There potentially wakeup timer auto-reloaded : desactivate it */
+  /* There potentially wakeup timer auto-reloaded : deactivate it */
   HAL_RTCEx_DeactivateWakeUpTimer(&RtcHandle);
   __HAL_RTC_CLEAR_FLAG(&RtcHandle, RTC_CLEAR_WUTF);
 
@@ -745,7 +745,7 @@ static void ExecuteBootReason(DemoMode_t DemoMode)
     /* Let user see this boot reason */
     HAL_Delay(LED_BOOTCHECK_TEMPO);
 
-    /* Desactivate Blinking scheme */
+    /* Deactivate Blinking scheme */
     LedBlinkSchemeOff();
   }
 }
@@ -804,13 +804,13 @@ void HAL_RTCEx_WakeUpTimerEventCallback(RTC_HandleTypeDef * hrtc)
 
 
 /**
-  * @brief  Functionnal error report to user: LED stay on forever
+  * @brief  functional error report to user: LED stay on forever
   * @param  None
   * @retval None
   */
 static void ErrorHandler(void)
 {
-  /* Desactivate Blinking scheme */
+  /* Deactivate Blinking scheme */
   LedBlinkSchemeOff();
 
   /* Turn LED On */

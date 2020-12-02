@@ -25,10 +25,10 @@ example is based on the STM32G0xx TIM LL API. The peripheral initialization
 uses LL unitary service functions for optimization purposes (performance and size). 
 
 In this example TIM1 input clock TIM1CLK is set to APB1 clock (PCLK1),   
-   since APB1 pre-scaler is equal to 1.                                     
-      TIM1CLK = PCLK1                                                       
-      PCLK1 = HCLK                                                          
-      => TIM1CLK = SystemCoreClock (64 MHz)                                 
+   since APB1 pre-scaler is equal to 1.
+      TIM1CLK = PCLK1
+      PCLK1 = HCLK
+      => TIM1CLK = SystemCoreClock (64 MHz)
 
 To set the TIM1 counter clock frequency to 10 KHz, the pre-scaler (PSC) is calculated as follows:
 PSC = (TIM1CLK / TIM1 counter clock) - 1
@@ -51,6 +51,10 @@ autoreload register (ARR). In up-counting update event is generated  at each cou
 
 Finally the timebase frequency is calculated as follows:
 timebase frequency = TIM1 counter clock /((PSC + 1)*(ARR + 1)*(RCR + 1))
+
+@par Keywords
+
+Timer, TIM, timebase, Interrupt, Clock source
 
 @par Directory contents 
 

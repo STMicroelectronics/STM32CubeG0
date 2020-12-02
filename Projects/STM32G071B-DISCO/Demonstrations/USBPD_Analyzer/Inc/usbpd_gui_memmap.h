@@ -41,9 +41,13 @@
 
 /* Exported define -----------------------------------------------------------*/
 
-/* Start of the FLASH base address used to save the USBPD parameters */
+/* Following definitions should be adapted to used Flash configuration :
+   INDEX_PAGE : represents the number of the page used for storing USBPD settings (usually the last page)
+   ADDR_FLASH_LAST_PAGE : Flash address value of beginning of USBPD settings page
+   ADDR_FLASH_PAGE_END : Flash address value of end of USBPD settings page
+*/
 #define INDEX_PAGE              (FLASH_PAGE_NB - 1)          /* Index of latest page                      */
-#define ADDR_FLASH_LAST_PAGE    (FLASH_BASE + INDEX_PAGE * FLASH_PAGE_SIZE)  /* Base @ of latest pages  */
+#define ADDR_FLASH_LAST_PAGE    (FLASH_BASE + INDEX_PAGE * FLASH_PAGE_SIZE)  /* Base @ of latest page   */
 #define ADDR_FLASH_PAGE_END     (ADDR_FLASH_LAST_PAGE + FLASH_PAGE_SIZE - 1) 
 
 #define GUI_FLASH_ADDR_NB_PDO_SNK_P0  (ADDR_FLASH_LAST_PAGE)

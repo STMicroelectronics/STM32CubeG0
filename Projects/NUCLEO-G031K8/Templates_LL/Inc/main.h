@@ -70,7 +70,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

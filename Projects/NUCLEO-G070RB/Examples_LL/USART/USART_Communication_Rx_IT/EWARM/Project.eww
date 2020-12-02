@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <workspace>
   <project>
-    <path>$WS_DIR$\Project.ewp</path>
+    <path>$WS_DIR$\USART_Communication_Rx_IT.ewp</path>
   </project>
   <batchBuild/>
 </workspace>

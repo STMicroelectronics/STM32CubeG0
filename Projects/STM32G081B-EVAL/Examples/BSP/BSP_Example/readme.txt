@@ -1,5 +1,5 @@
 /**
-  @page BSP  Example on how to use the BSP drivers
+  @page BSP_Example  Example on how to use the BSP drivers
   
   @verbatim
   ******************************************************************************
@@ -62,6 +62,10 @@ This example show how to use the LCD log features.
 @note The application needs to ensure that the HAL time base is always set to 1 millisecond
       to have correct HAL operation.
 
+@par Keywords
+
+BSP,
+
 @par Directory contents 
 
   - BSP/Src/main.c                 Main program
@@ -82,7 +86,7 @@ This example show how to use the LCD log features.
 
   - This example runs on STM32G081RBTx devices.
     
-  - This example has been tested with STMicroelectronics STM32G081B-EVAL board and can be
+  - This example has been tested with STM32G081B-EVAL board and can be
     easily tailored to any other supported device and development board.
 
 @par How to use it ? 

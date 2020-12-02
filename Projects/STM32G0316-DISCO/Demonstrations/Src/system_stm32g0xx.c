@@ -223,19 +223,19 @@ void SystemCoreClockUpdate(void)
   /* Get SYSCLK source -------------------------------------------------------*/
   switch (RCC->CFGR & RCC_CFGR_SWS)
   {
-    case RCC_CFGR_SWS_HSE:  /* HSE used as system clock */
+    case RCC_CFGR_SWS_0:  /* HSE used as system clock */
       SystemCoreClock = HSE_VALUE;
       break;
 
-    case RCC_CFGR_SWS_LSI:  /* LSI used as system clock */
+    case (RCC_CFGR_SWS_1 | RCC_CFGR_SWS_0):  /* LSI used as system clock */
       SystemCoreClock = LSI_VALUE;
       break;
 
-    case RCC_CFGR_SWS_LSE:  /* LSE used as system clock */
+    case RCC_CFGR_SWS_2:  /* LSE used as system clock */
       SystemCoreClock = LSE_VALUE;
       break;
 
-    case RCC_CFGR_SWS_PLL:  /* PLL used as system clock */
+    case RCC_CFGR_SWS_1:  /* PLL used as system clock */
       pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC);
       pllm = ((RCC->PLLCFGR & RCC_PLLCFGR_PLLM) >> 4U) + 1U ;
 
@@ -255,7 +255,7 @@ void SystemCoreClockUpdate(void)
       SystemCoreClock = pllvco/pllr;
       break;
 
-    case RCC_CFGR_SWS_HSI:  /* HSI used as system clock */
+    case 0x00000000U:  /* HSI used as system clock */
     default:                /* HSI used as system clock */
       hsidiv = (1U << ((READ_BIT(RCC->CR, RCC_CR_HSIDIV))>> RCC_CR_HSIDIV_Pos));      
       SystemCoreClock = (HSI_VALUE/hsidiv);

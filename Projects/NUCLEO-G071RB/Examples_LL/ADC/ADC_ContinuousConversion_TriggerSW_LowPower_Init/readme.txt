@@ -38,7 +38,7 @@ ADC is configured to convert a single channel, in continuous conversion mode,
 from SW trigger.
 ADC low power feature enabled: auto wait and auto power-off.
 These 2 low-power modes can be combined.
-Note: On this STM32 serie, ADC low power feature auto power-off is available,
+Note: On this STM32 series, ADC low power feature auto power-off is available,
       additionally to feature auto wait.
       This is not the case on all STM32 series.
 
@@ -49,7 +49,7 @@ After the first trigger (software start in this example), following conversions
 are not launched successively automatically: the ADC performs 1 conversion
 and remains idle (ADC does not perform any other conversion)
 until conversion data has been processed by user software.
-On this STM32 serie, on which ADC low power feature auto power-off is available,
+On this STM32 series, on which ADC low power feature auto power-off is available,
 ADC is set automatically in mode power-off during idle phase.
 Then, when ADC conversion is required, ADC is set automatically in mode power-on. 
 Note: this is the goal of low power feature auto-wait: to automatically adapt

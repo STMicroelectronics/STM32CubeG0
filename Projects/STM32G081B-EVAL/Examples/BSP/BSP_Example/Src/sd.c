@@ -34,6 +34,16 @@
 #define BLOCKSIZE                512   /* Block Size in Bytes      */
 #define NUM_OF_BLOCKS            5     /* Total number of blocks   */
 #define BUFFER_WORDS_SIZE        ((BLOCKSIZE * NUM_OF_BLOCKS) >> 2) /* Total data size in bytes */
+
+/* Use the default SD timeout as defined in the platform BSP driver*/
+#if defined(SDMMC_DATATIMEOUT)
+#define SD_TIMEOUT SDMMC_DATATIMEOUT
+#elif defined(SD_DATATIMEOUT)
+#define SD_TIMEOUT SD_DATATIMEOUT
+#else
+#define SD_TIMEOUT 30 * 1000
+#endif
+
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 uint32_t aTxBuffer[BUFFER_WORDS_SIZE];
@@ -108,7 +118,7 @@ void SD_demo (void)
       
         /* Fill the buffer to write */
         Fill_Buffer(aTxBuffer, BUFFER_WORDS_SIZE, 0x22FF);
-        SD_state = BSP_SD_WriteBlocks((uint32_t *)aTxBuffer, BLOCK_START_ADDR, BLOCKSIZE, NUM_OF_BLOCKS);
+        SD_state = BSP_SD_WriteBlocks((uint32_t *)aTxBuffer, BLOCK_START_ADDR, NUM_OF_BLOCKS, SD_TIMEOUT);
       
         if(SD_state != MSD_OK)
         {
@@ -118,7 +128,7 @@ void SD_demo (void)
         else
         {
           BSP_LCD_DisplayStringAt(20, 145, (uint8_t *)"SD WRITE : OK.", LEFT_MODE);
-          SD_state = BSP_SD_ReadBlocks((uint32_t *)aRxBuffer, BLOCK_START_ADDR, BLOCKSIZE, NUM_OF_BLOCKS);
+          SD_state = BSP_SD_ReadBlocks((uint32_t *)aRxBuffer, BLOCK_START_ADDR, NUM_OF_BLOCKS, SD_TIMEOUT);
           if(SD_state != MSD_OK)
           {
             BSP_LCD_DisplayStringAt(20, 160, (uint8_t *)"SD READ : FAILED.", LEFT_MODE);

@@ -1,3 +1,4 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    stm32g0xx_it.c
@@ -14,57 +15,94 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32g0xx.h"
+#include "stm32g0xx_it.h"
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 #include "stm32g0xx_hal.h"
 #include "usbpd_pwr_if.h"
 #include "stm32g081b_eval.h"
 #include "demo_application.h"
 #include "stm32g081b_eval_mux.h"
 #include "tracer_emb.h"
-#include "stm32g0xx_it.h"
 
-/** @addtogroup STM32G0xx_HAL_Examples
-  * @{
-  */
+/* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN TD */
+
+/* USER CODE END TD */
+
 /* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+ 
+/* USER CODE END PD */
+
 /* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
 /* Private variables ---------------------------------------------------------*/
+/* USER CODE BEGIN PV */
+
+/* USER CODE END PV */
+
 /* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
-extern ADC_HandleTypeDef    hadc;
+/* USER CODE BEGIN PFP */
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
+/* External variables --------------------------------------------------------*/
+
+/* USER CODE BEGIN EV */
+extern ADC_HandleTypeDef   hadc1;
+extern DMA_HandleTypeDef hdma_adc1;
+/* USER CODE END EV */
 
 /******************************************************************************/
 /*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
-
 /**
   * @brief This function handles Non maskable interrupt.
-  * @retval None
   */
 void NMI_Handler(void)
 {
+  /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
   /* Go to infinite loop when Hard Fault exception occurs */
-  USBPD_PWR_IF_Alarm();
+  USBPD_PWR_IF_AlarmType(USBPD_PWR_IF_NMI);
   while (1)
   {
   }
+  /* USER CODE END NonMaskableInt_IRQn 0 */
+  /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
+
+  /* USER CODE END NonMaskableInt_IRQn 1 */
 }
 
 /**
   * @brief This function handles Hard fault interrupt.
-  * @retval None
   */
 void HardFault_Handler(void)
 {
+  /* USER CODE BEGIN HardFault_IRQn 0 */
+
   /* Go to infinite loop when Hard Fault exception occurs */
-  USBPD_PWR_IF_Alarm();
+  USBPD_PWR_IF_AlarmType(USBPD_PWR_IF_HARD_FAULT);
+  /* USER CODE END HardFault_IRQn 0 */
   while (1)
   {
+    /* USER CODE BEGIN W1_HardFault_IRQn 0 */
+    /* USER CODE END W1_HardFault_IRQn 0 */
   }
 }
 
@@ -74,11 +112,17 @@ void HardFault_Handler(void)
   */
 void SysTick_Handler(void)
 {
-  HAL_IncTick();
+  /* USER CODE BEGIN SysTick_IRQn 0 */
+
   USBPD_DPM_TimerCounter();
 #if defined(_GUI_INTERFACE)
   GUI_TimerCounter();
 #endif /* _GUI_INTERFACE */
+  /* USER CODE END SysTick_IRQn 0 */
+  HAL_IncTick();
+  /* USER CODE BEGIN SysTick_IRQn 1 */
+
+  /* USER CODE END SysTick_IRQn 1 */
 }
 
 /******************************************************************************/
@@ -93,7 +137,7 @@ void SysTick_Handler(void)
   */
 void ADC1_COMP_IRQHandler(void)
 {
-  HAL_ADC_IRQHandler(&hadc);
+  HAL_ADC_IRQHandler(&hadc1);
 }
 
 /**
@@ -102,41 +146,55 @@ void ADC1_COMP_IRQHandler(void)
   */
 void DMA1_Channel1_IRQHandler(void)
 {
-  HAL_DMA_IRQHandler(hadc.DMA_Handle);
+  HAL_DMA_IRQHandler(&hdma_adc1);
 }
 
+#if defined(_TRACE)
 /**
   * @brief  This function handles DMA channel 4 to 7 interrupt request.
   * @retval None
   */
-void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void)
+void TRACER_EMB_TX_DMA_IRQHANDLER(void)
 {
+  /* USER CODE BEGIN DMA1_Ch4_7_DMAMUX1_OVR_IRQn 0 */
    TRACER_EMB_IRQHandlerDMA();
-}
+  /* USER CODE END DMA1_Ch4_7_DMAMUX1_OVR_IRQn 0 */
 
+  /* USER CODE BEGIN DMA1_Ch4_7_DMAMUX1_OVR_IRQn 1 */
+
+  /* USER CODE END DMA1_Ch4_7_DMAMUX1_OVR_IRQn 1 */
+}
+#endif /*_TRACE */
 
 /**
   * @brief This function handles UCPD1 and UCPD2 interrupts / UCPD1 and UCPD2 wake-up interrupts through EXTI lines 32 and 33.
-  * @retval None
   */
 void UCPD1_2_IRQHandler(void)
 {
+  /* USER CODE BEGIN UCPD1_2_IRQn 0 */
   USBPD_PORT0_IRQHandler();
 
 #if USBPD_PORT_COUNT == 2
   USBPD_PORT1_IRQHandler();
 #endif
+  /* USER CODE END UCPD1_2_IRQn 0 */
+  /* USER CODE BEGIN UCPD1_2_IRQn 1 */
+
+  /* USER CODE END UCPD1_2_IRQn 1 */
 }
 
+#if defined(_TRACE)
 /**
   * @brief  This function handles USART 3 and 4 interrupts.
   * @retval None
   */
-void USART3_4_LPUART1_IRQHandler(void)
+void TRACER_EMB_USART_IRQHANDLER(void)
 {
   TRACER_EMB_IRQHandlerUSART();
 }
+#endif /* _TRACE */
 
+/* USER CODE BEGIN 1 */
 /**
   * @brief  This function handles EXTI 0 and 1 interrupts.
   * @retval None
@@ -176,5 +234,14 @@ void DEBOUNCE_TIM_IRQHandler(void)
 {
   HAL_TIM_IRQHandler(&htim);
 }
+/* USER CODE END 1 */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

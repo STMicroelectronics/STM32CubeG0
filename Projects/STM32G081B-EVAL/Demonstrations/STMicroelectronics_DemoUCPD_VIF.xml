@@ -1,0 +1,139 @@
+; 
+; USB-IF Vendor Info File Editor 2.0.0.1
+; 
+$VIF_Producer: "USB-IF Vendor Info File Editor 2.0.0.1"
+$VIF_Specification: "Version 2.01"
+
+$Vendor_Name: "STMicroelectronics"
+$Model_Part_Number: "STM32F072RBT6-DRP"
+$Product_Revision: "DRP"
+$TID: "10990010"
+VIF_Product_Type:                                   0             ; Port Product
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   VIF Product
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+$Port_Label:                                        "0"
+Connector_Type:                                     2             ; Type-C™
+Captive_Cable:                                      NO
+USB_PD_Support: YES
+PD_Port_Type: 4        ; DRP
+Type_C_State_Machine: 2        ; DRP
+Port_Battery_Powered: NO
+BC_1_2_Support: 0        ; None
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   General PD
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Specification_Revision: 2        ; Revision 3.0
+SOP_Capable: YES
+SOP_P_Capable: NO
+SOP_PP_Capable: NO
+SOP_P_Debug_Capable: NO
+SOP_PP_Debug_Capable: NO
+Security_Msgs_Supported_SOP: NO
+Manufacturer_Info_Supported_Port: YES
+Manufacturer_Info_VID_Port:                         0x0483        ; 0483
+Manufacturer_Info_PID_Port:                         0x0002        ; 0002
+Num_Fixed_Batteries: 0
+Num_Swappable_Battery_Slots: 0
+USB_Comms_Capable: NO
+DR_Swap_To_DFP_Supported: YES
+DR_Swap_To_UFP_Supported: YES
+Unconstrained_Power: NO
+VCONN_Swap_To_On_Supported: NO
+VCONN_Swap_To_Off_Supported: NO
+Responds_To_Discov_SOP_UFP: NO
+Responds_To_Discov_SOP_DFP: NO
+Attempts_Discov_SOP: NO
+Chunking_Implemented_SOP: YES
+Unchunked_Extended_Messages_Supported: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   USB Type-C™
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type_C_Implements_Try_SRC: NO
+Type_C_Implements_Try_SNK: NO
+RP_Value: 2        ; 3A
+Type_C_Is_VCONN_Powered_Accessory: NO
+Type_C_Is_Debug_Target_SRC: NO
+Type_C_Is_Debug_Target_SNK: NO
+Type_C_Can_Act_As_Host: NO
+Type_C_Can_Act_As_Device: NO
+Type_C_Is_Alt_Mode_Controller: NO
+Type_C_Power_Source: 0        ; Externally Powered
+Type_C_Port_On_Hub: NO
+Type_C_Supports_Audio_Accessory: NO
+Type_C_Sources_VCONN: NO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Product Power
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Product_Total_Source_Power_mW:                      15000         ; 15000 mW
+Port_Source_Power_Type: 0        ; Assured
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   PD Source
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_As_Source:                                 45000         ; 45000 mW
+USB_Suspend_May_Be_Cleared: YES
+Sends_Pings: NO
+PD_OC_Protection: NO
+Num_Src_PDOs: 5
+
+Src_PDO_Supply_Type1: 0        ; Fixed
+Src_PDO_Peak_Current1: 0        ; 100% IOC
+    Src_PDO_Voltage1:                                   100           ; 5000 mV
+    Src_PDO_Max_Current1:                               300           ; 3000 mA
+
+    Src_PDO_Supply_Type2: 0        ; Fixed
+    Src_PDO_Peak_Current2: 0        ; 100% IOC
+    Src_PDO_Voltage2:                                   180           ; 9000 mV
+    Src_PDO_Max_Current2:                               300           ; 3000 mA
+
+    Src_PDO_Supply_Type3: 0        ; Fixed
+    Src_PDO_Peak_Current3: 0        ; 100% IOC
+    Src_PDO_Voltage3:                                   300           ; 15000 mV
+    Src_PDO_Max_Current3:                               300           ; 3000 mA
+
+    Src_PDO_Supply_Type4: 3        ; PPS
+    Src_PDO_Max_Current4:                               60            ; 3000 mA
+    Src_PDO_Min_Voltage4:                               30            ; 3000 mV
+    Src_PDO_Max_Voltage4:                               110           ; 11000 mV
+
+    Src_PDO_Supply_Type5: 3        ; PPS
+    Src_PDO_Max_Current5:                               60            ; 3000 mA
+    Src_PDO_Min_Voltage5:                               30            ; 3000 mV
+    Src_PDO_Max_Voltage5:                               160           ; 16000 mV
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   PD Sink
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_As_Sink:                                   7500          ; 7500 mW
+No_USB_Suspend_May_Be_Set: YES
+GiveBack_May_Be_Set: NO
+Higher_Capability_Set: NO
+FR_Swap_Reqd_Type_C_Current_As_Initial_Source:      0             ; FR_Swap not supported
+Num_Snk_PDOs: 2
+
+    Snk_PDO_Supply_Type1: 0        ; Fixed
+    Snk_PDO_Voltage1:                                   100           ; 5000 mV
+    Snk_PDO_Op_Current1:                                150           ; 1500 mA
+
+    Snk_PDO_Supply_Type2: 3        ; PPS
+    Snk_PDO_Min_Voltage2:                               33            ; 3300 mV
+    Snk_PDO_Max_Voltage2:                               59            ; 5900 mV
+    Snk_PDO_Op_Current2:                                30            ; 1500 mA
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Dual Role
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Accepts_PR_Swap_As_Src: YES
+Accepts_PR_Swap_As_Snk: YES
+Requests_PR_Swap_As_Src: NO
+Requests_PR_Swap_As_Snk: NO
+FR_Swap_Supported_As_Initial_Sink:                  NO
+

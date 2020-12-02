@@ -7,12 +7,12 @@
   * @author  MCD Application Team
   * @brief   Description of the TIM_InputCapture_Init example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
@@ -44,6 +44,10 @@ TIM3_CH1 is configured to generate a PWM signal.  User push-button can be used t
 change the frequency of this signal from 2 kHz up to 20 kHz by steps of 2 kHz.
 It is then possible to run this example without a signal generator by connecting
 TIM3_CH1 to TIM1_CH1.
+
+@par Keywords
+
+Timers, Frequency, Input, Capture, External Signal, Measurement
 
 @par Directory contents 
 

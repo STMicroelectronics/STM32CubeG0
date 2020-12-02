@@ -40,6 +40,11 @@ Received character value is checked :
 
 In case of errors, LED4 is slowly blinking (1 sec period).
 
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, Interrupt, HyperTerminal,
+Receiver, Asynchronous, Low Power, Wake Up
+
 @par Directory contents 
 
   - USART/USART_WakeUpFromStop1_Init/Inc/stm32g0xx_it.h          Interrupt handlers header file

@@ -84,7 +84,7 @@ Timer, Output, Compare, InActive, Signals, Delay, Frequency
 
   - This example runs on STM32G071RBTx devices.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G071RB 
+  - This example has been tested with NUCLEO-G071RB 
     board and can be easily tailored to any other supported device 
     and development board.      
 

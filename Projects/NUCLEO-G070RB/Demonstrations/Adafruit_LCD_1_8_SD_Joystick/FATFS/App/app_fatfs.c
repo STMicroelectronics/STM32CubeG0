@@ -68,9 +68,9 @@ extern char* pDirectoryFiles[MAX_BMP_FILES];
 /**
   * @brief  FatFs initialization
   * @param  None
-  * @retval Initialization result 
+  * @retval Initialization result
   */
-int32_t MX_FATFS_Init(void) 
+int32_t MX_FATFS_Init(void)
 {
   /*## FatFS: Link the disk I/O driver(s)  ###########################*/
   if (FATFS_LinkDriver(&SD_Driver, SDPath) != 0)
@@ -109,14 +109,14 @@ int32_t MX_FATFS_Init(void)
 /**
   * @brief  FatFs application main process
   * @param  None
-  * @retval Process result 
+  * @retval Process result
   */
 int32_t MX_FATFS_Process(void)
 {
   /* USER CODE BEGIN FATFS_Process */
   return APP_OK;
   /* USER CODE END FATFS_Process */
-}  
+}
 
 /**
   * @brief  Gets Time from RTC (generated when FS_NORTC==0; see ff.c)
@@ -127,7 +127,7 @@ DWORD get_fattime(void)
 {
   /* USER CODE BEGIN get_fattime */
   return 0;
-  /* USER CODE END get_fattime */  
+  /* USER CODE END get_fattime */
 }
 
 /* Private user code ---------------------------------------------------------*/
@@ -173,16 +173,16 @@ uint32_t Storage_OpenReadFile(uint8_t Xpoz, uint16_t Ypoz, const char *BmpName)
     /* Get the number of bytes which can be stored inside the buffer */
     nbbytetoread = MIN(size,nbline*pbmpheader->w*2);
   
-    /* Adapt the total size of the bitmap, stored inside the header, to this chunck */
+    /* Adapt the total size of the bitmap, stored inside the header, to this chunk */
     pbmpheader->fsize = pbmpheader->offset + nbbytetoread;
   
-    /* Adapt the number of line, stored inside the header, to this chunck */
+    /* Adapt the number of line, stored inside the header, to this chunk */
     pbmpheader->h = nbbytetoread/(pbmpheader->w*2);
     
     /* Start reading at the end of the file */
     f_lseek(&bmpfile, pbmpheader->offset + size - nbbytetoread);
     
-    /* Store this chunck (or the entire part if possible) of the file inside a buffer */
+    /* Store this chunk (or the entire part if possible) of the file inside a buffer */
     f_read(&bmpfile, aBuffer + pbmpheader->offset, nbbytetoread, &BytesRead);
   
     /* Draw the bitmap */

@@ -1,3 +1,4 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    stm32g081b_eval_pwr.c
@@ -21,12 +22,12 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
+/* Includes ------------------------------------------------------------------*/
 #if defined(_TRACE)||defined(_GUI_INTERFACE)
 #define PWR_DEBUG
 #endif /* _TRACE || _GUI_INTERFACE*/
-
-/* Includes ------------------------------------------------------------------*/
 #include "stm32g081b_eval.h"
 #include "stm32g081b_eval_pwr.h"
 #include "stm32g0xx_hal.h"
@@ -36,6 +37,10 @@
 #include "usbpd_core.h"
 #include "usbpd_trace.h"
 #endif
+/* USER CODE BEGIN include */
+/* USER CODE END include */
+
+
 /** @addtogroup BSP
   * @{
   */
@@ -50,7 +55,7 @@
 /** @defgroup STM32G081B_EVAL_POWER_Private_Typedef Private Typedef
   * @{
   */
-
+/* USER CODE BEGIN POWER_Private_Typedef */
 /* Vref voltage level (in mV) */
 #define VREFANALOG_VOLTAGE 3300
 
@@ -59,42 +64,44 @@
   */
 typedef enum
 {
-  VBUS_5_V         = 0,
-  VBUS_9_V         = 1,
-  VBUS_15_V        = 2,
-  VBUS_18_V        = 3,
-  VBUS_PPS_V       = 4,
-  VBUS_LEVEL_NB    = 5
+  VBUS_5_V         = 0u,
+  VBUS_9_V         = 1u,
+  VBUS_15_V        = 2u,
+  VBUS_18_V        = 3u,
+  VBUS_PPS_V       = 4u,
+  VBUS_LEVEL_NB    = 5u
 } VBUS_Level_TypeDef;
 
 typedef enum
 {
-    ADC_VSENSE_1       = 0,   /*< PB1  ADC used to get VBUS1 voltage level     */
-    ADC_ISENSE_1       = 1,   /*< PB10 ADC used to get VBUS1 curent value      */
-    ADC_VSENSE_2       = 2,   /*< PA3  ADC used to get VBUS2 voltage level     */
-    ADC_ISENSE_2       = 3,   /*< PB12 ADC used to get VBUS2 curent value      */
-    ADC_VSENSE_DCDC    = 4    /*< PB11 ADC used to get DCDC voltage level      */
+  ADC_VSENSE_1       = 0u,   /*< PB1  ADC used to get VBUS1 voltage level     */
+  ADC_ISENSE_1       = 1u,   /*< PB10 ADC used to get VBUS1 curent value      */
+  ADC_VSENSE_2       = 2u,   /*< PA3  ADC used to get VBUS2 voltage level     */
+  ADC_ISENSE_2       = 3u,   /*< PB12 ADC used to get VBUS2 curent value      */
+  ADC_VSENSE_DCDC    = 4u    /*< PB11 ADC used to get DCDC voltage level      */
 } ADC_ChannelId_TypeDef;
 
 typedef enum
 {
-    GPIO_SOURCE_EN        = 0,   /*< PC6  Handle Source power Mos                                    */
-    GPIO_VBUS_DISCHARGE1  = 1,   /*< PB13 Handle Discharge Mos on VBUS1                              */
-    GPIO_VBUS_DISCHARGE2  = 2,   /*< PB14 Handle Discharge Mos on VBUS2                              */
-    GPIO_VCONN_EN1        = 3,   /*< PD4  Handle Vconn on VBUS1                                      */
-    GPIO_VCONN_EN2        = 4,   /*< PB9  Handle Vconn on VBUS2                                      */
-    GPIO_VCONN_DISCHARGE1 = 5,   /*< PA2  Handle Fast Role Swap on VBUS1 CC1 line or Vconn Discharge */
-    GPIO_VCONN_DISCHARGE2 = 6,   /*< PPB0 Handle Fast Role Swap on VBUS1 CC2 line or Vconn Discharge */
-    GPIO_V_CTL1           = 7,   /*< PC1   VBUS voltage level control                                */
-    GPIO_V_CTL2           = 8    /*< PB5 (Rev. A/B) or PA1 (Rev. C) VBUS voltage level control       */
+  GPIO_SOURCE_EN        = 0u,   /*< PC6  Handle Source power Mos                                    */
+  GPIO_VBUS_DISCHARGE1  = 1u,   /*< PB13 Handle Discharge Mos on VBUS1                              */
+  GPIO_VBUS_DISCHARGE2  = 2u,   /*< PB14 Handle Discharge Mos on VBUS2                              */
+  GPIO_VCONN_EN1        = 3u,   /*< PD4  Handle Vconn on VBUS1                                      */
+  GPIO_VCONN_EN2        = 4u,   /*< PB9  Handle Vconn on VBUS2                                      */
+  GPIO_VCONN_DISCHARGE1 = 5u,   /*< PA2  Handle Fast Role Swap on VBUS1 CC1 line or Vconn Discharge */
+  GPIO_VCONN_DISCHARGE2 = 6u,   /*< PPB0 Handle Fast Role Swap on VBUS1 CC2 line or Vconn Discharge */
+  GPIO_V_CTL1           = 7u,   /*< PC1   VBUS voltage level control                                */
+  GPIO_V_CTL2           = 8u    /*< PB5 (Rev. A/B) or PA1 (Rev. C) VBUS voltage level control       */
 } GPIO_Id_TypeDef;
 
-typedef enum {
-    PORT_NOT_INITIALIZED = 0,
+typedef enum
+{
+  PORT_NOT_INITIALIZED = 0u,
     PORT_INITIALIZED
 } PWR_PortStateTypedef;
 
-typedef enum {
+typedef enum
+{
   POWER_NONE,
   POWER_FIXED,
   POWER_VARIABLE,
@@ -102,125 +109,34 @@ typedef enum {
 } PWR_Type;
 
 
-typedef struct {
+typedef struct
+{
     PWR_PortStateTypedef            State;
-    PWR_PowerRoleTypeDef            Role;
+    USBPD_PWR_PowerRoleTypeDef      Role;
     uint32_t                        VBUSDisconnectionThreshold;
-    PWR_VBUSConnectionStatusTypeDef VBUSConnectionStatus;
-    PWR_VBUSDetectCallbackFunc *    pfnVBUSDetectCallback;
+    USBPD_PWR_VBUSConnectionStatusTypeDef VBUSConnectionStatus;
+    USBPD_PWR_VBUSDetectCallbackFunc *    pfnVBUSDetectCallback;
     PWR_Type                        Type;
     uint32_t                        VBUSVoltage;
 } PortInfoTypeDef;
 
 
-typedef struct {
+typedef struct
+{
     uint8_t                         ADCRefCount;
-    PWR_DCDCCtrlModeTypeDef         DCDCCtrlMode;
+    USBPD_PWR_DCDCCtrlModeTypeDef   DCDCCtrlMode;
     PortInfoTypeDef                 PortInfo[PWR_TYPEC_PORT_NB];
 } ContextTypeDef;
 
+/* USER CODE END POWER_Private_Typedef */
 /**
   * @}
   */
 
 /** @defgroup STM32G081B_EVAL_POWER_Private_Constants Private Constants
-* @{
-*/
-#if defined(USE_STM32G081B_EVAL_REVA)
-#define GPIO_SOURCE_EN_PIN                    GPIO_PIN_6  /* PC.06 */
-#define GPIO_SOURCE_EN_PORT                   GPIOC
-#define GPIO_SOURCE_EN_CLK_ENABLE()           __HAL_RCC_GPIOC_CLK_ENABLE()
-#else
-#define GPIO_SOURCE_EN_PIN                    GPIO_PIN_3  /* PD.03 */
-#define GPIO_SOURCE_EN_PORT                   GPIOD
-#define GPIO_SOURCE_EN_CLK_ENABLE()           __HAL_RCC_GPIOD_CLK_ENABLE()
-#endif
-
-#define GPIO_VBUS_DISCHARGE1_PIN              GPIO_PIN_13  /* PB.13 */
-#define GPIO_VBUS_DISCHARGE1_PORT             GPIOB
-#define GPIO_VBUS_DISCHARGE1_CLK_ENABLE()     __HAL_RCC_GPIOB_CLK_ENABLE()
-
-#define GPIO_VBUS_DISCHARGE2_PIN              GPIO_PIN_14  /* PB.14 */
-#define GPIO_VBUS_DISCHARGE2_PORT             GPIOB
-#define GPIO_VBUS_DISCHARGE2_CLK_ENABLE()     __HAL_RCC_GPIOB_CLK_ENABLE()
-
-#define GPIO_VCONN_EN1_PIN                    GPIO_PIN_4  /* PD.04 */
-#define GPIO_VCONN_EN1_PORT                   GPIOD
-#define GPIO_VCONN_EN1_CLK_ENABLE()           __HAL_RCC_GPIOD_CLK_ENABLE()
-
-#define GPIO_VCONN_EN2_PIN                    GPIO_PIN_9  /* PB.09 */
-#define GPIO_VCONN_EN2_PORT                   GPIOB
-#define GPIO_VCONN_EN2_CLK_ENABLE()           __HAL_RCC_GPIOB_CLK_ENABLE()
-
-#define GPIO_VCONN_DISCHARGE1_PIN             GPIO_PIN_2  /* PA.02 */
-#define GPIO_VCONN_DISCHARGE1_PORT            GPIOA
-#define GPIO_VCONN_DISCHARGE1_CLK_ENABLE()    __HAL_RCC_GPIOA_CLK_ENABLE()
-
-#define GPIO_VCONN_DISCHARGE2_PIN             GPIO_PIN_0  /* PB.00 */
-#define GPIO_VCONN_DISCHARGE2_PORT            GPIOB
-#define GPIO_VCONN_DISCHARGE2_CLK_ENABLE()    __HAL_RCC_GPIOB_CLK_ENABLE()
-
-#define GPIO_V_CTL2_PIN                       GPIO_PIN_1  /* PA.01 */
-#define GPIO_V_CTL2_PORT                      GPIOA
-#define GPIO_V_CTL2_CLK_ENABLE()              __HAL_RCC_GPIOA_CLK_ENABLE()
-
-#define GPIO_V_CTL1_PIN                       GPIO_PIN_1  /* PC.01 */
-#define GPIO_V_CTL1_PORT                      GPIOC
-#define GPIO_V_CTL1_CLK_ENABLE()              __HAL_RCC_GPIOC_CLK_ENABLE()
-
-/* Definition of ADCx clock resources */
-#define ADCx                            ADC1
-#define ADCx_CLK_ENABLE()               __HAL_RCC_ADC_CLK_ENABLE()
-#define ADCx_CLK_DISABLE()              __HAL_RCC_ADC_CLK_DISABLE()
-
-#define ADCx_FORCE_RESET()              __HAL_RCC_ADC_FORCE_RESET()
-#define ADCx_RELEASE_RESET()            __HAL_RCC_ADC_RELEASE_RESET()
-
-/* Definition of ADCx channels */
-#define ADCx_CHANNEL_VSENSE_1           ADC_CHANNEL_9
-#define ADCx_CHANNEL_ISENSE_1           ADC_CHANNEL_11
-#define ADCx_CHANNEL_VSENSE_2           ADC_CHANNEL_3
-#define ADCx_CHANNEL_ISENSE_2           ADC_CHANNEL_16
-#define ADCx_CHANNEL_VSENSE_DCDC        ADC_CHANNEL_15
-
-/* Definition of ADCx channels */
-#if defined(USE_STM32G081B_EVAL_REVA) || defined(USE_STM32G081B_EVAL_REVB)
-#define ADCxChanneln 4
-#else
-#define ADCxChanneln 5
-#endif
-
-#define ADCx_CHANNEL_VSENSE_1_GPIO_CLK_ENABLE() __HAL_RCC_GPIOB_CLK_ENABLE()
-#define ADCx_CHANNEL_VSENSE_1_GPIO_PORT         GPIOB
-#define ADCx_CHANNEL_VSENSE_1_GPIO_PIN          GPIO_PIN_1
-
-#define ADCx_CHANNEL_ISENSE_1_GPIO_CLK_ENABLE() __HAL_RCC_GPIOB_CLK_ENABLE()
-#define ADCx_CHANNEL_ISENSE_1_GPIO_PORT         GPIOB
-#define ADCx_CHANNEL_ISENSE_1_GPIO_PIN          GPIO_PIN_10
-
-#define ADCx_CHANNEL_VSENSE_2_GPIO_CLK_ENABLE() __HAL_RCC_GPIOA_CLK_ENABLE()
-#define ADCx_CHANNEL_VSENSE_2_GPIO_PORT         GPIOA
-#define ADCx_CHANNEL_VSENSE_2_GPIO_PIN          GPIO_PIN_3
-
-#define ADCx_CHANNEL_ISENSE_2_GPIO_CLK_ENABLE() __HAL_RCC_GPIOB_CLK_ENABLE()
-#define ADCx_CHANNEL_ISENSE_2_GPIO_PORT         GPIOB
-#define ADCx_CHANNEL_ISENSE_2_GPIO_PIN          GPIO_PIN_12
-
-#define ADCx_CHANNEL_VSENSE_DCDC_GPIO_CLK_ENABLE() __HAL_RCC_GPIOB_CLK_ENABLE()
-#define ADCx_CHANNEL_VSENSE_DCDC_GPIO_PORT         GPIOB
-#define ADCx_CHANNEL_VSENSE_DCDC_GPIO_PIN          GPIO_PIN_11
-
-/* Definition of ADCx DMA resources */
-#define ADCx_DMA_CLK_ENABLE()           __HAL_RCC_DMA1_CLK_ENABLE()
-#define ADCx_DMA                        DMA1_Channel1
-
-/* Definition of DMA NVIC resources */
-#define ADCx_DMA_IRQn                   DMA1_Channel1_IRQn
-#define ADCx_DMA_IRQHandler             DMA1_Channel1_IRQHandler
-
-/* Definition of ADCx NVIC resources */
-#define ADCx_IRQn                       ADC1_COMP_IRQn
-#define ADCx_IRQHandler                 ADC1_COMP_IRQHandler
+  * @{
+  */
+/* USER CODE BEGIN POWER_Private_Constants */
 
 /* VDD voltage (in mv)*/
 #define VDD 3300
@@ -229,17 +145,17 @@ typedef struct {
    To converting ADC measurement to an absolute voltage value:
    VCHANNELx = ADCx_DATA x (VDD/ADC_FULL_SCALE)
 */
-#define ADC_FULL_SCALE 0x0FFF
+#define ADC_FULL_SCALE 0x0FFFu
 
 /* VBUS connection detection voltage threshold (in mV) */
-#define VBUS_CONNECTION_THRESHOLD 3000
+#define VBUS_CONNECTION_THRESHOLD 3000u
 
 /* VBUS disconnection detection voltage threshold (in mV) */
-#define VBUS_DISCONNECTION_THRESHOLD 2200
+#define VBUS_DISCONNECTION_THRESHOLD 2200u
 
 /* Resistor voltage divider */
-#define RA 330000
-#define RB  49900
+#define RA 330000u
+#define RB  49900u
 
 /* VBUS power source calibration parameters */
 #define BSP_PWR_DCDC_POLL_TIME          1        /* DCDC polling periode in mS */
@@ -263,6 +179,7 @@ typedef struct {
 
 /* VBUS sensing resume timout value (in ms)*/
 #define VBUS_SENSING_RESUME_TIMEOUT     (1U)
+/* USER CODE END POWER_Private_Constants */
 /**
   * @}
   */
@@ -270,25 +187,27 @@ typedef struct {
 /** @defgroup STM32G081B_EVAL_POWER_Private_Macros Private Macros
   * @{
   */
-#define GPIOx_CLK_ENABLE(__GPIO__)   do { if((__GPIO__) == GPIO_SOURCE_EN)   GPIO_SOURCE_EN_CLK_ENABLE(); else \
-                                          if((__GPIO__) == GPIO_VBUS_DISCHARGE1) GPIO_VBUS_DISCHARGE1_CLK_ENABLE(); else \
-                                          if((__GPIO__) == GPIO_VBUS_DISCHARGE2) GPIO_VBUS_DISCHARGE2_CLK_ENABLE(); else \
-                                          if((__GPIO__) == GPIO_VCONN_EN1)   GPIO_VCONN_EN1_CLK_ENABLE(); else \
-                                          if((__GPIO__) == GPIO_VCONN_EN2)   GPIO_VCONN_EN2_CLK_ENABLE(); else \
-                                          if((__GPIO__) == GPIO_VCONN_DISCHARGE1)     GPIO_VCONN_DISCHARGE1_CLK_ENABLE(); else \
-                                          if((__GPIO__) == GPIO_VCONN_DISCHARGE2)     GPIO_VCONN_DISCHARGE2_CLK_ENABLE(); else \
-                                          if((__GPIO__) == GPIO_V_CTL1)      GPIO_V_CTL1_CLK_ENABLE(); else \
-                                          if((__GPIO__) == GPIO_V_CTL2)      GPIO_V_CTL2_CLK_ENABLE();} while(0)
+/* USER CODE BEGIN POWER_Private_Macros */
+#define GPIOx_CLK_ENABLE(__GPIO__)   do { if((__GPIO__) == GPIO_SOURCE_EN)   {GPIO_SOURCE_EN_CLK_ENABLE();} else \
+                                          if((__GPIO__) == GPIO_VBUS_DISCHARGE1) {GPIO_VBUS_DISCHARGE1_CLK_ENABLE();} else \
+                                          if((__GPIO__) == GPIO_VBUS_DISCHARGE2) {GPIO_VBUS_DISCHARGE2_CLK_ENABLE();} else \
+                                          if((__GPIO__) == GPIO_VCONN_EN1)   {GPIO_VCONN_EN1_CLK_ENABLE();} else \
+                                          if((__GPIO__) == GPIO_VCONN_EN2)   {GPIO_VCONN_EN2_CLK_ENABLE();} else \
+                                          if((__GPIO__) == GPIO_VCONN_DISCHARGE1)     {GPIO_VCONN_DISCHARGE1_CLK_ENABLE();} else \
+                                          if((__GPIO__) == GPIO_VCONN_DISCHARGE2)     {GPIO_VCONN_DISCHARGE2_CLK_ENABLE();} else \
+                                          if((__GPIO__) == GPIO_V_CTL1)      {GPIO_V_CTL1_CLK_ENABLE();} else \
+                                          if((__GPIO__) == GPIO_V_CTL2)      {GPIO_V_CTL2_CLK_ENABLE();}} while(0u)
 
 #define ADCx_CHANNEL_GPIO_CLK_ENABLE(__ADC_CHANNEL__) \
-  do { if ((__ADC_CHANNEL__) == ADCx_CHANNEL_VSENSE_1) ADCx_CHANNEL_VSENSE_1_GPIO_CLK_ENABLE(); else \
-       if ((__ADC_CHANNEL__) == ADCx_CHANNEL_ISENSE_1) ADCx_CHANNEL_ISENSE_1_GPIO_CLK_ENABLE(); else \
-       if ((__ADC_CHANNEL__) == ADCx_CHANNEL_VSENSE_2) ADCx_CHANNEL_VSENSE_2_GPIO_CLK_ENABLE(); else \
-       if ((__ADC_CHANNEL__) == ADCx_CHANNEL_ISENSE_2) ADCx_CHANNEL_VSENSE_2_GPIO_CLK_ENABLE(); else \
-       if ((__ADC_CHANNEL__) == ADCx_CHANNEL_VSENSE_DCDC) ADCx_CHANNEL_VSENSE_DCDC_GPIO_CLK_ENABLE();} while(0)
+                                            do {  if ((__ADC_CHANNEL__) == ADCx_CHANNEL_VSENSE_1) {ADCx_CHANNEL_VSENSE_1_GPIO_CLK_ENABLE();} else \
+                                                  if ((__ADC_CHANNEL__) == ADCx_CHANNEL_ISENSE_1) {ADCx_CHANNEL_ISENSE_1_GPIO_CLK_ENABLE();} else \
+                                                  if ((__ADC_CHANNEL__) == ADCx_CHANNEL_VSENSE_2) {ADCx_CHANNEL_VSENSE_2_GPIO_CLK_ENABLE();} else \
+                                                  if ((__ADC_CHANNEL__) == ADCx_CHANNEL_ISENSE_2) {ADCx_CHANNEL_VSENSE_2_GPIO_CLK_ENABLE();} else \
+                                                  if ((__ADC_CHANNEL__) == ADCx_CHANNEL_VSENSE_DCDC) {ADCx_CHANNEL_VSENSE_DCDC_GPIO_CLK_ENABLE();}} while(0u)
 
 #define ABS(__VAL__) (((int32_t)(__VAL__)) < 0 ? - ((int32_t)(__VAL__)) : ((int32_t)(__VAL__)))
 
+/* USER CODE END POWER_Private_Macros */
 /**
   * @}
   */
@@ -296,11 +215,13 @@ typedef struct {
 /** @defgroup STM32G081B_EVAL_POWER_Private_Variables Private Variables
   * @{
   */
+/* USER CODE BEGIN POWER_Private_Variables */
 /**
 * @brief GPIO variables
 */
 /* GPIO Id. / GPIO port cross table */
-static GPIO_TypeDef * GPIO_PORT[] = {
+static GPIO_TypeDef *GPIO_PORT[] =
+{
     GPIO_SOURCE_EN_PORT,
     GPIO_VBUS_DISCHARGE1_PORT,
     GPIO_VBUS_DISCHARGE2_PORT,
@@ -313,7 +234,8 @@ static GPIO_TypeDef * GPIO_PORT[] = {
 };
 
 /* GPIO Id. / GPIO pin cross table */
-static const uint16_t GPIO_PIN[] = {
+static const uint16_t GPIO_PIN[] =
+{
     GPIO_SOURCE_EN_PIN,
     GPIO_VBUS_DISCHARGE1_PIN,
     GPIO_VBUS_DISCHARGE2_PIN,
@@ -323,16 +245,6 @@ static const uint16_t GPIO_PIN[] = {
     GPIO_VCONN_DISCHARGE2_PIN,
     GPIO_V_CTL1_PIN,
     GPIO_V_CTL2_PIN
-};
-
-/* V/I Sense / ADC Channel cross table */
-static const uint32_t ADC_CHANNEL[ADCxChanneln] =
-{
-    ADCx_CHANNEL_VSENSE_1,
-    ADCx_CHANNEL_ISENSE_1,
-    ADCx_CHANNEL_VSENSE_2,
-    ADCx_CHANNEL_ISENSE_2,
-    ADCx_CHANNEL_VSENSE_DCDC
 };
 
 /* ADC Channel / GPIO port cross table */
@@ -356,17 +268,17 @@ const uint32_t ADC_CHANNEL_PIN[ADCxChanneln] =
 };
 
 /* Variable containing ADC conversions results
-   aADCxConvertedValues[0]: VSENSE_2
-   aADCxConvertedValues[1]: VSENSE_1
-   aADCxConvertedValues[2]: ISENSE_1
-   aADCxConvertedValues[3]: ISENSE_2
+   aADCxConvertedValues[0u]: VSENSE_2
+   aADCxConvertedValues[1u]: VSENSE_1
+   aADCxConvertedValues[2u]: ISENSE_1
+   aADCxConvertedValues[3u]: ISENSE_2
 */
 static __IO uint16_t   aADCxConvertedValues[4] = {0};
 
 /* BSP PWR contextual data */
 static ContextTypeDef Context =
 {
-    .ADCRefCount         = 0,
+    .ADCRefCount         = 0u,
     .DCDCCtrlMode        = DCDC_CTRL_MODE_UNKNOWN,
     .PortInfo =
     {
@@ -376,8 +288,8 @@ static ContextTypeDef Context =
             .Role                       = POWER_ROLE_SOURCE,
             .VBUSDisconnectionThreshold = VBUS_DISCONNECTION_THRESHOLD,
             .VBUSConnectionStatus       = VBUS_NOT_CONNECTED,
-            .pfnVBUSDetectCallback      = (PWR_VBUSDetectCallbackFunc *)NULL,
-            .VBUSVoltage                = 0,
+            .pfnVBUSDetectCallback      = NULL,
+            .VBUSVoltage                = 0u,
         },
         /* TYPE_C_PORT_2 */
         {
@@ -385,17 +297,18 @@ static ContextTypeDef Context =
             .Role                       = POWER_ROLE_SINK,
             .VBUSDisconnectionThreshold = VBUS_DISCONNECTION_THRESHOLD,
             .VBUSConnectionStatus       = VBUS_NOT_CONNECTED,
-            .pfnVBUSDetectCallback      = (PWR_VBUSDetectCallbackFunc *)NULL,
-            .VBUSVoltage                = 0,
+            .pfnVBUSDetectCallback      = NULL,
+            .VBUSVoltage                = 0u,
         }
     }
 };
 
 /* VBUS sensing completed flag */
-uint8_t VBUSSensingCompleted = 0;
+static uint8_t VBUSSensingCompleted = 0u;
 
 /* Power source calibration related variables */
-uint16_t aPWMDutyCycleLUT[VBUS_LEVEL_NB] = {
+static uint16_t aPWMDutyCycleLUT[VBUS_LEVEL_NB] =
+{
   0x00B0,   /* 5V */
   0x0200,   /* 9V */
   0x0300,   /* 15V */
@@ -403,13 +316,8 @@ uint16_t aPWMDutyCycleLUT[VBUS_LEVEL_NB] = {
   0x0000    /* Will be used to store latest PPS request */
 };
 
-uint8_t aPWMDutyCalibrated[VBUS_LEVEL_NB] = {
-  0x0,   /* 5V */
-  0x0,   /* 9V */
-  0x0,   /* 15V */
-  0x0,   /* 18V */
-  0x0    /* Will be used to store latest PPS request */
-};
+/* LPTIM handle */
+static LPTIM_HandleTypeDef hlptim  = {0u};
 
 #if defined(DBG_LOG)
 #define DBG_LOG_SIZE 10
@@ -421,6 +329,7 @@ uint32_t _Pwm[DBG_LOG_SIZE];
 int32_t  _PwmE[DBG_LOG_SIZE];
 #endif /* DBG_LOG */
 
+/* USER CODE END POWER_Private_Variables */
 /**
   * @}
   */
@@ -428,10 +337,11 @@ int32_t  _PwmE[DBG_LOG_SIZE];
 /** @defgroup STM32G081B_EVAL_POWER_Private_Functions Private Functions
   * @{
   */
-static uint8_t  PWR_InitSource(uint32_t PortId);
-static uint8_t  PWR_DeInitSource(uint32_t PortId);
-static uint8_t  PWR_InitSink(uint32_t PortId);
-static uint8_t  PWR_DeInitSink(uint32_t PortId);
+/* USER CODE BEGIN POWER_Private_Prototypes */
+static uint8_t  PWR_InitSource(uint32_t Instance);
+static uint8_t  PWR_DeInitSource(uint32_t Instance);
+static uint8_t  PWR_InitSink(void);
+static uint8_t  PWR_DeInitSink(uint32_t Instance);
 static void     PWR_GPIO_Init(GPIO_Id_TypeDef gpio);
 static void     PWR_GPIO_DeInit(GPIO_Id_TypeDef gpio);
 static void     PWR_GPIO_On(GPIO_Id_TypeDef gpio);
@@ -452,17 +362,18 @@ static void     PWR_DeInitPowerSource(void);
 static void     PWR_SetPWMDutyCycle(uint16_t PWMDutyCycle);
 static uint16_t PWR_GetPWMDutyCycle(void);
 
-static uint32_t PWR_DCDCPreChargeC57(uint32_t PortId);
+static uint32_t PWR_DCDCPreChargeC57(uint32_t Instance);
 
-void              PWR_VBUSDischarge(uint32_t PortId,
+static void     PWR_VBUSDischarge(uint32_t Instance,
                            uint32_t VbusStopInmV,
                            uint32_t VbusErrorInmV,
                            uint16_t Delay);
 
-static PWR_StatusTypeDef PWR_VBUSSetVoltage(uint32_t PortId,
+static PWR_StatusTypeDef PWR_VBUSSetVoltage(uint32_t Instance,
                                          uint32_t VBusInmV,
                                          uint16_t Precision);
 
+/* USER CODE END POWER_Private_Prototypes */
 /**
   * @}
   */
@@ -470,8 +381,8 @@ static PWR_StatusTypeDef PWR_VBUSSetVoltage(uint32_t PortId,
 /** @defgroup STM32G081B_EVAL_POWER_Exported_Variables Exported Variables
   * @{
   */
-ADC_HandleTypeDef   hadc = {0};
-LPTIM_HandleTypeDef hlptim  = {0};
+extern ADC_HandleTypeDef   hadc1;
+extern DMA_HandleTypeDef hdma_adc1;
 /**
   * @}
   */
@@ -480,13 +391,13 @@ LPTIM_HandleTypeDef hlptim  = {0};
   * @{
   */
 /**
- * @brief  Get the VSENSE_DCDC measurement with  DCDC_EN = 0 and = 1
- *         controller.
- * @param  voltageDCDCOff
- * @param  voltageDCDCOnT0 at T0
- * @param  voltageDCDCOnT10 at T10 = 100ms
- * @retval none
- */
+  * @brief  Get the VSENSE_DCDC measurement with  DCDC_EN = 0 and = 1
+  *         controller.
+  * @param  voltageDCDCOff
+  * @param  voltageDCDCOnT0 at T0
+  * @param  voltageDCDCOnT10 at T10 = 100ms
+  * @retval none
+  */
 void BSP_PWR_VBUSIsGPIO(uint32_t *voltageDCDCOff, uint32_t *voltageDCDCOnT0, uint32_t *voltageDCDCOnT10)
 {
   uint8_t                  error = 0;
@@ -661,1090 +572,328 @@ void BSP_PWR_VBUSIsGPIO(uint32_t *voltageDCDCOff, uint32_t *voltageDCDCOnT0, uin
 }
 
 /**
- * @brief  Initialize the hardware resources used by the Type-C power delivery (PD)
- *         controller.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VBUSInit(uint32_t PortId)
+  * @brief  Initialize the hardware resources used by the Type-C power delivery (PD)
+  *         controller.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  *         @arg TYPE_C_PORT_2
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VBUSInit(uint32_t Instance)
 {
-  uint32_t ret = 0;
-  PWR_PowerRoleTypeDef   role;
-
-  if (Context.PortInfo[PortId].State == PORT_NOT_INITIALIZED)
-  {
-    if (PortId == TYPE_C_PORT_1)
-    {
-      role = POWER_ROLE_DUAL;
-      PWR_GPIO_Init(GPIO_VCONN_EN1);
-      PWR_GPIO_Init(GPIO_VCONN_EN2);
-    }
-    else
-    {
-      role = POWER_ROLE_SINK;
-    }
-
-    /* SINK / SOURCE initialization order is important: in case of dual role
-    SINK must be initialized before SOURCE. */
-    if ((role == POWER_ROLE_SINK) || (role == POWER_ROLE_DUAL))
-    {
-      ret += PWR_InitSink(PortId);
-
-      if (Context.ADCRefCount == 1)
-      {
-        ret += PWR_StartVBusSensing();
-      }
-    }
-
-    if ((role == POWER_ROLE_SOURCE) || (role == POWER_ROLE_DUAL))
-    {
-      ret += PWR_InitSource(PortId);
-    }
-
-    /* Update PWR context */
-    Context.PortInfo[PortId].State = PORT_INITIALIZED;
-    Context.PortInfo[PortId].Role = role;
-  }
-
-  return (ret == 0) ? PWR_OK : PWR_ERROR;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VBUSInit(Instance)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Release the hardware resources used by the Type-C power delivery (PD)
- *         controller.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VBUSDeInit(uint32_t PortId)
+  * @brief  Release the hardware resources used by the Type-C power delivery (PD)
+  *         controller.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  *         @arg TYPE_C_PORT_2
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VBUSDeInit(uint32_t Instance)
 {
-  uint32_t ret = 0;
-
-  if (Context.PortInfo[PortId].State == PORT_INITIALIZED)
-  {
-    if (PortId == TYPE_C_PORT_1)
-    {
-      PWR_GPIO_DeInit(GPIO_VCONN_EN1);
-      PWR_GPIO_DeInit(GPIO_VCONN_EN2);
-    }
-
-    if ((Context.PortInfo[PortId].Role == POWER_ROLE_SOURCE) ||
-        (Context.PortInfo[PortId].Role == POWER_ROLE_DUAL))
-    {
-      ret += PWR_DeInitSource(PortId);
-    }
-
-    if ((Context.PortInfo[PortId].Role == POWER_ROLE_SINK) ||
-        (Context.PortInfo[PortId].Role == POWER_ROLE_DUAL))
-    {
-      if (Context.ADCRefCount == 1)
-      {
-        ret += PWR_StopVBusSensing();
-      }
-      ret += PWR_DeInitSink(PortId);
-    }
-
-    /* Update PWR context */
-    Context.PortInfo[PortId].State = PORT_NOT_INITIALIZED;
-  }
-
-  return (ret == 0) ? PWR_OK : PWR_ERROR;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VBUSDeInit(Instance)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Enable power supply over VBUS.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VBUSOn(uint32_t PortId)
+  * @brief  Enable power supply over VBUS.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VBUSOn(uint32_t Instance)
 {
-  PWR_StatusTypeDef retr = PWR_OK;
-#if defined(_TRACE)
-  uint8_t _str[20];
-#endif
-
-  if (PortId == TYPE_C_PORT_1)
-  {
-    /* Start VBUS Discharge */
-    PWR_GPIO_On(GPIO_VBUS_DISCHARGE1);
-
-    /* safety control to avoid spike when enabling the power */
-    /* issue detected during board reset */
-    uint32_t _tickstart = HAL_GetTick();
-    uint32_t _dcdc;
-    uint32_t _delta = BSP_PWR_DCDCGetVoltage(PortId);
-
-    do {
-      _dcdc = BSP_PWR_DCDCGetVoltage(PortId);
-
-      /* check after 2 second check if the power has start to decrease */
-      if((((HAL_GetTick() - _tickstart) > 2000)) && ((_delta - _dcdc) < 500))
-      {
-#if defined(_TRACE)
-        sprintf((char *)_str,"V:%d-%d", _dcdc, _delta);
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, _str, strlen((char *)_str));
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t *) "V:decrease error", 16);
-#endif
-        return PWR_ERROR;
-      }
-
-      /* Timeout management */
-      if((HAL_GetTick() - _tickstart) > 15000)
-      {
-#if defined(_TRACE)
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t *) "V:timeout", 9);
-#endif
-        return PWR_ERROR;
-      }
-    }
-    while (_dcdc > 5500);
-
-    /* Switch on VBUS */
-    PWR_GPIO_On(GPIO_SOURCE_EN);
-
-    /* Set VBUS to its default voltage level */
-    retr = PWR_VBUSSetVoltage(PortId, VBUS_VOLTAGE_5V_IN_MV, 200); /* 5% max = 250mV max */
-
-    /* Stop VBUS Discharge */
-    PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
-  }
-  else
-  {
-    retr = PWR_ERROR;
-  }
-
-  /* Save the power context */
-  Context.PortInfo[PortId].VBUSVoltage = VBUS_VOLTAGE_5V_IN_MV;
-  Context.PortInfo[PortId].Type = POWER_FIXED;
-
-  return retr;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VBUSOn(Instance)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Disable power supply over VBUS.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VBUSOff(uint32_t PortId)
+  * @brief  Disable power supply over VBUS.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VBUSOff(uint32_t Instance)
 {
-  uint32_t ret = 0;
-
-  if (PortId == TYPE_C_PORT_1)
-  {
-    /* Go back to original VBUS value */
-    PWR_VBUSSetVoltage(0, VBUS_VOLTAGE_0V_IN_MV, 0);
-
-    /* Discharge VBUS */
-    PWR_VBUSDischarge(PortId, BSP_PWR_LOW_VBUS_THRESHOLD, 0, 0);
-
-  }
-  else
-  {
-    ret++;
-  }
-
-   /* Save the power context */
-  Context.PortInfo[PortId].VBUSVoltage = VBUS_VOLTAGE_0V_IN_MV;
-  Context.PortInfo[PortId].Type = POWER_NONE;
-
-  return (ret == 0) ? PWR_OK : PWR_ERROR;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VBUSOff(Instance)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Force the VBUS discharge.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- * @param  VbusStopInmV Low VBUS threshold (in mV)
- * @param  VbusErrorInmV VBUS margin (in mV)
- * @param  Delay Discharge delay (in ms)
- * @retval None
- */
-
-void PWR_VBUSDischarge(uint32_t PortId,
-                           uint32_t VbusStopInmV,
-                           uint32_t VbusErrorInmV,
-                           uint16_t Delay)
-{
-  uint32_t vbus;
-  uint8_t vbus_disable = 0;
-
-  if (PortId == TYPE_C_PORT_1)
-  {
-
-    PWR_GPIO_On(GPIO_VBUS_DISCHARGE1);
-    /* Disable DCDC_EN bit*/
-    PWR_GPIO_Off(GPIO_V_CTL2);
-
-    /* Wait Tempo or Voltage level */
-    if (Delay > 0)
-    {
-      HAL_Delay(Delay);
-    }
-    else /* if (VbusErrorInmV > 0) */
-    {
-
-      do{
-        HAL_Delay(1);
-        vbus = BSP_PWR_VBUSGetVoltage(PortId);
-        if ((0 == vbus_disable) && (vbus < 5000))
-        {
-          /* Switch off VBUS */
-          PWR_GPIO_Off(GPIO_SOURCE_EN);
-          vbus_disable = 1;
-        }
-      } while(vbus >= (VbusStopInmV + VbusErrorInmV));
-    }
-
-    /* Enable DCDC_EN bit*/
-    PWR_GPIO_On(GPIO_V_CTL2);
-    PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
-    /* Allow to restart with correct duty cycle */
-    PWR_SetPWMDutyCycle(aPWMDutyCycleLUT[VBUS_5_V]);
-  }
-}
-
-/**
- * @brief  Set a fixed/variable PDO and manage the power control.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- * @param  VbusTargetInmv the vbus Target (in mV)
- * @param  OperatingCurrent the Operating Current (in mA)
- * @param  MaxOperatingCurrent the Max Operating Current (in mA)
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Fixed(uint32_t PortId,
+  * @brief  Set a fixed/variable PDO and manage the power control.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  * @param  VbusTargetInmv the vbus Target (in mV)
+  * @param  OperatingCurrent the Operating Current (in mA)
+  * @param  MaxOperatingCurrent the Max Operating Current (in mA)
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Fixed(uint32_t Instance,
                                                uint32_t VbusTargetInmv,
                                                uint32_t OperatingCurrent,
                                                uint32_t MaxOperatingCurrent)
 {
-PWR_StatusTypeDef retr = PWR_OK;
-
-  if(Context.PortInfo[PortId].VBUSVoltage != VbusTargetInmv)
-  {
-    /* Start VBUS Discharge, done to increase the decrease speed */
-    PWR_GPIO_On(GPIO_VBUS_DISCHARGE1);
-
-    /* Set the power, the precision must be at 5% */
-    retr = PWR_VBUSSetVoltage(PortId, VbusTargetInmv, VbusTargetInmv * 5 / 100);
-
-    /* Wait the power stabilization */
-    PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
-  }
-
-  /* Upate the context */
-  Context.PortInfo[PortId].VBUSVoltage = VbusTargetInmv;
-  Context.PortInfo[PortId].Type = POWER_FIXED;
-
-  /* Set the current limitation */
-  /* not implemented */
-
-  return retr;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VBUSSetVoltage_Fixed(Instance, VbusTargetInmv, OperatingCurrent, MaxOperatingCurrent)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Set a fixed/variable PDO and manage the power control.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- * @param  VbusTargetMinInmv the vbus Target min (in mV)
- * @param  VbusTargetMaxInmv the vbus Target max (in mV)
- * @param  OperatingCurrent the Operating Current (in mA)
- * @param  MaxOperatingCurrent the Max Operating Current (in mA)
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Variable(uint32_t PortId,
+  * @brief  Set a fixed/variable PDO and manage the power control.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  * @param  VbusTargetMinInmv the vbus Target min (in mV)
+  * @param  VbusTargetMaxInmv the vbus Target max (in mV)
+  * @param  OperatingCurrent the Operating Current (in mA)
+  * @param  MaxOperatingCurrent the Max Operating Current (in mA)
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Variable(uint32_t Instance,
                                                   uint32_t VbusTargetMinInmv,
                                                   uint32_t VbusTargetMaxInmv,
                                                   uint32_t OperatingCurrent,
                                                   uint32_t MaxOperatingCurrent)
 {
-  uint32_t _vbusTargetInmv = (VbusTargetMinInmv + VbusTargetMinInmv) / 2;
-
-  /* Set the power, the precision must be at 5% */
-  PWR_StatusTypeDef retr = PWR_VBUSSetVoltage(PortId, _vbusTargetInmv, _vbusTargetInmv * 5 / 100);
-
-  /* Set the current limitation */
-  /* not implemented */
-
-  return retr;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VBUSSetVoltage_Variable(Instance, VbusTargetMinInmv, VbusTargetMaxInmv, OperatingCurrent, MaxOperatingCurrent)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Set a Battery PDO and manage the power control.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- * @param  VbusTargetMin the vbus Target min (in mV)
- * @param  VbusTargetMax the vbus Target max (in mV)
- * @param  OperatingPower the Operating Power (in mW)
- * @param  MaxOperatingPower the Max Operating Power (in mW)
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Battery(uint32_t PortId,
+  * @brief  Set a Battery PDO and manage the power control.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  * @param  VbusTargetMin the vbus Target min (in mV)
+  * @param  VbusTargetMax the vbus Target max (in mV)
+  * @param  OperatingPower the Operating Power (in mW)
+  * @param  MaxOperatingPower the Max Operating Power (in mW)
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Battery(uint32_t Instance,
                                                  uint32_t VbusTargetMin,
                                                  uint32_t VbusTargetMax,
                                                  uint32_t OperatingPower,
                                                  uint32_t MaxOperatingPower)
 {
-  /* Set the power, the precision must be at 5% */
-  /* Set the current limitation */
-  /* not implemented */
-
-  return PWR_ERROR;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VBUSSetVoltage_Battery(Instance, VbusTargetMin, VbusTargetMax, OperatingPower, MaxOperatingPower)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
-* @brief  Set a APDO and manage the power control.
-* @param  PortId Type-C port identifier
-*         This parameter can be take one of the following values:
-*         @arg TYPE_C_PORT_1
-* @param  VbusTargetInmv the vbus Target (in mV)
-* @param  OperatingCurrent the Operating current (in mA)
-* @param  Delta Delta between with previous APDO (in mV), 0 means APDO start
-* @retval PD controller status
-*/
-PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_APDO(uint32_t PortId,
+  * @brief  Set a APDO and manage the power control.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  * @param  VbusTargetInmv the vbus Target (in mV)
+  * @param  OperatingCurrent the Operating current (in mA)
+  * @param  Delta Delta between with previous APDO (in mV), 0 means APDO start
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_APDO(uint32_t Instance,
                                               uint32_t VbusTargetInmv,
                                               uint32_t OperatingCurrent,
                                               int32_t Delta)
 {
-  PWR_StatusTypeDef retr = PWR_OK;
-  
-  /* set the new value with the current value */
-  if(POWER_APDO != Context.PortInfo[PortId].Type)
-  {
-      switch(Context.PortInfo[PortId].VBUSVoltage)
-      {
-        case VBUS_VOLTAGE_0V_IN_MV :
-        case VBUS_VOLTAGE_5V_IN_MV :
-           aPWMDutyCycleLUT[VBUS_PPS_V] = aPWMDutyCycleLUT[VBUS_5_V];
-           break;
-        case VBUS_VOLTAGE_9V_IN_MV :
-           aPWMDutyCycleLUT[VBUS_PPS_V] = aPWMDutyCycleLUT[VBUS_9_V];
-           break;
-        case VBUS_VOLTAGE_15V_IN_MV :
-           aPWMDutyCycleLUT[VBUS_PPS_V] = aPWMDutyCycleLUT[VBUS_15_V];
-           break;
-        case VBUS_VOLTAGE_18V_IN_MV :
-           aPWMDutyCycleLUT[VBUS_PPS_V] = aPWMDutyCycleLUT[VBUS_18_V];
-           break;
-      }
-  }
-  
-  if(Context.PortInfo[PortId].VBUSVoltage != VbusTargetInmv)
-  {
-    /* Start VBUS Discharge, done to increase the decrease speed */
-    PWR_GPIO_On(GPIO_VBUS_DISCHARGE1);
-    
-    retr = PWR_VBUSSetVoltage(PortId, VbusTargetInmv, BSP_PWR_DCDC_PRECISION);
-    /* Wait the power stabilization */
-    PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
-    
-    /* Upate the context */
-    Context.PortInfo[PortId].VBUSVoltage = VbusTargetInmv;
-    Context.PortInfo[PortId].Type = POWER_APDO;
-  }
-
-
-  /* Set the current limitation */
-  /* not implemented */
-
-  return retr;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VBUSSetVoltage_APDO(Instance, VbusTargetInmv, OperatingCurrent, Delta)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Set VBUS voltage level
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @param  VBusInmV  VBUS voltage level setpoint(in mV)
- * @param  Precision Requested precision (in mV)
- * @note  Calibration and Precision paremeters aren't relevant when the VBUS
- *        voltage level isn't controlled by a PWM signal.
- * @note  When VBUS voltage level is controlled by a PWM signal, VBUS voltage is
- *        controlled by a PD (Proportional-Derivative) control loop.
- *        The PD control implementation is ilustrated by the block diagram below:
- *
- *                                              .-------------------.
- *                 .-------.              .------> PROPORTIONAL (Kp) >-.   .-------.
- *                 |  ADD  | pwm_error    |      '-------------------'  |  |  ADD  |  pwm  .---------------.
- *    VBusInmV --> +       >--------------|                             '--> +     >-------> PWM generator >-.
- *                 |       |              |     .------------------.       |       |       '---------------' |
- * vbus_measured .-> -     |              '----->  DERIVATIVE (Kd) >-------> +     |                         |
- *               | '-------'  pwm_error_previous ->                  |       '-------'                         |
- *               |                              '------------------'                                         |
- *               '-------------------------------------------------------------------------------------------'
- *
- *   pwm = Kp * pwm_error + (Kd * der)
- *
- * where:
- *  pwm_error is calulated from vbus_error
- *  Kp = Proptional Constant.
- *  Kd = Derivative Constant.
- *  der  = pwm_error - pwm_error_previous
-*  (der: differential error)
-*/
-static PWR_StatusTypeDef PWR_VBUSSetVoltage(uint32_t PortId,
-                                                uint32_t VBusInmV,
-                                                uint16_t Precision)
-{
-  PWR_StatusTypeDef _retr = PWR_OK;
-  static uint16_t          duty_cycle;
-  uint8_t           duty_calibrated = 0;
-  uint32_t          vbus_measured;
-#if defined(_TRACE)
-  char _str[20];
-#endif
-
-  if (PortId == TYPE_C_PORT_1)
-  {
-    duty_cycle =  PWR_GetPWMDutyCycle();
-    switch (VBusInmV)
-    {
-    case VBUS_VOLTAGE_0V_IN_MV:
-      {
-      duty_cycle    = 0x10;
-      /* Set PWM duty cycle to its initial value */
-      PWR_SetPWMDutyCycle(duty_cycle);
-      return PWR_OK;
-      }
-
-    case VBUS_VOLTAGE_5V_IN_MV:
-      duty_cycle      = aPWMDutyCycleLUT[VBUS_5_V];
-      duty_calibrated = aPWMDutyCalibrated[VBUS_5_V];
-      break;
-    case VBUS_VOLTAGE_9V_IN_MV:
-      duty_calibrated = aPWMDutyCalibrated[VBUS_9_V];
-      if (1 == duty_calibrated )
-      {
-        duty_cycle = aPWMDutyCycleLUT[VBUS_9_V];
-      }
-      break;
-    case VBUS_VOLTAGE_15V_IN_MV:
-      duty_calibrated = aPWMDutyCalibrated[VBUS_15_V];
-      if (1 == duty_calibrated )
-      {
-        duty_cycle = aPWMDutyCycleLUT[VBUS_15_V];
-      }
-      break;
-    case VBUS_VOLTAGE_18V_IN_MV:
-      duty_cycle      = aPWMDutyCycleLUT[VBUS_18_V];
-      if (1 == duty_calibrated )
-      {
-        duty_cycle = aPWMDutyCycleLUT[VBUS_18_V];
-      }
-      break;
-    default:
-      duty_cycle    = aPWMDutyCycleLUT[VBUS_PPS_V];
-      duty_calibrated = 0;
-      break;
-    }
-
-#if defined(_TRACE)
-    sprintf(_str,"==%d::%d",duty_cycle,duty_calibrated);
-    USBPD_TRACE_Add(USBPD_TRACE_DEBUG,0,0,(uint8_t*)_str, strlen(_str));
-#endif
-
-#if defined(DBG_LOG)
-      _DbgLogIndex=0;
-#endif /* DBG_LOG */
-
-    if (duty_calibrated == 1)
-    {
-      uint32_t _tickstart = HAL_GetTick();
-      PWR_SetPWMDutyCycle(duty_cycle);
-
-      /* Check if the voltage is at the expected level */
-      do
-      {
-          vbus_measured  = BSP_PWR_VBUSGetVoltage(PortId);
-          for(int32_t index=0; index < 2000; index++){ __DSB();};
-#ifdef PWR_DEBUG
-          sprintf(_str,"svcc:%d:%d", vbus_measured, duty_cycle);
-          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, PortId, 0, (uint8_t*)_str, strlen(_str));
-#endif
-          /* timeout to avoid infinite loop in case of power default */
-          if((HAL_GetTick() - _tickstart) > 300)
-          {
-            /* discard the VBUS and return an error */
-            BSP_PWR_VBUSOff(PortId);
-            return PWR_ERROR;
-          }
-
-     } while(ABS(vbus_measured -  VBusInmV)> 200);
-    }
-    else
-    {
-      int32_t           vbus_error;
-      int32_t           vbus_previous;
-      int32_t           pwm;
-      int32_t           pwm_step_current;
-      int32_t           pwm_step_previous=0;
-      int32_t           pwm_error = 0;
-      int32_t           pwm_error_previous;
-      uint8_t            nb_pll_loop;
-      pwm_step_previous = 0;
-      pwm_step_current = duty_cycle;
-      vbus_previous = vbus_measured = 0;
-      nb_pll_loop = 0;
-
-      do
-      {
-        pwm_step_previous = pwm_step_current;
-        vbus_previous = vbus_measured;
-        pwm_error_previous = pwm_error;
-        pwm_error = 0;
-        pwm = 0;
-
-        PWR_SetPWMDutyCycle(duty_cycle);
-
-        /* We can not avoid this DCDC takes time to lock .... */
-        for(int32_t index=0; index < 7000; index++){ __DSB();};
-
-        /* Measure actual VBUS voltage level */
-        vbus_measured  = BSP_PWR_VBUSGetVoltage(PortId);
-#if 0
-        sprintf(_str,"sv:%d:%d", vbus_measured, duty_cycle);
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, PortId, 0, (uint8_t*)_str, strlen(_str));
-#endif
-        /* Protection to handle the case where power is not present */
-        if(vbus_measured < 300)
-        {
-          /* discard the VBUS and return an error */
-          BSP_PWR_VBUSOff(PortId);
-          return PWR_ERROR;
-        }
-
-       /* Calculate VBUS error = target - the measure */
-        vbus_error = (int32_t)(VBusInmV) - (int32_t)(vbus_measured);
-
-        /* Convert VBUS error into PWM error (pwm_error) */
-        if ((ABS(vbus_error) >= BSP_PWR_DCDC_PRECISION))
-        {
-          /* Calculate PWM error */
-          pwm_error = (1000 * duty_cycle) / vbus_measured;
-          pwm_error *= vbus_error;
-          pwm_error /= 1000;
-
-          /* Calculate new PWM setpoint */
-          pwm = pwm_error*(int32_t)BSP_PWR_DCDC_PLL_P_N;
-          pwm /= (int32_t)BSP_PWR_DCDC_PLL_P_D;
-          pwm += (((pwm_error)-(pwm_error_previous))*(int32_t)BSP_PWR_DCDC_PLL_D_N)/((int32_t)BSP_PWR_DCDC_PLL_D_D);
-        }
-
-        /* Set PWM setpoint to its min value (if min DCDC capabilities is reached) */
-        if (pwm == 0)
-        {
-          if (vbus_error > 0)
-          {
-            pwm = (int32_t)BSP_PWR_DCDC_MIN_PWM_STEP;
-          }
-          else
-          {
-            pwm = -(int32_t)BSP_PWR_DCDC_MIN_PWM_STEP;
-          }
-        }
-        /* Limit PWM setpoint to max value (if required) */
-        else if (ABS(pwm) >= (uint32_t)BSP_PWR_DCDC_MAX_PWM_STEP)
-        {
-          if (pwm > 0)
-          {
-            pwm = (int32_t)BSP_PWR_DCDC_MAX_PWM_STEP;
-          }
-          else
-          {
-            pwm = -(int32_t)BSP_PWR_DCDC_MAX_PWM_STEP;
-          }
-        }
-
-        /* Calculate duty cycle setpoint from PWM setpoint */
-        if (pwm > 0)
-        {
-          if ((duty_cycle + (uint32_t)(pwm)) <= (uint32_t)BSP_PWR_DCDC_MAX_PWM_VALUE)
-          {
-            duty_cycle += (uint32_t)ABS(pwm);
-          }
-          else
-          {
-            /* Error case: Go back to 5V or 0V and break? */
-          }
-        }
-        else
-        {
-          if ((duty_cycle - (uint32_t)(pwm)) > (uint32_t)BSP_PWR_DCDC_MIN_PWM_VALUE)
-          {
-            duty_cycle -= (uint32_t)ABS(pwm);
-          }
-          else
-          {
-            /* Error case: Go back to 5V or 0V and break? */
-          }
-        }
-
-        pwm_step_current = duty_cycle;
-
-#if defined(DBG_LOG)
-    _Err[_DbgLogIndex]=vbus_error;
-    _Pwm[_DbgLogIndex]=duty_cycle;
-    _PwmE[_DbgLogIndex]=pwm;
-    _DbgLogIndex++;
-    if (_DbgLogIndex >= sizeof(_vbusout) / 4)
-    {
-      _DbgLogIndex=0;
-    }
-#endif /* DBG_LOG*/
-
-        if (    (ABS((int16_t)pwm_step_current-(int16_t)pwm_step_previous) <= BSP_PWR_DCDC_MIN_PWM_STEP)
-             && ((ABS(((int32_t)vbus_measured - (int32_t)vbus_previous))) <= BSP_PWR_DCDC_PRECISION)
-             && (ABS(vbus_error) <= Precision))
-
-        {
-          nb_pll_loop++;
-        }
-        else
-        {
-          nb_pll_loop = 0;
-        }
-      } while (nb_pll_loop < 1);
-
-      /* save the PWM value for the next settings */
-      switch (VBusInmV)
-      {
-      case VBUS_VOLTAGE_0V_IN_MV:
-        break;
-      case VBUS_VOLTAGE_5V_IN_MV:
-        aPWMDutyCycleLUT[VBUS_5_V]  = duty_cycle;
-        aPWMDutyCalibrated[VBUS_5_V] = 1;
-#if defined(_TRACE)
-        sprintf(_str, "ca5V:%d", duty_cycle);
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
-#endif
-        break;
-      case VBUS_VOLTAGE_9V_IN_MV:
-        aPWMDutyCycleLUT[VBUS_9_V]  = duty_cycle;
-        aPWMDutyCalibrated[VBUS_9_V] = 1;
-#if defined(_TRACE)
-        sprintf(_str, "ca9V:%d", duty_cycle);
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
-#endif
-        break;
-      case VBUS_VOLTAGE_15V_IN_MV:
-        aPWMDutyCycleLUT[VBUS_15_V] = duty_cycle;
-        aPWMDutyCalibrated[VBUS_15_V] = 1;
-#if defined(_TRACE)
-        sprintf(_str, "ca15V:%d", duty_cycle);
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
-#endif
-        break;
-      case VBUS_VOLTAGE_18V_IN_MV:
-        aPWMDutyCycleLUT[VBUS_18_V] = duty_cycle;
-        aPWMDutyCalibrated[VBUS_18_V] = 1;
-#if defined(_TRACE)
-        sprintf(_str, "ca18V:%d", duty_cycle);
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
-#endif
-        break;
-      default:
-        aPWMDutyCycleLUT[VBUS_PPS_V] = duty_cycle;
-#if defined(_TRACE)
-        sprintf(_str, "ca1PPS:%d", duty_cycle);
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
-#endif        
-        break;
-      }
-    }
-  }
-  else
-  {
-    _retr = PWR_ERROR;
-  }
-
-  return _retr;
-}
-
-/**
- * @brief  Get actual voltage level measured on the VBUS line.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @retval Voltage measured voltage level (in mV)
- */
-uint32_t  BSP_PWR_VBUSGetVoltage(uint32_t PortId)
+  * @brief  Get actual voltage level measured on the VBUS line.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  *         @arg TYPE_C_PORT_2
+  * @retval Voltage measured voltage level (in mV)
+  */
+uint32_t  BSP_PWR_VBUSGetVoltage(uint32_t Instance)
 {
   uint32_t voltage = 0;
 
-  if (PortId == TYPE_C_PORT_1)
-  {
-    voltage = PWR_ConvertADCDataToVoltage(aADCxConvertedValues[1]);
-  }
-  else if (PortId == TYPE_C_PORT_2)
-  {
-    voltage = PWR_ConvertADCDataToVoltage(aADCxConvertedValues[0]);
-  }
+  (void)BSP_USBPD_PWR_VBUSGetVoltage(Instance, &voltage);
 
   return voltage;
 }
 
 /**
- * @brief  Get actual current level measured on the VBUS line.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @retval Current measured current level (in mA)
- */
-int32_t BSP_PWR_VBUSGetCurrent(uint32_t PortId)
+  * @brief  Get actual current level measured on the VBUS line.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  *         @arg TYPE_C_PORT_2
+  * @retval Current measured current level (in mA)
+  */
+int32_t BSP_PWR_VBUSGetCurrent(uint32_t Instance)
 {
   int32_t current = 0;
 
-  if (PortId == TYPE_C_PORT_1)
-  {
-    current = PWR_ConvertADCDataToCurrent(aADCxConvertedValues[2]);
-  }
-  else if (PortId == TYPE_C_PORT_2)
-  {
-    current = PWR_ConvertADCDataToCurrent(aADCxConvertedValues[3]);
-  }
+  (void)BSP_USBPD_PWR_VBUSGetCurrent(Instance, &current);
 
-  return (current);
+  return current;
 }
 
 /**
- * @brief  Initialize VCONN sourcing.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @param  CCPinId Type-C CC pin identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_CC1
- *         @arg TYPE_C_CC2
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VCONNInit(uint32_t PortId,
+  * @brief  Initialize VCONN sourcing.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  *         @arg TYPE_C_PORT_2
+  * @param  CCPinId Type-C CC pin identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_CC1
+  *         @arg TYPE_C_CC2
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VCONNInit(uint32_t Instance,
                                     uint32_t CCPinId)
 {
-  PWR_StatusTypeDef ret = PWR_ERROR;
-
-  if (PortId == TYPE_C_PORT_1)
-  {
-    switch(CCPinId)
-    {
-    case TYPE_C_CC1 :
-      {
-        PWR_GPIO_Init(GPIO_VCONN_DISCHARGE1);
-        ret = PWR_OK;
-      }
-      break;
-    case TYPE_C_CC2 :
-      {
-        PWR_GPIO_Init(GPIO_VCONN_DISCHARGE2);
-        ret = PWR_OK;
-      }
-      break;
-    default:
-      break;
-    }
-  }
-  return ret;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VCONNInit(Instance, CCPinId)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Un-Initialize VCONN sourcing.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @param  CCPinId Type-C CC pin identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_CC1
- *         @arg TYPE_C_CC2
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VCONNDeInit(uint32_t PortId,
+  * @brief  Un-Initialize VCONN sourcing.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  *         @arg TYPE_C_PORT_2
+  * @param  CCPinId Type-C CC pin identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_CC1
+  *         @arg TYPE_C_CC2
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VCONNDeInit(uint32_t Instance,
                                       uint32_t CCPinId)
 {
-  PWR_StatusTypeDef ret = PWR_ERROR;
-
-  if (PortId == TYPE_C_PORT_1)
-  {
-    switch(CCPinId)
-    {
-    case TYPE_C_CC1 :
-      {
-        PWR_GPIO_DeInit(GPIO_VCONN_DISCHARGE1);
-        ret = PWR_OK;
-      }
-      break;
-    case TYPE_C_CC2 :
-      {
-        PWR_GPIO_DeInit(GPIO_VCONN_DISCHARGE2);
-        ret = PWR_OK;
-      }
-      break;
-    default:
-      break;
-    }
-  }
-  return ret;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VCONNDeInit(Instance, CCPinId)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Enable VCONN sourcing.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @param  CCPinId Type-C CC pin identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_CC1
- *         @arg TYPE_C_CC2
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VCONNOn(uint32_t PortId,
+  * @brief  Enable VCONN sourcing.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  *         @arg TYPE_C_PORT_2
+  * @param  CCPinId Type-C CC pin identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_CC1
+  *         @arg TYPE_C_CC2
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VCONNOn(uint32_t Instance,
                                   uint32_t CCPinId)
 {
-  PWR_StatusTypeDef ret = PWR_ERROR;
-
-  if (PortId == TYPE_C_PORT_1)
-  {
-    if (CCPinId == TYPE_C_CC1)
-    {
-      PWR_GPIO_On(GPIO_VCONN_EN1);
-      ret = PWR_OK;
-    }
-    else if (CCPinId == TYPE_C_CC2)
-    {
-      PWR_GPIO_On(GPIO_VCONN_EN2);
-      ret = PWR_OK;
-    }
-  }
-
-  return ret;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VCONNOn(Instance, CCPinId)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Disable VCONN sourcing.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @param  CCPinId CC pin identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_CC1
- *         @arg TYPE_C_CC2
- * @retval PD controller status
- */
-PWR_StatusTypeDef BSP_PWR_VCONNOff(uint32_t PortId,
+  * @brief  Disable VCONN sourcing.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  *         @arg TYPE_C_PORT_2
+  * @param  CCPinId CC pin identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_CC1
+  *         @arg TYPE_C_CC2
+  * @retval PD controller status
+  */
+PWR_StatusTypeDef BSP_PWR_VCONNOff(uint32_t Instance,
                                    uint32_t CCPinId)
 {
-  PWR_StatusTypeDef ret = PWR_ERROR;
-
-  if (PortId == TYPE_C_PORT_1)
-  {
-    if (CCPinId == TYPE_C_CC1)
-    {
-      /* switch off Vconn */
-      PWR_GPIO_Off(GPIO_VCONN_EN1);
-      PWR_GPIO_On(GPIO_VCONN_EN1);
-      PWR_GPIO_Off(GPIO_VCONN_EN1);
-
-      /* Dicharge VCONN */
-      PWR_GPIO_On(GPIO_VCONN_DISCHARGE1);
-      HAL_Delay(1);
-      PWR_GPIO_Off(GPIO_VCONN_DISCHARGE1);
-      ret = PWR_OK;
-    }
-    else if (CCPinId == TYPE_C_CC2)
-    {
-      /* switch off Vconn */
-      PWR_GPIO_Off(GPIO_VCONN_EN2);
-      PWR_GPIO_On(GPIO_VCONN_EN2);
-      PWR_GPIO_Off(GPIO_VCONN_EN2);
-
-      /* Dicharge VCONN */
-      PWR_GPIO_On(GPIO_VCONN_DISCHARGE2);
-      HAL_Delay(1);
-      PWR_GPIO_Off(GPIO_VCONN_DISCHARGE2);
-      ret = PWR_OK;
-    }
-  }
-
-  return ret;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VCONNOff(Instance, CCPinId)) ? PWR_OK : PWR_ERROR);
 }
 
 /**
- * @brief  Set the VBUS disconnection voltage threshold.
- * @note   Callback funtion registered through BSP_PWR_RegisterVBUSDetectCallback
- *         function call is invoked when VBUS falls below programmed threshold.
- * @note   By default VBUS disconnection threshold is set to 3.3V
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @param  VoltageThreshold: VBUS disconnection voltage threshold (in mV)
- * @retval PD controller status
- */
-void BSP_PWR_SetVBUSDisconnectionThreshold(uint32_t PortId,
+  * @brief  Set the VBUS disconnection voltage threshold.
+  * @note   Callback funtion registered through BSP_PWR_RegisterVBUSDetectCallback
+  *         function call is invoked when VBUS falls below programmed threshold.
+  * @note   By default VBUS disconnection threshold is set to 3.3V
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  *         @arg TYPE_C_PORT_2
+  * @param  VoltageThreshold: VBUS disconnection voltage threshold (in mV)
+  * @retval PD controller status
+  */
+void BSP_PWR_SetVBUSDisconnectionThreshold(uint32_t Instance,
                                            uint32_t VoltageThreshold)
 {
-  /* Update PWR context */
-  if (VoltageThreshold <= VBUS_CONNECTION_THRESHOLD)
-  {
-    Context.PortInfo[PortId].VBUSDisconnectionThreshold = VoltageThreshold;
-  }
+  (void)BSP_USBPD_PWR_SetVBUSDisconnectionThreshold(Instance, VoltageThreshold);
+  return;
 }
 
 /**
- * @brief  Register USB Type-C Current callback function.
- * @note   Callback function invoked when VBUS rises above 4V (VBUS present) or
- *         when VBUS falls below programmed threshold (VBUS absent).
- * @note   Callback funtion is un-registered when callback function pointer
- *         argument is NULL.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
- * @param  pfnVBUSDetectCallback callback function pointer
-* @retval 0 success else fail
- */
-PWR_StatusTypeDef BSP_PWR_RegisterVBUSDetectCallback(uint32_t                       PortId,
+  * @brief  Register USB Type-C Current callback function.
+  * @note   Callback function invoked when VBUS rises above 4V (VBUS present) or
+  *         when VBUS falls below programmed threshold (VBUS absent).
+  * @note   Callback funtion is un-registered when callback function pointer
+  *         argument is NULL.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  *         @arg TYPE_C_PORT_2
+  * @param  pfnVBUSDetectCallback callback function pointer
+  * @retval 0 success else fail
+  */
+PWR_StatusTypeDef BSP_PWR_RegisterVBUSDetectCallback(uint32_t                       Instance,
                                                      PWR_VBUSDetectCallbackFunc *   pfnVBUSDetectCallback)
 {
-  uint8_t                  ret = 0;
-  ADC_AnalogWDGConfTypeDef adc_awd_config = {0};
-
-  /* Configure analog watchdow */
-  if (PortId == TYPE_C_PORT_1)
-  {
-    adc_awd_config.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
-    adc_awd_config.Channel        = ADCx_CHANNEL_VSENSE_1;
-  }
-  else if (PortId == TYPE_C_PORT_2)
-  {
-    adc_awd_config.WatchdogNumber = ADC_ANALOGWATCHDOG_2;
-    adc_awd_config.Channel        = ADCx_CHANNEL_VSENSE_2;
-  }
-  else
-  {
-    ret++;
-  }
-
-  if (ret == 0)
-  {
-    /* Update PWR context */
-    Context.PortInfo[PortId].pfnVBUSDetectCallback = pfnVBUSDetectCallback;
-
-    if (pfnVBUSDetectCallback == (PWR_VBUSDetectCallbackFunc *)NULL)
-    {
-      adc_awd_config.WatchdogMode  = ADC_ANALOGWATCHDOG_NONE;
-      adc_awd_config.ITMode        = DISABLE;
-      adc_awd_config.HighThreshold = 0xFFF;
-      adc_awd_config.LowThreshold  = 0;
-    }
-    else
-    {
-      adc_awd_config.WatchdogMode  = ADC_ANALOGWATCHDOG_SINGLE_REG;
-      adc_awd_config.ITMode        = ENABLE;
-      adc_awd_config.HighThreshold = PWR_ConvertVoltageToThreshold(VBUS_CONNECTION_THRESHOLD);
-      adc_awd_config.LowThreshold  = 0;
-    }
-
-    /* Stop on-going conversions */
-    if (HAL_ADC_Stop_DMA(&hadc)!= HAL_OK) ret++;
-
-    /* Set AWD configuration */
-    if (HAL_ADC_AnalogWDGConfig(&hadc, &adc_awd_config) != HAL_OK) ret++;
-
-    /* Resume conversions */
-    if (HAL_ADC_Start_DMA(&hadc, (uint32_t *)aADCxConvertedValues, 4) != HAL_OK)  ret++;
-
-  }
-
-  return (ret == 0) ? PWR_OK : PWR_ERROR;
+  return ((BSP_ERROR_NONE == BSP_USBPD_PWR_RegisterVBUSDetectCallback(Instance, (USBPD_PWR_VBUSDetectCallbackFunc*)pfnVBUSDetectCallback)) ? PWR_OK : PWR_ERROR);
 }
 
 
 /**
- * @brief  Get actual VBUS status.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- * @retval VBUS status (1: On, 0: Off)
- */
-uint8_t BSP_PWR_VBUSIsOn(uint32_t PortId)
+  * @brief  Get actual VBUS status.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  * @retval VBUS status (1: On, 0: Off)
+  */
+uint8_t BSP_PWR_VBUSIsOn(uint32_t Instance)
 {
-  if (PortId == TYPE_C_PORT_1)
-  {
-    return (READ_BIT(GPIO_PORT[GPIO_SOURCE_EN]->ODR, GPIO_PIN[GPIO_SOURCE_EN]) == GPIO_PIN[GPIO_SOURCE_EN]) ? 1 : 0;
-  }
-  else
-  {
-    return 0;
-  }
+  uint8_t state = 0;
+  
+  BSP_USBPD_PWR_VBUSIsOn(Instance, &state);
+
+  return state;
 }
 
 /**
- * @brief  Get actual VCONN status.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- * @param  CCPinId Type-C CC pin identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_CC1
- *         @arg TYPE_C_CC2
- * @retval VCONN status (1: On, 0: Off)
- */
-uint8_t BSP_PWR_VCONNIsOn(uint32_t PortId,
+  * @brief  Get actual VCONN status.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  * @param  CCPinId Type-C CC pin identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_CC1
+  *         @arg TYPE_C_CC2
+  * @retval VCONN status (1: On, 0: Off)
+  */
+uint8_t BSP_PWR_VCONNIsOn(uint32_t Instance,
                           uint32_t CCPinId)
 {
-  GPIO_Id_TypeDef gpio;
+  uint8_t state = 0;
+  
+  BSP_USBPD_PWR_VCONNIsOn(Instance, CCPinId, &state);
 
-  if (PortId == TYPE_C_PORT_1)
-  {
-    if (CCPinId == TYPE_C_CC1)
-    {
-      gpio = GPIO_VCONN_EN1;
-    }
-    else
-    {
-      gpio = GPIO_VCONN_EN2;
-    }
-
-    return (READ_BIT(GPIO_PORT[gpio]->ODR, GPIO_PIN[gpio]) == GPIO_PIN[gpio]);
-  }
-  else
-  {
-    return 0;
-  }
+  return state;
 }
 
 /**
- * @brief  Get actual DCDC voltage level.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- * @retval DCDC voltage level (in mV)
- */
-uint32_t BSP_PWR_DCDCGetVoltage(uint32_t PortId)
+  * @brief  Get actual DCDC voltage level.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  * @retval DCDC voltage level (in mV)
+  */
+uint32_t BSP_PWR_DCDCGetVoltage(uint32_t Instance)
 {
   uint32_t voltage = 0;
 
   /* DCDC measure is possible only if the port operates as a source */
-  if (Context.PortInfo[PortId].Role != POWER_ROLE_SINK)
+  if (Context.PortInfo[Instance].Role != POWER_ROLE_SINK)
   {
     /* Pause VBUS sensing */
     PWR_PauseVBusSensing();
@@ -1753,22 +902,22 @@ uint32_t BSP_PWR_DCDCGetVoltage(uint32_t PortId)
     if (PWR_ADC_SetChannelConfig(ADC_VSENSE_DCDC) == 0)
     {
       /* Start conversion */
-      if (HAL_ADC_Start(&hadc) != HAL_OK)
+      if (HAL_ADC_Start(&hadc1) != HAL_OK)
       {
         goto end_of_DCDC_voltage_measure;
       }
 
       /* Wait for conversion completion */
-      if (HAL_ADC_PollForConversion(&hadc, 10) != HAL_OK)
+      if (HAL_ADC_PollForConversion(&hadc1, 10) != HAL_OK)
       {
         goto end_of_DCDC_voltage_measure;
       }
 
       /* Translate ADC conversion into voltage level */
-      voltage = PWR_ConvertADCDataToVoltage(HAL_ADC_GetValue(&hadc));
+      voltage = PWR_ConvertADCDataToVoltage(HAL_ADC_GetValue(&hadc1));
 
       /* Stop conversion */
-      if (HAL_ADC_Stop(&hadc) != HAL_OK)
+      if (HAL_ADC_Stop(&hadc1) != HAL_OK)
       {
         goto end_of_DCDC_voltage_measure;
       }
@@ -1786,48 +935,1090 @@ end_of_DCDC_voltage_measure:
 }
 
 /**
- * @brief  Get DCDC control mode.
- * @param  PortId Type-C port identifier
- *         This parameter can be take one of the following values:
- *         @arg TYPE_C_PORT_1
- * @retval DCDC control mode
- *         Returned value can take one of the following values:
- *         @arg DCDC_CTRL_MODE_UNKNOWN
- *         @arg DCDC_CTRL_MODE_GPIO
- *         @arg DCDC_CTRL_MODE_PWM
- */
-PWR_DCDCCtrlModeTypeDef BSP_PWR_DCDCGetCtrlMode(uint32_t PortId)
+  * @brief  Get DCDC control mode.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg TYPE_C_PORT_1
+  * @retval DCDC control mode
+  *         Returned value can take one of the following values:
+  *         @arg DCDC_CTRL_MODE_UNKNOWN
+  *         @arg DCDC_CTRL_MODE_GPIO
+  *         @arg DCDC_CTRL_MODE_PWM
+  */
+PWR_DCDCCtrlModeTypeDef BSP_PWR_DCDCGetCtrlMode(uint32_t Instance)
 {
-  if (PortId == TYPE_C_PORT_1)
-  {
-    return (Context.DCDCCtrlMode);
-  }
-  else
-  {
-    return(DCDC_CTRL_MODE_UNKNOWN);
-  }
+  USBPD_PWR_DCDCCtrlModeTypeDef dcdc_ctrl = DCDC_CTRL_MODE_UNKNOWN;
+
+  (void)BSP_USBPD_PWR_DCDCGetCtrlMode(Instance, &dcdc_ctrl);
+
+  return (PWR_DCDCCtrlModeTypeDef)dcdc_ctrl;
 }
 
 /**
   * @}
   */
 
+/** @addtogroup STM32G081B_EVAL_USBPD_POWER_Exported_Functions2
+  * @{
+  */
+
+/**
+  * @brief  Global initialization of PWR resource used by USB-PD
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_Init(uint32_t Instance)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_Init */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_Init */
+}
+
+/**
+  * @brief  Global de-initialization of PWR resource used by USB-PD
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_Deinit(uint32_t Instance)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_Deinit */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_Deinit */
+}
+
+/**
+  * @brief  Initialize the hardware resources used by the Type-C power delivery (PD)
+  *         controller.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSInit(uint32_t Instance)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSInit */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    USBPD_PWR_PowerRoleTypeDef   role;
+
+    if (Context.PortInfo[Instance].State == PORT_NOT_INITIALIZED)
+    {
+      if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+      {
+        role = POWER_ROLE_DUAL;
+        PWR_GPIO_Init(GPIO_VCONN_EN1);
+        PWR_GPIO_Init(GPIO_VCONN_EN2);
+      }
+      else
+      {
+        role = POWER_ROLE_SINK;
+      }
+
+      /* SINK / SOURCE initialization order is important: in case of dual role
+         SINK must be initialized before SOURCE. */
+      if ((role == POWER_ROLE_SINK) || (role == POWER_ROLE_DUAL))
+      {
+        if (0u == PWR_InitSink())
+        {
+          if (Context.ADCRefCount == 1u)
+          {
+            if (0u != PWR_StartVBusSensing())
+            {
+              ret = BSP_ERROR_PERIPH_FAILURE;
+            }
+          }
+        }
+        else
+        {
+          ret = BSP_ERROR_PERIPH_FAILURE;
+        }
+      }
+
+      if ((BSP_ERROR_NONE == ret) &&
+          ((role == POWER_ROLE_SOURCE) || (role == POWER_ROLE_DUAL)))
+      {
+        if (0u != PWR_InitSource(Instance))
+        {
+          ret = BSP_ERROR_PERIPH_FAILURE;
+        }
+      }
+
+      /* Update PWR context */
+      Context.PortInfo[Instance].State = PORT_INITIALIZED;
+      Context.PortInfo[Instance].Role = role;
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VBUSInit */
+}
+
+/**
+  * @brief  Release the hardware resources used by the Type-C power delivery (PD)
+  *         controller.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSDeInit(uint32_t Instance)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSDeInit */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    if (Context.PortInfo[Instance].State == PORT_INITIALIZED)
+    {
+      if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+      {
+        PWR_GPIO_DeInit(GPIO_VCONN_EN1);
+        PWR_GPIO_DeInit(GPIO_VCONN_EN2);
+      }
+
+      if ((Context.PortInfo[Instance].Role == POWER_ROLE_SOURCE) ||
+          (Context.PortInfo[Instance].Role == POWER_ROLE_DUAL))
+      {
+        if (0u != PWR_DeInitSource(Instance))
+        {
+          ret = BSP_ERROR_PERIPH_FAILURE;
+        }
+      }
+
+      if ((Context.PortInfo[Instance].Role == POWER_ROLE_SINK) ||
+          (Context.PortInfo[Instance].Role == POWER_ROLE_DUAL))
+      {
+        if (Context.ADCRefCount == 1u)
+        {
+          if (0u != PWR_StopVBusSensing())
+          {
+            ret = BSP_ERROR_PERIPH_FAILURE;
+          }
+        }
+        if (BSP_ERROR_NONE == ret)
+        {
+          if (0u != PWR_DeInitSink(Instance))
+          {
+            ret = BSP_ERROR_PERIPH_FAILURE;
+          }
+        }
+      }
+
+      /* Update PWR context */
+      Context.PortInfo[Instance].State = PORT_NOT_INITIALIZED;
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VBUSDeInit */
+}
+
+/**
+  * @brief  Enable power supply over VBUS.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSOn(uint32_t Instance)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSOn */
+  /* Check if instance is valid       */
+  int32_t ret;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      /* Start VBUS Discharge */
+      PWR_GPIO_On(GPIO_VBUS_DISCHARGE1);
+
+      /* safety control to avoid spike when enabling the power */
+      /* issue detected during board reset */
+      uint32_t _tickstart = HAL_GetTick();
+      uint32_t _dcdc;
+      uint32_t _delta = BSP_PWR_DCDCGetVoltage(Instance);
+
+      do
+      {
+        _dcdc = BSP_PWR_DCDCGetVoltage(Instance);
+
+        /* check after 2 second check if the power has start to decrease */
+        if ((((HAL_GetTick() - _tickstart) > 2000u)) && ((_delta - _dcdc) < 500u))
+        {
+#if defined(_TRACE)
+          uint8_t _str[20];
+          sprintf((char *)_str,"V:%ld-%ld", _dcdc, _delta);
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, _str, strlen((char *)_str));
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t *) "V:decrease error", 16);
+#endif
+          return BSP_ERROR_PERIPH_FAILURE;
+        }
+
+        /* Timeout management */
+        if ((HAL_GetTick() - _tickstart) > 15000u)
+        {
+#if defined(_TRACE)
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t *) "V:timeout", 9);
+#endif
+          return BSP_ERROR_PERIPH_FAILURE;
+        }
+      }
+      while (_dcdc > 5500u);
+
+      /* Switch on VBUS */
+      PWR_GPIO_On(GPIO_SOURCE_EN);
+
+      /* Set VBUS to its default voltage level */
+      ret = PWR_VBUSSetVoltage(Instance, VBUS_VOLTAGE_5V_IN_MV, 200u); /* 5% max = 250mV max */
+
+      /* Stop VBUS Discharge */
+      PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
+    }
+    else
+    {
+      ret = BSP_ERROR_PERIPH_FAILURE;
+    }
+
+    /* Save the power context */
+    Context.PortInfo[Instance].VBUSVoltage = VBUS_VOLTAGE_5V_IN_MV;
+    Context.PortInfo[Instance].Type = POWER_FIXED;
+
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VBUSOn */
+}
+
+/**
+  * @brief  Disable power supply over VBUS.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSOff(uint32_t Instance)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSOff */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      /* Go back to original VBUS value */
+      ret = PWR_VBUSSetVoltage(0u, VBUS_VOLTAGE_0V_IN_MV, 0u);
+
+      /* Discharge VBUS */
+      PWR_VBUSDischarge(Instance, USBPD_PWR_LOW_VBUS_THRESHOLD, 0u, 0u);
+    }
+
+    /* Save the power context */
+    Context.PortInfo[Instance].VBUSVoltage = VBUS_VOLTAGE_0V_IN_MV;
+    Context.PortInfo[Instance].Type = POWER_NONE;
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VBUSOff */
+}
+
+/**
+  * @brief  Set a fixed/variable PDO and manage the power control.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @param  VbusTargetInmv the vbus Target (in mV)
+  * @param  OperatingCurrent the Operating Current (in mA)
+  * @param  MaxOperatingCurrent the Max Operating Current (in mA)
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSSetVoltage_Fixed(uint32_t Instance,
+                                           uint32_t VbusTargetInmv,
+                                           uint32_t OperatingCurrent,
+                                           uint32_t MaxOperatingCurrent)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSSetVoltage_Fixed */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+  UNUSED(MaxOperatingCurrent);
+  UNUSED(OperatingCurrent);
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    if (Context.PortInfo[Instance].VBUSVoltage != VbusTargetInmv)
+    {
+      /* Start VBUS Discharge, done to increase the decrease speed */
+      PWR_GPIO_On(GPIO_VBUS_DISCHARGE1);
+
+      /* Set the power, the precision must be at 5% */
+      ret = PWR_VBUSSetVoltage(Instance, VbusTargetInmv, (uint16_t)(VbusTargetInmv * 5u / 100u));
+
+      /* Wait the power stabilization */
+      PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
+    }
+
+    /* Upate the context */
+    Context.PortInfo[Instance].VBUSVoltage = VbusTargetInmv;
+    Context.PortInfo[Instance].Type = POWER_FIXED;
+
+    /* Set the current limitation */
+    /* not implemented */
+
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VBUSSetVoltage_Fixed */
+}
+
+/**
+  * @brief  Set a fixed/variable PDO and manage the power control.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @param  VbusTargetMinInmv the vbus Target min (in mV)
+  * @param  VbusTargetMaxInmv the vbus Target max (in mV)
+  * @param  OperatingCurrent the Operating Current (in mA)
+  * @param  MaxOperatingCurrent the Max Operating Current (in mA)
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSSetVoltage_Variable(uint32_t Instance,
+                                              uint32_t VbusTargetMinInmv,
+                                              uint32_t VbusTargetMaxInmv,
+                                              uint32_t OperatingCurrent,
+                                              uint32_t MaxOperatingCurrent)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSSetVoltage_Variable */
+  /* Check if instance is valid       */
+  int32_t ret;
+  UNUSED(MaxOperatingCurrent);
+  UNUSED(OperatingCurrent);
+  UNUSED(VbusTargetMaxInmv);
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    uint32_t vbus_target_inmv = (VbusTargetMinInmv + VbusTargetMinInmv) / 2u;
+
+    /* Set the power, the precision must be at 5% */
+    ret = PWR_VBUSSetVoltage(Instance, vbus_target_inmv, (uint16_t)(vbus_target_inmv * 5u / 100u));
+
+    /* Set the current limitation */
+    /* not implemented */
+
+  }
+  return ret;
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSSetVoltage_Variable */
+}
+
+/**
+  * @brief  Set a Battery PDO and manage the power control.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @param  VbusTargetMin the vbus Target min (in mV)
+  * @param  VbusTargetMax the vbus Target max (in mV)
+  * @param  OperatingPower the Operating Power (in mW)
+  * @param  MaxOperatingPower the Max Operating Power (in mW)
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSSetVoltage_Battery(uint32_t Instance,
+                                             uint32_t VbusTargetMin,
+                                             uint32_t VbusTargetMax,
+                                             uint32_t OperatingPower,
+                                             uint32_t MaxOperatingPower)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSSetVoltage_Battery */
+  /* Check if instance is valid       */
+  int32_t ret;
+  UNUSED(OperatingPower);
+  UNUSED(VbusTargetMax);
+  UNUSED(VbusTargetMin);
+  UNUSED(MaxOperatingPower);
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    /* Set the power, the precision must be at 5% */
+    /* Set the current limitation */
+    /* not implemented */
+
+    ret = BSP_ERROR_FEATURE_NOT_SUPPORTED;
+  }
+  return ret;
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSSetVoltage_Battery */
+}
+
+/**
+  * @brief  Set a APDO and manage the power control.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @param  VbusTargetInmv the vbus Target (in mV)
+  * @param  OperatingCurrent the Operating current (in mA)
+  * @param  Delta Delta between with previous APDO (in mV), 0 means APDO start
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSSetVoltage_APDO(uint32_t Instance,
+                                          uint32_t VbusTargetInmv,
+                                          uint32_t OperatingCurrent,
+                                          int32_t Delta)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSSetVoltage_APDO */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+  UNUSED(Delta);
+  UNUSED(OperatingCurrent);
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    /* set the new value with the current value */
+    if (POWER_APDO != Context.PortInfo[Instance].Type)
+    {
+      switch (Context.PortInfo[Instance].VBUSVoltage)
+      {
+        case VBUS_VOLTAGE_0V_IN_MV :
+        case VBUS_VOLTAGE_5V_IN_MV :
+          aPWMDutyCycleLUT[VBUS_PPS_V] = aPWMDutyCycleLUT[VBUS_5_V];
+          break;
+        case VBUS_VOLTAGE_9V_IN_MV :
+          aPWMDutyCycleLUT[VBUS_PPS_V] = aPWMDutyCycleLUT[VBUS_9_V];
+          break;
+        case VBUS_VOLTAGE_15V_IN_MV :
+          aPWMDutyCycleLUT[VBUS_PPS_V] = aPWMDutyCycleLUT[VBUS_15_V];
+          break;
+        case VBUS_VOLTAGE_18V_IN_MV :
+          aPWMDutyCycleLUT[VBUS_PPS_V] = aPWMDutyCycleLUT[VBUS_18_V];
+          break;
+        default:
+          break;
+      }
+    }
+
+    if (Context.PortInfo[Instance].VBUSVoltage != VbusTargetInmv)
+    {
+      /* Start VBUS Discharge, done to increase the decrease speed */
+      PWR_GPIO_On(GPIO_VBUS_DISCHARGE1);
+
+      ret = PWR_VBUSSetVoltage(Instance, VbusTargetInmv, USBPD_PWR_DCDC_PRECISION);
+      /* Wait the power stabilization */
+      PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
+
+      /* Upate the context */
+      Context.PortInfo[Instance].VBUSVoltage = VbusTargetInmv;
+      Context.PortInfo[Instance].Type = POWER_APDO;
+    }
+
+    /* Set the current limitation */
+    /* not implemented */
+  }
+  return ret;
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSSetVoltage_APDO */
+}
+
+/**
+  * @brief  Get actual voltage level measured on the VBUS line.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @param  pVoltage Pointer on measured voltage level (in mV)
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSGetVoltage(uint32_t Instance, uint32_t *pVoltage)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSGetVoltage */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if ((Instance >= USBPD_PWR_INSTANCES_NBR) || (NULL == pVoltage))
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    uint32_t voltage = 0u;
+
+
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      voltage = PWR_ConvertADCDataToVoltage(aADCxConvertedValues[1u]);
+    }
+    else
+    {
+      if (Instance == USBPD_PWR_TYPE_C_PORT_2)
+      {
+        voltage = PWR_ConvertADCDataToVoltage(aADCxConvertedValues[0u]);
+      }
+    }
+
+    *pVoltage = voltage;
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VBUSGetVoltage */
+}
+
+/**
+  * @brief  Get actual current level measured on the VBUS line.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @param  pCurrent Pointer on measured current level (in mA)
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSGetCurrent(uint32_t Instance, int32_t *pCurrent)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSGetCurrent */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if ((Instance >= USBPD_PWR_INSTANCES_NBR) || (NULL == pCurrent))
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    int32_t current = 0;
+
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      current = PWR_ConvertADCDataToCurrent(aADCxConvertedValues[2u]);
+    }
+    else
+    {
+      if (Instance == USBPD_PWR_TYPE_C_PORT_2)
+      {
+        current = PWR_ConvertADCDataToCurrent(aADCxConvertedValues[3u]);
+      }
+    }
+
+    *pCurrent = current;
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VBUSGetCurrent */
+}
+
+/**
+  * @brief  Initialize VCONN sourcing.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @param  CCPinId Type-C CC pin identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_CC1
+  *         @arg @ref USBPD_PWR_TYPE_C_CC2
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VCONNInit(uint32_t Instance,
+                                uint32_t CCPinId)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VCONNInit */
+  /* Check if instance is valid       */
+  int32_t ret;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    ret = BSP_ERROR_NO_INIT;
+
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      switch (CCPinId)
+      {
+        case USBPD_PWR_TYPE_C_CC1 :
+        {
+          PWR_GPIO_Init(GPIO_VCONN_DISCHARGE1);
+          ret = BSP_ERROR_NONE;
+          break;
+        }
+        case USBPD_PWR_TYPE_C_CC2 :
+        {
+          PWR_GPIO_Init(GPIO_VCONN_DISCHARGE2);
+          ret = BSP_ERROR_NONE;
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VCONNInit */
+}
+
+/**
+  * @brief  Un-Initialize VCONN sourcing.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @param  CCPinId Type-C CC pin identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_CC1
+  *         @arg @ref USBPD_PWR_TYPE_C_CC2
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VCONNDeInit(uint32_t Instance,
+                                  uint32_t CCPinId)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VCONNDeInit */
+  /* Check if instance is valid       */
+  int32_t ret;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    ret = BSP_ERROR_NO_INIT;
+
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      switch (CCPinId)
+      {
+        case USBPD_PWR_TYPE_C_CC1 :
+        {
+          PWR_GPIO_DeInit(GPIO_VCONN_DISCHARGE1);
+          ret = BSP_ERROR_NONE;
+          break;
+        }
+        case USBPD_PWR_TYPE_C_CC2 :
+        {
+          PWR_GPIO_DeInit(GPIO_VCONN_DISCHARGE2);
+          ret = BSP_ERROR_NONE;
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VCONNDeInit */
+}
+
+/**
+  * @brief  Enable VCONN sourcing.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @param  CCPinId Type-C CC pin identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_CC1
+  *         @arg @ref USBPD_PWR_TYPE_C_CC2
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VCONNOn(uint32_t Instance,
+                              uint32_t CCPinId)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VCONNOn */
+  /* Check if instance is valid       */
+  int32_t ret;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    ret = BSP_ERROR_PERIPH_FAILURE;
+
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      if (CCPinId == USBPD_PWR_TYPE_C_CC1)
+      {
+        PWR_GPIO_On(GPIO_VCONN_EN1);
+        ret = BSP_ERROR_NONE;
+      }
+      else
+      {
+        if (CCPinId == USBPD_PWR_TYPE_C_CC2)
+        {
+          PWR_GPIO_On(GPIO_VCONN_EN2);
+          ret = BSP_ERROR_NONE;
+        }
+      }
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VCONNOn */
+}
+
+/**
+  * @brief  Disable VCONN sourcing.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @param  CCPinId CC pin identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_CC1
+  *         @arg @ref USBPD_PWR_TYPE_C_CC2
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VCONNOff(uint32_t Instance,
+                               uint32_t CCPinId)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VCONNOff */
+  /* Check if instance is valid       */
+  int32_t ret;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    ret = BSP_ERROR_PERIPH_FAILURE;
+
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      if (CCPinId == USBPD_PWR_TYPE_C_CC1)
+      {
+        /* switch off Vconn */
+        PWR_GPIO_Off(GPIO_VCONN_EN1);
+        PWR_GPIO_On(GPIO_VCONN_EN1);
+        PWR_GPIO_Off(GPIO_VCONN_EN1);
+
+        /* Dicharge VCONN */
+        PWR_GPIO_On(GPIO_VCONN_DISCHARGE1);
+        HAL_Delay(1u);
+        PWR_GPIO_Off(GPIO_VCONN_DISCHARGE1);
+        ret = BSP_ERROR_NONE;
+      }
+      else
+      {
+        if (CCPinId == USBPD_PWR_TYPE_C_CC2)
+        {
+          /* switch off Vconn */
+          PWR_GPIO_Off(GPIO_VCONN_EN2);
+          PWR_GPIO_On(GPIO_VCONN_EN2);
+          PWR_GPIO_Off(GPIO_VCONN_EN2);
+
+          /* Dicharge VCONN */
+          PWR_GPIO_On(GPIO_VCONN_DISCHARGE2);
+          HAL_Delay(1u);
+          PWR_GPIO_Off(GPIO_VCONN_DISCHARGE2);
+          ret = BSP_ERROR_NONE;
+        }
+      }
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VCONNOff */
+}
+
+/**
+  * @brief  Get actual VCONN status.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @param  CCPinId Type-C CC pin identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_CC1
+  *         @arg @ref USBPD_PWR_TYPE_C_CC2
+  * @param  pState VCONN status (1: On, 0: Off)
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VCONNIsOn(uint32_t Instance,
+                                uint32_t CCPinId, uint8_t *pState)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VCONNIsOn */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if ((Instance >= USBPD_PWR_INSTANCES_NBR) || (NULL == pState))
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    GPIO_Id_TypeDef gpio;
+
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      if (CCPinId == USBPD_PWR_TYPE_C_CC1)
+      {
+        gpio = GPIO_VCONN_EN1;
+      }
+      else
+      {
+        gpio = GPIO_VCONN_EN2;
+      }
+      ((READ_BIT(GPIO_PORT[gpio]->ODR, GPIO_PIN[gpio]) == GPIO_PIN[gpio]) ? (*pState = 1u) : (*pState = 0u));
+    }
+    else
+    {
+      ret = BSP_ERROR_FEATURE_NOT_SUPPORTED;;
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VCONNIsOn */
+}
+
+/**
+  * @brief  Set the VBUS disconnection voltage threshold.
+  * @note   Callback funtion registered through BSP_USBPD_PWR_RegisterVBUSDetectCallback
+  *         function call is invoked when VBUS falls below programmed threshold.
+  * @note   By default VBUS disconnection threshold is set to 3.3V
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @param  VoltageThreshold VBUS disconnection voltage threshold (in mV)
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_SetVBUSDisconnectionThreshold(uint32_t Instance,
+                                                    uint32_t VoltageThreshold)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_SetVBUSDisconnectionThreshold */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    /* Update PWR context */
+    if (VoltageThreshold <= VBUS_CONNECTION_THRESHOLD)
+    {
+      Context.PortInfo[Instance].VBUSDisconnectionThreshold = VoltageThreshold;
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_SetVBUSDisconnectionThreshold */
+}
+
+/**
+  * @brief  Register USB Type-C Current callback function.
+  * @note   Callback function invoked when VBUS rises above 4V (VBUS present) or
+  *         when VBUS falls below programmed threshold (VBUS absent).
+  * @note   Callback funtion is un-registered when callback function pointer
+  *         argument is NULL.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @param  pfnVBUSDetectCallback callback function pointer
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_RegisterVBUSDetectCallback(uint32_t                       Instance,
+                                                 USBPD_PWR_VBUSDetectCallbackFunc    *pfnVBUSDetectCallback)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_RegisterVBUSDetectCallback */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if ((Instance >= USBPD_PWR_INSTANCES_NBR) || (NULL == pfnVBUSDetectCallback))
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    ADC_AnalogWDGConfTypeDef adc_awd_config;
+
+    /* Configure analog watchdow */
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      adc_awd_config.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
+      adc_awd_config.Channel        = ADCx_CHANNEL_VSENSE_1;
+    }
+    else 
+    { 
+      adc_awd_config.WatchdogNumber = ADC_ANALOGWATCHDOG_2;
+      adc_awd_config.Channel        = ADCx_CHANNEL_VSENSE_2;
+    }
+    /* Update PWR context */
+    Context.PortInfo[Instance].pfnVBUSDetectCallback = pfnVBUSDetectCallback;
+
+    if (pfnVBUSDetectCallback == NULL)
+    {
+      adc_awd_config.WatchdogMode  = ADC_ANALOGWATCHDOG_NONE;
+      adc_awd_config.ITMode        = DISABLE;
+      adc_awd_config.HighThreshold = 0xFFF;
+      adc_awd_config.LowThreshold  = 0u;
+    }
+    else
+    {
+      adc_awd_config.WatchdogMode  = ADC_ANALOGWATCHDOG_SINGLE_REG;
+      adc_awd_config.ITMode        = ENABLE;
+      adc_awd_config.HighThreshold = PWR_ConvertVoltageToThreshold(VBUS_CONNECTION_THRESHOLD);
+      adc_awd_config.LowThreshold  = 0u;
+    }
+
+    /* Stop on-going conversions */
+    if (HAL_ADC_Stop_DMA(&hadc1) != HAL_OK)
+    {
+      ret = BSP_ERROR_PERIPH_FAILURE;
+    }
+    else
+    {
+      /* Set AWD configuration */
+      if (HAL_ADC_AnalogWDGConfig(&hadc1, &adc_awd_config) != HAL_OK)
+      {
+        ret = BSP_ERROR_PERIPH_FAILURE;
+      }
+      else
+      {
+        /* Resume conversions */
+        if (HAL_ADC_Start_DMA(&hadc1, (uint32_t *)aADCxConvertedValues, 4u) != HAL_OK)
+        {
+          ret = BSP_ERROR_PERIPH_FAILURE;
+        }
+      }
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_RegisterVBUSDetectCallback */
+}
+
+/**
+  * @brief  Get actual VBUS status.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @param  pState VBUS status (1: On, 0: Off)
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_VBUSIsOn(uint32_t Instance, uint8_t *pState)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSIsOn */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      *pState = ((READ_BIT(GPIO_PORT[GPIO_SOURCE_EN]->ODR, GPIO_PIN[GPIO_SOURCE_EN]) == GPIO_PIN[GPIO_SOURCE_EN]) ? 1u : 0u);
+    }
+    else
+    {
+      ret = BSP_ERROR_FEATURE_NOT_SUPPORTED;;
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_VBUSIsOn */
+}
+
+/**
+  * @brief  Get DCDC control mode.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @param  pDCDCCtrl Pointer on DCDC control mode
+  *         Returned value can take one of the following values:
+  *         @arg @ref DCDC_CTRL_MODE_UNKNOWN
+  *         @arg @ref DCDC_CTRL_MODE_GPIO
+  *         @arg @ref DCDC_CTRL_MODE_PWM
+  * @retval BSP status
+  */
+int32_t BSP_USBPD_PWR_DCDCGetCtrlMode(uint32_t Instance, USBPD_PWR_DCDCCtrlModeTypeDef *pDCDCCtrl)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_DCDCGetCtrlMode */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if ((Instance >= USBPD_PWR_INSTANCES_NBR) || (NULL == pDCDCCtrl))
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    if (Instance == USBPD_PWR_TYPE_C_PORT_1)
+    {
+      *pDCDCCtrl = Context.DCDCCtrlMode;
+    }
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_DCDCGetCtrlMode */
+}
+
+/**
+  * @}
+  */
 
 /** @addtogroup STM32G081B_EVAL_POWER_Private_Functions
   * @{
   */
+
+/* USER CODE BEGIN POWER_Private_Functions */
 /**
  * @brief  Initialize the hardware resources used by a port acting as a source.
- * @param  PortId Type-C port identifier
+ * @param  Instance Type-C port identifier
  *         This parameter can be take one of the following values:
  *         @arg TYPE_C_PORT_1
 * @retval 0 success else fail
  */
-static uint8_t PWR_InitSource(uint32_t PortId)
+static uint8_t PWR_InitSource(uint32_t Instance)
 {
   uint8_t ret = 0;
 
-  if (PortId == TYPE_C_PORT_1)
+  if (Instance == TYPE_C_PORT_1)
   {
     /* Initialize the Type-C port 1 related GPIOs */
     PWR_GPIO_Init(GPIO_VBUS_DISCHARGE1);
@@ -1853,14 +2044,14 @@ static uint8_t PWR_InitSource(uint32_t PortId)
 
 /**
  * @brief  Release the hardware resources used by a port acting as a source.
- * @param  PortId Type-C port identifier
+ * @param  Instance Type-C port identifier
  *         This parameter can take following value:
  *         @arg TYPE_C_PORT_1
 * @retval 0 success else fail
  */
-static uint8_t PWR_DeInitSource(uint32_t PortId)
+static uint8_t PWR_DeInitSource(uint32_t Instance)
 {
-  if (PortId == TYPE_C_PORT_1)
+  if (Instance == TYPE_C_PORT_1)
   {
     /* De-initialize the Type-C port 1 related GPIOs */
     PWR_DeInitPowerSource();
@@ -1878,13 +2069,9 @@ static uint8_t PWR_DeInitSource(uint32_t PortId)
 
 /**
  * @brief  Initialize the hardware resources used by a port acting as a sink.
- * @param  PortId Type-C port identifier
- *         This parameter can take one of the following values:
- *         @arg TYPE_C_PORT_1
- *         @arg TYPE_C_PORT_2
-* @retval 0 success else fail
+ * @retval 0 success else fail
  */
-static uint8_t PWR_InitSink(uint32_t PortId)
+static uint8_t PWR_InitSink(void)
 {
   uint32_t ret = 0;
 
@@ -1897,13 +2084,13 @@ static uint8_t PWR_InitSink(uint32_t PortId)
 
 /**
  * @brief  Release the hardware resources used by a port acting as a sink.
- * @param  PortId Type-C port identifier
+ * @param  Instance Type-C port identifier
  *         This parameter can be take one of the following values:
  *         @arg TYPE_C_PORT_1
  *         @arg TYPE_C_PORT_2
 * @retval 0 success else fail
  */
-static uint8_t PWR_DeInitSink(uint32_t PortId)
+static uint8_t PWR_DeInitSink(uint32_t Instance)
 {
   uint32_t ret = 0;
 
@@ -1919,15 +2106,15 @@ static uint8_t PWR_DeInitSink(uint32_t PortId)
 * @brief  Configures GPIO.
 * @param  gpio Specifies the GPIO Pin to be configured.
 *   This parameter can be one of following parameters:
-*     @arg   GPIO_SOURCE_EN
-*     @arg   GPIO_VBUS_DISCHARGE1
-*     @arg   GPIO_VBUS_DISCHARGE2
-*     @arg   GPIO_VCONN_EN1
-*     @arg   GPIO_VCONN_EN2
-*     @arg   GPIO_VCONN_DISCHARGE1
-*     @arg   GPIO_VCONN_DISCHARGE2
-*     @arg   GPIO_V_CTL2
-*     @arg   GPIO_V_CTL1
+*     @arg @ref   GPIO_SOURCE_EN
+*     @arg @ref   GPIO_VBUS_DISCHARGE1
+*     @arg @ref   GPIO_VBUS_DISCHARGE2
+*     @arg @ref   GPIO_VCONN_EN1
+*     @arg @ref   GPIO_VCONN_EN2
+*     @arg @ref   GPIO_VCONN_DISCHARGE1
+*     @arg @ref   GPIO_VCONN_DISCHARGE2
+*     @arg @ref   GPIO_V_CTL2
+*     @arg @ref   GPIO_V_CTL1
 * @retval None
 */
 static void PWR_GPIO_Init(GPIO_Id_TypeDef gpio)
@@ -1989,6 +2176,8 @@ static void PWR_GPIO_Init(GPIO_Id_TypeDef gpio)
     /* Set GPIO to inactive state */
     HAL_GPIO_WritePin(GPIO_PORT[gpio], GPIO_PIN[gpio], GPIO_PIN_RESET);
     break;
+  default:
+    break;
   }
 }
 
@@ -1996,15 +2185,15 @@ static void PWR_GPIO_Init(GPIO_Id_TypeDef gpio)
 * @brief  Reset  GPIO configuration.
 * @param  gpio Specifies the GPIO Pin .
 *   This parameter can be one of following parameters:
-*     @arg   GPIO_SOURCE_EN
-*     @arg   GPIO_VBUS_DISCHARGE1
-*     @arg   GPIO_VBUS_DISCHARGE2
-*     @arg   GPIO_VCONN_EN1
-*     @arg   GPIO_VCONN_EN2
-*     @arg   GPIO_VCONN_DISCHARGE1
-*     @arg   GPIO_VCONN_DISCHARGE2
-*     @arg   GPIO_V_CTL2
-*     @arg   GPIO_V_CTL1
+  *     @arg @ref   GPIO_SOURCE_EN
+  *     @arg @ref   GPIO_VBUS_DISCHARGE1
+  *     @arg @ref   GPIO_VBUS_DISCHARGE2
+  *     @arg @ref   GPIO_VCONN_EN1
+  *     @arg @ref   GPIO_VCONN_EN2
+  *     @arg @ref   GPIO_VCONN_DISCHARGE1
+  *     @arg @ref   GPIO_VCONN_DISCHARGE2
+  *     @arg @ref   GPIO_V_CTL2
+  *     @arg @ref   GPIO_V_CTL1
 * @retval None
 */
 static void PWR_GPIO_DeInit(GPIO_Id_TypeDef gpio)
@@ -2016,15 +2205,15 @@ static void PWR_GPIO_DeInit(GPIO_Id_TypeDef gpio)
 * @brief  Turns selected GPIO On.
 * @param  gpio Specifies the GPIO Pin to be configured.
 *   This parameter can be one of following parameters:
-*     @arg   GPIO_SOURCE_EN
-*     @arg   GPIO_VBUS_DISCHARGE1
-*     @arg   GPIO_VBUS_DISCHARGE2
-*     @arg   GPIO_VCONN_EN1
-*     @arg   GPIO_VCONN_EN2
-*     @arg   GPIO_VCONN_DISCHARGE1
-*     @arg   GPIO_VCONN_DISCHARGE2
-*     @arg   GPIO_V_CTL2
-*     @arg   GPIO_V_CTL1
+*     @arg @ref   GPIO_SOURCE_EN
+*     @arg @ref   GPIO_VBUS_DISCHARGE1
+*     @arg @ref   GPIO_VBUS_DISCHARGE2
+*     @arg @ref   GPIO_VCONN_EN1
+*     @arg @ref   GPIO_VCONN_EN2
+*     @arg @ref   GPIO_VCONN_DISCHARGE1
+*     @arg @ref   GPIO_VCONN_DISCHARGE2
+*     @arg @ref   GPIO_V_CTL2
+*     @arg @ref   GPIO_V_CTL1
 * @retval None
 */
 static void PWR_GPIO_On(GPIO_Id_TypeDef gpio)
@@ -2064,15 +2253,15 @@ static void PWR_GPIO_On(GPIO_Id_TypeDef gpio)
 * @brief  Turns selected GPIO Off.
 * @param  gpio Specifies the GPIO Pin to be configured.
 *   This parameter can be one of following parameters:
-*     @arg   GPIO_SOURCE_EN
-*     @arg   GPIO_VBUS_DISCHARGE1
-*     @arg   GPIO_VBUS_DISCHARGE2
-*     @arg   GPIO_VCONN_EN1
-*     @arg   GPIO_VCONN_EN2
-*     @arg   GPIO_VCONN_DISCHARGE1
-*     @arg   GPIO_VCONN_DISCHARGE2
-*     @arg   GPIO_V_CTL2
-*     @arg   GPIO_V_CTL1
+*     @arg @ref   GPIO_SOURCE_EN
+*     @arg @ref   GPIO_VBUS_DISCHARGE1
+*     @arg @ref   GPIO_VBUS_DISCHARGE2
+*     @arg @ref   GPIO_VCONN_EN1
+*     @arg @ref   GPIO_VCONN_EN2
+*     @arg @ref   GPIO_VCONN_DISCHARGE1
+*     @arg @ref   GPIO_VCONN_DISCHARGE2
+*     @arg @ref   GPIO_V_CTL2
+*     @arg @ref   GPIO_V_CTL1
 * @retval None
 */
 static void PWR_GPIO_Off(GPIO_Id_TypeDef gpio)
@@ -2114,36 +2303,36 @@ static void PWR_GPIO_Off(GPIO_Id_TypeDef gpio)
 */
 static uint8_t PWR_ADC_SetConfig(void)
 {
-  uint8_t ret = 0;
+  uint8_t ret = 0u;
 
   /* Initialize ADC (if not already used) */
-  if (Context.ADCRefCount == 0)
+  if (Context.ADCRefCount == 0u)
   {
-    __HAL_ADC_RESET_HANDLE_STATE(&hadc);
+    __HAL_ADC_RESET_HANDLE_STATE(&hadc1);
 
-    /* Configuration of hadc init structure: ADC parameters and regular group */
-    hadc.Instance = ADCx;
+    /* Configuration of hadc1 init structure: ADC parameters and regular group */
+    hadc1.Instance = ADCx;
 
-    hadc.Init.ClockPrescaler        = ADC_CLOCK_SYNC_PCLK_DIV4;
-    hadc.Init.Resolution            = ADC_RESOLUTION_12B;
-    hadc.Init.DataAlign             = ADC_DATAALIGN_RIGHT;
-    hadc.Init.ScanConvMode          = ADC_SCAN_DIRECTION_FORWARD;
-    hadc.Init.EOCSelection          = ADC_EOC_SINGLE_CONV;
-    hadc.Init.LowPowerAutoWait      = DISABLE;
-    hadc.Init.LowPowerAutoPowerOff  = DISABLE;
-    hadc.Init.ContinuousConvMode    = ENABLE;
-    hadc.Init.DiscontinuousConvMode = DISABLE;
-    hadc.Init.ExternalTrigConv      = ADC_SOFTWARE_START;
-    hadc.Init.ExternalTrigConvEdge  = ADC_EXTERNALTRIGCONVEDGE_NONE;
-    hadc.Init.DMAContinuousRequests = ENABLE;
-    hadc.Init.Overrun               = ADC_OVR_DATA_OVERWRITTEN;
-    hadc.Init.SamplingTimeCommon1   = ADC_SAMPLETIME_39CYCLES_5;
-    hadc.Init.OversamplingMode      = DISABLE;
+    hadc1.Init.ClockPrescaler        = ADC_CLOCK_SYNC_PCLK_DIV4;
+    hadc1.Init.Resolution            = ADC_RESOLUTION_12B;
+    hadc1.Init.DataAlign             = ADC_DATAALIGN_RIGHT;
+    hadc1.Init.ScanConvMode          = ADC_SCAN_DIRECTION_FORWARD;
+    hadc1.Init.EOCSelection          = ADC_EOC_SINGLE_CONV;
+    hadc1.Init.LowPowerAutoWait      = DISABLE;
+    hadc1.Init.LowPowerAutoPowerOff  = DISABLE;
+    hadc1.Init.ContinuousConvMode    = ENABLE;
+    hadc1.Init.DiscontinuousConvMode = DISABLE;
+    hadc1.Init.ExternalTrigConv      = ADC_SOFTWARE_START;
+    hadc1.Init.ExternalTrigConvEdge  = ADC_EXTERNALTRIGCONVEDGE_NONE;
+    hadc1.Init.DMAContinuousRequests = ENABLE;
+    hadc1.Init.Overrun               = ADC_OVR_DATA_OVERWRITTEN;
+    hadc1.Init.SamplingTimeCommon1   = ADC_SAMPLETIME_39CYCLES_5;
+    hadc1.Init.OversamplingMode      = DISABLE;
 
-    if (HAL_ADC_Init(&hadc) != HAL_OK) ret++;
+    if (HAL_ADC_Init(&hadc1) != HAL_OK) ret++;
 
     /* Run the ADC calibration */
-    if (HAL_ADCEx_Calibration_Start(&hadc) != HAL_OK) ret++;
+    if (HAL_ADCEx_Calibration_Start(&hadc1) != HAL_OK) ret++;
 
     /* Configure the ADC channel used to sense VBUS1 voltage */
     ret += PWR_ADC_SetChannelConfig(ADC_VSENSE_1);
@@ -2168,10 +2357,10 @@ static uint8_t PWR_ADC_SetConfig(void)
 static void PWR_ADC_ResetConfig(void)
 {
   /* Stop conversion and de-initialize ADC (if not used any more ) */
-  if (Context.ADCRefCount == 0)
+  if (Context.ADCRefCount == 0u)
   {
     /* Stop ADCx conversions */
-    HAL_ADC_Stop_DMA(&hadc);
+    (void)HAL_ADC_Stop_DMA(&hadc1);
 
     /* Reset ADC channel configuration */
     PWR_ADC_ResetChannelConfig(ADC_VSENSE_1);
@@ -2180,25 +2369,35 @@ static void PWR_ADC_ResetConfig(void)
     PWR_ADC_ResetChannelConfig(ADC_ISENSE_2);
 
     /* De-initialize ADCx */
-    HAL_ADC_DeInit(&hadc);
+    HAL_ADC_DeInit(&hadc1);
   }
 }
 
 /**
 * @brief  Set ADC channel configuration.
 * @param  ADCChannel Specifies the ADC channel
-*     @arg   ADC_VSENSE_1
-*     @arg   ADC_VSENSE_2
-*     @arg   ADC_ISENSE_1
-*     @arg   ADC_ISENSE_2
-*     @arg   ADC_VSENSE_DCDC (MB1352C only)
+*     @arg @ref   ADC_VSENSE_1
+*     @arg @ref   ADC_VSENSE_2
+*     @arg @ref   ADC_ISENSE_1
+*     @arg @ref   ADC_ISENSE_2
+*     @arg @ref   ADC_VSENSE_DCDC (MB1352C only)
 * @retval 0 success else fail
 */
 static uint8_t PWR_ADC_SetChannelConfig(ADC_ChannelId_TypeDef ADCChannel)
 {
-  uint8_t                  ret = 0;
-  GPIO_InitTypeDef         gpio_config = {0};
-  ADC_ChannelConfTypeDef   adc_channel_config = {0};
+  /* V/I Sense / ADC Channel cross table */
+  static const uint32_t ADC_CHANNEL[ADCxChanneln] =
+  {
+    ADCx_CHANNEL_VSENSE_1,
+    ADCx_CHANNEL_ISENSE_1,
+    ADCx_CHANNEL_VSENSE_2,
+    ADCx_CHANNEL_ISENSE_2,
+    ADCx_CHANNEL_VSENSE_DCDC
+  };
+
+  uint8_t                  ret = 0u;
+  GPIO_InitTypeDef         gpio_config = {0u};
+  ADC_ChannelConfTypeDef   adc_channel_config = {0u};
 
   /* Enable GPIO clock */
   ADCx_CHANNEL_GPIO_CLK_ENABLE(ADC_CHANNEL[ADCChannel]);
@@ -2214,7 +2413,10 @@ static uint8_t PWR_ADC_SetChannelConfig(ADC_ChannelId_TypeDef ADCChannel)
   adc_channel_config.Rank    = ADC_RANK_CHANNEL_NUMBER;
   adc_channel_config.SamplingTime = ADC_SAMPLINGTIME_COMMON_1;
 
-  if (HAL_ADC_ConfigChannel(&hadc, &adc_channel_config) != HAL_OK) ret++;
+  if (HAL_ADC_ConfigChannel(&hadc1, &adc_channel_config) != HAL_OK)
+  {
+    ret++;
+  }
 
   return ret;
 }
@@ -2222,11 +2424,11 @@ static uint8_t PWR_ADC_SetChannelConfig(ADC_ChannelId_TypeDef ADCChannel)
 /**
 * @brief  Reset ADC channel configuration.
 * @param  ADCChannel Specifies the ADC channel
-*     @arg   ADC_VSENSE_1
-*     @arg   ADC_VSENSE_2
-*     @arg   ADC_ISENSE_1
-*     @arg   ADC_ISENSE_2
-*     @arg   ADC_VSENSE_DCDC (MB1352C only)
+*     @arg @ref   ADC_VSENSE_1
+*     @arg @ref   ADC_VSENSE_2
+*     @arg @ref   ADC_ISENSE_1
+*     @arg @ref   ADC_ISENSE_2
+*     @arg @ref   ADC_VSENSE_DCDC (MB1352C only)
 * @retval None
 */
 static void PWR_ADC_ResetChannelConfig(ADC_ChannelId_TypeDef ADCChannel)
@@ -2252,7 +2454,7 @@ static void PWR_ADC_ResetChannelConfig(ADC_ChannelId_TypeDef ADCChannel)
   */
 static uint32_t PWR_ConvertADCDataToVoltage(uint32_t ADCData)
 {
-  uint32_t voltage = 0;
+  uint32_t voltage;
   uint32_t vadc;
 
   vadc = (ADCData * VDD)/ADC_FULL_SCALE;
@@ -2279,7 +2481,7 @@ static uint32_t PWR_ConvertADCDataToVoltage(uint32_t ADCData)
   */
 static uint32_t PWR_ConvertVoltageToThreshold(uint32_t Voltage)
 {
-  uint32_t threshold = 0;
+  uint32_t threshold;
   uint32_t vadc;
 
   vadc = Voltage * RB/(RA + RB);
@@ -2321,11 +2523,399 @@ static uint32_t PWR_ConvertVoltageToThreshold(uint32_t Voltage)
   */
 static int32_t PWR_ConvertADCDataToCurrent(uint32_t ADCData)
 {
-  int32_t current = 0;
+  int32_t current;
 
-  current = ((ADCData * VDD) >> 10) - 6600;
+  current = ((ADCData * VDD) >> 10u) - 6600u;
 
   return current;
+}
+
+/**
+   * @brief  Force the VBUS discharge.
+   * @param  Instance Type-C port identifier
+   *         This parameter can be take one of the following values:
+   *         @arg TYPE_C_PORT_1
+   * @param  VbusStopInmV Low VBUS threshold (in mV)
+   * @param  VbusErrorInmV VBUS margin (in mV)
+   * @param  Delay Discharge delay (in ms)
+   * @retval None
+   */
+
+static void PWR_VBUSDischarge(uint32_t Instance,
+                              uint32_t VbusStopInmV,
+                              uint32_t VbusErrorInmV,
+                              uint16_t Delay)
+{
+  uint32_t vbus;
+  uint8_t vbus_disable = 0;
+
+  if (Instance == TYPE_C_PORT_1)
+  {
+
+    PWR_GPIO_On(GPIO_VBUS_DISCHARGE1);
+    /* Disable DCDC_EN bit*/
+    PWR_GPIO_Off(GPIO_V_CTL2);
+
+    /* Wait Tempo or Voltage level */
+    if (Delay > 0u)
+    {
+      HAL_Delay(Delay);
+    }
+    else /* if (VbusErrorInmV > 0) */
+    {
+
+      do{
+        HAL_Delay(1);
+        vbus = BSP_PWR_VBUSGetVoltage(Instance);
+        if ((0 == vbus_disable) && (vbus < 5000))
+        {
+          /* Switch off VBUS */
+          PWR_GPIO_Off(GPIO_SOURCE_EN);
+          vbus_disable = 1u;
+        }
+      }
+      while (vbus >= (VbusStopInmV + VbusErrorInmV));
+    }
+
+    /* Enable DCDC_EN bit*/
+    PWR_GPIO_On(GPIO_V_CTL2);
+    PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
+    /* Allow to restart with correct duty cycle */
+    PWR_SetPWMDutyCycle(aPWMDutyCycleLUT[VBUS_5_V]);
+  }
+}
+
+/**
+   * @brief  Set VBUS voltage level
+   * @param  Instance Type-C port identifier
+   *         This parameter can be take one of the following values:
+   *         @arg TYPE_C_PORT_1
+   *         @arg TYPE_C_PORT_2
+   * @param  VBusInmV  VBUS voltage level setpoint(in mV)
+   * @param  Precision Requested precision (in mV)
+   * @note  Calibration and Precision paremeters aren't relevant when the VBUS
+   *        voltage level isn't controlled by a PWM signal.
+   * @note  When VBUS voltage level is controlled by a PWM signal, VBUS voltage is
+   *        controlled by a PD (Proportional-Derivative) control loop.
+   *        The PD control implementation is ilustrated by the block diagram below:
+   *
+   *                                              .-------------------.
+   *                 .-------.              .------> PROPORTIONAL (Kp) >-.   .-------.
+   *                 |  ADD  | pwm_error    |      '-------------------'  |  |  ADD  |  pwm  .---------------.
+   *    VBusInmV --> +       >--------------|                             '--> +     >-------> PWM generator >-.
+   *                 |       |              |     .------------------.       |       |       '---------------' |
+   * vbus_measured .-> -     |              '----->  DERIVATIVE (Kd) >-------> +     |                         |
+   *               | '-------'  pwm_error_previous ->                  |       '-------'                         |
+   *               |                              '------------------'                                         |
+   *               '-------------------------------------------------------------------------------------------'
+   *
+   *   pwm = Kp * pwm_error + (Kd * der)
+   *
+   * where:
+   *  pwm_error is calulated from vbus_error
+   *  Kp = Proptional Constant.
+   *  Kd = Derivative Constant.
+   *  der  = pwm_error - pwm_error_previous
+  *  (der: differential error)
+  */
+static PWR_StatusTypeDef PWR_VBUSSetVoltage(uint32_t Instance,
+                                                uint32_t VBusInmV,
+                                                uint16_t Precision)
+{
+  static uint8_t aPWMDutyCalibrated[VBUS_LEVEL_NB] =
+  {
+    0x0,   /* 5V */
+    0x0,   /* 9V */
+    0x0,   /* 15V */
+    0x0,   /* 18V */
+    0x0    /* Will be used to store latest PPS request */
+  };
+  
+  PWR_StatusTypeDef _retr = PWR_OK;
+  static uint16_t          duty_cycle;
+  uint8_t           duty_calibrated = 0;
+  uint32_t          vbus_measured;
+#if defined(_TRACE)
+  char _str[20];
+#endif
+  
+  if (Instance == TYPE_C_PORT_1)
+  {
+    duty_cycle =  PWR_GetPWMDutyCycle();
+    switch (VBusInmV)
+    {
+    case VBUS_VOLTAGE_0V_IN_MV:
+      {
+        duty_cycle    = 0x10u;
+        /* Set PWM duty cycle to its initial value */
+        PWR_SetPWMDutyCycle(duty_cycle);
+        return PWR_OK;
+      }
+      
+    case VBUS_VOLTAGE_5V_IN_MV:
+      duty_cycle      = aPWMDutyCycleLUT[VBUS_5_V];
+      duty_calibrated = aPWMDutyCalibrated[VBUS_5_V];
+      break;
+    case VBUS_VOLTAGE_9V_IN_MV:
+      duty_calibrated = aPWMDutyCalibrated[VBUS_9_V];
+      if (1u == duty_calibrated )
+      {
+        duty_cycle = aPWMDutyCycleLUT[VBUS_9_V];
+      }
+      break;
+    case VBUS_VOLTAGE_15V_IN_MV:
+      duty_calibrated = aPWMDutyCalibrated[VBUS_15_V];
+      if (1u == duty_calibrated )
+      {
+        duty_cycle = aPWMDutyCycleLUT[VBUS_15_V];
+      }
+      break;
+    case VBUS_VOLTAGE_18V_IN_MV:
+      duty_cycle      = aPWMDutyCycleLUT[VBUS_18_V];
+      if (1u == duty_calibrated )
+      {
+        duty_cycle = aPWMDutyCycleLUT[VBUS_18_V];
+      }
+      break;
+    default:
+      duty_cycle    = aPWMDutyCycleLUT[VBUS_PPS_V];
+      duty_calibrated = 0u;
+      break;
+    }
+    
+#if defined(_TRACE)
+    sprintf(_str,"==%d::%d",duty_cycle,duty_calibrated);
+    USBPD_TRACE_Add(USBPD_TRACE_DEBUG,0,0,(uint8_t*)_str, strlen(_str));
+#endif
+    
+#if defined(DBG_LOG)
+    _DbgLogIndex=0;
+#endif /* DBG_LOG */
+    
+    if (duty_calibrated == 1u)
+    {
+      uint32_t _tickstart = HAL_GetTick();
+      PWR_SetPWMDutyCycle(duty_cycle);
+      
+      /* Check if the voltage is at the expected level */
+      do
+      {
+        vbus_measured  = BSP_PWR_VBUSGetVoltage(Instance);
+        for(int32_t index=0; index < 2000; index++)
+        {
+          __DSB();
+        };
+#ifdef PWR_DEBUG
+        sprintf(_str,"svcc:%ld:%d", vbus_measured, duty_cycle);
+        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, Instance, 0, (uint8_t*)_str, strlen(_str));
+#endif
+        /* timeout to avoid infinite loop in case of power default */
+        if ((HAL_GetTick() - _tickstart) > 300u)
+        {
+          /* discard the VBUS and return an error */
+          BSP_PWR_VBUSOff(Instance);
+          return PWR_ERROR;
+        }
+      }
+      while ((ABS(vbus_measured - VBusInmV)) > 200u);
+    }
+    else
+    {
+      int32_t           vbus_error;
+      int32_t           vbus_previous;
+      int32_t           pwm;
+      int32_t           pwm_step_current;
+      int32_t           pwm_step_previous;
+      int32_t           pwm_error = 0u;
+      int32_t           pwm_error_previous;
+      uint8_t            nb_pll_loop;
+      pwm_step_previous = 0u;
+      pwm_step_current = duty_cycle;
+      vbus_previous = vbus_measured = 0u;
+      nb_pll_loop = 0u;
+      
+      do
+      {
+        pwm_step_previous = pwm_step_current;
+        vbus_previous = vbus_measured;
+        pwm_error_previous = pwm_error;
+        pwm_error = 0;
+        pwm = 0;
+        
+        PWR_SetPWMDutyCycle(duty_cycle);
+        
+        /* We can not avoid this DCDC takes time to lock .... */
+        for(int32_t index=0; index < 7000; index++)
+        {
+          __DSB();
+        };
+        
+        /* Measure actual VBUS voltage level */
+        vbus_measured  = BSP_PWR_VBUSGetVoltage(Instance);
+#if 0
+        sprintf(_str,"sv:%d:%d", vbus_measured, duty_cycle);
+        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, Instance, 0, (uint8_t*)_str, strlen(_str));
+#endif
+        /* Protection to handle the case where power is not present */
+        if(vbus_measured < 300u)
+        {
+          /* discard the VBUS and return an error */
+          BSP_PWR_VBUSOff(Instance);
+          return PWR_ERROR;
+        }
+        
+        /* Calculate VBUS error = target - the measure */
+        vbus_error = (int32_t)(VBusInmV) - (int32_t)(vbus_measured);
+        
+        /* Convert VBUS error into PWM error (pwm_error) */
+        if ((ABS(vbus_error) >= BSP_PWR_DCDC_PRECISION))
+        {
+          /* Calculate PWM error */
+          pwm_error = (1000 * duty_cycle) / vbus_measured;
+          pwm_error *= vbus_error;
+          pwm_error /= 1000;
+          
+          /* Calculate new PWM setpoint */
+          pwm = pwm_error*(int32_t)BSP_PWR_DCDC_PLL_P_N;
+          pwm /= (int32_t)BSP_PWR_DCDC_PLL_P_D;
+          pwm += (((pwm_error)-(pwm_error_previous))*(int32_t)BSP_PWR_DCDC_PLL_D_N)/((int32_t)BSP_PWR_DCDC_PLL_D_D);
+        }
+        
+        /* Set PWM setpoint to its min value (if min DCDC capabilities is reached) */
+        if (pwm == 0)
+        {
+          if (vbus_error > 0)
+          {
+            pwm = (int32_t)BSP_PWR_DCDC_MIN_PWM_STEP;
+          }
+          else
+          {
+            pwm = -(int32_t)BSP_PWR_DCDC_MIN_PWM_STEP;
+          }
+        }
+        /* Limit PWM setpoint to max value (if required) */
+        else if (ABS(pwm) >= (uint32_t)BSP_PWR_DCDC_MAX_PWM_STEP)
+        {
+          if (pwm > 0)
+          {
+            pwm = (int32_t)BSP_PWR_DCDC_MAX_PWM_STEP;
+          }
+          else
+          {
+            pwm = -(int32_t)BSP_PWR_DCDC_MAX_PWM_STEP;
+          }
+        }
+        
+        /* Calculate duty cycle setpoint from PWM setpoint */
+        if (pwm > 0)
+        {
+          if ((duty_cycle + (uint32_t)(pwm)) <= (uint32_t)BSP_PWR_DCDC_MAX_PWM_VALUE)
+          {
+            duty_cycle += (uint32_t)ABS(pwm);
+          }
+          else
+          {
+            /* Error case: Go back to 5V or 0V and break? */
+          }
+        }
+        else
+        {
+          if ((duty_cycle - (uint32_t)(pwm)) > (uint32_t)BSP_PWR_DCDC_MIN_PWM_VALUE)
+          {
+            duty_cycle -= (uint32_t)ABS(pwm);
+          }
+        }
+        
+        pwm_step_current = duty_cycle;
+        
+#if defined(DBG_LOG)
+        _Err[_DbgLogIndex]=vbus_error;
+        _Pwm[_DbgLogIndex]=duty_cycle;
+        _PwmE[_DbgLogIndex]=pwm;
+        _DbgLogIndex++;
+        if (_DbgLogIndex >= sizeof(_vbusout) / 4)
+        {
+          _DbgLogIndex=0;
+        }
+#endif /* DBG_LOG*/
+        
+        if (    (ABS((int16_t)pwm_step_current-(int16_t)pwm_step_previous) <= BSP_PWR_DCDC_MIN_PWM_STEP)
+            && ((ABS(((int32_t)vbus_measured - (int32_t)vbus_previous))) <= BSP_PWR_DCDC_PRECISION)
+              && (ABS(vbus_error) <= Precision))
+          
+        {
+          nb_pll_loop++;
+        }
+        else
+        {
+          nb_pll_loop = 0u;
+        }
+      }
+      while (nb_pll_loop < 1u);
+      
+      /* save the PWM value for the next settings */
+      switch (VBusInmV)
+      {
+      case VBUS_VOLTAGE_0V_IN_MV:
+        break;
+      case VBUS_VOLTAGE_5V_IN_MV:
+        {
+          aPWMDutyCycleLUT[VBUS_5_V]  = duty_cycle;
+          aPWMDutyCalibrated[VBUS_5_V] = 1u;
+#if defined(_TRACE)
+          sprintf(_str, "ca5V:%d", duty_cycle);
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
+#endif
+          break;
+        }
+      case VBUS_VOLTAGE_9V_IN_MV:
+        {
+          aPWMDutyCycleLUT[VBUS_9_V]  = duty_cycle;
+          aPWMDutyCalibrated[VBUS_9_V] = 1u;
+#if defined(_TRACE)
+          sprintf(_str, "ca9V:%d", duty_cycle);
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
+#endif
+          break;
+        }
+      case VBUS_VOLTAGE_15V_IN_MV:
+        {
+          aPWMDutyCycleLUT[VBUS_15_V] = duty_cycle;
+          aPWMDutyCalibrated[VBUS_15_V] = 1u;
+#if defined(_TRACE)
+          sprintf(_str, "ca15V:%d", duty_cycle);
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
+#endif
+          break;
+        }
+      case VBUS_VOLTAGE_18V_IN_MV:
+        {
+          aPWMDutyCycleLUT[VBUS_18_V] = duty_cycle;
+          aPWMDutyCalibrated[VBUS_18_V] = 1u;
+#if defined(_TRACE)
+          sprintf(_str, "ca18V:%d", duty_cycle);
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
+#endif
+          break;
+        }
+      default:
+        {
+          aPWMDutyCycleLUT[VBUS_PPS_V] = duty_cycle;
+#if defined(_TRACE)
+          sprintf(_str, "ca1PPS:%d", duty_cycle);
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
+#endif        
+          break;
+        }
+      }
+    }
+  }
+  else
+  {
+    _retr = PWR_ERROR;
+  }
+  
+  return _retr;
 }
 
 /**
@@ -2334,10 +2924,13 @@ static int32_t PWR_ConvertADCDataToCurrent(uint32_t ADCData)
  */
 static uint8_t PWR_StartVBusSensing(void)
 {
-  uint8_t ret = 0;
+  uint8_t ret = 0u;
 
   /* Start ADCx conversions */
-  if (HAL_ADC_Start_DMA(&hadc, (uint32_t *)aADCxConvertedValues, 4) != HAL_OK)  ret++;
+  if (HAL_ADC_Start_DMA(&hadc1, (uint32_t *)aADCxConvertedValues, 4u) != HAL_OK)
+  {
+    ret++;
+  }
 
   return ret;
 }
@@ -2348,12 +2941,15 @@ static uint8_t PWR_StartVBusSensing(void)
  */
 static uint8_t PWR_StopVBusSensing(void)
 {
-  uint8_t ret = 0;
+  uint8_t ret = 0u;
 
   /* Stop ADCx conversions */
-  if (HAL_ADC_Stop_DMA(&hadc) != HAL_OK)  ret++;
+  if (HAL_ADC_Stop_DMA(&hadc1) != HAL_OK)
+  {
+    ret++;
+  }
 
-  VBUSSensingCompleted = 0;
+  VBUSSensingCompleted = 0u;
 
   return ret;
 }
@@ -2364,15 +2960,18 @@ static uint8_t PWR_StopVBusSensing(void)
  */
 static uint8_t PWR_PauseVBusSensing(void)
 {
-  uint8_t ret = 0;
+  uint8_t ret = 0u;
 
   /* Stop on-going conversions */
-  if (HAL_ADC_Stop_DMA(&hadc) != HAL_OK)  ret++;
+  if (HAL_ADC_Stop_DMA(&hadc1) != HAL_OK)
+  {
+    ret++;
+  }
 
   /* Reset Channel selection register */
-  hadc.Instance->CHSELR &= ~(ADC_CHSELR_SQ_ALL);
+  hadc1.Instance->CHSELR &= ~(ADC_CHSELR_SQ_ALL);
 
-  VBUSSensingCompleted = 0;
+  VBUSSensingCompleted = 0u;
 
   return ret;
 }
@@ -2383,11 +2982,11 @@ static uint8_t PWR_PauseVBusSensing(void)
  */
 static uint8_t PWR_ResumeVBusSensing(void)
 {
-  uint8_t  ret = 0;
-  uint32_t tickstart = 0;
+  uint8_t  ret = 0u;
+  uint32_t tickstart;
 
   /* Reset Channel selection register */
-  hadc.Instance->CHSELR &= ~(ADC_CHSELR_SQ_ALL);
+  hadc1.Instance->CHSELR &= ~(ADC_CHSELR_SQ_ALL);
 
   /* Configure the ADC channel used to sense VBUS1 voltage */
   ret += PWR_ADC_SetChannelConfig(ADC_VSENSE_1);
@@ -2402,12 +3001,15 @@ static uint8_t PWR_ResumeVBusSensing(void)
   ret += PWR_ADC_SetChannelConfig(ADC_ISENSE_2);
 
   /* Start ADCx conversions */
-  if (HAL_ADC_Start_DMA(&hadc, (uint32_t *)aADCxConvertedValues, 4) != HAL_OK)  ret++;
+  if (HAL_ADC_Start_DMA(&hadc1, (uint32_t *)aADCxConvertedValues, 4u) != HAL_OK)
+  {
+    ret++;
+  }
 
   /* Wait until 1st DMA conversion is completed */
   tickstart = HAL_GetTick();
 
-  while (VBUSSensingCompleted == 0)
+  while (VBUSSensingCompleted == 0u)
   {
     if((HAL_GetTick() - tickstart) >= VBUS_SENSING_RESUME_TIMEOUT)
     {
@@ -2427,8 +3029,6 @@ static uint8_t PWR_ResumeVBusSensing(void)
   */
 void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
 {
-  static DMA_HandleTypeDef  hdma = {0};
-
   /* Enable ADCx clock */
   ADCx_CLK_ENABLE();
 
@@ -2436,28 +3036,28 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
   ADCx_DMA_CLK_ENABLE();
 
   /* Configure DMA parameters */
-  hdma.Instance = ADCx_DMA;
-  hdma.Init.Request             = DMA_REQUEST_ADC1;
-  hdma.Init.Direction           = DMA_PERIPH_TO_MEMORY;
-  hdma.Init.PeriphInc           = DMA_PINC_DISABLE;
-  hdma.Init.MemInc              = DMA_MINC_ENABLE;
-  hdma.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-  hdma.Init.MemDataAlignment    = DMA_MDATAALIGN_HALFWORD;
-  hdma.Init.Mode                = DMA_CIRCULAR;
-  hdma.Init.Priority            = DMA_PRIORITY_HIGH;
+  hdma_adc1.Instance = ADCx_DMA;
+  hdma_adc1.Init.Request             = DMA_REQUEST_ADC1;
+  hdma_adc1.Init.Direction           = DMA_PERIPH_TO_MEMORY;
+  hdma_adc1.Init.PeriphInc           = DMA_PINC_DISABLE;
+  hdma_adc1.Init.MemInc              = DMA_MINC_ENABLE;
+  hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+  hdma_adc1.Init.MemDataAlignment    = DMA_MDATAALIGN_HALFWORD;
+  hdma_adc1.Init.Mode                = DMA_CIRCULAR;
+  hdma_adc1.Init.Priority            = DMA_PRIORITY_HIGH;
 
   /* Initialize the DMA */
-  HAL_DMA_Init(&hdma);
+  (void)HAL_DMA_Init(&hdma_adc1);
 
   /* Associate the initialized DMA handle to the ADC handle */
-  __HAL_LINKDMA(hadc, DMA_Handle, hdma);
+  __HAL_LINKDMA(hadc, DMA_Handle, hdma_adc1);
 
   /* NVIC configuration for DMA interrupt (transfer completion or error) */
-  HAL_NVIC_SetPriority(ADCx_DMA_IRQn, 1, 0);
+  HAL_NVIC_SetPriority(ADCx_DMA_IRQn, 1u, 0u);
   HAL_NVIC_EnableIRQ(ADCx_DMA_IRQn);
 
   /* NVIC configuration for ADCx interrupt */
-  HAL_NVIC_SetPriority(ADC1_COMP_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(ADC1_COMP_IRQn, 0u, 0u);
   HAL_NVIC_EnableIRQ(ADC1_COMP_IRQn);
 }
 
@@ -2492,9 +3092,9 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *hadc)
   */
 void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
 {
-  ADC_AnalogWDGConfTypeDef adc_awd_config = {0};
+  ADC_AnalogWDGConfTypeDef adc_awd_config = {0u};
 
-  if (Context.PortInfo[TYPE_C_PORT_1].pfnVBUSDetectCallback != (PWR_VBUSDetectCallbackFunc *)NULL)
+  if (Context.PortInfo[TYPE_C_PORT_1].pfnVBUSDetectCallback != (USBPD_PWR_VBUSDetectCallbackFunc *)NULL)
   {
     if (Context.PortInfo[TYPE_C_PORT_1].VBUSConnectionStatus == VBUS_NOT_CONNECTED)
     {
@@ -2508,7 +3108,7 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
       /* PORT1: VBUS_CONNECTED to VBUS_NOT_CONNECTED transition */
       Context.PortInfo[TYPE_C_PORT_1].VBUSConnectionStatus = VBUS_NOT_CONNECTED;
       adc_awd_config.HighThreshold = PWR_ConvertVoltageToThreshold(VBUS_CONNECTION_THRESHOLD);
-      adc_awd_config.LowThreshold  = 0;
+      adc_awd_config.LowThreshold  = 0u;
     }
 
     /* Update AWD Low/High thresholds to detect VBUS disconnection */
@@ -2518,7 +3118,7 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
     adc_awd_config.ITMode         = ENABLE;
 
     /* Update AWD configuration */
-    HAL_ADC_AnalogWDGConfig(hadc, &adc_awd_config);
+    (void)HAL_ADC_AnalogWDGConfig(hadc, &adc_awd_config);
 
     /* Call registered callback function */
     Context.PortInfo[TYPE_C_PORT_1].pfnVBUSDetectCallback(TYPE_C_PORT_1,
@@ -2533,9 +3133,9 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
   */
 void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
 {
-  ADC_AnalogWDGConfTypeDef adc_awd_config = {0};
+  ADC_AnalogWDGConfTypeDef adc_awd_config = {0u};
 
-  if (Context.PortInfo[TYPE_C_PORT_2].pfnVBUSDetectCallback != (PWR_VBUSDetectCallbackFunc *)NULL)
+  if (Context.PortInfo[TYPE_C_PORT_2].pfnVBUSDetectCallback != (USBPD_PWR_VBUSDetectCallbackFunc *)NULL)
   {
     if (Context.PortInfo[TYPE_C_PORT_2].VBUSConnectionStatus == VBUS_NOT_CONNECTED)
     {
@@ -2549,7 +3149,7 @@ void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
       /* PORT2: VBUS_CONNECTED to VBUS_NOT_CONNECTED transition */
       Context.PortInfo[TYPE_C_PORT_2].VBUSConnectionStatus = VBUS_NOT_CONNECTED;
       adc_awd_config.HighThreshold = PWR_ConvertVoltageToThreshold(VBUS_CONNECTION_THRESHOLD);
-      adc_awd_config.LowThreshold  = 0;
+      adc_awd_config.LowThreshold  = 0u;
     }
 
     /* Update AWD2 Low/High thresholds to detect next VBUS connection/disconnection */
@@ -2559,7 +3159,7 @@ void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
     adc_awd_config.ITMode         = ENABLE;
 
     /* Update AWD2 configuration */
-    HAL_ADC_AnalogWDGConfig(hadc, &adc_awd_config);
+    (void)HAL_ADC_AnalogWDGConfig(hadc, &adc_awd_config);
 
     /* Call registered callback function */
     Context.PortInfo[TYPE_C_PORT_2].pfnVBUSDetectCallback(TYPE_C_PORT_2,
@@ -2574,13 +3174,13 @@ void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
   */
 void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef *hlptim)
 {
-  RCC_PeriphCLKInitTypeDef clk_config = {0};
-  GPIO_InitTypeDef         gpio_config = {0};
+  RCC_PeriphCLKInitTypeDef clk_config = {0u};
+  GPIO_InitTypeDef         gpio_config = {0u};
 
   /* Select the PCLK clock as LPTIM peripheral clock */
   clk_config.PeriphClockSelection = RCC_PERIPHCLK_LPTIM1;
   clk_config.Lptim1ClockSelection = RCC_LPTIM1CLKSOURCE_PCLK1;
-  HAL_RCCEx_PeriphCLKConfig(&clk_config);
+  (void)HAL_RCCEx_PeriphCLKConfig(&clk_config);
 
   /* Enable LPTIM1 clock */
   __HAL_RCC_LPTIM1_CLK_ENABLE();
@@ -2622,7 +3222,8 @@ void HAL_LPTIM_MspDeInit(LPTIM_HandleTypeDef *hlptim)
   */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
-  VBUSSensingCompleted = 1;
+  UNUSED(hadc);
+  VBUSSensingCompleted = 1u;
 }
 
 /**
@@ -2631,7 +3232,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
   */
 static uint8_t PWR_InitPowerSource(void)
 {
-  uint8_t ret = 0;
+  uint8_t ret = 0u;
 
   /* LPTIM1 initialization */
   hlptim.Instance = LPTIM1;
@@ -2679,22 +3280,22 @@ static void PWR_SetPWMDutyCycle(uint16_t PWMDutyCycle)
   */
 static uint16_t PWR_GetPWMDutyCycle(void)
 {
-  return READ_REG(hlptim.Instance->CMP);
+  return (uint16_t)READ_REG(hlptim.Instance->CMP);
 }
 
 
 /**
   * @brief  Precharge C57 .
-  * @param  PortId Type-C port identifier
+  * @param  Instance Type-C port identifier
   *         This parameter can be take one of the following values:
   *         @arg TYPE_C_PORT_1
   * @retval Measured DCDC voltage
   */
-static uint32_t PWR_DCDCPreChargeC57(uint32_t PortId)
+static uint32_t PWR_DCDCPreChargeC57(uint32_t Instance)
 {
   uint32_t voltage = 0;
 
-  if (PortId == TYPE_C_PORT_1)
+  if (Instance == TYPE_C_PORT_1)
   {
     /* Make sure SOURCE_EN is not OFF */
     PWR_GPIO_Off(GPIO_SOURCE_EN);
@@ -2712,13 +3313,13 @@ static uint32_t PWR_DCDCPreChargeC57(uint32_t PortId)
 
 
     /* Step 1 ====================================================================
-       Step 1: DCDC_EN detects its voltage to ensure PSU 19V exist
-       Wait C57 charge for 30ms... */
-    HAL_Delay(30);
+    Step 1: DCDC_EN detects its voltage to ensure PSU 19V exist
+    Wait C57 pre-charge for 20ms... */
+    HAL_Delay(20);
     PWR_GPIO_On(GPIO_V_CTL2); /* DCDC_EN = 1, so DCDC output is on */
-    /* Wait C57 charge for 30ms... */
-    HAL_Delay(30);
-    voltage = BSP_PWR_DCDCGetVoltage(PortId);
+    /* Wait stabilization time for 10ms... */
+    HAL_Delay(10);
+    voltage = BSP_PWR_DCDCGetVoltage(Instance);
 
     /* Step 2 ====================================================================
        Step 2: PWM_CTL provides about 0.8V level before DCDC_EN=1                  */
@@ -2736,12 +3337,11 @@ static uint32_t PWR_DCDCPreChargeC57(uint32_t PortId)
     PWR_GPIO_Init(GPIO_V_CTL1);
     PWR_InitPowerSource();
     HAL_Delay(20);
-    voltage = BSP_PWR_DCDCGetVoltage(PortId);
+    voltage = BSP_PWR_DCDCGetVoltage(Instance);
   }
 
   return voltage;
 }
-
 
 /**
   * @}

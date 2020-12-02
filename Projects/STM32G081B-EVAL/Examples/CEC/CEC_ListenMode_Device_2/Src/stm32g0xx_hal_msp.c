@@ -72,6 +72,10 @@ void HAL_MspInit(void)
 
   /* System interrupt init*/
 
+  /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral
+  */
+  HAL_SYSCFG_StrobeDBattpinsConfig(SYSCFG_CFGR1_UCPD1_STROBE | SYSCFG_CFGR1_UCPD2_STROBE);
+
   /* USER CODE BEGIN MspInit 1 */
 
   /* USER CODE END MspInit 1 */
@@ -93,10 +97,10 @@ void HAL_CEC_MspInit(CEC_HandleTypeDef* hcec)
   /* USER CODE END CEC_MspInit 0 */
     /* Peripheral clock enable */
     __HAL_RCC_CEC_CLK_ENABLE();
-  
+
     __HAL_RCC_GPIOB_CLK_ENABLE();
-    /**HDMI_CEC GPIO Configuration    
-    PB10     ------> CEC 
+    /**HDMI_CEC GPIO Configuration
+    PB10     ------> CEC
     */
     GPIO_InitStruct.Pin = GPIO_PIN_10;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
@@ -130,9 +134,9 @@ void HAL_CEC_MspDeInit(CEC_HandleTypeDef* hcec)
   /* USER CODE END CEC_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_CEC_CLK_DISABLE();
-  
-    /**HDMI_CEC GPIO Configuration    
-    PB10     ------> CEC 
+
+    /**HDMI_CEC GPIO Configuration
+    PB10     ------> CEC
     */
     HAL_GPIO_DeInit(GPIOB, GPIO_PIN_10);
 

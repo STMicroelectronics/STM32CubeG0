@@ -46,10 +46,6 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "stm32g0xx_ll_adc.h"
-#if defined(USE_FULL_ASSERT)
-#include "stm32_assert.h"
-#endif /* USE_FULL_ASSERT */
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

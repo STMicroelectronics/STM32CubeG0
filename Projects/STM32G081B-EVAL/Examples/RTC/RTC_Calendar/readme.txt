@@ -94,7 +94,7 @@ System, RTC, Calendar, Backup Domain, Reset
 @par Hardware and Software environment
 
   - This example runs on STM32G081RBTx Devices.
-  - This example has been tested with STMicroelectronics STM32G081B-EVAL
+  - This example has been tested with STM32G081B-EVAL
     board and can be easily tailored to any other supported device and 
     development board. 
   - STM32G081B-EVAL Set-up

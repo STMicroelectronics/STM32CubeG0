@@ -23,15 +23,13 @@
 How to enter the Standby mode and wake up from this mode by using an external 
 reset or the WKUP pin.
 
-In the associated software, the system clock is set to 56 MHz, an EXTI line
-is connected to the User push-button thru PC.13 and configured to generate an 
-interrupt on falling edge.
+In the associated software, the system clock is set to 56 MHz.
 The SysTick is programmed to generate an interrupt each 1 ms and in the SysTick 
 interrupt handler, LED4 is toggled in order to indicate whether the MCU is in Standby or Run mode.
 
-When a rising edge is detected on the EXTI line, an interrupt is generated. In the 
-EXTI handler routine, the wake-up pin PWR_WAKEUP_PIN2 is enabled and the corresponding
-wake-up flag cleared. Then, the system enters Standby mode causing LED4 to stop toggling. 
+LED4 toggles during 5 seconds, then program configures the entry and exit for Standby mode:
+the wake-up pin PWR_WAKEUP_PIN2 (User push-button through PC.13) is enabled and the corresponding wake-up flag cleared,
+the system enters Standby mode causing LED4 to stop toggling.
 
 Next, the user can wake-up the system in pressing the User push-button which is connected
 to the wake-up pin PWR_WAKEUP_PIN2.
@@ -83,7 +81,7 @@ Power, PWR, Standby mode, Interrupt, EXTI, Wakeup, Low Power, External reset
   - This example runs on STM32G070RBTx devices
     
       
-  - This example has been tested with STMicroelectronics NUCLEO-G070RB
+  - This example has been tested with NUCLEO-G070RB
     board and can be easily tailored to any other supported device 
     and development board.
 

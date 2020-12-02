@@ -24,7 +24,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32g0xx_it.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -68,9 +67,8 @@ extern UART_HandleTypeDef huart2;
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
-
 /**
   * @brief This function handles Non maskable interrupt.
   */
@@ -175,7 +173,7 @@ void USART2_IRQHandler(void)
     /* Clear TC flag */
     LL_USART_ClearFlag_TC(USART2);
     /* Call function in charge of handling end of transmission of sent character
-       and prepare next charcater transmission */
+       and prepare next character transmission */
     UART_CharTransmitComplete_Callback();
   }
 

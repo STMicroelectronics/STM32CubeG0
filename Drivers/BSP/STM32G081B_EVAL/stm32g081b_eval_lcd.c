@@ -28,7 +28,7 @@
        (++) Initialize the LCD using the LCD_Init() function.
 
    (#) Display on LCD
-       (++) Clear the whole LCD using yhe LCD_Clear() function or only one specified
+       (++) Clear the whole LCD using the LCD_Clear() function or only one specified
        string line using the LCD_ClearStringLine() function.
        (++) Display a character on the specified line and column using the LCD_DisplayChar()
        function or a complete string line using the LCD_DisplayStringAtLine() function.

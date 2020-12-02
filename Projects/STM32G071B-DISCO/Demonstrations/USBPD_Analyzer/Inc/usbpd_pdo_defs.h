@@ -37,14 +37,9 @@
   */
 typedef struct
 {
-#if defined(_GUI_INTERFACE)
-  uint32_t ListOfPDO[USBPD_MAX_NB_PDO];         /*!< List of Power Data Objects list, defining
-                                                     port capabilities */
-#else
   uint32_t *ListOfPDO;                          /*!< Pointer on Power Data Objects list, defining
                                                      port capabilities */
-#endif /* _GUI_INTERFACE */
-  uint8_t  NumberOfPDO;                         /*!< Number of Power Data Objects defined in ListOfPDO
+  uint8_t  *NumberOfPDO;                         /*!< Number of Power Data Objects defined in ListOfPDO
                                                      This parameter must be set at max to @ref USBPD_MAX_NB_PDO value */
 } USBPD_PortPDO_TypeDef;
 

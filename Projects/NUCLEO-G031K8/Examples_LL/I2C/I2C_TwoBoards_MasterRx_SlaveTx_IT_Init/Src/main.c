@@ -9,18 +9,17 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics. 
+  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
+  * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -107,7 +106,6 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
 
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
@@ -167,16 +165,15 @@ int main(void)
 void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_2);
-  if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_2)
+  while(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_2)
   {
-    Error_Handler();  
-  };
+  }
 
   /* HSI configuration and activation */
   LL_RCC_HSI_Enable();
   while(LL_RCC_HSI_IsReady() != 1)
   {
-  };
+  }
 
   /* Main PLL configuration and activation */
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_1, 8, LL_RCC_PLLR_DIV_2);
@@ -184,7 +181,7 @@ void SystemClock_Config(void)
   LL_RCC_PLL_EnableDomain_SYS();
   while(LL_RCC_PLL_IsReady() != 1)
   {
-  };
+  }
 
   /* Set AHB prescaler*/
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
@@ -193,14 +190,13 @@ void SystemClock_Config(void)
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
-  };
+  }
 
   /* Set APB1 prescaler*/
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
 
   LL_Init1msTick(64000000);
 
-  LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
   /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
   LL_SetSystemCoreClock(64000000);
   LL_RCC_SetI2CClockSource(LL_RCC_I2C1_CLKSOURCE_PCLK1);
@@ -223,9 +219,9 @@ static void MX_I2C1_Init(void)
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
-  /**I2C1 GPIO Configuration  
+  /**I2C1 GPIO Configuration
   PB9   ------> I2C1_SDA
-  PB8   ------> I2C1_SCL 
+  PB8   ------> I2C1_SCL
   */
   GPIO_InitStruct.Pin = LL_GPIO_PIN_9;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
@@ -254,7 +250,7 @@ static void MX_I2C1_Init(void)
   NVIC_SetPriority(I2C1_IRQn, 0);
   NVIC_EnableIRQ(I2C1_IRQn);
   /* USER CODE END I2C1_Init 1 */
-  /** I2C Initialization 
+  /** I2C Initialization
   */
   I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;
   I2C_InitStruct.Timing = 0x00303D5B;
@@ -281,7 +277,7 @@ static void MX_I2C1_Init(void)
 
   LL_I2C_EnableIT_ADDR(I2C1);
 #else
-  LL_I2C_SetTiming(I2C1, I2C_TIMING);	
+  LL_I2C_SetTiming(I2C1, I2C_TIMING);
 
 
   LL_I2C_EnableIT_RX(I2C1);
@@ -323,7 +319,7 @@ static void MX_GPIO_Init(void)
 #ifndef SLAVE_BOARD
 /**
   * @brief  This function configures EXTI Line as Button
-  * @note   Peripheral configuration is minimal configuration from reset values.  
+  * @note   Peripheral configuration is minimal configuration from reset values.
   * @param  None
   * @retval None
   */
@@ -334,18 +330,18 @@ void Configure_EXTI()
   VIRTUAL_BUTTON_GPIO_CLK_ENABLE();
   /* Configure IO */
   LL_GPIO_SetPinMode(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_MODE_INPUT);
-  LL_GPIO_SetPinPull(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_PULL_UP); 
+  LL_GPIO_SetPinPull(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_PULL_UP);
 
   /* -2- Connect External Line to the GPIO*/
   VIRTUAL_BUTTON_SYSCFG_SET_EXTI();
-  
+
   /*-3- Enable a rising trigger External line 15 Interrupt */
   VIRTUAL_BUTTON_EXTI_LINE_ENABLE();
   VIRTUAL_BUTTON_EXTI_RISING_TRIG_ENABLE();
-  
+
   /*-4- Configure NVIC for EXTI4_15_IRQn */
-  NVIC_EnableIRQ(VIRTUAL_BUTTON_EXTI_IRQn); 
-  NVIC_SetPriority(VIRTUAL_BUTTON_EXTI_IRQn,0);
+  NVIC_EnableIRQ(VIRTUAL_BUTTON_EXTI_IRQn);
+  NVIC_SetPriority(VIRTUAL_BUTTON_EXTI_IRQn, 0);
 }
 
 #endif /* MASTER_BOARD */
@@ -379,7 +375,7 @@ void LED_Off(void)
 /**
   * @brief  Set LED3 to Blinking mode for an infinite loop (toggle period based on value provided as input parameter).
   * @param  Period : Period of time (in ms) between each toggling of LED
-  *   This parameter can be user defined values. Pre-defined values used in that example are :   
+  *   This parameter can be user defined values. Pre-defined values used in that example are :
   *     @arg LED_BLINK_FAST : Fast Blinking
   *     @arg LED_BLINK_SLOW : Slow Blinking
   *     @arg LED_BLINK_ERROR : Error specific Blinking
@@ -393,7 +389,7 @@ void LED_Blinking(uint32_t Period)
   /* Toggle IO in an infinite loop */
   while (1)
   {
-    LL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin); 
+    LL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
     LL_mDelay(Period);
   }
 }
@@ -430,10 +426,10 @@ void Slave_Complete_Callback(void)
 #else /* MASTER_BOARD */
 /**
   * @brief  Wait for put and remove a jumper between PA.15 (Arduino D2) and GND to start transfer.
-  * @param  None 
+  * @param  None
   * @retval None
   */
-  /*  */
+/*  */
 void WaitForUserButtonPress(void)
 {
   while (ubButtonPress == 0)
@@ -498,7 +494,7 @@ void Master_Complete_Callback(void)
 {
   /* Read Received character.
   RXNE flag is cleared by reading of RXDR register */
-  if(aReceiveBuffer[ubReceiveIndex-1] == SLAVE_BYTE_TO_SEND)
+  if (aReceiveBuffer[ubReceiveIndex - 1] == SLAVE_BYTE_TO_SEND)
   {
     /* Turn LED3 On:
      *  - Expected byte has been received
@@ -543,7 +539,7 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
- 
+
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -556,7 +552,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

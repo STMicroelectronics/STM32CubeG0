@@ -60,6 +60,10 @@ Initially the output channel is configured in output compare toggle mode.
 successively the user button, the LED4 is ON and its luminosity rises as the dutycycle value keep 
 increasing.
 
+@par Keywords
+
+Timers, Output, signal, PWM, Oscilloscope, Frequency, Duty cycle, Waveform
+
 @par Directory contents 
 
   - TIM/TIM_PWMOutput/Inc/stm32g0xx_it.h          Interrupt handlers header file

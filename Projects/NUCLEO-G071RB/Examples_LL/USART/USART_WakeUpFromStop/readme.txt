@@ -7,30 +7,31 @@
   * @author  MCD Application Team
   * @brief   Description of the USART_WakeUpFromStop USART example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  *
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
 
 @par Example Description
   
-Configuration of GPIO and USART peripherals to allow the characters received on USART RX pin to wake up 
-MCU from low power mode. This example is based on the STM32G0xx USART LL API.
+Configuration of GPIO and USART1 peripherals to allow the characters received on USART_RX pin to wake up 
+MCU from low power mode. This example is based on the STM32G0xx USART1 LL API.
 The peripheral initialization uses LL unitary service functions for optimization purposes (performance and size).
 
-USART Peripheral is configured in asynchronous mode (9600 bauds, 8 data bit, 1 start bit, 1 stop bit, no parity).
+USART1 Peripheral is configured in asynchronous mode (9600 bauds, 8 data bit, 1 start bit, 1 stop bit, no parity).
 No HW flow control is used.
-USART Clock is based on HSI.
+USART1 Clock is based on HSI.
 
 Example execution:
 After startup from reset and system configuration, LED4 is blinking quickly during 3 sec,
 then MCU  enters "Stop 0" mode (LED4 off).
-On first  character reception by the USART from PC Com port (ex: using HyperTerminal)
+On first  character reception by the USART1 from PC Com port (ex: using HyperTerminal)
 after "Stop 0" Mode period, MCU wakes up from "Stop 0" Mode.
 Received character value is checked :
 - On a specific value ('S' or 's'), LED4 is turned On and program ends.
@@ -38,6 +39,11 @@ Received character value is checked :
   enters again "Stop 0" mode, waiting for next character to wake up.
 
 In case of errors, LED4 is slowly blinking (1 sec period).
+
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, Interrupt, HyperTerminal,
+Receiver, Asynchronous, Low Power, Wake Up
 
 @par Directory contents 
 

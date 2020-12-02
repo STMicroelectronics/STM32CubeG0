@@ -56,8 +56,15 @@ This later is calling the HAL_I2C_MspInit()function which core is implementing
 the configuration of the needed I2C resources according to the used hardware (CLOCK, 
 GPIO and NVIC). You may update this function to change I2C configuration.
 
-The user can disable internal pull-up through "#define EXTERNAL_PULL_UP_AVAILABLE"
-This help for an integration of this example inside an ecosystem board with external pull-up */
+The user can disable internal pull-up by opening ioc file.
+For that, user can follow the procedure :
+1- Double click on the I2C_OneBoard_ComSlave7_10bits_IT.ioc file
+2- When CUBEMX tool is opened, select System Core category
+3- Then in the configuration of GPIO/I2C1, change Pull-up to No pull-up and no pull-down for the both pins
+4- Same action in the configuration of GPIO/I2C2, change Pull-up to No pull-up and no pull-down for the both pins
+5- Last step, generate new code thanks to button "GENERATE CODE"
+The example is updated with no pull on each pin used for I2C communication
+
 
 For this example two buffers are used 
 - aTxBuffer buffer contains the data to be transmitted 
@@ -102,6 +109,9 @@ Toggle LED3 when data is received correctly, otherwise LED3 is slowly blinking (
 @note The application need to ensure that the SysTick time base is always set to 1 millisecond
       to have correct HAL operation.
 
+@par Keywords
+
+Connectivity, Communication, I2C, SDA, SCL, Slave, 7 bits, 10 Bits, Interrupt, Transmission, Reception, Acknowledge
 
 @par Directory contents 
 

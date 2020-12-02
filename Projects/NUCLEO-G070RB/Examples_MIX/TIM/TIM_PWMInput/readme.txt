@@ -7,12 +7,12 @@
   * @author  MCD Application Team
   * @brief   Description of the TIM PWM_Input example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
@@ -56,6 +56,10 @@ Six combinations are available (see tables aFrequency[] and aDutyCycle[]).
 @note The application need to ensure that the SysTick time base is always set to 1 millisecond
       to have correct HAL operation.
 
+@par Keywords
+
+Timers, Input, signals, PWM, External signal, Frequency, Duty cycle, Measure
+
 @par Directory contents 
 
   - TIM/TIM_PWMInput/Inc/stm32g0xx_hal_conf.h    HAL configuration file
@@ -71,7 +75,7 @@ Six combinations are available (see tables aFrequency[] and aDutyCycle[]).
 
   - This example runs on STM32G070RBTx devices.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G070RB 
+  - This example has been tested with NUCLEO-G070RB 
     board and can be easily tailored to any other supported device 
     and development board.
 

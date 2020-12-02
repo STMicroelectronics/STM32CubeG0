@@ -25,7 +25,7 @@
 
 #ifdef __cplusplus
  extern "C" {
-#endif 
+#endif
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -53,17 +53,9 @@ void HardFault_Handler(void);
 void SVC_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
-/* USER CODE BEGIN EFP */
-
-void EXTI4_15_IRQHandler(void);
-
-/* Note: Lines of code commented below correspond to the example using        */
-/*       HAL driver only.                                                     */
-/*       This example demonstrating a mix of HAL and LL drivers has replaced  */
-/*       these lines using LL driver.                                         */
-// void ADCx_IRQHandler(void);
-
 void ADC1_IRQHandler(void);
+/* USER CODE BEGIN EFP */
+void EXTI4_15_IRQHandler(void);
 /* USER CODE END EFP */
 
 #ifdef __cplusplus

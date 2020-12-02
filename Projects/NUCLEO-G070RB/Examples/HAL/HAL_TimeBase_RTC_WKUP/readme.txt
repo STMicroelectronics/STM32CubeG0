@@ -78,7 +78,7 @@ System, RTC Wakeup, Time base, HAL
 
   - This example runs on STM32G070RBTx devices.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G070RB board and can be
+  - This example has been tested with NUCLEO-G070RB board and can be
     easily tailored to any other supported device and development board.      
 
 @par How to use it ? 

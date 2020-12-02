@@ -37,23 +37,26 @@
 
 /* Exported typedef ----------------------------------------------------------*/
 /* Exported define -----------------------------------------------------------*/
-#define BSP_PWR_INVALID_VALUE           0xFFFFFFFFu   /* Invalid value set during issue with voltage setting */
-#define BSP_PWR_TIMEOUT_PDO             250u          /* Timeout for PDO to PDO or PDO to APDO at 250ms */
-#define USBPD_PWR_TIMEOUT_APDO            25u           /* Timeout for APDO to APDO at 25ms */
-
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /** @defgroup USBPD_USER_PWR_IF_Exported_Macros USBPD PWR IF Exported Macros
   * @{
   */
 
+/* Enumeration of the different power status available for VBUS */    
+typedef enum{
+  USBPD_PWR_BELOWVSAFE0V,
+  USBPD_PWR_VSAFE5V,
+  USBPD_PWR_SNKDETACH
+} USBPD_VBUSPOWER_STATUS;
+
 /* Macros used to convert values into PDO representation */
-#define PWR_V_20MV(_V_)        ((uint16_t)(( (_V_) * 1000.0) / 20.0))   /* From Volt to 20mV multiples      */
-#define PWR_V_50MV(_V_)        ((uint16_t)(( (_V_) * 1000.0) / 50.0))   /* From Volt to 50mV multiples      */
-#define PWR_V_100MV(_V_)       ((uint16_t)(( (_V_) * 1000.0) / 100.0))  /* From Volt to 100mV multiples     */
-#define PWR_A_10MA(_A_)        ((uint16_t)(( (_A_) * 1000.0) / 10.0))   /* From Ampere to 10mA multiples    */
-#define PWR_A_50MA(_A_)        ((uint16_t)(( (_A_) * 1000.0) / 50.0))   /* From Ampere to 50mA multiples    */
-#define PWR_W(_W_)             ((uint16_t)(( (_W_) * 1000.0) / 250.0))  /* From Watt to 250mW multiples     */
+#define PWR_V_20MV(_V_)        ((uint16_t)(( (_V_) * 1000) / 20))   /* From Volt to 20mV multiples      */
+#define PWR_V_50MV(_V_)        ((uint16_t)(( (_V_) * 1000) / 50))   /* From Volt to 50mV multiples      */
+#define PWR_V_100MV(_V_)       ((uint16_t)(( (_V_) * 1000) / 100))  /* From Volt to 100mV multiples     */
+#define PWR_A_10MA(_A_)        ((uint16_t)(( (_A_) * 1000) / 10))   /* From Ampere to 10mA multiples    */
+#define PWR_A_50MA(_A_)        ((uint16_t)(( (_A_) * 1000) / 50))   /* From Ampere to 50mA multiples    */
+#define PWR_W(_W_)             ((uint16_t)(( (_W_) * 1000) / 250))  /* From Watt to 250mW multiples     */
 
 /* Macros used to get values from PDO representation */
 #define PWR_DECODE_50MV(_Value_)           ((uint16_t)(((_Value_) * 50)))     /* From 50mV multiples to mV        */
@@ -81,7 +84,7 @@
 USBPD_StatusTypeDef USBPD_PWR_IF_Init(void);
 
 /**
-  * @brief  Satrt the monitoring
+  * @brief  Start the monitoring
 
   * @retval USBPD status
   */
@@ -140,6 +143,29 @@ void USBPD_PWR_IF_GetPortPDOs(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef D
   * @retval USBPD Status
   */
 USBPD_StatusTypeDef USBPD_PWR_IF_CheckUpdateSNKPower(uint8_t PortNum);
+
+/**
+  * @brief the function is called to get VBUS power status.
+  * @param PortNum
+  * @param PowerTypeStatus
+  * @retval UBBPD_TRUE or USBPD_FALSE
+  */
+uint8_t USBPD_PWR_IF_GetVBUSStatus(uint8_t PortNum, USBPD_VBUSPOWER_STATUS PowerTypeStatus);
+
+/**
+  * @brief Function is called to set the VBUS threshold when a request has been accepted.
+  * @param PortNum Port number
+  * @retval None
+  */
+void USBPD_PWR_IF_UpdateVbusThreshold(uint8_t PortNum);
+
+/**
+  * @brief Function is called to reset the VBUS threshold when there is a power reset.
+  * @param PortNum Port number
+  * @retval None
+  */
+void USBPD_PWR_IF_ResetVbusThreshold(uint8_t PortNum);
+
 /**
   * @}
   */

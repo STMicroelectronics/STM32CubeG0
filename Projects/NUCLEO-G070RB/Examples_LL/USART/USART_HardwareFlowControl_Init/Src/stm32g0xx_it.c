@@ -75,7 +75,7 @@
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
@@ -140,7 +140,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
   /* USER CODE END SysTick_IRQn 0 */
-  
+
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -203,7 +203,7 @@ void USART1_IRQHandler(void)
     /* Clear TC flag */
     LL_USART_ClearFlag_TC(USARTx_INSTANCE);
     /* Call function in charge of handling end of transmission of sent character
-       and prepare next charcater transmission */
+       and prepare next character transmission */
     USART_CharTransmitComplete_Callback();
   }
 

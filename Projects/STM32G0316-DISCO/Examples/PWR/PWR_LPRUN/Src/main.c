@@ -19,7 +19,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -94,10 +93,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-  
+
   /* Enable Power Clock */
   __HAL_RCC_PWR_CLK_ENABLE();
-  
+
 
   /* PA.11 will be used to exit from Low Power Run mode */
   GPIO_InitStruct.Pin = GPIO_PIN_11;
@@ -121,11 +120,12 @@ int main(void)
     /* USER CODE BEGIN 3 */
     /* Insert 5 seconds delay. LED2 is toggled in systick callback */
      HAL_Delay(5000);
+
     /* Reduce the System clock */
     SystemClock_Decrease();
-    
+
     /* Set regulator voltage to scale 2 */
-    HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE2);    
+    HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE2);
 
     /* De-init LED2 */
     BSP_LED_DeInit(LED2);
@@ -164,10 +164,11 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Configure the main internal regulator output voltage 
+  /** Configure the main internal regulator output voltage
   */
   HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -184,7 +185,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1;
@@ -226,7 +227,7 @@ void SystemClock_Decrease(void)
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV8;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_OFF;
   if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     /* Initialization Error */
@@ -244,17 +245,17 @@ void HAL_SYSTICK_Callback(void)
   /* Check if error occurs */
   if (TimingDelay != LED_ERROR)
   {
-  if (TimingDelay != 0)
-  {
-    TimingDelay--;
+    if (TimingDelay != 0)
+    {
+      TimingDelay--;
+    }
+    else
+    {
+      /* Toggle LED2 */
+      BSP_LED_Toggle(LED2);
+      TimingDelay = LED_TOGGLE_DELAY;
+    }
   }
-  else
-  {
-    /* Toggle LED2 */
-    BSP_LED_Toggle(LED2);
-    TimingDelay = LED_TOGGLE_DELAY;
-  }
-}
 }
 
 /* USER CODE END 4 */
@@ -290,7 +291,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

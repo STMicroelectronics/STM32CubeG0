@@ -3,7 +3,7 @@
 
   @verbatim
   ******************************************************************************
-  * @file    CORTEXM/CORTEXM_SysTick/readme.txt 
+  * @file    CORTEX/CORTEXM_SysTick/readme.txt
   * @author  MCD Application Team
   * @brief   Description of the CortexM SysTick example.
   ******************************************************************************
@@ -41,13 +41,13 @@ System, Cortex, Time base, Systick, HCLK
 
 @par Directory contents 
 
-  - CortexM/CORTEXM_SysTick/Inc/stm32g0xx_hal_conf.h    HAL configuration file
-  - CortexM/CORTEXM_SysTick/Inc/stm32g0xx_it.h          Interrupt handlers header file
-  - CortexM/CORTEXM_SysTick/Inc/main.h                  Header for main.c module  
-  - CortexM/CORTEXM_SysTick/Src/stm32g0xx_it.c          Interrupt handlers
-  - CORTEXM/CORTEXM_SysTick/Src//stm32g0xx_hal_msp.c     HAL MSP file
-  - CortexM/CORTEXM_SysTick/Src/main.c                  Main program
-  - CortexM/CORTEXM_SysTick/Src/system_stm32g0xx.c      STM32G0xx system source file
+  - CORTEX/CORTEXM_SysTick/Inc/stm32g0xx_hal_conf.h    HAL configuration file
+  - CORTEX/CORTEXM_SysTick/Inc/stm32g0xx_it.h          Interrupt handlers header file
+  - CORTEX/CORTEXM_SysTick/Inc/main.h                  Header for main.c module 
+  - CORTEX/CORTEXM_SysTick/Src/stm32g0xx_it.c          Interrupt handlers
+  - CORTEX/CORTEXM_SysTick/Src//stm32g0xx_hal_msp.c     HAL MSP file
+  - CORTEX/CORTEXM_SysTick/Src/main.c                  Main program
+  - CORTEX/CORTEXM_SysTick/Src/system_stm32g0xx.c      STM32G0xx system source file
 
 @par Hardware and Software environment 
 

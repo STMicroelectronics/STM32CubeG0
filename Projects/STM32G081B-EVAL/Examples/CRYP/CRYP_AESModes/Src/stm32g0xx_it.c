@@ -60,14 +60,13 @@ extern CRYP_HandleTypeDef     hcryp;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern DMA_HandleTypeDef hdma_aes_in;
-extern DMA_HandleTypeDef hdma_aes_out;
+extern CRYP_HandleTypeDef hcryp;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
@@ -144,15 +143,20 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32g0xx.s).                    */
 /******************************************************************************/
 
-/* USER CODE BEGIN 1 */
 /**
-  * @brief  This function handles AES interrupt request.
-  * @param  None
-  * @retval None
+  * @brief This function handles AES and RNG interrupts.
   */
 void AES_RNG_IRQHandler(void)
 {
+  /* USER CODE BEGIN AES_RNG_IRQn 0 */
+
+  /* USER CODE END AES_RNG_IRQn 0 */
   HAL_CRYP_IRQHandler(&hcryp);
+  /* USER CODE BEGIN AES_RNG_IRQn 1 */
+
+  /* USER CODE END AES_RNG_IRQn 1 */
 }
+
+/* USER CODE BEGIN 1 */
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

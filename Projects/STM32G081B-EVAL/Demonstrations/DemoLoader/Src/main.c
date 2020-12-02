@@ -429,7 +429,7 @@ static void Error_Handler(void)
 /**
   * @brief  Load the demonstration firmware to the flash memomry
   * @param  FileName Name of the binary image
-  * @retval error 0 : Demo firmware loading successfull
+  * @retval error 0 : Demo firmware loading successful
   *               else : Demo firmware loading failed
   */
 static uint8_t LoadDemoFimware(char * FileName, uint32_t AppliAddress)
@@ -599,8 +599,8 @@ static void PrepareForOperation(void)
   /* check no operation is on going */
   while((FLASH->SR & FLASH_SR_BSY1) != 0);
 
-  /* Clear all FLASH flags */
-  __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_ALL_ERRORS);
+  /* Clear FLASH SR register */
+  FLASH->SR = FLASH_SR_CLEAR;
 
   /* check cfgbsy is cleared */
   while((FLASH->SR & FLASH_SR_CFGBSY) != 0);

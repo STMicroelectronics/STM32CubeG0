@@ -21,7 +21,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -101,7 +100,6 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
 
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
@@ -168,7 +166,7 @@ void SystemClock_Config(void)
   LL_RCC_HSI_Enable();
   while(LL_RCC_HSI_IsReady() != 1)
   {
-  };
+  }
 
   /* Main PLL configuration and activation */
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_1, 8, LL_RCC_PLLR_DIV_2);
@@ -176,7 +174,7 @@ void SystemClock_Config(void)
   LL_RCC_PLL_EnableDomain_SYS();
   while(LL_RCC_PLL_IsReady() != 1)
   {
-  };
+  }
 
   /* Set AHB prescaler*/
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
@@ -185,7 +183,7 @@ void SystemClock_Config(void)
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
-  };
+  }
 
   /* Set APB1 prescaler*/
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
@@ -196,11 +194,12 @@ void SystemClock_Config(void)
   LL_SetSystemCoreClock(64000000);
 }
 
-/** 
+/**
   * Enable DMA controller clock
   */
-static void MX_DMA_Init(void) 
+static void MX_DMA_Init(void)
 {
+
   /* Init with LL driver */
   /* DMA controller clock enable */
   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
@@ -333,14 +332,14 @@ void LED_Blinking(uint32_t Period)
 void TransferComplete()
 {
   /* DMA transfer completed */
-  /* Verify the data transfered */
+  /* Verify the data transferred */
   if (Buffercmp((uint32_t*)aSRC_Const_Buffer, (uint32_t*)aDST_Buffer, BUFFER_SIZE) == 1)
   {
-    /* DMA data transfered not consistency */
+    /* DMA data transferred not consistency */
     LED_Blinking(LED_BLINK_ERROR);
   }
   
-  /* DMA data transfered consistency */
+  /* DMA data transferred consistency */
   LED_On();
 }
 
@@ -379,7 +378,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

@@ -117,10 +117,10 @@ void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* hlptim)
   /* USER CODE END LPTIM2_MspInit 0 */
     /* Peripheral clock enable */
     __HAL_RCC_LPTIM2_CLK_ENABLE();
-  
+
     __HAL_RCC_GPIOB_CLK_ENABLE();
-    /**LPTIM2 GPIO Configuration    
-    PB1     ------> LPTIM2_IN1 
+    /**LPTIM2 GPIO Configuration
+    PB1     ------> LPTIM2_IN1
     */
     GPIO_InitStruct.Pin = GPIO_PIN_1;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -177,9 +177,9 @@ void HAL_LPTIM_MspDeInit(LPTIM_HandleTypeDef* hlptim)
   /* USER CODE END LPTIM2_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_LPTIM2_CLK_DISABLE();
-  
-    /**LPTIM2 GPIO Configuration    
-    PB1     ------> LPTIM2_IN1 
+
+    /**LPTIM2 GPIO Configuration
+    PB1     ------> LPTIM2_IN1
     */
     HAL_GPIO_DeInit(GPIOB, GPIO_PIN_1);
 

@@ -29,7 +29,7 @@ This makes the LED3 blinking speed to highlight the system clock frequency chang
 
 In this example, after start-up, SYSCLK is configured to the max frequency using the PLL with
 HSI as clock source.
-Then, when a virtual button is connected/disconnected by puting and removing a jumper between PA.15 (Arduino D2) 
+Then, when a virtual button is connected/disconnected by putting and removing a jumper between PA.15 (Arduino D2) 
 and GND), an automatic switch is done between PLL with HSI as clock source (SYSCLK set to 10MHz) and 
 PLL with HSI as clock source (SYSCLK set to 64MHz). 
 LED3 will toggle differently between the 2 configurations (quick toggle with SYSCLK configuration at 64MHz).

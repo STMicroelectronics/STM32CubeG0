@@ -42,6 +42,10 @@ In case of errors, LED4 is blinking (1sec period).
 
 Program is written so that, any new press on User push-button will lead to new transmission of complete buffer.
 
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, Interrupt, HyperTerminal, Transmitter
+
 @par Directory contents 
 
   - USART/USART_Communication_Tx_IT_Init/Inc/stm32g0xx_it.h          Interrupt handlers header file
@@ -61,7 +65,7 @@ Program is written so that, any new press on User push-button will lead to new t
 
   - NUCLEO-G071RB Set-up
     Connect USART1 TX/RX to respectively RX and TX pins of PC UART (could be done through a USB to UART adapter) :
-    - Connect STM32 MCU board USART1 TX pin (GPIO )
+    - Connect STM32 MCU board USART1 TX pin (GPIO PA.09 connected to pin 21 in CN10)
       to PC COM port RX signal
     - Connect STM32 MCU board USART1 RX pin (GPIO PA.10 connected to pin 33 in CN10)
       to PC COM port TX signal

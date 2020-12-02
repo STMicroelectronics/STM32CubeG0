@@ -7,15 +7,14 @@
   *
   * Copyright (c) 2019 STMicroelectronics. All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -31,7 +30,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define _HSE_ENABLE 1
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -42,11 +41,15 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void StartDefaultTask(void const * argument);
+
 /* USER CODE BEGIN PFP */
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -101,7 +104,7 @@ int main(void)
 
     BSP_MOSFET_Init(MOSFET_ENCC1);
     BSP_MOSFET_Init(MOSFET_ENCC2);
-    BSP_MOSFET_Init(MOSFET_RD_CC2);
+    BSP_MOSFET_Init(MOSFET_RD_CC1);
     BSP_MOSFET_On(MOSFET_ENCC1);
     BSP_MOSFET_On(MOSFET_ENCC2);
     BSP_MOSFET_On(MOSFET_RD_CC1);
@@ -118,39 +121,11 @@ int main(void)
   /* USER CODE END 2 */
 
   /* USBPD initialisation ---------------------------------*/
-  /* Global Init of USBPD HW */
-  USBPD_HW_IF_GlobalHwInit();
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadCreate(osThread(defaultTask), NULL);
 
-
-
-  /* Initialize the Device Policy Manager */
-  if( USBPD_ERROR == USBPD_DPM_InitCore())
-  {
-    /* error on core init  */
-    while(1);
-  }
-
-#if defined(_GUI_INTERFACE)
-  /* Initialize GUI before retrieving PDO from RAM */
-  GUI_Init(BSP_GetHWBoardVersionName, BSP_GetPDTypeName, HW_IF_PWR_GetVoltage, HW_IF_PWR_GetCurrent);
-#endif /* _GUI_INTERFACE */
-
-  /* Initialise the DPM application */
-  if (USBPD_OK != USBPD_DPM_UserInit())
-  {
-    while(1);
-  }
-
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  if( USBPD_ERROR == USBPD_DPM_InitOS())
-  {
-    /* error the RTOS can't be started  */
-    while(1);
-  }
-  /* USER CODE END RTOS_THREADS */
-
-  USBPD_DPM_Run();
+  /* start application */
+  osKernelStart();
 }
 
 /**
@@ -178,7 +153,7 @@ void SystemClock_Config(void)
   LL_RCC_HSI_Enable();
   while(LL_RCC_HSI_IsReady() != 1)
   {
-  };
+  }
 
   /* Main PLL configuration and activation */
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_1, 8, LL_RCC_PLLR_DIV_2);
@@ -186,14 +161,14 @@ void SystemClock_Config(void)
   LL_RCC_PLL_EnableDomain_SYS();
   while(LL_RCC_PLL_IsReady() != 1)
   {
-  };
+  }
 
   /* Sysclk activation on the main PLL */
 
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
-  };
+  }
 
   /* Set AHB prescaler*/
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
@@ -238,5 +213,44 @@ void assert_failed(char* file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used 
+  * @retval None
+  */
+void StartDefaultTask(void const * argument)
+{
+  /* Global Init of USBPD HW */
+  USBPD_HW_IF_GlobalHwInit();
+
+  /* Initialize the Device Policy Manager */
+  if( USBPD_OK != USBPD_DPM_InitCore())
+  {
+    /* error the RTOS can't be started  */
+    while(1);
+  }
+
+#if defined(_GUI_INTERFACE)
+  /* Initialize GUI before retrieving PDO from RAM */
+  GUI_Init(BSP_GetHWBoardVersionName, BSP_GetPDTypeName, HW_IF_PWR_GetVoltage, HW_IF_PWR_GetCurrent);
+#endif /* _GUI_INTERFACE */
+
+  /* Initialise the DPM application */
+  if (USBPD_OK != USBPD_DPM_UserInit())
+  {
+    while(1);
+  }
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  if( USBPD_OK != USBPD_DPM_InitOS())
+  {
+    /* error the RTOS can't be started  */
+    while(1);
+  }
+  
+  osThreadTerminate(osThreadGetId());
+}
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

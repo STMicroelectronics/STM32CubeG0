@@ -45,11 +45,11 @@ Note: Optionally, a voltage can be supplied to the analog input pin (cf pin belo
 
 Other peripherals used:
   1 GPIO for LED
-  1 GPIO for analog input: PA4 (pin 10 on connector CN3 (Arduino A2))
+  1 GPIO for analog input: PA4 (pin 10 on connector CN4 (Arduino A2))
 
 Board settings:
  - ADC is configured to convert ADC_CHANNEL_4.
- - The voltage input on ADC channel must be provided by an external source connected to the selected GPIO analog input (pin 10 on connector CN3 (Arduino A2)).
+ - The voltage input on ADC channel must be provided by an external source connected to the selected GPIO analog input (pin 10 on connector CN4 (Arduino A2)).
 
 
 To observe voltage level applied on ADC channel through GPIO, connect a voltmeter on

@@ -49,7 +49,7 @@ STM32G031K8Tx devices using STM32CubeG0 HAL and running on NUCLEO-G031K8 board f
 
   - This example runs on STM32G031K8 devices.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G031K8
+  - This example has been tested with NUCLEO-G031K8
     boards and can be easily tailored to any other supported device 
     and development board.
 

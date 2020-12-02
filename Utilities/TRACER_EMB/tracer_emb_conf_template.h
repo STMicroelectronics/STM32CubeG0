@@ -74,14 +74,32 @@ extern "C" {
 #define TRACER_EMB_USART_IRQHANDLER                  USART3_4_LPUART1_IRQHandler
 #define TRACER_EMB_TX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
 #define TRACER_EMB_RX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
+#define TRACER_EMB_TX_IRQ_PRIORITY                   3
+#if TRACER_EMB_DMA_MODE == 1UL
 #define TRACER_EMB_DMA_INSTANCE                      DMA1
 #define TRACER_EMB_ENABLE_CLK_DMA()                  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
-#define TRACER_EMB_TX_DMA_REQUEST                    LL_DMAMUX_REQ_USART3_TX
+#if defined (DMAMUX_CxCR_DMAREQ_ID)
+#define TRACER_EMB_TX_DMA_REQUEST                    LL_DMAMUX_REQ_USART3_TX         /* This define is needed only in case of DMAMUX management */
+#endif  /* DMAMUX_CxCR_DMAREQ_ID */
+#if defined(DMA_SxCR_CHSEL)
+#define TRACER_EMB_TX_DMA_STREAM		     LL_DMA_STREAM_7                 /* This define is needed only in case of use of a DMA IP supporting Streams */
+#endif  /* DMA_SxCR_CHSEL */
 #define TRACER_EMB_TX_DMA_CHANNEL                    LL_DMA_CHANNEL_7
+#if defined(DMA_SxCR_CHSEL)
+/* Those defines are needed only in case of use of a DMA IP supporting Streams */
+#define TRACER_EMB_ENABLESTREAM                      LL_DMA_EnableStream
+#define TRACER_EMB_DISABLESTREAM                     LL_DMA_DisableStream
+#else
+/* Those defines are needed only in case of use of a DMA IP not supporting Streams */
+#define TRACER_EMB_ENABLECHANNEL                     LL_DMA_EnableChannel
+#define TRACER_EMB_DISABLECHANNEL                    LL_DMA_DisableChannel
+#endif  /* DMA_SxCR_CHSEL */
 #define TRACER_EMB_TX_DMA_IRQ                        DMA1_Ch4_7_DMAMUX1_OVR_IRQn
 #define TRACER_EMB_TX_DMA_IRQHANDLER                 DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler
 #define TRACER_EMB_TX_DMA_ACTIVE_FLAG                LL_DMA_IsActiveFlag_TC7
 #define TRACER_EMB_TX_DMA_CLEAR_FLAG                 LL_DMA_ClearFlag_GI7
+#define TRACER_EMB_TX_DMA_PRIORITY                   0
+#endif
 
 #ifdef __cplusplus
 }
@@ -89,4 +107,3 @@ extern "C" {
 
 #endif /* TRACER_EMB_CONF_H */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-

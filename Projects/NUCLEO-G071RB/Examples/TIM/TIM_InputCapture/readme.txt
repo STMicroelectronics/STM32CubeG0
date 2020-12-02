@@ -71,7 +71,7 @@ Timer, DMA, Frequency, Input, Capture, External Signal, Measurement
   - This example runs on STM32G071RBTx devices.
   - In this example, the clock is set to 56 MHz.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G071RB
+  - This example has been tested with NUCLEO-G071RB
     board and can be easily tailored to any other supported device 
     and development board.      
 

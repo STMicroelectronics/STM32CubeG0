@@ -9,12 +9,13 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
   * the License. You may obtain a copy of the License at:
-  *                               www.st.com/SLA0044
+  *                             www.st.com/SLA0044
   *
   ******************************************************************************
   @endverbatim
@@ -62,9 +63,13 @@ Depending of IDE, to watch content of Terminal I/O note that
    Command Code could not be displayed on debugger but user can use the Virtual Com port of the NUCLEO-G071RB
    to display Command Code on PC side using an hyperterminal. See below, information related to this possibility.
 
- - When resorting to AC6 SW4STM32 IDE:
-   In Debug configuration window\ Startup, in addition to "monitor reset halt" add the command "monitor arm semihosting enable"
-   Command Code is displayed on debugger as follows: Window--> Show View--> Console.
+- When resorting to STM32CubeIDE: 
+   Command Code is displayed on debugger as follows: Window--> Show View--> Console. 
+   In Debug configuration : 
+    1- Use ST-LINK (OpenOCD). 
+    2- Add the command "monitor arm semihosting enable" into startup Initialization Commands .
+   In Release Configuration :
+    The semihosting is not supported, user can launch serial communication SW on PC (as HyperTerminal or TeraTerm) .
 
 The USART is configured as follows:
     - USART2 IP (using ST-link (VCP interface)).
@@ -74,7 +79,7 @@ The USART is configured as follows:
     - Odd parity
     - Hardware flow control disabled (RTS and CTS signals)
     - Reception and transmission are enabled in the time
-	
+
 @note: for some uSD's, replacing it  while the application is running makes the application
        fail. It is recommended to reset the board using the "Reset button" after replacing
        the uSD.
@@ -83,9 +88,7 @@ The USART outputs a message on the HyperTerminal:
   - ** Success. ** when the application runs successfully.
   - ** Error. ** when any error occurs.
 
-@par Keywords
-
-Middleware, SD Card, FatFs, File system, FAT Volume, Format, Mount, Read, Write,
+@note SD module is part of the Adafruit shield.
 
 @note Care must be taken when using HAL_Delay(), this function provides accurate delay (in milliseconds)
       based on variable incremented in SysTick ISR. This implies that if HAL_Delay() is called from
@@ -96,17 +99,25 @@ Middleware, SD Card, FatFs, File system, FAT Volume, Format, Mount, Read, Write,
 @note The application needs to ensure that the SysTick time base is always set to 1 millisecond
       to have correct HAL operation.
 
+@note Known limitation : This application running only with uSD class 8 and class 10 cards.
+
+@par Keywords
+
+FatFs, SD Card, File system, FAT Volume, Format, Mount, Read, Write,
+
 @par Directory contents
 
-  - FatFs/FatFs_uSD_Standalone/Inc/stm32g0xx_hal_conf.h    HAL configuration file
-  - FatFs/FatFs_uSD_Standalone/Inc/stm32g0xx_it.h          Interrupt handlers header file
-  - FatFs/FatFs_uSD_Standalone/Inc/main.h                        Header for main.c module
-  - FatFs/FatFs_uSD_Standalone/Src/sd_diskio.h                   uSD diskio header file
-  - FatFs/FatFs_uSD_Standalone/Inc/ffconf.h                      FAT file system module configuration file
-  - FatFs/FatFs_uSD_Standalone/Src/stm32g0xx_it.c          Interrupt handlers
-  - FatFs/FatFs_uSD_Standalone/Src/main.c                        Main program
-  - FatFs/FatFs_uSD_Standalone/Src/sd_diskio.c                   FatFs uSD diskio driver
-  - FatFs/FatFs_uSD_Standalone/Src/system_stm32g0xx.c      STM32G0xx system source file
+  - FatFs/FatFs_uSD_Standalone/Core/Inc/stm32g0xx_hal_conf.h               HAL configuration file
+  - FatFs/FatFs_uSD_Standalone/Core/Inc/stm32g0xx_it.h                     Interrupt handlers header file
+  - FatFs/FatFs_uSD_Standalone/Core/Inc/main.h                             Header for main.c module
+  - FatFs/FatFs_uSD_Standalone/Core/Src/stm32g0xx_it.c                     Interrupt handlers
+  - FatFs/FatFs_uSD_Standalone/Core/Src/main.c                             Main program
+  - FatFs/FatFs_uSD_Standalone/Core/Src/system_stm32g0xx.c                 STM32G0xx system source file
+  - FatFs/FatFs_uSD_Standalone/FATFS/Target/ffconf.h                       FAT file system module configuration file
+  - FatFs/FatFs_uSD_Standalone/FATFS/Target/sd_diskio.h                    uSD diskio header file
+  - FatFs/FatFs_uSD_Standalone/FATFS/Target/sd_diskio.c                    FatFs uSD diskio driver
+  - FatFs/FatFs_uSD_Standalone/FATFS/App/app_fatfs.h                       Header file for App_fatfs.c file
+  - FatFs/FatFs_uSD_Standalone/FATFS/App/app_fatfs.c                       FatFs application code
 
 @par Hardware and Software environment
 
@@ -123,7 +134,7 @@ Middleware, SD Card, FatFs, File system, FAT Volume, Format, Mount, Read, Write,
 @par How to use it ?
 
 In order to make the program work, you must do the following:
- - Insert a microSD card in the board appropriate slot
+ - Insert a microSD card in the board appropriate slot from Adafruit shield
  - Open your preferred toolchain
  - Rebuild all files and load your image into target memory
  - Run the application

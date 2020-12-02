@@ -1,9 +1,9 @@
 /**
-  @page RCC_ClockSwitch RCC Clock Switch example
+  @page RCC_SwitchClock RCC Clock Switch example
 
   @verbatim
   ******************************************************************************
-  * @file    RCC/RCC_ClockSwitch/readme.txt
+  * @file    RCC/RCC_SwitchClock/readme.txt
   * @author  MCD Application Team
   * @brief   Description of the RCC Clock Switch example.
   ******************************************************************************
@@ -54,17 +54,17 @@ LED1 is toggling with a timing defined by HAL_IncTick() API depending on the sys
       
 @par Keywords
 
-System, RCC, PLL, PLLCLK, SYSCLK, LSI, Swicth Clock, Oscillator,
+System, RCC, PLL, PLLCLK, SYSCLK, LSI, Switch Clock, Oscillator,
 
 @par Directory contents
 
-  - RCC/RCC_ClockSwitch/Inc/stm32g0xx_hal_conf.h        HAL configuration file
-  - RCC/RCC_ClockSwitch/Inc/stm32g0xx_it.h              Interrupt handlers header file
-  - RCC/RCC_ClockSwitch/Inc/main.h                      Header for main.c module
-  - RCC/RCC_ClockSwitch/Src/stm32g0xx_it.c              Interrupt handlers
-  - RCC/RCC_ClockSwitch/Src/main.c                      Main program
-  - RCC/RCC_ClockSwitch/Src/system_stm32g0xx.c          STM32G0xx system source file
-  - RCC/RCC_ClockSwitch/Src/stm32g0xx_hal_msp.c   HAL MSP module
+  - RCC/RCC_SwitchClock/Inc/stm32g0xx_hal_conf.h        HAL configuration file
+  - RCC/RCC_SwitchClock/Inc/stm32g0xx_it.h              Interrupt handlers header file
+  - RCC/RCC_SwitchClock/Inc/main.h                      Header for main.c module
+  - RCC/RCC_SwitchClock/Src/stm32g0xx_it.c              Interrupt handlers
+  - RCC/RCC_SwitchClock/Src/main.c                      Main program
+  - RCC/RCC_SwitchClock/Src/system_stm32g0xx.c          STM32G0xx system source file
+  - RCC/RCC_SwitchClock/Src/stm32g0xx_hal_msp.c   HAL MSP module
 
 @par Hardware and Software environment
 

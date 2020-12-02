@@ -310,14 +310,14 @@ void ssd1315_DrawBitmap(uint16_t Xpos, uint16_t Ypos, uint8_t *pbmp)
   /* Read bitmap height */
   height = pbmp[22] + (pbmp[23] << 8) + (pbmp[24] << 16)  + (pbmp[25] << 24);
 
-  /* Size converion */
+  /* Size conversion */
   size = (size - index)/2;
 
   /* Apply offset to bypass header */
   pbmp += index;
 
   /* if bitmap cover whole screen */
-  if((Xpos == 0) && (Xpos == 0) & (size == (SSD1315_LCD_PIXEL_WIDTH * SSD1315_LCD_PIXEL_HEIGHT/8)))
+  if((Xpos == 0) && (Ypos == 0) & (size == (SSD1315_LCD_PIXEL_WIDTH * SSD1315_LCD_PIXEL_HEIGHT/8)))
   {
     memcpy(PhysFrameBuffer, pbmp, size);
   }
@@ -405,7 +405,7 @@ void ssd1315_ShiftBitmap(uint16_t Xpos, uint16_t Ypos, int16_t Xshift, int16_t Y
   }
   original_YposBMP = YposBMP;
 
-  /* Size converion */
+  /* Size conversion */
   size = (size - index)/2;
   size = size - ((Xshift*height/8)+(Yshift*width/8 ));
 
@@ -413,7 +413,7 @@ void ssd1315_ShiftBitmap(uint16_t Xpos, uint16_t Ypos, int16_t Xshift, int16_t Y
   pbmp += index;
 
   /* if bitmap cover whole screen */
-  if((Xpos == 0) && (Xpos == 0) & (size == (SSD1315_LCD_PIXEL_WIDTH * SSD1315_LCD_PIXEL_HEIGHT/8)))
+  if((Xpos == 0) && (Ypos == 0) & (size == (SSD1315_LCD_PIXEL_WIDTH * SSD1315_LCD_PIXEL_HEIGHT/8)))
   {
     memcpy(PhysFrameBuffer, pbmp, size);
   }

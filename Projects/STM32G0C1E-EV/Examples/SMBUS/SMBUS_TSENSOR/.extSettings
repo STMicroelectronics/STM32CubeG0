@@ -1,0 +1,11 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Inc;..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32G0xx\Include;..\..\..\..\..\..\Drivers\BSP\STM32G0C1E-EV;..\..\..\..\..\..\Drivers\BSP\Components\Common
+[Others]
+Define=
+HALModule=SPI
+[Groups]
+Application/User=../Src/stm32g0xx_tsensor.c;
+Doc=../readme.txt;
+Drivers/BSP/Components=../../../../../../Drivers/BSP/Components/hx8347d/hx8347d.c;
+Drivers/BSP/STM32G0C1E-EV=../../../../../../Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval_lcd.c;../../../../../../Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval.c;
+Drivers/STM32G0xx_HAL_Driver=../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi.c;../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi_ex.c;

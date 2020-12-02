@@ -117,7 +117,7 @@
         <option>
           <name>GBECoreSlave</name>
           <version>26</version>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>OGUseCmsis</name>
@@ -138,7 +138,7 @@
         </option>
         <option>
           <name>GFPUDeviceSlave</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>FPU2</name>
@@ -190,11 +190,11 @@
         </option>
         <option>
           <name>GenLocaleTags</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>GenLocaleDisplayOnly</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>DSPExtension</name>
@@ -228,7 +228,8 @@
           <state>INSTRUCTION_CACHE_ENABLE=1</state>
           <state>DATA_CACHE_ENABLE=1</state>
           <state>STM32G070xx</state>
-          <state />
+          <state>EXTERNAL_CLOCK_VALUE=48000</state>
+          <state></state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -268,19 +269,19 @@
         </option>
         <option>
           <name>CCDiagSuppress</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>CCDiagRemark</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>CCDiagWarning</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>CCDiagError</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>CCObjPrefix</name>
@@ -309,7 +310,7 @@
         </option>
         <option>
           <name>IExtraOptions</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>CCLangConformance</name>
@@ -345,7 +346,7 @@
         </option>
         <option>
           <name>PreInclude</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>CompilerMisraOverride</name>
@@ -356,6 +357,7 @@
           <state>$PROJ_DIR$/../Inc</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include</state>
+          <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Include</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -505,15 +507,15 @@
         </option>
         <option>
           <name>AWarnOne</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>AWarnRange1</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>AWarnRange2</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>ADebug</name>
@@ -525,7 +527,7 @@
         </option>
         <option>
           <name>ADefines</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>AList</name>
@@ -617,7 +619,7 @@
         </option>
         <option>
           <name>AUserIncludes</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>
@@ -625,7 +627,7 @@
         </option>
         <option>
           <name>AExtraOptionsV2</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>AsmNoLiteralPool</name>
@@ -667,22 +669,22 @@
       <name>CUSTOM</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <extensions />
-        <cmdline />
+        <extensions></extensions>
+        <cmdline></cmdline>
         <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
       <name>BICOMP</name>
       <archiveVersion>0</archiveVersion>
-      <data />
+      <data></data>
     </settings>
     <settings>
       <name>BUILDACTION</name>
       <archiveVersion>1</archiveVersion>
       <data>
-        <prebuild />
-        <postbuild />
+        <prebuild></prebuild>
+        <postbuild></postbuild>
       </data>
     </settings>
     <settings>
@@ -714,31 +716,31 @@
         </option>
         <option>
           <name>IlinkKeepSymbols</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinaryFile</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinarySymbol</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinarySegment</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinaryAlign</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkDefines</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkConfigDefines</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkMapFile</name>
@@ -774,7 +776,7 @@
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkEnableRemarks</name>
@@ -782,19 +784,19 @@
         </option>
         <option>
           <name>IlinkSuppressDiags</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsRem</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsWarn</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsErr</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkWarningsAreErrors</name>
@@ -806,7 +808,7 @@
         </option>
         <option>
           <name>IlinkExtraOptions</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkLowLevelInterfaceSlave</name>
@@ -818,7 +820,7 @@
         </option>
         <option>
           <name>IlinkAdditionalLibs</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkOverrideProgramEntryLabel</name>
@@ -953,11 +955,11 @@
         </option>
         <option>
           <name>IlinkStackControlFile</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkStackCallGraphFile</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>CrcAlgorithm</name>
@@ -979,7 +981,7 @@
         </option>
         <option>
           <name>IlinkIcfFile_AltDefault</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IlinkEncInput</name>
@@ -1012,7 +1014,7 @@
         <debug>1</debug>
         <option>
           <name>IarchiveInputs</name>
-          <state />
+          <state></state>
         </option>
         <option>
           <name>IarchiveOverride</name>
@@ -1027,7 +1029,7 @@
     <settings>
       <name>BILINK</name>
       <archiveVersion>0</archiveVersion>
-      <data />
+      <data></data>
     </settings>
   </configuration>
   <group>
@@ -1071,16 +1073,16 @@
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_dma.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_pwr.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_tim.c</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_rcc.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_utils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_pwr.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_tim.c</name>
       </file>
     </group>
     <group>

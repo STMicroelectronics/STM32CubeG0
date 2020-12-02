@@ -7,11 +7,11 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics. 
+  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
+  * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
   *
@@ -69,8 +69,8 @@ extern "C" {
 #define VIRTUAL_BUTTON_EXTI_IS_ACTIVE_FLAG()       LL_EXTI_IsActiveRisingFlag_0_31(VIRTUAL_BUTTON_EXTI_LINE)
 #define VIRTUAL_BUTTON_EXTI_CLEAR_FLAG()           LL_EXTI_ClearRisingFlag_0_31(VIRTUAL_BUTTON_EXTI_LINE)
 #define VIRTUAL_BUTTON_SYSCFG_SET_EXTI()           do {\
-                                                      LL_EXTI_SetEXTISource(LL_EXTI_CONFIG_PORTA, LL_EXTI_CONFIG_LINE15);\
-                                                   } while(0)
+                                                  LL_EXTI_SetEXTISource(LL_EXTI_CONFIG_PORTA, LL_EXTI_CONFIG_LINE15);\
+                                                } while(0)
 #define VIRTUAL_BUTTON_IRQHANDLER                  EXTI4_15_IRQHandler
 
 /* USER CODE END EC */

@@ -20,7 +20,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -104,12 +103,10 @@ int main(void)
 
 
   /* USER CODE END 1 */
-  
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
 
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
@@ -222,33 +219,30 @@ int main(void)
 void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_2);
-  if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_2)
+  while(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_2)
   {
-    Error_Handler();  
-  };
+  }
 
   /* HSI configuration and activation */
   LL_RCC_HSI_Enable();
   while(LL_RCC_HSI_IsReady() != 1)
   {
-  };
+  }
 
   /* LSI configuration and activation */
   LL_RCC_LSI_Enable();
   while(LL_RCC_LSI_IsReady() != 1)
   {
-  };
+  }
 
   LL_PWR_EnableBkUpAccess();
-  LL_RCC_ForceBackupDomainReset();
-  LL_RCC_ReleaseBackupDomainReset();
   /* Main PLL configuration and activation */
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_1, 8, LL_RCC_PLLR_DIV_2);
   LL_RCC_PLL_Enable();
   LL_RCC_PLL_EnableDomain_SYS();
   while(LL_RCC_PLL_IsReady() != 1)
   {
-  };
+  }
 
   /* Set AHB prescaler*/
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
@@ -257,17 +251,21 @@ void SystemClock_Config(void)
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
-  };
+  }
 
   /* Set APB1 prescaler*/
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
 
   LL_Init1msTick(64000000);
 
-  LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
   /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
   LL_SetSystemCoreClock(64000000);
-  LL_RCC_SetRTCClockSource(LL_RCC_RTC_CLKSOURCE_LSI);
+  if(LL_RCC_GetRTCClockSource() != LL_RCC_RTC_CLKSOURCE_LSI)
+  {
+    LL_RCC_ForceBackupDomainReset();
+    LL_RCC_ReleaseBackupDomainReset();
+    LL_RCC_SetRTCClockSource(LL_RCC_RTC_CLKSOURCE_LSI);
+  }
   LL_RCC_EnableRTC();
 }
 
@@ -292,6 +290,9 @@ static void MX_RTC_Init(void)
   LL_RCC_EnableRTC();
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_RTC);
 
+  /* USER CODE BEGIN RTC_Init 1 */
+
+  /* USER CODE END RTC_Init 1 */
   RTC_InitStruct.HourFormat = LL_RTC_HOURFORMAT_24HOUR;
   RTC_InitStruct.AsynchPrescaler = RTC_ASYNCH_PREDIV;
   RTC_InitStruct.SynchPrescaler = RTC_SYNCH_PREDIV;
@@ -307,7 +308,7 @@ static void MX_RTC_Init(void)
   RTC_DateStruct.Year = 0x16;
 
   LL_RTC_DATE_Init(RTC, LL_RTC_FORMAT_BCD, &RTC_DateStruct);
-  /** Enable the Alarm A 
+  /** Enable the Alarm A
   */
   RTC_AlarmStruct.AlarmTime.Hours = 0x12;
   RTC_AlarmStruct.AlarmTime.Minutes = 0x0;
@@ -315,8 +316,10 @@ static void MX_RTC_Init(void)
   RTC_AlarmStruct.AlarmMask = LL_RTC_ALMA_MASK_DATEWEEKDAY;
   RTC_AlarmStruct.AlarmDateWeekDaySel = LL_RTC_ALMA_DATEWEEKDAYSEL_DATE;
   RTC_AlarmStruct.AlarmDateWeekDay = 0x1;
-
   LL_RTC_ALMA_Init(RTC, LL_RTC_FORMAT_BCD, &RTC_AlarmStruct);
+  LL_RTC_SetOutputPolarity(RTC, LL_RTC_OUTPUTPOLARITY_PIN_HIGH );
+  LL_RTC_SetAlarmOutputType(RTC, LL_RTC_ALARM_OUTPUTTYPE_OPENDRAIN );
+  LL_RTC_DisableAlarmPullUp(RTC);
   /* USER CODE BEGIN RTC_Init 2 */
 
   /* Disable the write protection for RTC registers */
@@ -458,7 +461,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

@@ -1,19 +1,21 @@
 /**
   @page FreeRTOS_Signal FreeRTOS Signal example
- 
+
   @verbatim
   ******************************************************************************
   * @file    FreeRTOS/FreeRTOS_Signal/readme.txt
   * @author  MCD Application Team
   * @brief   Description of the FreeRTOS Signal example.
   ******************************************************************************
+  * @attention
   *
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
   * the License. You may obtain a copy of the License at:
-  *                               www.st.com/SLA0044
+  *                             www.st.com/SLA0044
   *
   ******************************************************************************
   @endverbatim
@@ -44,23 +46,26 @@ As a result, LED4 toggles every 500 ms.
       the peripheral interrupt. Otherwise the caller ISR process will be blocked.
       To change the HAL time base interrupt priority you have to use HAL_NVIC_SetPriority()
       function.
- 
+
 @note The application needs to ensure that the HAL time base is always set to 1 millisecond
       to have correct HAL operation.
 
-@note The FreeRTOS heap size configTOTAL_HEAP_SIZE defined in FreeRTOSConfig.h is set accordingly to the 
+@note The FreeRTOS heap size configTOTAL_HEAP_SIZE defined in FreeRTOSConfig.h is set accordingly to the
       OS resources memory requirements of the application with +10% margin and rounded to the upper Kbyte boundary.
 
-For more details about FreeRTOS implementation on STM32Cube, please refer to UM1722 "Developing Applications 
+For more details about FreeRTOS implementation on STM32Cube, please refer to UM1722 "Developing Applications
 on STM32Cube with RTOS".
 
+@par Keywords
+
+RTOS, FreeRTOS, Thread, Signal,
 
 @par Directory contents
     - FreeRTOS/FreeRTOS_Signal/Src/main.c                       Main program
-	- FreeRTOS/FreeRTOS_Signal/Src/app_FreeRTOS.c               Code for freertos applications
+    - FreeRTOS/FreeRTOS_Signal/Src/app_FreeRTOS.c               Code for freertos applications
     - FreeRTOS/FreeRTOS_Signal/Src/stm32g0xx_hal_timebase_tim.c HAL timebase file
     - FreeRTOS/FreeRTOS_Signal/Src/stm32g0xx_it.c               Interrupt handlers
-	- FreeRTOS/FreeRTOS_Signal/Src/stm32g0xx_hal_msp.c          MSP Initialization file
+    - FreeRTOS/FreeRTOS_Signal/Src/stm32g0xx_hal_msp.c          MSP Initialization file
     - FreeRTOS/FreeRTOS_Signal/Src/system_stm32g0xx.c           STM32G0xx system clock configuration file
     - FreeRTOS/FreeRTOS_Signal/Inc/main.h                       Main program header file
     - FreeRTOS/FreeRTOS_Signal/Inc/stm32g0xx_hal_conf.h         HAL Library Configuration file
@@ -70,17 +75,17 @@ on STM32Cube with RTOS".
 @par Hardware and Software environment
 
   - This application runs on STM32G071RBTx devices.
-    
+
   - This application has been tested with NUCLEO-G071RB board and can be
     easily tailored to any other supported device and development board.
-    
+
 
 @par How to use it ?
 
 In order to make the program work, you must do the following:
- - Open your preferred toolchain 
+ - Open your preferred toolchain
  - Rebuild all files and load your image into target memory
  - Run the example
-  
+
  * <h3><center>&copy; COPYRIGHT STMicroelectronics</center></h3>
  */

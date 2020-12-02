@@ -3,9 +3,9 @@
   ******************************************************************************
   * @file    FatFs/FatFs_uSD_Standalone/FatFsApp/Inc/app_fatfs.h
   * @author  MCD Application Team
-  * @brief   Header for FatFs_uSD_Standalone.c file
+  * @brief   Header for app_fatfs.c file
   ******************************************************************************
-   * @attention
+  * @attention
   *
   * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.</center></h2>
@@ -29,7 +29,7 @@
 #include "sd_diskio.h" /* defines SD_Driver as external */
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */     
+/* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 

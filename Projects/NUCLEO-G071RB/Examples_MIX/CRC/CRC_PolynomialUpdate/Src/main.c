@@ -20,7 +20,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -163,7 +162,7 @@ int main(void)
 
   /*##-2- Compute the CRC of "aDataBuffer" ###################################*/
   /* First computation is done using 8-bit generating Polynomial (CRC_POLYNOMIAL_8B) 
-     as configured in CRC handle, wtih HAL_CRC_Init */
+     as configured in CRC handle, with HAL_CRC_Init */
   uwCRCValue = HAL_CRC_Calculate(&hcrc, (uint32_t *)&aDataBuffer, BUFFER_SIZE);
 
   /*##-3- Compare the CRC value to the Expected one ##########################*/
@@ -226,7 +225,8 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -243,7 +243,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1;
@@ -319,7 +319,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
 
   /* User can add his own implementation to report the file name and line number,

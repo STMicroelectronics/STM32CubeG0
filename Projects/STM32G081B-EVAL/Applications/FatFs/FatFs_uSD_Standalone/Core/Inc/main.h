@@ -7,7 +7,8 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -64,6 +65,7 @@ void Error_Handler(void);
 #define APP_OK                     0
 #define APP_ERROR                  -1
 #define APP_SD_UNPLUGGED           -2
+#define APP_INIT                   1
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -49,7 +49,7 @@ STM32G081RBTx devices using STM32CubeG0 HAL and running on STM32G081B-EVAL board
 
   - This example runs on STM32G0xx devices.
     
-  - This example has been tested with STMicroelectronics STM32G081B-EVAL
+  - This example has been tested with STM32G081B-EVAL
     boards and can be easily tailored to any other supported device 
     and development board.
 

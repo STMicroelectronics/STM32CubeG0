@@ -1,5 +1,5 @@
 /**
-  @page USB-C Power Delivery USBPD_Analyzer application
+  @page USBPD_Analyzer Power Delivery USBPD_Analyzer application
   
   @verbatim
   ******************************************************************************
@@ -37,7 +37,7 @@ It has been implemented in context of STM32G071xx devices, embedding UCPD IP:
  - When Disco is in spy mode, no action can be executed, but traces of exchanges 
    can be seen using STM32CubeMonitor tool.
 
- - LCD is used to display current USBPD informations, and user can navigate through menus.
+ - LCD is used to display current USBPD information, and user can navigate through menus.
    Check the Discovery user manual for more details on the menus.
  
  - Joystick is used to navigate through the LCD information. 
@@ -54,6 +54,10 @@ It has been implemented in context of STM32G071xx devices, embedding UCPD IP:
 
 @note The application needs to ensure that the SysTick time base is always set to 1 millisecond
       to have correct operation.
+
+@par Keywords
+
+USB_PD_Lib, UCPD, Type C, USBPD, FreeRTOS
 
 @par Directory contents
 

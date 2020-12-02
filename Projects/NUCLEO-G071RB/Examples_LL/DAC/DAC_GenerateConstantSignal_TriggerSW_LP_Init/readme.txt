@@ -55,12 +55,15 @@ External capacitor:
   to be connected between DAC channel output and ground.
   Capacitor value depends on load on DAC channel output and 
   sample-and-hold timings configured.
-  GENERATOR_ #error "Specify capacitor typ value and naming in datasheet for the selected STM32 serie"
+  GENERATOR_ #error "Specify capacitor typ value and naming in datasheet for the selected STM32 series"
 Oscilloscope for monitoring DAC channel output (cf pin below).
 Other peripheral used:
   1 GPIO for push button
   1 GPIO for DAC channel output PA.04 (Arduino connector CN8 pin A2, Morpho connector CN7 pin 32)
   
+@par Keywords
+
+Analog, DAC, Conversion, Voltage output, Oscilloscope, Signal, Software trigger, Low power
 
 @par Directory contents 
 

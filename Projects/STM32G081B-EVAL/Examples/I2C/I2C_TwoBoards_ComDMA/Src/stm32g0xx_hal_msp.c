@@ -75,6 +75,10 @@ void HAL_MspInit(void)
 
   /* System interrupt init*/
 
+  /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral
+  */
+  HAL_SYSCFG_StrobeDBattpinsConfig(SYSCFG_CFGR1_UCPD1_STROBE | SYSCFG_CFGR1_UCPD2_STROBE);
+
   /* USER CODE BEGIN MspInit 1 */
 
   /* USER CODE END MspInit 1 */
@@ -94,11 +98,11 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
   /* USER CODE BEGIN I2C2_MspInit 0 */
     
   /* USER CODE END I2C2_MspInit 0 */
-  
+
     __HAL_RCC_GPIOB_CLK_ENABLE();
-    /**I2C2 GPIO Configuration    
+    /**I2C2 GPIO Configuration
     PB13     ------> I2C2_SCL
-    PB14     ------> I2C2_SDA 
+    PB14     ------> I2C2_SDA
     */
     GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_14;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
@@ -109,7 +113,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
 
     /* Peripheral clock enable */
     __HAL_RCC_I2C2_CLK_ENABLE();
-  
+
     /* I2C2 DMA Init */
     /* I2C2_TX Init */
     hdma_i2c2_tx.Instance = DMA1_Channel1;
@@ -170,12 +174,14 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
   /* USER CODE END I2C2_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_I2C2_CLK_DISABLE();
-  
-    /**I2C2 GPIO Configuration    
+
+    /**I2C2 GPIO Configuration
     PB13     ------> I2C2_SCL
-    PB14     ------> I2C2_SDA 
+    PB14     ------> I2C2_SDA
     */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_13|GPIO_PIN_14);
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_13);
+
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_14);
 
     /* I2C2 DMA DeInit */
     HAL_DMA_DeInit(hi2c->hdmatx);

@@ -37,6 +37,7 @@ extern "C" {
 #include "stm32g0xx_ll_pwr.h"
 #include "stm32g0xx_ll_dma.h"
 #include "stm32g0xx_ll_gpio.h"
+
 #if defined(USE_FULL_ASSERT)
 #include "stm32_assert.h"
 #endif /* USE_FULL_ASSERT */
@@ -69,7 +70,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

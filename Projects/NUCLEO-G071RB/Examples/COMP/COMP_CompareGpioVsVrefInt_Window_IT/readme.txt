@@ -49,7 +49,7 @@ NB: The MCU wakes up from STOP mode when the input voltage is out of the thresho
 	  
 @par Keywords
 
-comparator, window mode, votage compare
+comparator, window mode, voltage compare
 
 @par Directory contents 
 

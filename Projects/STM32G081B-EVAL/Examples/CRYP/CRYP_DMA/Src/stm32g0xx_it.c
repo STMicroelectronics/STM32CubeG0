@@ -67,7 +67,7 @@ extern DMA_HandleTypeDef hdma_aes_out;
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
@@ -151,11 +151,11 @@ void SysTick_Handler(void)
 void DMA1_Channel1_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
-      
+
   /* USER CODE END DMA1_Channel1_IRQn 0 */
   HAL_DMA_IRQHandler(hcryp.hdmain);
   /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
-     
+
   /* USER CODE END DMA1_Channel1_IRQn 1 */
 }
 
@@ -165,11 +165,11 @@ void DMA1_Channel1_IRQHandler(void)
 void DMA1_Channel2_3_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel2_IRQn 0 */
-     
+
   /* USER CODE END DMA1_Channel2_IRQn 0 */
   HAL_DMA_IRQHandler(hcryp.hdmaout);
   /* USER CODE BEGIN DMA1_Channel2_IRQn 1 */
-   
+
   /* USER CODE END DMA1_Channel2_IRQn 1 */
 }
 

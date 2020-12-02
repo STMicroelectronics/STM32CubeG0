@@ -7,19 +7,19 @@
   * @author  MCD Application Team
   * @brief   Description of the USART_Communication_Tx_IT example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
 
 @par Example Description
 
-Configuration of GPIO and USART peripherals to send characters 
+Configuration of GPIO and USART peripherals to send characters
 asynchronously to HyperTerminal (PC) in Interrupt mode. This example is based on the 
 STM32G0xx USART LL API. The peripheral initialization 
 uses LL unitary service functions for optimization purposes (performance and size).
@@ -40,6 +40,10 @@ On last byte transmission complete, LED4 is turned on.
 In case of errors, LED4 is blinking (1sec period).
 
 Program is written so that, any new press on User push-button will lead to new transmission of complete buffer.
+
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, Interrupt, HyperTerminal, Transmitter
 
 @par Directory contents 
 

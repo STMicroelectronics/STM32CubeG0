@@ -228,7 +228,7 @@ PWRMON_StatusTypeDef BSP_PWRMON_StopMeasure(Alert_TypeDef Alert)
 }
 
 /**
- * @brief  Retreive the conversion ready state of the power monitor device
+ * @brief  Retrieve the conversion ready state of the power monitor device
  *         assigned to a given Alert pin.
  * @param  Alert Alert pin identifier
  *         This parameter can be take one of the following values:
@@ -243,7 +243,7 @@ uint8_t BSP_PWRMON_IsConversionReady(Alert_TypeDef Alert)
 }
 
 /**
- * @brief  Retreive the Alert Function Flag of the power monitor device
+ * @brief  Retrieve the Alert Function Flag of the power monitor device
  *         assigned to a given Alert pin.
  * @param  Alert Alert pin identifier
  *         This parameter can be take one of the following values:

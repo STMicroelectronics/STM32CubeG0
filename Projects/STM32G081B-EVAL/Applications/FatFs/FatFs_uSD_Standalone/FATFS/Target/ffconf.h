@@ -1,36 +1,33 @@
 /* USER CODE BEGIN Header */
-/*----------------------------------------------------------------------------/
-/  FatFs - Generic FAT file system module  R0.12c                             /
-/-----------------------------------------------------------------------------/
-/
-/ Copyright (C) 2017, ChaN, all right reserved.
-/ Portions Copyright (C) STMicroelectronics, all right reserved.
-/
-/ FatFs module is an open source software. Redistribution and use of FatFs in
-/ source and binary forms, with or without modification, are permitted provided
-/ that the following condition is met:
-
-/ 1. Redistributions of source code must retain the above copyright notice,
-/    this condition and the following disclaimer.
-/
-/ This software is provided by the copyright holder and contributors "AS IS"
-/ and any warranties related to this software are DISCLAIMED.
-/ The copyright owner or contributors be NOT LIABLE for any damages caused
-/ by use of this software.
-/----------------------------------------------------------------------------*/
-
-
-/*---------------------------------------------------------------------------/
-/  FatFs - FAT file system module configuration file
-/---------------------------------------------------------------------------*/
+/**
+  ****************************************************************************** 
+  * FatFs - Generic FAT file system module R0.12c 
+  ****************************************************************************** 
+  * Copyright (C) 2017, ChaN, all right reserved.
+  * Copyright (C) 2017, STMicroelectronics, all right reserved. 
+  * 
+  * FatFs module is an open source software. Redistribution and use of FatFs in 
+  * source and binary forms, with or without modification, are permitted provided 
+  * that the following condition is met: 
+  * 
+  * 1. Redistributions of source code must retain the above copyright notice, 
+  * this condition and the following disclaimer. 
+  * 
+  * This software is provided by the copyright holder and contributors "AS IS" 
+  * and any warranties related to this software are DISCLAIMED. 
+  * The copyright owner or contributors be NOT LIABLE for any damages caused 
+  * by use of this software. 
+  ******************************************************************************
+  */
 /* USER CODE END Header */
 
 #ifndef _FFCONF
 #define _FFCONF 68300	/* Revision ID */
 
 /*-----------------------------------------------------------------------------/
-/ Additional user header to be used  
+/ Additional user header to be used
 /-----------------------------------------------------------------------------*/
+
 #include "main.h"
 #include "stm32g0xx_hal.h"
 
@@ -165,7 +162,7 @@
 #define _VOLUMES    1
 /* Number of volumes (logical drives) to be used. */
 
-/* USER CODE BEGIN Volumes */  
+/* USER CODE BEGIN Volumes */
 #define _STR_VOLUME_ID          0	/* 0:Use only 0-9 for drive ID, 1:Use strings for drive ID */
 #define _VOLUME_STRS            "RAM","NAND","CF","SD1","SD2","USB1","USB2","USB3"
 /* _STR_VOLUME_ID switches string support of volume ID.
@@ -173,7 +170,7 @@
 /  number in the path name. _VOLUME_STRS defines the drive ID strings for each
 /  logical drives. Number of items must be equal to _VOLUMES. Valid characters for
 /  the drive ID strings are: A-Z and 0-9. */
-/* USER CODE END Volumes */  
+/* USER CODE END Volumes */
 
 #define _MULTI_PARTITION     0 /* 0:Single partition, 1:Multiple partition */
 /* This option switches support of multi-partition on a physical drive.
@@ -181,7 +178,7 @@
 /  number and only an FAT volume found on the physical drive will be mounted.
 /  When multi-partition is enabled (1), each logical drive number can be bound to
 /  arbitrary physical drive and partition listed in the VolToPart[]. Also f_fdisk()
-/  funciton will be available. */
+/  function will be available. */
 #define _MIN_SS    512  /* 512, 1024, 2048 or 4096 */
 #define _MAX_SS    512  /* 512, 1024, 2048 or 4096 */
 /* These options configure the range of sector size to be supported. (512, 1024,
@@ -232,7 +229,7 @@
 /  defined by _NORTC_MON, _NORTC_MDAY and _NORTC_YEAR in local time.
 /  To enable timestamp function (_FS_NORTC = 0), get_fattime() function need to be
 /  added to the project to get current time form real-time clock. _NORTC_MON,
-/  _NORTC_MDAY and _NORTC_YEAR have no effect. 
+/  _NORTC_MDAY and _NORTC_YEAR have no effect.
 /  These options have no effect at read-only configuration (_FS_READONLY = 1). */
 
 #define _FS_LOCK    2     /* 0:Disable or >=1:Enable */
@@ -248,7 +245,7 @@
 
 #define _FS_REENTRANT    0  /* 0:Disable or 1:Enable */
 #define _FS_TIMEOUT      1000 /* Timeout period in unit of time ticks */
-#define _SYNC_t          osSemaphoreId 
+#define _SYNC_t          NULL
 /* The option _FS_REENTRANT switches the re-entrancy (thread safe) of the FatFs
 /  module itself. Note that regardless of this option, file access to different
 /  volume is always re-entrant and volume control functions, f_mount(), f_mkfs()

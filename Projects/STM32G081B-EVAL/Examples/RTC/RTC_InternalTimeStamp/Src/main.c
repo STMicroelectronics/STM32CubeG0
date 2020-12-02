@@ -19,7 +19,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -84,7 +83,6 @@ int main(void)
        - Low Level Initialization
      */
   /* USER CODE END 1 */
-  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -139,13 +137,13 @@ int main(void)
     /* Check if the Power On Reset flag is set */
     if (__HAL_RCC_GET_FLAG(RCC_FLAG_PWRRST) != RESET)
     {
-      /* Turn on LED2: Power on reset occured */
+      /* Turn on LED2: Power on reset occurred */
       BSP_LED_On(LED2);
     }
     /* Check if Pin Reset flag is set */
     if (__HAL_RCC_GET_FLAG(RCC_FLAG_PINRST) != RESET)
     {
-      /* Turn on LED4: External reset occured */
+      /* Turn on LED4: External reset occurred */
       BSP_LED_On(LED4);
     }
     /* Clear source Reset Flag */
@@ -190,7 +188,8 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -207,7 +206,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1;
@@ -239,7 +238,7 @@ static void MX_RTC_Init(void)
   /* USER CODE BEGIN RTC_Init 1 */
 
   /* USER CODE END RTC_Init 1 */
-  /** Initialize RTC Only 
+  /** Initialize RTC Only
   */
   hrtc.Instance = RTC;
   hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
@@ -262,7 +261,7 @@ static void MX_RTC_Init(void)
   {
   /* USER CODE END Check_RTC_BKUP */
 
-  /** Initialize RTC and set the Time and Date 
+  /** Initialize RTC and set the Time and Date
   */
   sTime.Hours = 0x2;
   sTime.Minutes = 0x0;
@@ -375,7 +374,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

@@ -88,7 +88,7 @@ System, RTC, Calendar, Backup Domain, Reset
 @par Hardware and Software environment
 
   - This example runs on STM32G071RBTx Devices.
-  - This example has been tested with STMicroelectronics NUCLEO-G071RB
+  - This example has been tested with NUCLEO-G071RB
     board and can be easily tailored to any other supported device and 
     development board. 
 

@@ -47,8 +47,12 @@ typedef struct
 {
   uint32_t PE_DataSwap                                    : 1;  /*!< support data swap                                     */
   uint32_t PE_VconnSwap                                   : 1;  /*!< support VCONN swap                                    */
-  uint32_t Reserved1                                      :30;  /*!< Reserved bits */
+  uint32_t PE_DR_Swap_To_DFP                              : 1U; /*!< If supported, DR Swap to DFP can be accepted or not by the user else directly rejected */
+  uint32_t PE_DR_Swap_To_UFP                              : 1U; /*!< If supported, DR Swap to UFP can be accepted or not by the user else directly rejected */
+  uint32_t Reserved1                                      : 28U;  /*!< Reserved bits */
   USBPD_SNKPowerRequest_TypeDef DPM_SNKRequestedPower;          /*!< Requested Power by the sink board                     */
+  USBPD_SKEDB_TypeDef DPM_SNKExtendedCapa;                      /*!< SNK Extended Capability                                */
+  uint8_t             ReservedSnkCapa[3];                       /*!< Reserved bits to match with SnkCapaExt information     */
 } USBPD_USER_SettingsTypeDef;
 
 typedef struct
@@ -96,6 +100,7 @@ typedef struct
   volatile uint16_t             DPM_TimerSRCExtendedCapa;                /*!< timer to request the extended capa                                   */
   USBPD_PPSSDB_TypeDef          DPM_RcvPPSStatus;                        /*!< PPS Status received by port partner                                  */
   USBPD_SCEDB_TypeDef           DPM_RcvSRCExtendedCapa;                  /*!< SRC Extended Capability received by port partner                     */
+  USBPD_SKEDB_TypeDef           DPM_RcvSNKExtendedCapa;                  /*!< SNK Extended Capability received by port partner                     */
 #if defined(_GUI_INTERFACE)
   volatile uint16_t             DPM_TimerMeasReport;                     /*!< Timer used to send measurement report                                */
 #endif /* _GUI_INTERFACE */
@@ -118,17 +123,13 @@ typedef void     (*GUI_SAVE_INFO)(uint8_t PortNum, uint8_t DataId, uint8_t *Ptr,
 /*
  * USBPD FW version
  */
-#define USBPD_FW_VERSION  0x17062019u
+#define USBPD_FW_VERSION  0x29102020u
 
 /*
  * USBPD Start Port Number
  */
 #define USBPD_START_PORT_NUMBER  1u
 
-/*
- * Number af thread defined by user to include in the low power control
- */
-#define USBPD_USER_THREAD_COUNT    0
 /* USER CODE END Define */
 
 /* Exported constants --------------------------------------------------------*/
@@ -151,6 +152,7 @@ USBPD_HandleTypeDef DPM_Ports[USBPD_PORT_COUNT] =
 {
   {
     .DPM_Reserved = 0,
+    .DPM_RcvSNKExtendedCapa = {0},                  /*!< SNK Extended Capability received by port partner                     */
     .FlagSendGetSrcCapaExtended = 0,
     .DPM_TimerSRCExtendedCapa = 0,                  /*!< timer to request the extended capa                                   */
     .DPM_RcvSRCExtendedCapa = {0},                  /*!< SRC Extended Capability received by port partner                     */
@@ -169,9 +171,9 @@ USBPD_HandleTypeDef DPM_Ports[USBPD_PORT_COUNT] =
   */
 USBPD_StatusTypeDef USBPD_DPM_UserInit(void);
 void                USBPD_DPM_SetNotification_GUI(GUI_NOTIFICATION_FORMAT_SEND PtrFormatSend, GUI_NOTIFICATION_POST PtrPost, GUI_SAVE_INFO PtrSaveInfo);
+void                USBPD_DPM_WaitForTime(uint32_t Time);
 void                USBPD_DPM_UserExecute(void const *argument);
 void                USBPD_DPM_UserCableDetection(uint8_t PortNum, USBPD_CAD_EVENT State);
-void                USBPD_DPM_WaitForTime(uint32_t Time);
 void                USBPD_DPM_UserTimerCounter(uint8_t PortNum);
 
 /**
@@ -190,6 +192,7 @@ void                USBPD_DPM_SetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoTy
 void                USBPD_DPM_SNK_EvaluateCapabilities(uint8_t PortNum, uint32_t *PtrRequestData, USBPD_CORE_PDO_Type_TypeDef *PtrPowerObjectType);
 uint32_t            USBPD_DPM_SNK_EvaluateMatchWithSRCPDO(uint8_t PortNum, uint32_t SrcPDO, uint32_t* PtrRequestedVoltage, uint32_t* PtrRequestedPower);
 
+void                USBPD_DPM_EnterErrorRecovery(uint8_t PortNum);
 USBPD_StatusTypeDef USBPD_DPM_EvaluateDataRoleSwap(uint8_t PortNum);
 USBPD_FunctionalState USBPD_DPM_IsPowerReady(uint8_t PortNum, USBPD_VSAFE_StatusTypeDef Vsafe);
 
@@ -221,6 +224,7 @@ USBPD_StatusTypeDef USBPD_DPM_RequestVDM_ExitMode(uint8_t PortNum, USBPD_SOPType
 USBPD_StatusTypeDef USBPD_DPM_RequestDisplayPortStatus(uint8_t PortNum, USBPD_SOPType_TypeDef SOPType, uint16_t SVID, uint32_t *pDPStatus);
 USBPD_StatusTypeDef USBPD_DPM_RequestDisplayPortConfig(uint8_t PortNum, USBPD_SOPType_TypeDef SOPType, uint16_t SVID, uint32_t *pDPConfig);
 USBPD_StatusTypeDef USBPD_DPM_RequestAttention(uint8_t PortNum, USBPD_SOPType_TypeDef SOPType, uint16_t SVID);
+USBPD_StatusTypeDef USBPD_DPM_RequestUVDMMessage(uint8_t PortNum, USBPD_SOPType_TypeDef SOPType);
 USBPD_StatusTypeDef USBPD_DPM_RequestAlert(uint8_t PortNum, USBPD_ADO_TypeDef Alert);
 USBPD_StatusTypeDef USBPD_DPM_RequestGetSourceCapabilityExt(uint8_t PortNum);
 USBPD_StatusTypeDef USBPD_DPM_RequestGetSinkCapabilityExt(uint8_t PortNum);

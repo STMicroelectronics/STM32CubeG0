@@ -1,9 +1,9 @@
     /**
-  @page CortexM_MPU Cortex-M0+ MPU example
+  @page CORTEXM_MPU Cortex-M0+ MPU example
 
   @verbatim
   ******************************************************************************
-  * @file    CORTEXM/CORTEXM_MPU/readme.txt 
+  * @file    CORTEX/CORTEXM_MPU/readme.txt 
   * @author  MCD Application Team
   * @brief   Description of the CortexM MPU example.
   ******************************************************************************
@@ -46,15 +46,15 @@ System, Cortex, Memory regions, Privileged area, permitted access, memory manage
 
 @par Directory contents 
 
-  - CORTEXM/CORTEXM_MPU/Inc/stm32g0xx_hal_conf.h    HAL configuration file
-  - CORTEXM/CORTEXM_MPU/Inc/stm32g0xx_it.h          Interrupt handlers header file
-  - CortexM/CORTEXM_MPU/Inc/main.h                  Header for main.c module  
-  - CortexM/CORTEXM_MPU/Inc/stm32_mpu.h             MPU management
-  - CortexM/CORTEXM_MPU/Src/stm32g0xx_it.c          Interrupt handlers
-  - CORTEXM/CORTEXM_MPU/Src//stm32g0xx_hal_msp.c     HAL MSP file
-  - CortexM/CORTEXM_MPU/Src/main.c                  Main program
-  - CortexM/CORTEXM_MPU/Src/system_stm32g0xx.c      stm32g0xx system source file
-  - CortexM/CORTEXM_MPU/Src/stm32_mpu.c             MPU management
+  - CORTEX/CORTEXM_MPU/Inc/stm32g0xx_hal_conf.h    HAL configuration file
+  - CORTEX/CORTEXM_MPU/Inc/stm32g0xx_it.h          Interrupt handlers header file
+  - CORTEX/CORTEXM_MPU/Inc/main.h                  Header for main.c module  
+  - CORTEX/CORTEXM_MPU/Inc/stm32_mpu.h             MPU management
+  - CORTEX/CORTEXM_MPU/Src/stm32g0xx_it.c          Interrupt handlers
+  - CORTEX/CORTEXM_MPU/Src//stm32g0xx_hal_msp.c     HAL MSP file
+  - CORTEX/CORTEXM_MPU/Src/main.c                  Main program
+  - CORTEX/CORTEXM_MPU/Src/system_stm32g0xx.c      stm32g0xx system source file
+  - CORTEX/CORTEXM_MPU/Src/stm32_mpu.c             MPU management
 
 @par Hardware and Software environment
 

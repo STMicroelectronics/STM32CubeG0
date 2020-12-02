@@ -1,5 +1,5 @@
 /**
-  @page Demo   Demo STM32G081B-EVAL
+  @page DemoLoader   Demo STM32G081B-EVAL
  
   @verbatim
   ******************************************************************************
@@ -41,12 +41,16 @@ Then the SystemClock_Config() function is used to configure the system clock
 @note The application needs to ensure that the SysTick time base is always set to
       1 millisecond to have correct HAL operation.
 
+@par Keywords
+
+Demonstrations,
+
 @par Hardware and Software environment
 
   - This demonstration runs on STM32G081B-EVAL mother board (MB1350 rev B)
     with Legacy daughter board (MB1351 rev A) or USBPD daughter board (MB1352 rev C).
 
-  - A SDSC microSD card (capacity up to 4GB), must contain all the ressources files
+  - A SDSC microSD card (capacity up to 4GB), must contain all the resources files
     available under the FW package Binary/SD_card folder.
     
 

@@ -2,7 +2,7 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\Project.ewp</path>
+    <path>$WS_DIR$\USART_Communication_Tx_IT.ewp</path>
   </project>
   <batchBuild/>
 </workspace>

@@ -1,5 +1,5 @@
 /**
-  @page Demo   Demo STM32G081B-EVAL
+  @page DemoLegacy   Demo STM32G081B-EVAL
  
   @verbatim
   ******************************************************************************
@@ -29,7 +29,7 @@ Then the SystemClock_Config() function is used to configure the system clock
 (SYSCLK) to run at 64 MHz.
 
 The legacy part of the demonstration firmware provides a sub-set of applications
-supported by the STM32081B-EVAL board equiped with Legacy daughter board(MB1351).
+supported by the STM32G081B-EVAL board equipped with Legacy daughter board(MB1351).
 
 Below you find the different items of demonstration :
 
@@ -39,7 +39,7 @@ Below you find the different items of demonstration :
  - thermometer & LDR : displays the temperature & Light level.
  - low power mode : allows to enter in low power mode(stop and standby)
                     and the wakeup can be ordered by an EXTI or an alarm.
- - file browser : aplication to browse on the SD card.
+ - file browser : application to browse on the SD card.
  - Help : indicates date & version of demonstration FW
  - About : describes HW configuration( jumper, etc..) to run demonstration FW
 
@@ -53,13 +53,16 @@ Below you find the different items of demonstration :
 @note The application needs to ensure that the SysTick time base is always set to
       1 millisecond to have correct HAL operation.
 
+@par Keywords
+
+Demonstrations, low power, calendar, FatFs, SD Card, File system,
 
 @par Hardware and Software environment
 
   - This demonstration runs only on STM32G081B-EVAL mother board (MB1350, rev B)
     with Legacy daughter board (MB1351, rev A).
 
-  - A SDSC microSD card (capacity up to 4GB), must contain all the ressources files
+  - A SDSC microSD card (capacity up to 4GB), must contain all the resources files
     available under the FW package Binary/SD_card folder.
 
 @par How to use it ?

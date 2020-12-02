@@ -224,6 +224,7 @@
                     <state>USE_FULL_LL_DRIVER</state>
                     <state>USBPDCORE_LIB_PD3_FULL</state>
                     <state>_DRP</state>
+                    <state>_SNK</state>
                     <state>_VDM</state>
                     <state>_TRACE_NA</state>
                     <state>_RTOS</state>
@@ -753,7 +754,7 @@
                 <option>
                     <name>IlinkConfigDefines</name>
                     <state>__ICFEDIT_size_cstack__=0x300</state>
-                    <state>__ICFEDIT_size_heap__=0x840</state>
+                    <state>__ICFEDIT_size_heap__=0xCA0</state>
                 </option>
                 <option>
                     <name>IlinkMapFile</name>
@@ -1267,6 +1268,7 @@
                     <state>USE_HAL_DRIVER</state>
                     <state>USE_FULL_LL_DRIVER</state>
                     <state>_DRP</state>
+                    <state>_SNK</state>
                     <state>_VDM</state>
                     <state>_TRACE</state>
                     <state>_RTOS</state>
@@ -1801,7 +1803,7 @@
                 <option>
                     <name>IlinkConfigDefines</name>
                     <state>__ICFEDIT_size_cstack__=0x300</state>
-                    <state>__ICFEDIT_size_heap__=0x840</state>
+                    <state>__ICFEDIT_size_heap__=0xCA0</state>
                 </option>
                 <option>
                     <name>IlinkMapFile</name>

@@ -61,14 +61,14 @@ RTC_HandleTypeDef RtcHandle = {0};
 */
 int main(void)
 {
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+  
   /* Get back current CPU clock config */
   SystemCoreClockUpdate();
 
   if(SystemCoreClock != 64000000)
   {
-    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-    HAL_Init();
-
     /* Configure the system clock @ CPU max */
     SystemClock_Config();
   }
@@ -177,10 +177,10 @@ void kDemo_Initialization(void)
   /* Module Initialization */
   kModule_Init();
 
-  /* control the ressources */
+  /* control the resources */
   if(kModule_CheckRessource() != KMODULE_OK)
   {
-    kWindow_Error("ressource file\nmissing\nplease update\nsd card content\n");
+    kWindow_Error("resource file\nmissing\nplease update\nsd card content\n");
     while(1);
   }
 }

@@ -1,5 +1,5 @@
 /**
-  @page Demo   Demo NUCLEO-G031K8
+  @page Gravitech_4digits   Demo NUCLEO-G031K8
  
   @verbatim
   ******************************************************************************
@@ -55,6 +55,10 @@ Below you find the sequence to discover the demonstration :
       
 @note The application need to ensure that the SysTick time base is always set to
       1 millisecond to have correct HAL operation.
+
+@par Keywords
+
+Demonstrations, Power, PWR, Low Power, Run mode
 
 @par Directory contents
  

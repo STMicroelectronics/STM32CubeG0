@@ -28,8 +28,8 @@
 /* Exported constants --------------------------------------------------------*/
 /* Exported macros -----------------------------------------------------------*/
 #define EVAL_BOARD   "STM32G081B-EVAL"
-#define DEMO_VERSION "Version 1.3.0"
-#define DEMO_DATE    "25 - Jun - 2019"
+#define DEMO_VERSION "Version 1.4.0"
+#define DEMO_DATE    "29 - October - 2020"
 
 #define DEMO_INFO1   "MCD Application Team"
 #define DEMO_INFO2   "COPYRIGHT 2018"

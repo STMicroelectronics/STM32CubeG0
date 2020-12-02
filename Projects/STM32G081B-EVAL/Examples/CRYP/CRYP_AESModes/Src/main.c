@@ -20,7 +20,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -55,30 +54,44 @@
 CRYP_HandleTypeDef hcryp;
 __ALIGN_BEGIN static const uint32_t pKeyAES[4] __ALIGN_END = {
                             0x2B7E1516,0x28AED2A6,0xABF71588,0x09CF4F3C};
-DMA_HandleTypeDef hdma_aes_in;
-DMA_HandleTypeDef hdma_aes_out;
 
 /* USER CODE BEGIN PV */
 #if (USE_VCP_CONNECTION == 1)
 /**
-  * @brief Defines related to Timeout to uart tranmission
+  * @brief Defines related to Timeout to uart transmission
   */
 #define UART_TIMEOUT_VALUE  1000 /* 1 Second */
-#endif
 
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-#if (USE_VCP_CONNECTION == 1)
 /* UART handler declaration */
 UART_HandleTypeDef UartHandle;
-#endif
 
+/**
+  * @brief  Retargets the C library printf function to the USARTx.
+  * @param  ch: character to send
+  * @param  f: pointer to file (not used)
+  * @retval The character transmitted
+  */
+#if defined(__GNUC__) && !defined(__ARMCC_VERSION)
+/* With GCC, small printf (option LD Linker->Libraries->Small printf
+   set to 'Yes') calls __io_putchar() */
+int __io_putchar(int ch)
+#else
+int fputc(int ch, FILE *f)
+#endif /* __GNUC__ */
+{
+  /* Place your implementation of fputc here */
+  /* e.g. write a character to the UART and Loop until the end of transmission */
+  HAL_UART_Transmit(&UartHandle, (uint8_t *)&ch, 1, UART_TIMEOUT_VALUE);
+
+  return ch;
+}
+
+#endif
 
 #if !defined(TERMINAL_IO_OUT)
 /* UART handler declaration */
 UART_HandleTypeDef     UartHandle;
 #endif
-
 
 /* Key size 256 bits */
  uint32_t aAES256key[8] = {0x603DEB10, 0x15CA71BE, 0x2B73AEF0, 0x857D7781,
@@ -162,7 +175,6 @@ uint32_t aDecryptedtext[AES_TEXT_SIZE];
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_DMA_Init(void);
 static void MX_AES_Init(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -176,7 +188,7 @@ static void Display_DecryptedData(uint8_t mode, uint16_t keysize, uint32_t datal
 void SystemClock_Config(void);
 void data_cmp(uint32_t *EncryptedText, uint32_t *RefText, uint8_t Size);
 /* Private functions ---------------------------------------------------------*/
-#if defined(__GNUC__)
+#if defined(__GNUC__) && !defined(__ARMCC_VERSION)
 extern void initialise_monitor_handles(void);
 #endif
 
@@ -194,7 +206,7 @@ extern void initialise_monitor_handles(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-#if defined(__GNUC__)
+#if defined(__GNUC__) && !defined(__ARMCC_VERSION)
   initialise_monitor_handles(); 
 #endif
 
@@ -226,7 +238,6 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_DMA_Init();
   MX_AES_Init();
   /* USER CODE BEGIN 2 */
   /* Configure LEDs */
@@ -234,6 +245,24 @@ int main(void)
   BSP_LED_Init(LED3);
 
 #if (USE_VCP_CONNECTION == 1)
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+
+  /* Peripheral clock enable */
+  __HAL_RCC_USART3_CLK_ENABLE();
+  
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  /**USARTC GPIO Configuration    
+  PC10     ------> USART3_TX
+  PC11     ------> USART3_RX 
+  */
+  GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF0_USART3;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  
   /* Configure the UART peripheral                                 */
   /* Put the USART peripheral in the Asynchronous mode (UART Mode) */
   /* UART configured as follows:
@@ -242,7 +271,7 @@ int main(void)
       - Parity = None
       - BaudRate = 115200 baud
       - Hardware flow control disabled (RTS and CTS signals) */
-  UartHandle.Instance        = USARTx;
+  UartHandle.Instance        = USART3;
 
   UartHandle.Init.BaudRate   = 115200;
   UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
@@ -715,7 +744,8 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -732,7 +762,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1;
@@ -767,6 +797,7 @@ static void MX_AES_Init(void)
   hcryp.Init.pKey = (uint32_t *)pKeyAES;
   hcryp.Init.Algorithm = CRYP_AES_ECB;
   hcryp.Init.DataWidthUnit = CRYP_DATAWIDTHUNIT_WORD;
+  hcryp.Init.HeaderWidthUnit = CRYP_HEADERWIDTHUNIT_WORD;
   hcryp.Init.KeyIVConfigSkip = CRYP_KEYIVCONFIG_ALWAYS;
   if (HAL_CRYP_Init(&hcryp) != HAL_OK)
   {
@@ -777,25 +808,6 @@ static void MX_AES_Init(void)
   /* USER CODE END AES_Init 2 */
 
 }
-
-/** 
-  * Enable DMA controller clock
-  */
-static void MX_DMA_Init(void) 
-{
-  /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
-
-  /* DMA interrupt init */
-  /* DMA1_Channel1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-  /* DMA1_Channel2_3_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
-
-}
- 
 
 /* USER CODE BEGIN 4 */
 
@@ -1072,7 +1084,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

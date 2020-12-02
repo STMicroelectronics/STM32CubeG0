@@ -7,12 +7,13 @@
   * @author  MCD Application Team
   * @brief   Description of the LPTIM_PulseCounter_Init example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  *
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
@@ -38,6 +39,10 @@ so the external input is sampled with LSI clock. In order not to miss any event,
 the frequency of the changes on the external Input1 signal should never exceed the
 frequency of the internal clock provided to the LPTIM1 (LSI for the
 present example).
+
+@par Keywords
+
+Timer, Low Power, Pulse Counter, Stop mode, Interrupt
 
 @par Directory contents 
 

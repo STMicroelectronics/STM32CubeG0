@@ -5,7 +5,7 @@
   * @brief   This file provides set of firmware functions to manage:
   *          - LED available on STM32G0XX-Nucleo Kit
   *            from STMicroelectronics.
-  *          - Gravitech 7segment shield available separatly.
+  *          - Gravitech 7segment shield available separately.
   ******************************************************************************
   * @attention
   *
@@ -40,7 +40,7 @@
   */
 #define __STM32G0XX_NUCLEO_32_BSP_VERSION_MAIN   (0x01U) /*!< [31:24] main version */
 #define __STM32G0XX_NUCLEO_32_BSP_VERSION_SUB1   (0x00U) /*!< [23:16] sub1 version */
-#define __STM32G0XX_NUCLEO_32_BSP_VERSION_SUB2   (0x00U) /*!< [15:8]  sub2 version */
+#define __STM32G0XX_NUCLEO_32_BSP_VERSION_SUB2   (0x01U) /*!< [15:8]  sub2 version */
 #define __STM32G0XX_NUCLEO_32_BSP_VERSION_RC     (0x00U) /*!< [7:0]  release candidate */
 #define __STM32G0XX_NUCLEO_32_BSP_VERSION        ((__STM32G0XX_NUCLEO_32_BSP_VERSION_MAIN << 24)\
                                                  |(__STM32G0XX_NUCLEO_32_BSP_VERSION_SUB1 << 16)\

@@ -24,9 +24,6 @@
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
-extern DMA_HandleTypeDef hdma_aes_in;
-
-extern DMA_HandleTypeDef hdma_aes_out;
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
@@ -75,6 +72,10 @@ void HAL_MspInit(void)
 
   /* System interrupt init*/
 
+  /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral
+  */
+  HAL_SYSCFG_StrobeDBattpinsConfig(SYSCFG_CFGR1_UCPD1_STROBE | SYSCFG_CFGR1_UCPD2_STROBE);
+
   /* USER CODE BEGIN MspInit 1 */
 
   /* USER CODE END MspInit 1 */
@@ -95,45 +96,11 @@ void HAL_CRYP_MspInit(CRYP_HandleTypeDef* hcryp)
   /* USER CODE END AES_MspInit 0 */
     /* Peripheral clock enable */
     __HAL_RCC_AES_CLK_ENABLE();
-  
-    /* AES DMA Init */
-    /* AES_IN Init */
-    hdma_aes_in.Instance = DMA1_Channel1;
-    hdma_aes_in.Init.Request = DMA_REQUEST_AES_IN;
-    hdma_aes_in.Init.Direction = DMA_MEMORY_TO_PERIPH;
-    hdma_aes_in.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_aes_in.Init.MemInc = DMA_MINC_ENABLE;
-    hdma_aes_in.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-    hdma_aes_in.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-    hdma_aes_in.Init.Mode = DMA_NORMAL;
-    hdma_aes_in.Init.Priority = DMA_PRIORITY_LOW;
-    if (HAL_DMA_Init(&hdma_aes_in) != HAL_OK)
-    {
-      Error_Handler();
-    }
-
-    __HAL_LINKDMA(hcryp,hdmain,hdma_aes_in);
-
-    /* AES_OUT Init */
-    hdma_aes_out.Instance = DMA1_Channel2;
-    hdma_aes_out.Init.Request = DMA_REQUEST_AES_OUT;
-    hdma_aes_out.Init.Direction = DMA_PERIPH_TO_MEMORY;
-    hdma_aes_out.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_aes_out.Init.MemInc = DMA_MINC_ENABLE;
-    hdma_aes_out.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-    hdma_aes_out.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-    hdma_aes_out.Init.Mode = DMA_NORMAL;
-    hdma_aes_out.Init.Priority = DMA_PRIORITY_LOW;
-    if (HAL_DMA_Init(&hdma_aes_out) != HAL_OK)
-    {
-      Error_Handler();
-    }
-
-    __HAL_LINKDMA(hcryp,hdmaout,hdma_aes_out);
-
+    /* AES interrupt Init */
+    HAL_NVIC_SetPriority(AES_RNG_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(AES_RNG_IRQn);
   /* USER CODE BEGIN AES_MspInit 1 */
-  HAL_NVIC_SetPriority(AES_RNG_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(AES_RNG_IRQn); 
+
   /* USER CODE END AES_MspInit 1 */
   }
 
@@ -155,12 +122,11 @@ void HAL_CRYP_MspDeInit(CRYP_HandleTypeDef* hcryp)
     /* Peripheral clock disable */
     __HAL_RCC_AES_CLK_DISABLE();
 
-    /* AES DMA DeInit */
-    HAL_DMA_DeInit(hcryp->hdmain);
-    HAL_DMA_DeInit(hcryp->hdmaout);
+    /* AES interrupt DeInit */
+    HAL_NVIC_DisableIRQ(AES_RNG_IRQn);
   /* USER CODE BEGIN AES_MspDeInit 1 */
   /* Disable CRYP Interrupt */
-    HAL_NVIC_DisableIRQ(AES_RNG_IRQn);
+
   /* USER CODE END AES_MspDeInit 1 */
   }
 

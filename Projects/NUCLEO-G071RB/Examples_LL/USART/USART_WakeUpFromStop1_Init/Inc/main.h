@@ -80,7 +80,6 @@ void Error_Callback(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED4_Pin LL_GPIO_PIN_5
 #define LED4_GPIO_Port GPIOA
-
 /* USER CODE BEGIN Private defines */
 
 

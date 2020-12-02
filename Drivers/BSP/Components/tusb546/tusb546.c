@@ -123,7 +123,7 @@ static uint8_t tusb546_IsInitialized_DPRedriver = 0;
   * @brief  Initialize the TUSB546 and configure the needed hardware resources
   *          (Type-C cross switch part).
   * @param  Address TUSB546 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t tusb546_CrossSwitch_Init(uint16_t Address)
 {
@@ -179,7 +179,7 @@ void tusb546_CrossSwitch_DeInit(uint16_t Address)
 /**
   * @brief  Power on the TUSB546 (Type-C cross switch part).
   * @param  Address TUSB546 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t tusb546_CrossSwitch_PowerOn(uint16_t Address)
 {
@@ -194,7 +194,7 @@ uint32_t tusb546_CrossSwitch_PowerOn(uint16_t Address)
 /**
   * @brief  Power down the TUSB546 (Type-C cross switch part).
   * @param  Address TUSB546 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t tusb546_CrossSwitch_PowerOff(uint16_t Address)
 {
@@ -281,7 +281,7 @@ uint32_t  tusb546_CrossSwitch_IsSupportedMode(TYPECSWITCH_Mode_t Mode)
   * @brief  Initialize the TUSB546 and configure the needed hardware resources
   *          (DisplayPort linear redriver part).
   * @param  Address TUSB546 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t tusb546_DPRedriver_Init(uint16_t Address)
 {
@@ -328,7 +328,7 @@ void tusb546_DPRedriver_DeInit(uint16_t Address)
 /**
   * @brief  Power on the TUSB546 (DisplayPort linear redriver part).
   * @param  Address TUSB546 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t tusb546_DPRedriver_PowerOn(uint16_t Address)
 {
@@ -338,7 +338,7 @@ uint32_t tusb546_DPRedriver_PowerOn(uint16_t Address)
 /**
   * @brief  Power down the TUSB546 (DisplayPort linear redriver part).
   * @param  Address TUSB546 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t tusb546_DPRedriver_PowerOff(uint16_t Address)
 {
@@ -359,7 +359,7 @@ uint32_t tusb546_DPRedriver_PowerOff(uint16_t Address)
   *         CHANNEL_SSTX
   * @param  EQGain Equalizer gain.
   *         This parameter must be a value between 0x00 and 0x0F.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t tusb546_DPRedriver_SetEQGain(uint16_t               Address,
                                       DPREDRIVER_ChannelId_t ChannelId,
@@ -435,7 +435,7 @@ uint32_t tusb546_DPRedriver_SetEQGain(uint16_t               Address,
   *         CHANNEL_DP1
   *         CHANNEL_DP2
   *         CHANNEL_DP3
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t  tusb546_DPRedriver_EnableChannel(uint16_t               Address,
                                            DPREDRIVER_ChannelId_t ChannelId)
@@ -479,7 +479,7 @@ uint32_t  tusb546_DPRedriver_EnableChannel(uint16_t               Address,
   *         CHANNEL_DP1
   *         CHANNEL_DP2
   *         CHANNEL_DP3
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t  tusb546_DPRedriver_DisableChannel(uint16_t               Address,
                                             DPREDRIVER_ChannelId_t ChannelId)

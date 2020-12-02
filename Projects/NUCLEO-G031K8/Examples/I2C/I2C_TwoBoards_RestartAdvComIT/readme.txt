@@ -57,7 +57,7 @@ The PA.15 (Arduino D2) is used to initiate a communication between Master device
 User can initiate a new communication after each previous transfer completed.
 
 The I2C communication is then initiated.
-The project is splitted in two parts the Master Board and the Slave Board
+The project is split in two parts the Master Board and the Slave Board
  - Master Board
    The HAL_I2C_Master_Sequential_Transmit_IT() and the HAL_I2C_Master_Sequential_Receive_IT() functions 
    allow respectively the transmission and the reception of a predefined data buffer
@@ -77,7 +77,7 @@ On Master board side:
 
 This action initiate a write request by Master through HAL_I2C_Master_Sequential_Transmit_IT() or a write then read request
 through HAL_I2C_Master_Sequential_Transmit_IT() then HAL_I2C_Master_Sequential_Receive_IT() routine depends on Command Code type.
-Initialy at power on Slave device through Interrupt "Listen" the I2C bus to perform an acknowledge of Match Address when necessary.
+Initially at power on Slave device through Interrupt "Listen" the I2C bus to perform an acknowledge of Match Address when necessary.
 This "Listen" action is initiated by calling HAL_I2C_EnableListen_IT().
 
 Command code type is decomposed in two categories :
@@ -126,9 +126,13 @@ Depending of IDE, to watch content of Terminal I/O note that
    Command Code could not be displayed on debugger but user can use the Virtual Com port of the NUCLEO-G031K8
    to display Command Code on PC side using an hyperterminal. See below, information related to this possibility.
 
- - When resorting to AC6 SW4STM32 IDE:
-   In Debug configuration window\ Startup, in addition to "monitor reset halt" add the command "monitor arm semihosting enable"
-   Command Code is displayed on debugger as follows: Window--> Show View--> Console.
+ - When resorting to STM32CubeIDE: 
+   Command Code is displayed on debugger as follows: Window--> Show View--> Console. 
+   In Debug configuration : 
+    1- Use ST-LINK (OpenOCD). 
+    2- Add the command "monitor arm semihosting enable" into startup Initialization Commands .
+   In Release Configuration :
+    The semihosting is not supported, user can launch serial communication SW on PC (as HyperTerminal or TeraTerm)
 
 Other proposal to retrieve display of Command Code for all IDE is to use the Virtual Com.
 
@@ -154,7 +158,7 @@ I2C1 IRQ Handler routine is then calling HAL_I2C_AddrCallback() which check Addr
 to call the correct HAL_I2C_Slave_Sequential_Receive_IT() function.
 This will allow Slave to enter in receiver mode and then acknowledge Master to send the Command code bytes through Interrupt.
 The Command code data is received and treated byte per byte through HAL_I2C_SlaveRxCpltCallback() in Slave side.
-If data received match with a Internal Command Code, set the associated index, which will use for Tranmission process when requested by Master
+If data received match with a Internal Command Code, set the associated index, which will use for Transmission process when requested by Master
 
 And so in Master side, each time the Slave acknowledge the byte received,
 Master transfer the next data from flash memory buffer to I2C1 TXDR register until "Request Command code" transfer completed.
@@ -193,7 +197,7 @@ Also only on Master board side, Terminal I/O can be used to watch the Request Co
    Command Code could not be displayed on debugger but user can use the Virtual Com port of the NUCLEO-G031K8
    to display Command Code on PC side using an hyperterminal. See below, information related to this possibility.
  
- - When resorting to AC6 SW4STM32 IDE:
+ - When resorting to STM32CubeIDE:
    In Debug configuration window\ Startup, in addition to "monitor reset halt" add the command "monitor arm semihosting enable"
    Command Code is displayed on debugger as follows: Window--> Show View--> Console.
 
@@ -215,7 +219,7 @@ on HW board in order to support Virtual Com Port (Default HW SB configuration al
 
 @par Keywords
 
-Connectivity, I2C, Communication, Trasmission, Reception, SCL, SDA, Interrupt, Request, Sequential
+Connectivity, I2C, Communication, Transmission, Reception, SCL, SDA, Interrupt, Request, Sequential
 
 @par Directory contents 
 

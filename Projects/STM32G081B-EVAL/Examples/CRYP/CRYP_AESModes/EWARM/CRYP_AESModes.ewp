@@ -344,9 +344,10 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$/../Inc</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc</state>
+          <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include</state>
-          <state>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32G081B_EVAL</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Include</state>
+          <state>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32G081B_EVAL</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -367,7 +368,7 @@
         <option>
           <name>CCOptStrategy</name>
           <version>0</version>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>CCOptLevelSlave</name>
@@ -1086,6 +1087,9 @@
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rcc_ex.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_rcc.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_flash.c</name>
       </file>
       <file>
@@ -1098,6 +1102,9 @@
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_dma_ex.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_dma.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_pwr.c</name>
       </file>
       <file>
@@ -1108,6 +1115,15 @@
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_exti.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_tim.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_tim_ex.c</name>
       </file>
     </group>
     <group>

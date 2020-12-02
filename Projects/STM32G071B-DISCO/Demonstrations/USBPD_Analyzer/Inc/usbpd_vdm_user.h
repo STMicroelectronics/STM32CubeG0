@@ -34,6 +34,7 @@
   */
 
 /* Exported typedef ----------------------------------------------------------*/
+#if !defined(_GUI_INTERFACE)
 typedef struct
 {
   uint32_t VDM_XID_SOP                      :32; /*!< A decimal number assigned by USB-IF before certification */
@@ -51,6 +52,7 @@ typedef struct
   uint32_t Reserved3                        :10; /*!< Reserved bits */
 #endif /* USBPD_REV30_SUPPORT */
 } USBPD_VDM_SettingsTypeDef;
+#endif /* !_GUI_INTERFACE */
 
 /*
  * DisplayPort Status VDO
@@ -91,7 +93,7 @@ typedef union
     USBPD_MODE_DP_CONFIG_SELECT   SelectConfiguration  : 2;    /*!< Selection configuration */
     uint32_t   Signaling                : 4;    /*!< Signaling for transport of DP protocol */
     uint32_t   Reserved1                : 2;    /*!< Reserved                               */
-    uint32_t   UFP_U_Pin                : 8;    /*!< Configure UFP_U pin Assignement        */
+    uint32_t   UFP_U_Pin                : 8;    /*!< Configure UFP_U pin Assignment         */
     uint32_t   Reserved2                : 16;   /*!< Reserved                               */
   }d;
 }USBPD_DPConfig_TypeDef;

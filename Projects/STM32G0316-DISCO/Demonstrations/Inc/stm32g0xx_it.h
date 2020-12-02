@@ -23,7 +23,7 @@
 
 #ifdef __cplusplus
  extern "C" {
-#endif 
+#endif
 
 /* Includes ------------------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
@@ -44,6 +44,6 @@ void EXTI2_3_IRQHandler(void);
 }
 #endif
 
-#endif /* STM32G0xx_IT_H */
+#endif/* STM32G0xx_IT_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

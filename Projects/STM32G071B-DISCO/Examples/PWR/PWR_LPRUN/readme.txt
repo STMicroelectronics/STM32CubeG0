@@ -69,7 +69,7 @@ Power, PWR, Low Power, Run mode, Interrupt, EXTI, Wakeup, External reset
 
   - This example runs on STM32G0xx devices
     
-  - This example has been tested with STMicroelectronics STM32G071B-DISCO
+  - This example has been tested with STM32G071B-DISCO
     board and can be easily tailored to any other supported device
     and development board.
 

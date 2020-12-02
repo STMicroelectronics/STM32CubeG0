@@ -1,5 +1,5 @@
 /**
-  @page Demo   Demo NUCLEO-G071RB
+  @page Adafruit_LCD_1_8_SD_Joystick   Demo NUCLEO-G071RB
  
   @verbatim
   ******************************************************************************
@@ -91,17 +91,21 @@ access to uSD card to parse bmp images:
 @note The application need to ensure that the SysTick time base is always set to
       1 millisecond to have correct HAL operation.
 
+@par Keywords
+
+Demonstrations, FatFs, SD Card, File system,
+
 @par Directory contents
  
   - Adafruit_LCD_1_8_SD_Joystick/Inc/stm32g0xx_hal_conf.h    HAL configuration file
   - Adafruit_LCD_1_8_SD_Joystick/Inc/stm32g0xx_it.h          Interrupt handlers header file
-  - Adafruit_LCD_1_8_SD_Joystick/Inc/main.h                        Header for main.c module
-  - Adafruit_LCD_1_8_SD_Joystick/Inc/app_fatfs.h                   Header for app_fatfs.c module
-  - Adafruit_LCD_1_8_SD_Joystick/Inc/ffconf.h                      FAT file system module configuration file   
+  - Adafruit_LCD_1_8_SD_Joystick/Inc/main.h                  Header for main.c module
+  - Adafruit_LCD_1_8_SD_Joystick/Inc/app_fatfs.h             Header for app_fatfs.c module
+  - Adafruit_LCD_1_8_SD_Joystick/Inc/ffconf.h                FAT file system module configuration file   
   - Adafruit_LCD_1_8_SD_Joystick/Src/stm32g0xx_it.c          Interrupt handlers
   - Adafruit_LCD_1_8_SD_Joystick/Src/stm32g0xx_hal_msp.c     HAL MSP configuration file
-  - Adafruit_LCD_1_8_SD_Joystick/Src/main.c                        Main program
-  - Adafruit_LCD_1_8_SD_Joystick/Src/app_fatfs.c                   FatFs application file
+  - Adafruit_LCD_1_8_SD_Joystick/Src/main.c                  Main program
+  - Adafruit_LCD_1_8_SD_Joystick/Src/app_fatfs.c             FatFs application file
   - Adafruit_LCD_1_8_SD_Joystick/Src/system_stm32g0xx.c      STM32G0xx system source file
 
 @par Hardware and Software environment

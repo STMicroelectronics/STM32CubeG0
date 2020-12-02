@@ -371,7 +371,7 @@
             <vShortWch>1</vShortWch>
             <VariousControls>
               <MiscControls>--C99</MiscControls>
-              <Define>STM32G081xx,USE_HAL_DRIVER,USE_FULL_LL_DRIVER,_DRP,_VDM,_TRACE,_RTOS,USBPD_PORT_COUNT=2,USBPDCORE_LIB_PD3_FULL,_PPS,_VCONN_SUPPORT,_GUI_INTERFACE,LCD_DEFAULT_FONT=Font16,_MANU_INFO,_SRC_CAPA_EXT</Define>
+              <Define>STM32G081xx,USE_HAL_DRIVER,USE_FULL_LL_DRIVER,_DRP,_SNK,_VDM,_TRACE,_RTOS,USBPD_PORT_COUNT=2,USBPDCORE_LIB_PD3_FULL,_PPS,_VCONN_SUPPORT,_GUI_INTERFACE,LCD_DEFAULT_FONT=Font16,_MANU_INFO,_SRC_CAPA_EXT</Define>
               <Undefine></Undefine>
               <IncludePath>../Inc;../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include;../../../../../Drivers/CMSIS/Include;../../../../../Drivers/STM32G0xx_HAL_Driver/Inc;../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM0;../../../../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../../../../../Middlewares/Third_Party/FreeRTOS/Source/include;../../../../../Middlewares/ST/STM32_USBPD_Library/Core/inc;../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/inc;../../../../../Drivers/BSP/STM32G081B_EVAL;../../../../../Utilities/Log;../../../../../Drivers/BSP/Components/Common;../../../../../Utilities/GUI_INTERFACE;../../../../../Utilities/TRACER_EMB</IncludePath>
             </VariousControls>

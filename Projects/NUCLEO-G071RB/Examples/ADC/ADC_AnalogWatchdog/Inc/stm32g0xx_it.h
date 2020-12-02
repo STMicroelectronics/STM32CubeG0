@@ -1,21 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    ADC/ADC_AnalogWatchdog/Inc/stm32g0xx_it.h
-  * @author  MCD Application Team
+  * @file    stm32g0xx_it.h
   * @brief   This file contains the headers of the interrupt handlers.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics. 
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
+  * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
   *
-  ******************************************************************************
+ ******************************************************************************
   */
 /* USER CODE END Header */
 
@@ -25,7 +24,7 @@
 
 #ifdef __cplusplus
  extern "C" {
-#endif 
+#endif
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -53,13 +52,11 @@ void HardFault_Handler(void);
 void SVC_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
+void DMA1_Channel1_IRQHandler(void);
+void ADC1_COMP_IRQHandler(void);
 void TIM6_DAC_LPTIM1_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 void EXTI4_15_IRQHandler(void);
-
-void ADCx_IRQHandler(void);
-void ADCx_DMA_IRQHandler(void);
-
 
 /* USER CODE END EFP */
 

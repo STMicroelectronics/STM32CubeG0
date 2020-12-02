@@ -59,7 +59,7 @@
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
-                        
+
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
                     /**
   * Initializes the Global MSP.
@@ -88,7 +88,6 @@ void HAL_MspInit(void)
 */
 void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_pwm)
 {
-
   if(htim_pwm->Instance==TIM1)
   {
   /* USER CODE BEGIN TIM1_MspInit 0 */
@@ -105,20 +104,19 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_pwm)
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
 {
-
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   if(htim->Instance==TIM1)
   {
   /* USER CODE BEGIN TIM1_MspPostInit 0 */
 
   /* USER CODE END TIM1_MspPostInit 0 */
-  
+
     __HAL_RCC_GPIOA_CLK_ENABLE();
-    /**TIM1 GPIO Configuration    
+    /**TIM1 GPIO Configuration
     PA8     ------> TIM1_CH1
     PA9     ------> TIM1_CH2
     PA10     ------> TIM1_CH3
-    PA11 [PA9]     ------> TIM1_CH4 
+    PA11 [PA9]     ------> TIM1_CH4
     */
     GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -139,10 +137,8 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
 * @param htim_pwm: TIM_PWM handle pointer
 * @retval None
 */
-
 void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* htim_pwm)
 {
-
   if(htim_pwm->Instance==TIM1)
   {
   /* USER CODE BEGIN TIM1_MspDeInit 0 */

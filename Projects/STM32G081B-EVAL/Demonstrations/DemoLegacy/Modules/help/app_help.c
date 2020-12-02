@@ -65,7 +65,7 @@ const K_ModuleItem_Typedef ModuleHelp =
 /**
   * @brief  setup the HW for the 8 uart application 
   * @param  None.
-  * @note   set the memeory + Hw initialisation.  
+  * @note   set the memory + Hw initialisation.  
   * @retval None.
   */
 KMODULE_RETURN _HelpConfig(void)

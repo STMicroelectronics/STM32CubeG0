@@ -1051,7 +1051,7 @@
         </file>
       </group>
       <group>
-        <name>FatFs</name>
+        <name>FATFS</name>
         <group>
           <name>Target</name>
           <file>
@@ -1078,12 +1078,6 @@
     <group>
       <name>BSP</name>
       <group>
-        <name>STM32G0xx_Nucleo</name>
-        <file>
-          <name>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32G0xx_Nucleo/stm32g0xx_nucleo.c</name>
-        </file>
-      </group>
-      <group>
         <name>Adafruit_Shield</name>
         <file>
           <name>$PROJ_DIR$/../../../../../../Drivers/BSP/Adafruit_Shield/stm32_adafruit_sd.c</name>
@@ -1098,29 +1092,32 @@
           <name>$PROJ_DIR$/../../../../../../Drivers/BSP/Components/st7735/st7735.c</name>
         </file>
       </group>
+      <group>
+        <name>STM32G0xx_Nucleo</name>
+        <file>
+          <name>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32G0xx_Nucleo/stm32g0xx_nucleo.c</name>
+        </file>
+      </group>
     </group>
     <group>
       <name>STM32G0xx_HAL_Driver</name>
       <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi_ex.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_gpio.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_tim.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_tim_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_uart.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_uart_ex.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rcc.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rcc_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_rcc.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_flash.c</name>
@@ -1150,10 +1147,16 @@
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_exti.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi.c</name>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_tim.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi_ex.c</name>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_tim_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_uart.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_uart_ex.c</name>
       </file>
     </group>
     <group>

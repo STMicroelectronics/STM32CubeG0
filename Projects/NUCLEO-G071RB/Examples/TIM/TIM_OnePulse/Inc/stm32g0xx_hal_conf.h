@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    stm32g0xx_hal_conf.h
   * @author  MCD Application Team
-  * @brief   HAL configuration template file.
+  * @brief   HAL configuration file.
   ******************************************************************************
   * @attention
   *

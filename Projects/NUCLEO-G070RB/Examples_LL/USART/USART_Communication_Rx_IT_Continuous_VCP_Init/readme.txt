@@ -1,5 +1,5 @@
 /**
-  @page USART_Communication_Rx_IT_Continuous_VCP_Init USART Receiver example (IT Mode, Continous reception)
+  @page USART_Communication_Rx_IT_Continuous_VCP_Init USART Receiver example (IT Mode, Continuous reception)
   
   @verbatim
   ******************************************************************************
@@ -41,6 +41,11 @@ Data processing consists in echoing data buffer content on PC Com port, and maki
 In case of errors, LED4 is blinking.
 
 Virtual Com port feature of STLINK could be used for UART communication between board and PC.
+
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, Interrupt, HyperTerminal, Continuous Reception, VCP,
+Receiver
 
 @par Directory contents 
 

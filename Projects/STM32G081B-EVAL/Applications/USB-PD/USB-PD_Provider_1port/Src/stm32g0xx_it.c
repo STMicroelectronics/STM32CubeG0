@@ -20,7 +20,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32g0xx_it.h"
-#include "cmsis_os.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "usbpd.h"
+#include "tracer_emb.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #if defined(_TRACE)
@@ -65,7 +68,7 @@ extern ADC_HandleTypeDef hadc;
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
@@ -101,11 +104,18 @@ void HardFault_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-  extern void USBPD_DPM_TimerCounter(void);
-  USBPD_DPM_TimerCounter();
+
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
-  osSystickHandler();
+#if (INCLUDE_xTaskGetSchedulerState == 1 )
+  if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
+  {
+#endif /* INCLUDE_xTaskGetSchedulerState */
+  xPortSysTickHandler();
+#if (INCLUDE_xTaskGetSchedulerState == 1 )
+  }
+#endif /* INCLUDE_xTaskGetSchedulerState */
+  USBPD_DPM_TimerCounter();
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -124,9 +134,10 @@ void SysTick_Handler(void)
 void UCPD1_2_IRQHandler(void)
 {
   /* USER CODE BEGIN UCPD1_2_IRQn 0 */
-  extern void USBPD_PORT0_IRQHandler(void);
-  USBPD_PORT0_IRQHandler();
+
   /* USER CODE END UCPD1_2_IRQn 0 */
+  USBPD_PORT0_IRQHandler();
+
   /* USER CODE BEGIN UCPD1_2_IRQn 1 */
 
   /* USER CODE END UCPD1_2_IRQn 1 */
@@ -152,11 +163,10 @@ void DMA1_Channel1_IRQHandler(void)
 void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Ch4_7_DMAMUX1_OVR_IRQn 0 */
-#if defined(_TRACE)
-  TRACER_EMB_IRQHandlerDMA();
-#endif /* _TRACE */
+
   /* USER CODE END DMA1_Ch4_7_DMAMUX1_OVR_IRQn 0 */
-  
+
+  TRACER_EMB_IRQHandlerDMA();
   /* USER CODE BEGIN DMA1_Ch4_7_DMAMUX1_OVR_IRQn 1 */
 
   /* USER CODE END DMA1_Ch4_7_DMAMUX1_OVR_IRQn 1 */
@@ -168,11 +178,10 @@ void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void)
 void USART3_4_LPUART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART3_4_LPUART1_IRQn 0 */
-#if defined(_TRACE)
-  TRACER_EMB_IRQHandlerUSART();
-#endif /* _TRACE */
+
   /* USER CODE END USART3_4_LPUART1_IRQn 0 */
-  
+
+  TRACER_EMB_IRQHandlerUSART();
   /* USER CODE BEGIN USART3_4_LPUART1_IRQn 1 */
 
   /* USER CODE END USART3_4_LPUART1_IRQn 1 */

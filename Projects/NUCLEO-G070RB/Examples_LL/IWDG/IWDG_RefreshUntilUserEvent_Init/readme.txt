@@ -7,12 +7,12 @@
   * @author  MCD Application Team
   * @brief   Description of the IWDG_RefreshUntilUserEvent_Init example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
@@ -36,6 +36,10 @@ RCC IWDG Reset Flag will be checked and if we are back from a IWDG reset the LED
 will be switch ON.
 
 Waiting a new User push-button pressed to re-activate the IWDG
+
+@par Keywords
+
+System, IWDG, reload counter, MCU Reset
 
 @par Directory contents 
 

@@ -65,7 +65,7 @@
   * @brief STM32G081B EVAL BSP Driver version number
   */
 #define __STM32G081B_EVAL_BSP_VERSION_MAIN   (0x01U) /*!< [31:24] main version */
-#define __STM32G081B_EVAL_BSP_VERSION_SUB1   (0x02U) /*!< [23:16] sub1 version */
+#define __STM32G081B_EVAL_BSP_VERSION_SUB1   (0x03U) /*!< [23:16] sub1 version */
 #define __STM32G081B_EVAL_BSP_VERSION_SUB2   (0x00U) /*!< [15:8]  sub2 version */
 #define __STM32G081B_EVAL_BSP_VERSION_RC     (0x00U) /*!< [7:0]  release candidate */
 #define __STM32G081B_EVAL_BSP_VERSION         ((__STM32G081B_EVAL_BSP_VERSION_MAIN << 24) |\
@@ -601,7 +601,7 @@ void BSP_COM_Init(COM_TypeDef COM, UART_HandleTypeDef* huart)
   *         DB_ID_NONE
   *         DB_ID_LEGACY
   *         DB_ID_UCPD
-  * @retval Result 0 : execution successfull
+  * @retval Result 0 : execution successful
   *               else : execution failed
   */
 uint8_t BSP_DB_GetId(DBId_TypeDef *pDaughterBoardId)
@@ -1289,7 +1289,7 @@ void LCD_IO_WriteReg(uint8_t Reg)
 
 /**
 * @brief  Read data from LCD data register.
-* @param  Reg: Regsiter to be read
+* @param  Reg: Register to be read
 * @retval readvalue
   */
 uint16_t LCD_IO_ReadData(uint16_t Reg)

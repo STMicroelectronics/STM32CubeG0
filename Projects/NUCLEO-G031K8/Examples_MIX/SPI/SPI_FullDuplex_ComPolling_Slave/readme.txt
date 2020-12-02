@@ -1,5 +1,5 @@
 /**
-  @page SPI_FullDuplex_ComPolling SPI Two Boards Communication example
+  @page SPI_FullDuplex_ComPolling_Slave SPI Two Boards Communication example
   
   @verbatim
   ******************************************************************************
@@ -78,6 +78,10 @@ STM32 board LED can be used to monitor the transfer status:
 
 @note The application need to ensure that the SysTick time base is always set to 1 millisecond
       to have correct HAL operation.
+
+@par Keywords
+
+Connectivity, SPI, Full-duplex, Transmission, Reception, Slave, MISO, MOSI, Polling
 
 @par Directory contents 
 

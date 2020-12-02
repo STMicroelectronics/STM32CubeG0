@@ -38,7 +38,11 @@ Received character is echoed on Tx line.
 On press on User push-button, LED4 is turned Off.
 In case of errors, LED4 is blinking.
 
-@par Directory contents 
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, Interrupt, HyperTerminal, Receiver
+
+@par Directory contents
 
   - USART/USART_Communication_Rx_IT/Inc/stm32g0xx_it.h          Interrupt handlers header file
   - USART/USART_Communication_Rx_IT/Inc/main.h                  Header for main.c module

@@ -59,7 +59,10 @@
 /* Demo Error types */
 #define DEMO_ERROR_TYPE_POWER                 (0U)    /* Power Supply error */
 #define DEMO_ERROR_TYPE_FLASH_SETTINGS        (1U)    /* Error in settings stored in flash */
-#define DEMO_ERROR_TYPE_MAXNBITEMS            (2U)
+#define DEMO_ERROR_TYPE_POWER_NMI             (2U)    /* Alarm detected in NMI Handler */
+#define DEMO_ERROR_TYPE_POWER_HARD_FAULT      (3U)    /* Alarm detected in Hard Fault Handler */
+#define DEMO_ERROR_TYPE_POWER_OVER_CURRENT    (4U)    /* Over current detected in Power monitoring */
+#define DEMO_ERROR_TYPE_MAXNBITEMS            (DEMO_ERROR_TYPE_POWER_OVER_CURRENT + 1U)
 
 /* Exported constants --------------------------------------------------------*/
 typedef enum{

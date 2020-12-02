@@ -42,7 +42,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-/*## Define Timer periode and pulse #######################################*/
+/*## Define Timer period and pulse #######################################*/
 /* ---------------------------------------------------------------------------
    TIM1 Configuration: Output Compare Toggle Mode:
 

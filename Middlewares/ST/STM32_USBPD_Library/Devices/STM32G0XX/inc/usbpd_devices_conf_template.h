@@ -5,7 +5,7 @@
   * @brief   This file contains the device define.
   ******************************************************************************
   *
-  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2017 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -36,8 +36,9 @@ extern "C" {
 #include "stm32g0xx_ll_rcc.h"
 #include "stm32g0xx_ll_tim.h"
 
+/* Following include file may be replaced with the BSP UBSPD PWR header file */
 #if defined(STM32G081xx)
-#include "stm32g081b_eval_pwr.h"
+#include "stm32g081b_eval_usbpd_pwr.h"
 #else
 #include "usbpd_bsp_pwr.h"
 #endif
@@ -88,28 +89,30 @@ extern "C" {
 #define UCPDDMA_INSTANCE1_CHANNEL_TX   DMA1_Channel4
 
 /* defined used to configure  USBPD_HW_SetFRSSignalling */
-#define UCPDFRS_INSTANCE0_FRSCC1  do{                                                                   \
-                                     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);                \
+#define UCPDFRS_INSTANCE0_FRSCC1  do{                                                                  \
+                                     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);              \
                                      LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_2, LL_GPIO_MODE_ALTERNATE); \
-                                     LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_2, LL_GPIO_AF_4);         \
+                                     LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_2, LL_GPIO_AF_4);        \
                                     } while(0)
 
-#define UCPDFRS_INSTANCE0_FRSCC2    do{                                                                 \
-                                     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);                \
-                                     LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_0, LL_GPIO_MODE_ALTERNATE); \
-                                     LL_GPIO_SetAFPin_0_7(GPIOB, LL_GPIO_PIN_0, LL_GPIO_AF_6);         \
-                                    } while(0)
 #define UCPDFRS_INSTANCE1_FRSCC1
+
+#define UCPDFRS_INSTANCE0_FRSCC2  do{                                                                  \
+                                     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);              \
+                                     LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_0, LL_GPIO_MODE_ALTERNATE); \
+                                     LL_GPIO_SetAFPin_0_7(GPIOB, LL_GPIO_PIN_0, LL_GPIO_AF_6);        \
+                                    } while(0)
+
 #define UCPDFRS_INSTANCE1_FRSCC2
 
-#define UCPD_INSTANCE0_ENABLEIRQ   do{                                                                 \
-                                        NVIC_SetPriority(UCPD1_2_IRQn,0);                              \
-                                        NVIC_EnableIRQ(UCPD1_2_IRQn);                                  \
+#define UCPD_INSTANCE0_ENABLEIRQ  do{                                                                  \
+                                        NVIC_SetPriority(UCPD1_2_IRQn,2);                                \
+                                        NVIC_EnableIRQ(UCPD1_2_IRQn);                                    \
                                     } while(0)
 
-#define UCPD_INSTANCE1_ENABLEIRQ   do{                                                                 \
-                                        NVIC_SetPriority(UCPD1_2_IRQn,0);                              \
-                                        NVIC_EnableIRQ(UCPD1_2_IRQn);                                  \
+#define UCPD_INSTANCE1_ENABLEIRQ  do{                                                                  \
+                                        NVIC_SetPriority(UCPD1_2_IRQn,2);                                \
+                                        NVIC_EnableIRQ(UCPD1_2_IRQn);                                    \
                                     } while(0)
 
 /* -----------------------------------------------------------------------------

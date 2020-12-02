@@ -46,7 +46,7 @@ SDA Pin: PB.9 (CN3, pin 13 (D10))
   |        USER       GND|_____________________|GND         USER      |
   |___STM32G0xx_Nucleo_32___|                     |___STM32G0xx_Nucleo_32___|
 
-The project is splitted in two parts the Master Board and the Slave Board
+The project is split in two parts the Master Board and the Slave Board
 - Master Board
   I2C1 Peripheral is configured in Master mode with EXTI (Clock 100Khz).
   And GPIO associated to PA.15 (Arduino D2) is linked with EXTI.
@@ -58,6 +58,14 @@ The user can choose between Master and Slave through "#define SLAVE_BOARD"
 in the "main.h" file:
 - Comment "#define SLAVE_BOARD" to select Master board.
 - Uncomment "#define SLAVE_BOARD" to select Slave board.
+
+The user can disable internal pull-up by opening ioc file.
+For that, user can follow the procedure :
+1- Double click on the I2C_TwoBoards_WakeUpFromStop_IT_Init.ioc file
+2- When CUBEMX tool is opened, select System Core category
+3- Then in the configuration of GPIO/I2C1, change Pull-up to No pull-up and no pull-down for the both pins
+4- Last step, generate new code thanks to button "GENERATE CODE"
+The example is updated with no pull on each pin used for I2C communication
 
 A first program launch, BOARD SLAVE is in Stop0 mode and BOARD MASTER is waiting User action on PA.15 (Arduino D2).
 LED3 blinks quickly on BOARD MASTER to wait for user-button press.
@@ -80,6 +88,10 @@ LED3 is ON on Master side if the expected byte is well received.
 
 In case of errors, LED3 is blinking slowly (1s).
 
+@par Keywords
+
+Connectivity, I2C, Communication, Transmission, Reception, SCL, SDA, Wake up, Interrupt
+
 @par Directory contents
 
   - I2C/I2C_TwoBoards_WakeUpFromStop_IT_Init/Inc/stm32g0xx_it.h          Interrupt handlers header file
@@ -93,7 +105,7 @@ In case of errors, LED3 is blinking slowly (1s).
 
   - This example runs on STM32G031K8Tx devices.
 
-  - This example has been tested with STM32G031K8Tx board and can be
+  - This example has been tested with NUCLEO-G031K8 board and can be
     easily tailored to any other supported device and development board.
 
   - NUCLEO-G031K8 Set-up

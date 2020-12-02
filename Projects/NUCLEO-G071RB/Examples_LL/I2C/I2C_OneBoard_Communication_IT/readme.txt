@@ -53,6 +53,9 @@ LED4 is On if data is well received.
 
 In case of errors, LED4 is blinking.
 
+@par Keywords
+
+Connectivity, Communication, I2C, IT , Master, Slave, Transmission, Reception, Fast mode,
 
 @par Directory contents 
 
@@ -74,7 +77,7 @@ In case of errors, LED4 is blinking.
     - Connect GPIOs connected to I2C1 SCL/SDA (PB.8 and PB.9)
     to respectively SCL and SDA pins of I2C2 (PB.13 and PB.14).
       - I2C1_SCL  PB.8 (CN10, pin 3) : connected to I2C2_SCL PB.13 (CN10, pin 30) 
-      - I2C1_SDA  PB.9 (CN10, pin 5) : connected to I2C2_SDA PB.14 (CN10, pin 28)
+      - I2C1_SDA  PB.9 (CN10, pin 5) : connected to I2C2_SDA PB.14 (CN10, pin 25)
 
   - Launch the program. Press User push-button to initiate a read request by Master 
       then Slave send a byte.

@@ -1,5 +1,5 @@
 /**
-  @page Demo   Demo UCPD STM32G081B-EVAL
+  @page DemoUCPD   Demo UCPD STM32G081B-EVAL
  
   @verbatim
   ******************************************************************************
@@ -97,6 +97,10 @@ The Power Role Swap feature is supported on Port 1 (as requiring Dual Role Power
       
 @note The application needs to ensure that the SysTick time base is always set to
       1 millisecond to have correct HAL operation.
+
+@par Keywords
+
+Demonstrations, USB_PD_Lib, UCPD, Type C, USBPD, FreeRTOS
 
 @par Hardware and Software environment
 

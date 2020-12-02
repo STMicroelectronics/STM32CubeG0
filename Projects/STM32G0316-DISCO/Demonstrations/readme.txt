@@ -1,5 +1,5 @@
 /**
-  @page Demo   Demo STM32G0316-DISCO
+  @page Demonstrations  Demo STM32G0316-DISCO
 
   @verbatim
   ******************************************************************************
@@ -77,6 +77,10 @@ After 5 seconds, LED blinking scheme indicates to the user in which mode the PF2
       
 @note The application need to ensure that the SysTick time base is always set to
       1 millisecond to have correct HAL operation.
+
+@par Keywords
+
+Demonstrations, GPIO,
 
 @par Directory contents 
 

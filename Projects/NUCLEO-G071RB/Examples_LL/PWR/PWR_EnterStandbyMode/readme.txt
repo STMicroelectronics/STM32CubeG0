@@ -23,7 +23,7 @@ How to enter the Standby mode and wake up from this mode by using an external
 reset or a wakeup interrupt.
 
 In the associated software, the system clock is set to 56 MHz, an EXTI line
-is connected to the User push-button thru PC.13 and configured to generate an 
+is connected to the User push-button through PC.13 and configured to generate an 
 interrupt on falling edge upon key press.
 LED4 is toggled each 200 ms in order to indicate that MCU is in RUN mode.
 
@@ -73,7 +73,7 @@ Power, PWR, Standby mode, Interrupt, EXTI, Wakeup, Low Power, External reset,
 
   - This example runs on STM32G071RBTx devices.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G071RB
+  - This example has been tested with NUCLEO-G071RB
     board and can be easily tailored to any other supported device
     and development board.
 

@@ -69,7 +69,7 @@ Security, CRC, CRC Polynomial, IEC 60870-5, hardware CRC
 
   - This example runs on STM32G070RBTx devices.
   
-  - This example has been tested with an STMicroelectronics NUCLEO-G070RB
+  - This example has been tested with an NUCLEO-G070RB
     board and can be easily tailored to any other supported device 
     and development board.
 

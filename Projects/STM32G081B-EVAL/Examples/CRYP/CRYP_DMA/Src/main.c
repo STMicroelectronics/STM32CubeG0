@@ -20,7 +20,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -66,13 +65,40 @@ DMA_HandleTypeDef hdma_aes_out;
 
 #if (USE_VCP_CONNECTION == 1)
 /**
-  * @brief Defines related to Timeout to uart tranmission
+  * @brief Defines related to Timeout to uart transmission
   */
 #define UART_TIMEOUT_VALUE  1000 /* 1 Second */
-#endif
 
 /* UART handler declaration */
+UART_HandleTypeDef UartHandle;
+
+/**
+  * @brief  Retargets the C library printf function to the USARTx.
+  * @param  ch: character to send
+  * @param  f: pointer to file (not used)
+  * @retval The character transmitted
+  */
+#if defined(__GNUC__) && !defined(__ARMCC_VERSION)
+/* With GCC, small printf (option LD Linker->Libraries->Small printf
+   set to 'Yes') calls __io_putchar() */
+int __io_putchar(int ch)
+#else
+int fputc(int ch, FILE *f)
+#endif /* __GNUC__ */
+{
+  /* Place your implementation of fputc here */
+  /* e.g. write a character to the UART and Loop until the end of transmission */
+  HAL_UART_Transmit(&UartHandle, (uint8_t *)&ch, 1, UART_TIMEOUT_VALUE);
+
+  return ch;
+}
+
+#endif
+
+#if !defined(TERMINAL_IO_OUT)
+/* UART handler declaration */
 UART_HandleTypeDef     UartHandle;
+#endif
 
 /* Plaintext */
 uint32_t aPlaintext[AES_TEXT_SIZE] =
@@ -103,12 +129,13 @@ static void MX_DMA_Init(void);
 static void MX_AES_Init(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
 static void Display_PlainData(uint32_t datalength);
 static void Display_EncryptedData(uint8_t mode, uint16_t keysize, uint32_t datalength);
 static void Display_DecryptedData(uint8_t mode, uint16_t keysize, uint32_t datalength);
 /* Private functions ---------------------------------------------------------*/
-
+#if defined(__GNUC__) && !defined(__ARMCC_VERSION)
+extern void initialise_monitor_handles(void);
+#endif
 
 /* USER CODE END PFP */
 
@@ -124,20 +151,19 @@ static void Display_DecryptedData(uint8_t mode, uint16_t keysize, uint32_t datal
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-#if defined(__GNUC__)
+#if defined(__GNUC__) && !defined(__ARMCC_VERSION)
   initialise_monitor_handles(); 
 #endif
 
   /* STM32G0xx HAL library initialization:
        - Configure the Flash prefetch
-       - Systick timer is configured by default as source of time base, but user 
-         can eventually implement his proper time base source (a general purpose 
-         timer for example or other time source), keeping in mind that Time base 
-         duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
+       - Systick timer is configured by default as source of time base, but user
+         can eventually implement his proper time base source (a general purpose
+         timer for example or other time source), keeping in mind that Time base
+         duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
          handled in milliseconds basis.
        - Low Level Initialization
      */
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -160,13 +186,30 @@ int main(void)
   MX_DMA_Init();
   MX_AES_Init();
   /* USER CODE BEGIN 2 */
-
   /* Configure LEDs */
   BSP_LED_Init(LED1);
   BSP_LED_Init(LED3);
 
 #if (USE_VCP_CONNECTION == 1)
-  /* Configure the UART peripheral                                        */
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+
+  /* Peripheral clock enable */
+  __HAL_RCC_USART3_CLK_ENABLE();
+  
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  /**USARTC GPIO Configuration    
+  PC10     ------> USART3_TX
+  PC11     ------> USART3_RX 
+  */
+  GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF0_USART3;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /* Configure the UART peripheral                                 */
   /* Put the USART peripheral in the Asynchronous mode (UART Mode) */
   /* UART configured as follows:
       - Word Length = 8 Bits
@@ -174,7 +217,7 @@ int main(void)
       - Parity = None
       - BaudRate = 115200 baud
       - Hardware flow control disabled (RTS and CTS signals) */
-  UartHandle.Instance        = USARTx;
+  UartHandle.Instance        = USART3;
 
   UartHandle.Init.BaudRate   = 115200;
   UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
@@ -324,7 +367,8 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -341,7 +385,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1;
@@ -376,6 +420,7 @@ static void MX_AES_Init(void)
   hcryp.Init.pKey = (uint32_t *)pKeyAES;
   hcryp.Init.Algorithm = CRYP_AES_ECB;
   hcryp.Init.DataWidthUnit = CRYP_DATAWIDTHUNIT_WORD;
+  hcryp.Init.HeaderWidthUnit = CRYP_HEADERWIDTHUNIT_WORD;
   hcryp.Init.KeyIVConfigSkip = CRYP_KEYIVCONFIG_ALWAYS;
   if (HAL_CRYP_Init(&hcryp) != HAL_OK)
   {
@@ -387,11 +432,12 @@ static void MX_AES_Init(void)
 
 }
 
-/** 
+/**
   * Enable DMA controller clock
   */
-static void MX_DMA_Init(void) 
+static void MX_DMA_Init(void)
 {
+
   /* DMA controller clock enable */
   __HAL_RCC_DMA1_CLK_ENABLE();
 
@@ -404,7 +450,6 @@ static void MX_DMA_Init(void)
   HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
 
 }
- 
 
 /* USER CODE BEGIN 4 */
 
@@ -555,7 +600,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

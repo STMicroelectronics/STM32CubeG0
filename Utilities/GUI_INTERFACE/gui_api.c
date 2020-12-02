@@ -25,9 +25,10 @@
 #include <stdlib.h>
 #include "usbpd_core.h"
 #include "gui_api.h"
+#include "bsp_gui.h"
 #include "data_struct_tlv.h"
-#include "usbpd_core.h"
 #include "usbpd_dpm_core.h"
+#include "usbpd_trace.h"
 #include "usbpd_dpm_user.h"
 #include "usbpd_dpm_conf.h"
 #include "tracer_emb.h"
@@ -40,13 +41,18 @@
 #else
 #include "usbpd_tcpci.h"
 #endif
+#if defined(_RTOS)
 #include "cmsis_os.h"
+#else
+#if defined(USE_STM32_UTILITY_OS)
+#include "utilities_conf.h"
+#endif /*USE_STM32_UTILITY_OS */
+#endif /*_RTOS*/
 #include "string.h"
 
 /* generic hal function valid for all stm32 */
 extern uint32_t HAL_GetTick(void);
 extern void HAL_NVIC_SystemReset(void);
-extern void USBPD_DPM_TraceWakeUp(void);
 
 /** @addtogroup STM32_USBPD_LIBRARY
   * @{
@@ -83,6 +89,16 @@ extern void USBPD_DPM_TraceWakeUp(void);
 #else
 #define GUI_VDM_CABLE_INFO      USBPD_CORE_UNSTRUCTURED_VDM + 1U
 #endif /* USBPDCORE_SNK_CAPA_EXT */
+
+#if defined(_RTOS)
+#if (osCMSIS < 0x20000U)
+#define GUI_STACK_SIZE_ADDON_FOR_CMSIS              1
+#else
+#define GUI_STACK_SIZE_ADDON_FOR_CMSIS              5
+#endif /* osCMSIS < 0x20000U */
+#define FREERTOS_GUI_PRIORITY                   osPriorityLow
+#define FREERTOS_GUI_STACK_SIZE                 (240 * GUI_STACK_SIZE_ADDON_FOR_CMSIS)
+#endif /*_RTOS*/
 
 /**
   * @brief  USB PD GUI REJECT REASON
@@ -154,8 +170,8 @@ typedef enum
   GUI_PARAM_SOP1                             = 0x00, /*<! SOP prime support */
   GUI_PARAM_SOP2                             = 0x00, /*<! SOP second support */
   GUI_PARAM_FASTROLESWAP                     = 0x02, /*<! It enables the FRS */
-  GUI_PARAM_DATAROLESWAP                     = 0x03, /*<! Data role swap */
-  GUI_PARAM_DEFAULTPOWERROLE                 = 0x04, /*<! DRP on PE side but no toggle on CAD (dependancy with CADRoleToggle) */
+  GUI_PARAM_DATAROLESWAP_TO_UFP              = 0x03, /*<! Support of Data role swap to UFP */
+  GUI_PARAM_DEFAULTPOWERROLE                 = 0x04, /*<! DRP on PE side but no toggle on CAD (dependency with CADRoleToggle) */
   GUI_PARAM_DRP_SUPPORT                      = 0x05, /*<! DRP support (Power Role swap support) */
   GUI_PARAM_CADROLETOGGLE                    = 0x06, /*<! CAD Role Toggle */
   GUI_PARAM_PE_SCAP_HR                       = 0x07, /*<! Hard reset after N_SOURCE_CAPS message sending tentatives */
@@ -172,8 +188,8 @@ typedef enum
   GUI_PARAM_COUNTRYCODESSUPPORT              = 0x0B, /*<! Country_Codes message supported by PE  */
   GUI_PARAM_COUNTRYINFOSUPPORT               = 0x0B, /*<! Country_Info message supported by PE  */
   GUI_PARAM_SECURESPONSESUPPORT              = 0x0B, /*<! Security_Response message supported by PE  */
-  GUI_PARAM_SNK_PDO                          = 0x0C, /*<! maximun 7 * 32bit */
-  GUI_PARAM_SRC_PDO                          = 0x0D, /*<! maximun 7 * 32bit */
+  GUI_PARAM_SNK_PDO                          = 0x0C, /*<! maximum 7 * 32bit */
+  GUI_PARAM_SRC_PDO                          = 0x0D, /*<! maximum 7 * 32bit */
   GUI_PARAM_TDRP                             = 0x0E, /*<! The period a DRP shall complete a Source to Sink and back advertisement */
   GUI_PARAM_DCSRC_DRP                        = 0x0F, /*<! The percent of time that a DRP shall advertise Source during tDRP (in %) */
   GUI_PARAM_RESPONDS_TO_DISCOV_SOP           = 0x10, /*<! UUT can respond successfully to a Discover Identity command from its port partner using SOP. */
@@ -191,7 +207,8 @@ typedef enum
   GUI_PARAM_MANUINFOPORT_VID                 = 0x1B, /*<! Vendor ID (assigned by the USB-IF)) used by Manufacturer info  set for port */
   GUI_PARAM_MANUINFOPORT_PID                 = 0x1B, /*<! Product ID (assigned by the manufacturer) used by Manufacturer info  set for port */
   GUI_PARAM_MANUINFOPORT_STRING              = 0x1B, /*<! Vendor string used by Manufacturer info  set for port */
-  GUI_PARAM_NB_TAG                           = (GUI_PARAM_MANUINFOPORT_STRING + 1), /*<! Number max of param */
+  GUI_PARAM_DATAROLESWAP_TO_DFP              = 0x1C, /*<! Support of Data role swap to DFP */
+  GUI_PARAM_NB_TAG                           = (GUI_PARAM_DATAROLESWAP_TO_DFP + 1), /*<! Number max of param */
   GUI_PARAM_ALL                              = 0xFFu,
 } USBPD_GUI_Tag_Param;
 
@@ -325,7 +342,7 @@ typedef enum
   GUI_INIT_TYPECSPECREVISION                 = 0x04, /*<! Type-C revision supported by the port */
   GUI_INIT_PDSPECREVISION                    = 0x04, /*<! PD spec revision supported by the port */
   GUI_INIT_EXTENDEDMESSAGESUNCKUNKED         = 0x06, /*<! Supports extended messages */
-  GUI_INIT_ACCESSORYSUPP                     = 0x07, /*<! Accessory supported ot not */
+  GUI_INIT_ACCESSORYSUPP                     = 0x07, /*<! Accessory supported or not */
   GUI_INIT_POWERACCESSORYDETECTION           = 0x08, /*<! It enables or disables powered accessory detection */
   GUI_INIT_POWERACCESSORYTRANSITION          = 0x09, /*<! It enables or disables transition from Powered.accessory to Try.SNK */
   GUI_INIT_ISCABLE                           = 0x0B, /*<! Cable (asserts Ra on VConn, communicates using SOP' and SOP''), when this mode is selected the stack will run in cable mode so all parameters like PowerRole are not used */
@@ -383,9 +400,9 @@ typedef struct
 #if _SRC_CAPA_EXT
   USBPD_SCEDB_TypeDef           RcvSRCExtendedCapa;                  /*!< SRC Extended Capability received by port partner                     */
 #endif /* _SRC_CAPA_EXT */
-#if _SNK_CAPA_EXT
+#if defined(USBPDCORE_SNK_CAPA_EXT)
   USBPD_SKEDB_TypeDef           RcvSNKExtendedCapa;                  /*!< SNK Extended Capability received by port partner                     */
-#endif /* _SNK_CAPA_EXT */
+#endif /* USBPDCORE_SNK_CAPA_EXT */
 #if _MANU_INFO
   USBPD_GMIDB_TypeDef           GetManufacturerInfo;                 /*!< Get Manufacturer Info                                                */
 #endif /* _MANU_INFO */
@@ -417,10 +434,18 @@ typedef struct
 #define __GUI_SET_TAG_ID(_PORT_, _TAG_)  ((_PORT_) << GUI_PORT_BIT_POSITION | (_TAG_))
 
 #if defined(_RTOS)
+#if (osCMSIS < 0x20000U)
 #define GUI_START_TIMER(_PORT_,_TIMER_,_TIMEOUT_)   do{                                                               \
-                                                      _TIMER_[_PORT_] = (_TIMEOUT_) |  GUI_TIMER_ENABLE_MSK;\
+                                                      _TIMER_[_PORT_] = (_TIMEOUT_) |  GUI_TIMER_ENABLE_MSK;          \
                                                       osMessagePut(GUIMsgBox,GUI_USER_EVENT_TIMER, 0);                \
                                                     }while(0);
+#else
+#define GUI_START_TIMER(_PORT_,_TIMER_,_TIMEOUT_)   do{                                                               \
+                                                      uint32_t event = GUI_USER_EVENT_TIMER;                          \
+                                                      _TIMER_[_PORT_] = (_TIMEOUT_) |  GUI_TIMER_ENABLE_MSK;          \
+                                                      (void)osMessageQueuePut(GUIMsgBox, &event, 0U, 0U);             \
+                                                    }while(0);
+#endif /* osCMSIS < 0x20000U */
 #else
 #define GUI_START_TIMER(_PORT_, _TIMER_,_TIMEOUT_)  _TIMER_[_PORT_] = (_TIMEOUT_) |  GUI_TIMER_ENABLE_MSK;
 #endif /* _RTOS */
@@ -499,14 +524,22 @@ uint8_t GUI_OriginalSettings;
 
 #if defined(_RTOS)
 osMessageQId  GUIMsgBox;
+#if (osCMSIS >= 0x20000U)
+osThreadAttr_t GUI_Thread_Atrr = {
+  .name       = "GUI",
+  .priority   = FREERTOS_GUI_PRIORITY, /*osPriorityLow,*/
+  .stack_size = FREERTOS_GUI_STACK_SIZE
+};
+#endif /* osCMSIS >= 0x20000U */
 #else
-volatile uint32_t GUI_Flag = DPM_USER_EVENT_NONE;
+volatile uint32_t GUI_Flag = GUI_USER_EVENT_NONE;
 #endif /* _RTOS */
 
 const uint8_t* (*pCB_HWBoardVersion)(void)  = NULL;
 const uint8_t* (*pCB_HWPDType)(void)        = NULL;
 uint16_t (*pCB_GetVoltage)(uint8_t)         = NULL;
 int16_t  (*pCB_GetCurrent)(uint8_t)         = NULL;
+USBPD_StatusTypeDef (*pCB_FreeText)(uint8_t, uint8_t*, uint16_t) = NULL;
 
 GUI_HandleTypeDef GUI_SaveInformation[USBPD_PORT_COUNT];
 
@@ -518,8 +551,12 @@ GUI_HandleTypeDef GUI_SaveInformation[USBPD_PORT_COUNT];
 /** @defgroup USBPD_GUI_API_Private_Functions GUI API Private Functions
   * @{
   */
-static void      TaskGUI(void const *argument);
 #ifdef _RTOS
+#if (osCMSIS < 0x20000U)
+static void      TaskGUI(void const *argument);
+#else
+static void      TaskGUI(void *argument);
+#endif /* osCMSIS < 0x20000U */
 static uint32_t  CheckGUITimers(void);
 #endif /* _RTOS */
 static void      GUI_CALLBACK_RX(uint8_t Character, uint8_t Error);
@@ -538,6 +575,9 @@ static void      UpdateSNKPowerPort0(void);
 static void      UpdateSNKPowerPort1(void);
 #endif /* USBPD_PORT_COUNT==2 */
 #endif /* _SNK) || _DRP */
+#if defined(USE_STM32_UTILITY_OS)
+void                  GUI_Execute(void);
+#endif /* USE_STM32_UTILITY_OS */
 
 /**
   * @}
@@ -562,6 +602,31 @@ USBPD_FunctionalState GUI_Init(const uint8_t* (*CB_HWBoardVersion)(void), const 
   /* Retrieve data from FLASH if needed */
   GUI_OriginalSettings = ((GUI_OK == BSP_GUI_LoadDataFromFlash()) ? USBPD_FALSE : USBPD_TRUE);
 
+  /* Need to update CAD_tDRP & CAD_dcSRC_DRP if CAD_SNKToggleTime not initialized */
+  if ((0U == DPM_Settings[USBPD_PORT_0].CAD_SNKToggleTime) || (0U == DPM_Settings[USBPD_PORT_0].CAD_SRCToggleTime))
+  {
+    DPM_USER_Settings[USBPD_PORT_0].CAD_tDRP      = 80U;
+    DPM_USER_Settings[USBPD_PORT_0].CAD_dcSRC_DRP = 50U;
+  }
+  else
+  {
+    DPM_USER_Settings[USBPD_PORT_0].CAD_dcSRC_DRP = (DPM_Settings[USBPD_PORT_0].CAD_SRCToggleTime * 100) / (DPM_Settings[USBPD_PORT_0].CAD_SRCToggleTime + DPM_Settings[USBPD_PORT_0].CAD_SNKToggleTime);
+    DPM_USER_Settings[USBPD_PORT_0].CAD_tDRP = (DPM_Settings[USBPD_PORT_0].CAD_SRCToggleTime * 100) / DPM_USER_Settings[USBPD_PORT_0].CAD_dcSRC_DRP;
+  }
+#if USBPD_PORT_COUNT==2
+  if ((0U == DPM_Settings[USBPD_PORT_1].CAD_SNKToggleTime) || (0U == DPM_Settings[USBPD_PORT_1].CAD_SRCToggleTime))
+  {
+    DPM_USER_Settings[USBPD_PORT_1].CAD_tDRP      = 80U;
+    DPM_USER_Settings[USBPD_PORT_1].CAD_dcSRC_DRP = 50U;
+  }
+  else
+  {
+    DPM_USER_Settings[USBPD_PORT_1].CAD_dcSRC_DRP = (DPM_Settings[USBPD_PORT_1].CAD_SRCToggleTime * 100) / (DPM_Settings[USBPD_PORT_1].CAD_SRCToggleTime + DPM_Settings[USBPD_PORT_1].CAD_SNKToggleTime);
+    DPM_USER_Settings[USBPD_PORT_1].CAD_tDRP = (DPM_Settings[USBPD_PORT_1].CAD_SRCToggleTime * 100) / DPM_USER_Settings[USBPD_PORT_1].CAD_dcSRC_DRP;
+  }
+#endif /* USBPD_PORT_COUNT==2 */
+
+
   pCB_HWBoardVersion  = CB_HWBoardVersion;
   pCB_HWPDType        = CB_HWPDType;
   pCB_GetVoltage      = CB_GetVoltage;
@@ -571,21 +636,30 @@ USBPD_FunctionalState GUI_Init(const uint8_t* (*CB_HWBoardVersion)(void), const 
   USBPD_DPM_SetNotification_GUI(GUI_FormatAndSendNotification, GUI_PostNotificationMessage, GUI_SaveInfo);
 
 #if defined(_RTOS)
+#if (osCMSIS < 0x20000U)
   osMessageQDef(MsgBox, GUI_BOX_MESSAGES_MAX, uint32_t);
+  osThreadDef(GUI, TaskGUI, FREERTOS_GUI_PRIORITY, 0, FREERTOS_GUI_STACK_SIZE);
   GUIMsgBox = osMessageCreate(osMessageQ(MsgBox), NULL);
-  osThreadDef(GUI, TaskGUI, osPriorityLow, 0, 120);
-
   if(NULL == osThreadCreate(osThread(GUI), &GUIMsgBox))
+#else
+  GUIMsgBox = osMessageQueueNew (GUI_BOX_MESSAGES_MAX, sizeof(uint32_t), NULL);
+  if (NULL == osThreadNew(TaskGUI, &GUIMsgBox, &GUI_Thread_Atrr))
+#endif /* osCMSIS < 0x20000U */
   {
     _status = USBPD_DISABLE;
   }
   /* Enable IRQ which has been disabled by FreeRTOS services */
   __enable_irq();
+#else /* RTOS */
+  GUI_Start();
+#if defined(USE_STM32_UTILITY_OS)
+  UTIL_SEQ_RegTask(TASK_GUI, 0, GUI_Execute);
+  UTIL_SEQ_SetTask(TASK_GUI, 0);
+#endif /*USE_STM32_UTILITY_OS */
 #endif /* _RTOS */
 
   return _status;
 }
-
 
 void GUI_Start(void)
 {
@@ -598,7 +672,15 @@ void GUI_Start(void)
   * @param  pEvent  GUI User event
   * @retval None
   */
+#ifdef _RTOS
+#if (osCMSIS < 0x20000U)
 static void TaskGUI(void const *pEvent)
+#else
+static void TaskGUI(void *pEvent)
+#endif /* osCMSIS < 0x20000U */
+#else
+void GUI_Execute(void)
+#endif /* _RTOS */
 {
 #ifdef _RTOS
   uint32_t _timing = osWaitForever;
@@ -607,14 +689,29 @@ static void TaskGUI(void const *pEvent)
   GUI_Start();
   do
   {
+#if (osCMSIS < 0x20000U)
     osEvent event = osMessageGet(queue, _timing);
     switch (((GUI_USER_EVENT)event.value.v & 0xF))
+#else
+    uint32_t event;
+    (void)osMessageQueueGet(queue, &event, NULL, _timing);
+    switch (((GUI_USER_EVENT)event & 0xF))
+#endif /* osCMSIS < 0x20000U */
     {
     case GUI_USER_EVENT_GUI:
       {
+#if (osCMSIS < 0x20000U)
         GUI_RXProcess((uint32_t)event.value.v);
+#else
+        GUI_RXProcess((uint32_t)event);
+#endif /* osCMSIS < 0x20000U */
         /* Sent an event to check if measurement report has been requested */
+#if (osCMSIS < 0x20000U)
         osMessagePut(GUIMsgBox, GUI_USER_EVENT_TIMER, 0);
+#else
+        uint32_t event = GUI_USER_EVENT_TIMER;
+        (void)osMessageQueuePut(GUIMsgBox, &event, 0U, 0U);
+#endif /* osCMSIS < 0x20000U */
         break;
       }
     case GUI_USER_EVENT_TIMER:
@@ -708,6 +805,12 @@ void GUI_TimerCounter(void)
     {
       GUI_TimerMeasReport[USBPD_PORT_0]--;
     }
+#if !defined(_RTOS)&&defined(USE_STM32_UTILITY_OS)
+    else
+    {
+      UTIL_SEQ_SetTask(TASK_GUI, 0);
+    }
+#endif /* !_RTOS && USE_STM32_UTILITY_OS */
   }
 #if USBPD_PORT_COUNT==2
   if (1 == GUI_USER_Params[USBPD_PORT_1].u.d.MeasReportActivation)
@@ -716,12 +819,18 @@ void GUI_TimerCounter(void)
     {
       GUI_TimerMeasReport[USBPD_PORT_1]--;
     }
+#if !defined(_RTOS)&&defined(USE_STM32_UTILITY_OS)
+    else
+    {
+      UTIL_SEQ_SetTask(TASK_GUI, 0);
+    }
+#endif /* !_RTOS && USE_STM32_UTILITY_OS */
   }
 #endif /* USBPD_PORT_COUNT == 2 */
 }
 
 /**
-  * @brief  callback called to end a transfert.
+  * @brief  callback called to end a transfer.
   * @param  Character Byte received by the device
   * @param  Error     Error detected in the reception
   * @retval 1 if message to send to DPM application
@@ -735,9 +844,18 @@ void GUI_CALLBACK_RX(uint8_t Character, uint8_t Error)
   if (event == 1)
   {
 #if defined(_RTOS)
-    osMessagePut(GUIMsgBox, GUI_USER_EVENT_GUI, 1);
+#if (osCMSIS < 0x20000U)
+    (void)osMessagePut(GUIMsgBox, GUI_USER_EVENT_GUI, 1);
+#else
+    uint32_t event = GUI_USER_EVENT_GUI;
+    (void)osMessageQueuePut(GUIMsgBox, &event, 0U, 0U);
+#endif /* osCMSIS < 0x20000U */
 #else
     GUI_Flag = GUI_USER_EVENT_GUI;
+#if defined(USE_STM32_UTILITY_OS)
+    GUI_RXProcess(GUI_Flag);
+    GUI_Flag = GUI_USER_EVENT_NONE;
+#endif /* USE_STM32_UTILITY_OS */
 #endif /* _RTOS */
   }
 }
@@ -791,7 +909,6 @@ uint32_t GUI_RXProcess(uint32_t Event)
       GUI_FormatAndSendNotification(((Event & GUI_PE_PORT_NUM_Msk) >> GUI_PE_PORT_NUM_Pos), GUI_NOTIF_PE_EVENT, type_event);
     }
   }
-
   return 0;
 }
 
@@ -1356,6 +1473,7 @@ USBPD_GUI_State GUI_SendNotification(uint8_t PortNum, uint8_t **pMsgToSend, uint
       gui_state = GUI_STATE_RUNNING;
 
     }
+  
   }
 
   return gui_state;
@@ -1382,9 +1500,17 @@ void GUI_PostNotificationMessage(uint8_t PortNum, uint16_t EventVal)
   {
     uint32_t event = GUI_USER_EVENT_GUI | (PortNum << GUI_PE_PORT_NUM_Pos) | (EventVal << GUI_PE_NOTIF_Pos);
 #if defined(_RTOS)
-    osMessagePut(GUIMsgBox, event, 0);
+#if (osCMSIS < 0x20000U)
+    (void)osMessagePut(GUIMsgBox, event, 0);
+#else
+    (void)osMessageQueuePut(GUIMsgBox, &event, 0U, 0U);
+#endif /* osCMSIS < 0x20000U */
 #else
     GUI_Flag = event;
+#if defined(USE_STM32_UTILITY_OS)
+    GUI_RXProcess(GUI_Flag);
+    GUI_Flag = GUI_USER_EVENT_NONE;
+#endif /* USE_STM32_UTILITY_OS */
 #endif /* _RTOS */
   }
 }
@@ -1470,17 +1596,6 @@ void GUI_SaveInfo(uint8_t PortNum, uint8_t DataId, uint8_t *Ptr, uint32_t Size)
     }
     break;
 
-    /* Case Request message DO (from Sink to Source) Data information :
-    */
-  case USBPD_CORE_DATATYPE_REQUEST_DO :
-    if (Size == 4)
-    {
-      uint8_t* rdo;
-      rdo = (uint8_t*)&GUI_SaveInformation[PortNum].RcvRequestDOMsg;
-      (void)memcpy(rdo, Ptr, Size);
-    }
-    break;
-
 #if defined(USBPD_REV30_SUPPORT)
 #if _STATUS
   case USBPD_CORE_INFO_STATUS :
@@ -1509,7 +1624,7 @@ void GUI_SaveInfo(uint8_t PortNum, uint8_t DataId, uint8_t *Ptr, uint32_t Size)
     }
     break;
 #endif /* _SRC_CAPA_EXT */
-#if _SNK_CAPA_EXT
+#if defined(USBPDCORE_SNK_CAPA_EXT)
   case USBPD_CORE_SNK_EXTENDED_CAPA :
     {
       uint8_t*  _snk_ext_capa;
@@ -1517,7 +1632,7 @@ void GUI_SaveInfo(uint8_t PortNum, uint8_t DataId, uint8_t *Ptr, uint32_t Size)
       memcpy(_snk_ext_capa, Ptr, Size);
     }
     break;
-#endif /* _SNK_CAPA_EXT */
+#endif /* USBPDCORE_SNK_CAPA_EXT */
 #if _MANU_INFO
   case USBPD_CORE_GET_MANUFACTURER_INFO:
     {
@@ -1572,6 +1687,15 @@ void GUI_SaveInfo(uint8_t PortNum, uint8_t DataId, uint8_t *Ptr, uint32_t Size)
   }
 }
 
+/**
+  * @brief  Register callback function to be used with Free Text feature
+  * @param  CB_FreeText Callback function to register (port number, payload and size)
+  * @retval None
+  */
+void GUI_RegisterCallback_FreeText(USBPD_StatusTypeDef (*CB_FreeText)(uint8_t, uint8_t*, uint16_t))
+{
+  pCB_FreeText = CB_FreeText;
+}
 
 /**
   * @}
@@ -1906,6 +2030,8 @@ static void Request_MessageReq(uint8_t PortNum, uint8_t* instruction, uint8_t *p
     break;
   case GUI_MSG_VDM_UNSTRUCTURED :
     break;
+#endif /* _VDM || _VCONN_SUPPORT */
+#if defined(_VDM)
   case GUI_MSG_DISPLAY_PORT_STATUS :
     {
       uint32_t dp_status;
@@ -1970,8 +2096,6 @@ static void Request_MessageReq(uint8_t PortNum, uint8_t* instruction, uint8_t *p
     break;
   case GUI_MSG_DISPLAY_PORT_ATTENTION :
     break;
-#endif /* _VDM || _VCONN_SUPPORT */
-#if defined(_VDM)
   case GUI_MSG_VDM_ATTENTION :
     {
       uint16_t svid = 0;
@@ -2174,9 +2298,11 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
       */
     {
     case GUI_PARAM_SOP :
+#if !defined(USBPDCORE_LIB_NO_PD)
       /* SOP & SOP1 & SOP2 */
       /* SOP1_Debug & SOP2_Debug not implemented */
       DPM_Settings[PortNum].PE_SupportedSOP = value[0];
+#endif /* !USBPDCORE_LIB_NO_PD */
       break;
 #if defined(USBPD_REV30_SUPPORT)
     case GUI_PARAM_FASTROLESWAP :
@@ -2184,14 +2310,19 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
       DPM_Settings[PortNum].PE_PD3_Support.d.PE_FastRoleSwapSupport = value[0];
       break;
 #endif /*USBPD_REV30_SUPPORT*/
-    case GUI_PARAM_DATAROLESWAP :
-      /*DataRoleSwap*/
-      DPM_USER_Settings[PortNum].PE_DataSwap = value[0];
+    case GUI_PARAM_DATAROLESWAP_TO_UFP :
+      /*DataRoleSwap to UFP */
+      DPM_USER_Settings[PortNum].PE_DR_Swap_To_UFP = value[0];
+      break;
+    case GUI_PARAM_DATAROLESWAP_TO_DFP :
+      /*DataRoleSwap to DFP */
+      DPM_USER_Settings[PortNum].PE_DR_Swap_To_DFP = value[0];
       break;
     case GUI_PARAM_DEFAULTPOWERROLE :
       /*DefaultPowerRole*/
       DPM_Settings[PortNum].PE_DefaultRole = (USBPD_PortPowerRole_TypeDef)value[0];
       break;
+#if !defined(USBPDCORE_LIB_NO_PD)
     case GUI_PARAM_DRP_SUPPORT :
       /*DRP_Support*/
       DPM_Settings[PortNum].PE_RoleSwap = value[0];
@@ -2223,6 +2354,7 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
       DPM_Settings[PortNum].PE_PD3_Support.PD3_Support = LE16(&value[0]);
       break;
 #endif /*USBPD_REV30_SUPPORT*/
+#endif /* !USBPDCORE_LIB_NO_PD */
 #if defined(_SNK) || defined(_DRP)
     case GUI_PARAM_SNK_PDO :
       {
@@ -2239,7 +2371,7 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
             PORT0_PDO_ListSNK[index_pdo] = pdo;
             index_gui = index_gui + 4;
           }
-          GUI_NbPDO[0] = (size / 4);
+          USBPD_NbPDO[0] = (size / 4);
           UpdateSNKPowerPort0();
         }
 #if USBPD_PORT_COUNT==2
@@ -2252,7 +2384,7 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
             PORT1_PDO_ListSNK[index_pdo] = pdo;
             index_gui = index_gui + 4;
           }
-          GUI_NbPDO[2] = (size / 4);
+          USBPD_NbPDO[2] = (size / 4);
           UpdateSNKPowerPort1();
         }
 #endif /* USBPD_PORT_COUNT==2 */
@@ -2275,7 +2407,7 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
             PORT0_PDO_ListSRC[index_pdo] = pdo;
             index_gui = index_gui + 4;
           }
-          GUI_NbPDO[1] = (size / 4);
+          USBPD_NbPDO[1] = (size / 4);
         }
 #if USBPD_PORT_COUNT==2
         else
@@ -2287,7 +2419,7 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
             PORT1_PDO_ListSRC[index_pdo] = pdo;
             index_gui = index_gui + 4;
           }
-          GUI_NbPDO[3] = (size / 4);
+          USBPD_NbPDO[3] = (size / 4);
         }
 #endif /* USBPD_PORT_COUNT==2 */
       }
@@ -2304,16 +2436,21 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
       flag_drp = 1;
       break;
     case GUI_PARAM_RESPONDS_TO_DISCOV_SOP :
+      DPM_Settings[PortNum].PE_RespondsToDiscovSOP = value[0];
+      break;
     case GUI_PARAM_ATTEMPTS_DISCOV_SOP :
-      /* Parameter is a CONST. Cannot be changed */
-      error = GUI_REJ_DPM_REJECT;
-      param_not_applicated[counter_param_not_applicated] = tag;
-      counter_param_not_applicated++;
+      DPM_Settings[PortNum].PE_AttemptsDiscovSOP = value[0];
+      break;
+    case GUI_PARAM_XID_SOP :
+      DPM_ID_Settings[PortNum].XID       = LE32(&value[0]);
+      break;
+    case GUI_PARAM_USB_VID_SOP :
+      DPM_ID_Settings[PortNum].VID       = LE16(&value[0]);
+      break;
+    case GUI_PARAM_PID_SOP :
+      DPM_ID_Settings[PortNum].PID       = LE16(&value[0]);
       break;
 #if defined(_VDM)
-    case GUI_PARAM_XID_SOP :
-      DPM_VDM_Settings[PortNum].VDM_XID_SOP           = LE32(&value[0]);
-      break;
     case GUI_PARAM_DATA_CAPABLE_AS_USB_HOST_SOP :
       DPM_VDM_Settings[PortNum].VDM_USBHostSupport    = (USBPD_USBCapa_TypeDef)value[0];
       break;
@@ -2325,12 +2462,6 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
       break;
     case GUI_PARAM_MODAL_OPERATION_SUPPORTED_SOP :
       DPM_VDM_Settings[PortNum].VDM_ModalOperation    = (USBPD_ModalOp_TypeDef)value[0];
-      break;
-    case GUI_PARAM_USB_VID_SOP :
-      DPM_VDM_Settings[PortNum].VDM_USB_VID_SOP       = LE16(&value[0]);
-      break;
-    case GUI_PARAM_PID_SOP :
-      DPM_VDM_Settings[PortNum].VDM_PID_SOP           = LE16(&value[0]);
       break;
     case GUI_PARAM_BCDDEVICE_SOP :
       DPM_VDM_Settings[PortNum].VDM_bcdDevice_SOP     = LE16(&value[0]);
@@ -2358,6 +2489,7 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
     }
   }
 
+#if !defined(USBPDCORE_LIB_NO_PD)
   /* Updtate CAD_SNKToggleTime & CAD_SRCToggleTime only if TDRP and/or DC_SRC_DRP have been received */
   if (1 == flag_drp)
   {
@@ -2375,6 +2507,7 @@ static void Send_DpmConfigSetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
     calcul = tdrp * (100 - dcdrp) / 100;
     DPM_Settings[PortNum].CAD_SNKToggleTime = (uint8_t)calcul;
   }
+#endif /* !USBPDCORE_LIB_NO_PD */
 
   /* Only applies if an error was specified. Will send a DPM_CONFIG_REJ instead of DPM_CONFIG_SET_CNF*/
   if(error != 0xFF)
@@ -2425,6 +2558,7 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
     switch((USBPD_GUI_Tag_Param)param)
     {
     case GUI_PARAM_ALL :
+#if !defined(USBPDCORE_LIB_NO_PD)
     case GUI_PARAM_SOP :
       {
         /* SOP & SOP1 & SOP2 */
@@ -2448,11 +2582,22 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
         }
       }
 #endif /*USBPD_REV30_SUPPORT*/
-    case GUI_PARAM_DATAROLESWAP :
+#endif /* !USBPDCORE_LIB_NO_PD */
+    case GUI_PARAM_DATAROLESWAP_TO_UFP :
       {
-        /*DataRoleSwap*/
-        uint8_t settings = DPM_USER_Settings[PortNum].PE_DataSwap;
-        TLV_add(&send_tlv, GUI_PARAM_DATAROLESWAP, 1, &settings);
+        /* DataRoleSwap to UFP */
+        uint8_t settings = DPM_USER_Settings[PortNum].PE_DR_Swap_To_UFP;
+        TLV_add(&send_tlv, GUI_PARAM_DATAROLESWAP_TO_UFP, 1, &settings);
+        if(0 != length)
+        {
+          break;
+        }
+      }
+    case GUI_PARAM_DATAROLESWAP_TO_DFP :
+      {
+        /* DataRoleSwap to DFP */
+        uint8_t settings = DPM_USER_Settings[PortNum].PE_DR_Swap_To_DFP;
+        TLV_add(&send_tlv, GUI_PARAM_DATAROLESWAP_TO_DFP, 1, &settings);
         if(0 != length)
         {
           break;
@@ -2468,6 +2613,7 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
           break;
         }
       }
+#if !defined(USBPDCORE_LIB_NO_PD)
     case GUI_PARAM_DRP_SUPPORT :
       {
         /*DRP_Support*/
@@ -2493,16 +2639,6 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
         /*PE_SCAP_HR*/
         uint8_t settings = DPM_Settings[PortNum].PE_CapscounterSupport;
         TLV_add(&send_tlv, GUI_PARAM_PE_SCAP_HR,  1, &settings);
-        if(0 != length)
-        {
-          break;
-        }
-      }
-    case GUI_PARAM_VCONNSWAP :
-      {
-        /*VConnSwap*/
-        uint8_t settings = DPM_USER_Settings[PortNum].PE_VconnSwap;
-        TLV_add(&send_tlv, GUI_PARAM_VCONNSWAP, 1, &settings);
         if(0 != length)
         {
           break;
@@ -2542,6 +2678,17 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
         }
       }
 #endif /*USBPD_REV30_SUPPORT*/
+#endif /* !USBPDCORE_LIB_NO_PD */
+    case GUI_PARAM_VCONNSWAP :
+      {
+        /*VConnSwap*/
+        uint8_t settings = DPM_USER_Settings[PortNum].PE_VconnSwap;
+        TLV_add(&send_tlv, GUI_PARAM_VCONNSWAP, 1, &settings);
+        if(0 != length)
+        {
+          break;
+        }
+      }
 #if defined(_SNK) || defined(_DRP)
     case GUI_PARAM_SNK_PDO :
       {
@@ -2551,13 +2698,13 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
         if (USBPD_PORT_0 == PortNum)
 #endif /* USBPD_PORT_COUNT==2 */
         {
-          nb_pdo    =  GUI_NbPDO[0];
+          nb_pdo    =  USBPD_NbPDO[0];
           list_pdo  = (uint8_t*)PORT0_PDO_ListSNK;
         }
 #if USBPD_PORT_COUNT==2
         else
         {
-          nb_pdo    =  GUI_NbPDO[2];
+          nb_pdo    =  USBPD_NbPDO[2];
           list_pdo  = (uint8_t*)PORT1_PDO_ListSNK;
         }
 #endif /* USBPD_PORT_COUNT==2 */
@@ -2577,13 +2724,13 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
         if (USBPD_PORT_0 == PortNum)
 #endif /* USBPD_PORT_COUNT==2 */
         {
-          nb_pdo    =  GUI_NbPDO[1];
+          nb_pdo    =  USBPD_NbPDO[1];
           list_pdo  = (uint8_t*)PORT0_PDO_ListSRC;
         }
 #if USBPD_PORT_COUNT==2
         else
         {
-          nb_pdo    =  GUI_NbPDO[3];
+          nb_pdo    =  USBPD_NbPDO[3];
           list_pdo  = (uint8_t*)PORT1_PDO_ListSRC;
         }
 #endif /* USBPD_PORT_COUNT==2 */
@@ -2614,6 +2761,7 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
       {
         break;
       }
+#if !defined(USBPDCORE_LIB_NO_PD)
     case GUI_PARAM_RESPONDS_TO_DISCOV_SOP :
       {
         uint8_t settings = DPM_Settings[PortNum].PE_RespondsToDiscovSOP;
@@ -2632,16 +2780,35 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
       {
         break;
       }
-#if defined(_VDM)
+#endif /* !USBPDCORE_LIB_NO_PD */
     case GUI_PARAM_XID_SOP :
       {
-        uint32_t value = DPM_VDM_Settings[PortNum].VDM_XID_SOP;
+        uint32_t value = DPM_ID_Settings[PortNum].XID;
         TLV_add(&send_tlv, GUI_PARAM_XID_SOP, 4, (uint8_t*)&value);
       }
       if(0 != length)
       {
         break;
       }
+    case GUI_PARAM_USB_VID_SOP :
+      {
+        uint16_t value = DPM_ID_Settings[PortNum].VID;
+        TLV_add(&send_tlv, GUI_PARAM_USB_VID_SOP, 2, (uint8_t*)&value);
+      }
+      if(0 != length)
+      {
+        break;
+      }
+    case GUI_PARAM_PID_SOP :
+      {
+        uint16_t value = DPM_ID_Settings[PortNum].PID;
+        TLV_add(&send_tlv, GUI_PARAM_PID_SOP, 2, (uint8_t*)&value);
+      }
+      if(0 != length)
+      {
+        break;
+      }
+#if defined(_VDM)
     case GUI_PARAM_DATA_CAPABLE_AS_USB_HOST_SOP :
       {
         uint8_t settings = DPM_VDM_Settings[PortNum].VDM_USBHostSupport;
@@ -2673,24 +2840,6 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t* instruction, uint8_t 
       {
         uint8_t settings = DPM_VDM_Settings[PortNum].VDM_ModalOperation;
         TLV_add(&send_tlv, GUI_PARAM_MODAL_OPERATION_SUPPORTED_SOP, 1, &settings);
-      }
-      if(0 != length)
-      {
-        break;
-      }
-    case GUI_PARAM_USB_VID_SOP :
-      {
-        uint16_t value = DPM_VDM_Settings[PortNum].VDM_USB_VID_SOP;
-        TLV_add(&send_tlv, GUI_PARAM_USB_VID_SOP, 2, (uint8_t*)&value);
-      }
-      if(0 != length)
-      {
-        break;
-      }
-    case GUI_PARAM_PID_SOP :
-      {
-        uint16_t value = DPM_VDM_Settings[PortNum].VDM_PID_SOP;
-        TLV_add(&send_tlv, GUI_PARAM_PID_SOP, 2, (uint8_t*)&value);
       }
       if(0 != length)
       {
@@ -3079,21 +3228,15 @@ static void Send_DpmRegisterWriteCnf(uint8_t PortNum, uint8_t *pEncodedMsg, uint
   */
 static USBPD_StatusTypeDef Manage_FreeText(uint8_t PortNum, uint8_t *pPayload, uint16_t Size)
 {
-  if (NULL != USBPD_Trace)
+  USBPD_StatusTypeDef _status = USBPD_FAIL;
+
+  if (NULL != pCB_FreeText)
   {
-    USBPD_Trace(USBPD_TRACE_DEBUG, PortNum, 0, pPayload, Size);
+    pCB_FreeText(PortNum, pPayload, Size);
+    _status = USBPD_OK;
   }
 
-  return USBPD_OK;
-}
-
-/**
-  * @brief  function to wakeup TX process when sending a message.
-  * @retval Timing
-  */
-void TRACER_EMB_WakeUpProcess(void)
-{
-  USBPD_DPM_TraceWakeUp();
+  return _status;
 }
 
 #if defined(_SNK) || defined(_DRP)
@@ -3108,7 +3251,7 @@ static void UpdateSNKPowerPort0(void)
   uint16_t _voltage = 0, _current = 0, _power = 0;
   uint16_t _min_voltage = 0xFFFF, _max_voltage = 0, _max_current = 0;
 
-  for (uint32_t _index = 0; _index < GUI_NbPDO[0]; _index++)
+  for (uint32_t _index = 0; _index < USBPD_NbPDO[0]; _index++)
   {
     pdo.d32 = PORT0_PDO_ListSNK[_index];
     switch (pdo.GenericPDO.PowerObject)
@@ -3170,7 +3313,7 @@ static void UpdateSNKPowerPort1(void)
   uint16_t _voltage = 0, _current = 0, _power = 0;
   uint16_t _min_voltage = 0xFFFF, _max_voltage = 0, _max_current = 0;
 
-  for (uint32_t _index = 0; _index < GUI_NbPDO[2]; _index++)
+  for (uint32_t _index = 0; _index < USBPD_NbPDO[2]; _index++)
   {
     pdo.d32 = PORT1_PDO_ListSNK[_index];
     switch (pdo.GenericPDO.PowerObject)

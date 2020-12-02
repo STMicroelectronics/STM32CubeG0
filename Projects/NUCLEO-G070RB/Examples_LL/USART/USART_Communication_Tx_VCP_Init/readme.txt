@@ -41,6 +41,10 @@ In case of errors, LED4 is blinking (1sec period).
 
 Program is written so that, any new press on User push-button will lead to new transmission of complete buffer.
 
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, Polling, HyperTerminal, Transmitter, VCP
+
 @par Directory contents 
 
   - USART/USART_Communication_Tx_VCP_Init/Inc/stm32g0xx_it.h          Interrupt handlers header file

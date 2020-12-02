@@ -1,5 +1,5 @@
 /**
-  @page UART_Hyperterminal_IT UART Hyperterminal IT example (HAL/LL mixed usage example)
+  @page UART_HyperTerminal_IT UART Hyperterminal IT example (HAL/LL mixed usage example)
 
   @verbatim
   ******************************************************************************
@@ -103,6 +103,11 @@ The UART is configured as follows:
       to have correct HAL operation.
 
 
+@par Keywords
+
+Connectivity, UART/USART, baud rate, RS-232, HyperTerminal, full-duplex, Interrupt
+Transmitter, Receiver, Asynchronous
+
 @par Directory contents
 
   - UART/UART_Hyperterminal_IT/Inc/stm32g0xx_hal_conf.h    HAL configuration file
@@ -118,7 +123,7 @@ The UART is configured as follows:
 
   - This example runs on STM32G071RBTx devices.
 
-  - This example has been tested with STMicroelectronics NUCLEO-G071RB board and can be
+  - This example has been tested with NUCLEO-G071RB board and can be
     easily tailored to any other supported device and development board.
 
   - NUCLEO-G071RB Set-up

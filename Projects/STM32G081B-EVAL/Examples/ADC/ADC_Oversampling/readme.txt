@@ -50,7 +50,7 @@ Other peripherals used:
 Board settings:
  - ADC is configured to convert ADC_CHANNEL_9 (connector CN10 pin 6).
  - The voltage input on ADC channel is provided from DAC (DAC1_CHANNEL_1).
-   ADC input from pin PA4 and DAC ouput to pin PA4:
+   ADC input from pin PA4 and DAC output to pin PA4:
    If same pin is used no connection is required, it is done internally. Otherwise, user need to connect a wire between connector CN10 pin 6 and connector CN10 pin 6
  - Voltage is increasing at each click on Tamper push-button, from 0 to maximum range in 4 steps.
    Clicks on Tamper push-button follow circular cycles: At clicks counter maximum value reached, counter is set back to 0.
@@ -65,7 +65,7 @@ STM32G081B-EVAL board LED is be used to monitor the program execution status:
 
 @par Keywords
 
-Analog, ADC, Analog to Digital, single conversion , Software trigger, Over sampling.
+Analog, ADC, Analog to Digital, single conversion , Software trigger, Oversampling.
 
 @par Directory contents 
 

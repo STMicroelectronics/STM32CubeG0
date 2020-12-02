@@ -28,7 +28,7 @@ purpose (performance and size).
 
 USART Peripheral is configured in asynchronous mode (115200 bauds, 8 data bit, 1 start bit, 1 stop bit, no parity).
 No HW flow control is used.
-GPIO associated to User push-button is linked with EXTI. 
+GPIO associated to User push-button is linked with EXTI.
 Virtual Com port feature of STLINK is used for UART communication between board and PC.
 
 Example execution:
@@ -38,6 +38,11 @@ On press on push button , TX DMA transfer to PC is initiated.
 RX DMA transfer is also ready to retrieve characters from PC ("END" string is expected to be entered by user on PC side (HyperTerminal).
 In case of both transfers successfully completed, LED4 is turned on.
 In case of errors, LED4 is blinking (1sec period).
+
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, DMA, HyperTerminal, 
+Transmitter, Receiver
 
 @par Directory contents 
 
@@ -51,7 +56,7 @@ In case of errors, LED4 is blinking (1sec period).
 @par Hardware and Software environment
 
   - This example runs on STM32G070RBTx devices.
-    
+
   - This example has been tested with NUCLEO-G070RB board and can be
     easily tailored to any other supported device and development board.
 

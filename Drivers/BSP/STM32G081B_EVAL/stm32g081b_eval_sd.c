@@ -109,7 +109,7 @@ typedef struct {
 */
 #define SD_DUMMY_BYTE            0xFF
 
-#define SD_MAX_FRAME_LENGTH        17    /* Lenght = 16 + 1 */
+#define SD_MAX_FRAME_LENGTH        17    /* Length = 16 + 1 */
 #define SD_CMD_LENGTH               6
 
 #define SD_MAX_TRY                100    /* Number of try */
@@ -139,7 +139,7 @@ typedef enum {
 #define SD_TOKEN_START_DATA_MULTIPLE_BLOCK_READ  0xFE  /* Data token start byte, Start Multiple Block Read */
 #define SD_TOKEN_START_DATA_SINGLE_BLOCK_WRITE   0xFE  /* Data token start byte, Start Single Block Write */
 #define SD_TOKEN_START_DATA_MULTIPLE_BLOCK_WRITE 0xFD  /* Data token start byte, Start Multiple Block Write */
-#define SD_TOKEN_STOP_DATA_MULTIPLE_BLOCK_WRITE  0xFD  /* Data toke stop byte, Stop Multiple Block Write */
+#define SD_TOKEN_STOP_DATA_MULTIPLE_BLOCK_WRITE  0xFD  /* Data token stop byte, Stop Multiple Block Write */
 
 /**
   * @brief  Commands: CMDxx = CMD-number | 0x40
@@ -173,7 +173,7 @@ typedef enum {
 #define SD_CMD_READ_OCR               58  /* CMD55 = 0x79 */
 
 /**
-  * @brief  SD reponses and error flags
+  * @brief  SD responses and error flags
   */
 typedef enum
 {
@@ -409,7 +409,7 @@ error :
     SD_IO_WriteByte(SD_DUMMY_BYTE);
     if(ptr != NULL) free(ptr);
 
-    /* Return the reponse */
+    /* Return the response */
     return retr;
 }
 
@@ -497,7 +497,7 @@ error :
     SD_IO_CSState(1);
     SD_IO_WriteByte(SD_DUMMY_BYTE);
 
-    /* Return the reponse */
+    /* Return the response */
     return retr;
 }
 
@@ -535,7 +535,7 @@ uint8_t BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr)
         }
     }
 
-    /* Return the reponse */
+    /* Return the response */
     return retr;
 }
 
@@ -671,7 +671,7 @@ uint8_t SD_GetCSDRegister(SD_CSD* Csd)
     SD_IO_CSState(1);
     SD_IO_WriteByte(SD_DUMMY_BYTE);
 
-    /* Return the reponse */
+    /* Return the response */
     return retr;
 }
 
@@ -763,7 +763,7 @@ uint8_t SD_GetCIDRegister(SD_CID* Cid)
     SD_IO_CSState(1);
     SD_IO_WriteByte(SD_DUMMY_BYTE);
 
-    /* Return the reponse */
+    /* Return the response */
     return retr;
 }
 
@@ -780,9 +780,9 @@ SD_CmdAnswer_typedef SD_SendCmd(uint8_t Cmd, uint32_t Arg, uint8_t Crc, uint8_t 
     uint8_t frame[SD_CMD_LENGTH], frameout[SD_CMD_LENGTH];
     SD_CmdAnswer_typedef retr = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
-    /* R1 Lenght = NCS(0)+ 6 Bytes command + NCR(min1 max8) + 1 Bytes answer + NEC(0) = 15bytes */
+    /* R1 Length = NCS(0)+ 6 Bytes command + NCR(min1 max8) + 1 Bytes answer + NEC(0) = 15bytes */
     /* R1b identical to R1 + Busy information                                                   */
-    /* R2 Lenght = NCS(0)+ 6 Bytes command + NCR(min1 max8) + 2 Bytes answer + NEC(0) = 16bytes */
+    /* R2 Length = NCS(0)+ 6 Bytes command + NCR(min1 max8) + 2 Bytes answer + NEC(0) = 16bytes */
 
     /* Prepare Frame to send */
     frame[0] = (Cmd | 0x40);         /* Construct byte 1 */
@@ -834,7 +834,7 @@ SD_CmdAnswer_typedef SD_SendCmd(uint8_t Cmd, uint32_t Arg, uint8_t Crc, uint8_t 
 /**
   * @brief  Gets the SD card data response and check the busy flag.
   * @retval The SD status: Read data response xxx0<status>1
-  *         - status 010: Data accecpted
+  *         - status 010: Data accepted
   *         - status 101: Data rejected due to a crc error
   *         - status 110: Data rejected due to a Write error.
   *         - status 111: Data rejected due to other error.

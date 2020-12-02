@@ -1,3 +1,4 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    stm32g0xx_it.h
@@ -14,6 +15,7 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32G0xx_IT_H
@@ -23,23 +25,46 @@
  extern "C" {
 #endif
 
-/* Includes ------------------------------------------------------------------*/
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#if defined(_TRACE)
+#include "tracer_emb_conf.h"
+#endif/*_TRACE */
+/* USER CODE END Includes */
+
 /* Exported types ------------------------------------------------------------*/
+/* USER CODE BEGIN ET */
+
+/* USER CODE END ET */
+
 /* Exported constants --------------------------------------------------------*/
+/* USER CODE BEGIN EC */
+
+/* USER CODE END EC */
+
 /* Exported macro ------------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
+/* USER CODE BEGIN EM */
+
+/* USER CODE END EM */
+
+/* Exported functions prototypes ---------------------------------------------*/
 void NMI_Handler(void);
 void HardFault_Handler(void);
 void SysTick_Handler(void);
 void UCPD1_2_IRQHandler(void);
-void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void);
+#if defined(_TRACE)
+void TRACER_EMB_USART_IRQHANDLER(void);
+void TRACER_EMB_TX_DMA_IRQHANDLER(void);
+#endif/*_TRACE */
 void ADC1_COMP_IRQHandler(void);
 void DMA1_Channel1_IRQHandler(void);
+/* USER CODE BEGIN EFP */
 void EXTI4_15_IRQHandler(void);
 void EXTI0_1_IRQHandler(void);
 void EXTI2_3_IRQHandler(void);
-void USART3_4_LPUART1_IRQHandler(void);
+
 void DEBOUNCE_TIM_IRQHandler(void);
+/* USER CODE END EFP */
 
 #ifdef __cplusplus
 }

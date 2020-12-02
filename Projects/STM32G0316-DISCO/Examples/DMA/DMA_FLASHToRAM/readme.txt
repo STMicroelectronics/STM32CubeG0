@@ -57,7 +57,7 @@ example by modifying defines values in the file main.h.
 
 @par Keywords
 
-System, DMA, Data Transfer, Memory to memory, Stream, Flash, RAM
+System, DMA, Data Transfer, Memory to memory, Flash, RAM
 
 @par Directory contents 
 
@@ -74,7 +74,7 @@ System, DMA, Data Transfer, Memory to memory, Stream, Flash, RAM
 
   - This example runs on STM32G031J6Mx Devices.
 
-  - This example has been tested with STMicroelectronics STM32G0316-DISCO 
+  - This example has been tested with STM32G0316-DISCO 
     board and can be easily tailored to any other supported device 
     and development board.    
 

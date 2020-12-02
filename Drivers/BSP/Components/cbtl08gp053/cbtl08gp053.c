@@ -142,7 +142,7 @@ static const uint32_t cbtl08gp053_SupportedModes =
 /**
   * @brief  Initialize the CBTL08GP053 and configure the needed hardware resources.
   * @param  Address CBTL08GP053 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t cbtl08gp053_Init(uint16_t Address)
 {
@@ -189,7 +189,7 @@ void cbtl08gp053_DeInit(uint16_t Address)
 /**
   * @brief  Power on the CBTL08GP053.
   * @param  Address CBTL08GP053 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t cbtl08gp053_PowerOn(uint16_t Address)
 {
@@ -204,7 +204,7 @@ uint32_t cbtl08gp053_PowerOn(uint16_t Address)
 /**
   * @brief  Power down the CBTL08GP053.
   * @param  Address CBTL08GP053 address on communication Bus.
-  * @retval 0: successfull, else failed
+  * @retval 0: successful, else failed
   */
 uint32_t cbtl08gp053_PowerOff(uint16_t Address)
 {

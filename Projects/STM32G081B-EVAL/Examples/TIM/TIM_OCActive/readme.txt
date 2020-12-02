@@ -85,7 +85,7 @@ Timer, Output, Compare, Active, Signals,
 
   - This example runs on STM32G081RBTx devices.
     
-  - This example has been tested with STMicroelectronics STM32G081B-EVAL 
+  - This example has been tested with STM32G081B-EVAL 
     board and can be easily tailored to any other supported device 
     and development board.      
 

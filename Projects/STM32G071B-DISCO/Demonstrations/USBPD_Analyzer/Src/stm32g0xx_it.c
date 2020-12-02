@@ -17,7 +17,7 @@
   */
 /* USER CODE END Header */
 
-/* Includes ------------------------------------------------------------------*/
+/* Private includes ----------------------------------------------------------*/
 #include "main.h"
 #include "stm32g0xx.h"
 #include "demo_disco.h"
@@ -78,10 +78,8 @@
 /******************************************************************************/
 /*            Cortex-M0+ Processor  Interruption and Exception Handlers                         */
 /******************************************************************************/
-
 /**
   * @brief This function handles Non maskable interrupt.
-  * @retval None
   */
 void NMI_Handler(void)
 {
@@ -98,7 +96,6 @@ void NMI_Handler(void)
 
 /**
   * @brief This function handles Hard fault interrupt.
-  * @retval None
   */
 void HardFault_Handler(void)
 {
@@ -140,7 +137,6 @@ void SysTick_Handler(void)
 #if defined(_TRACE)||defined(_GUI_INTERFACE)
 /**
   * @brief This function handles DMA1 channel 4, channel 5, channel 6, channel 7 and DMAMUX1 interrupts.
-  * @retval None
   */
 void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void)
 {
@@ -156,7 +152,6 @@ void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void)
 
 /**
   * @brief This function handles UCPD1 and UCPD2 interrupts / UCPD1 and UCPD2 wake-up interrupts through EXTI lines 32 and 33.
-  * @retval None
   */
 void UCPD1_2_IRQHandler(void)
 {

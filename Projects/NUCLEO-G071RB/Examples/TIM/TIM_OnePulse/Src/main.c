@@ -36,7 +36,7 @@
 /* Timer handler declaration */
 TIM_HandleTypeDef    TimHandle;
 
-/* Prescaler value declartion*/
+/* Prescaler value declaration*/
 uint32_t uwPrescalerValue = 0;
 
 /* Timer One Pulse Configuration Structure declaration */
@@ -245,7 +245,7 @@ void SystemClock_Config(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 

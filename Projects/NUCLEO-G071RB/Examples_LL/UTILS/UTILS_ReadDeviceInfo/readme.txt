@@ -7,12 +7,12 @@
   * @author  MCD Application Team
   * @brief   Description of the UTILS example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
@@ -29,6 +29,11 @@ Then UID, Device ID and Revision ID will be saved in following global variables:
 - aShowCoordinate: X and Y coordinates on the wafer expressed in BCD format
 - aShowWaferNumber: WAF_NUM[7:0], Wafer number (8-bit unsigned number)
 - aShowLotNumber: LOT_NUM[55:0], Lot number (ASCII encoded)
+
+@par Keywords
+
+System, Utils, Device info, UID, Device ID, Revision ID, Wafer, Lot number, 
+
 
 @par Directory contents 
 

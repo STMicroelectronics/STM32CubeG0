@@ -36,6 +36,9 @@ In this example:
 On NUCLEO-G071RB:
     - EXTI_Line4_15 is connected to User push-button
 
+@par Keywords
+
+System, GPIO, Output, Alternate function, EXTI, Toggle
 
 @par Directory contents 
 

@@ -34,7 +34,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-/* use the default SD timout as defined in the platform BSP driver*/
+/* use the default SD timeout as defined in the platform BSP driver*/
 #if defined(SDMMC_DATATIMEOUT)
 #define SD_TIMEOUT SDMMC_DATATIMEOUT
 #elif defined(SD_DATATIMEOUT)

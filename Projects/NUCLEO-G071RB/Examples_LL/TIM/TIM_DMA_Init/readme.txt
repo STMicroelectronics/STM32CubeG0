@@ -7,12 +7,12 @@
   * @author  MCD Application Team
   * @brief   Description of the TIM_DMA_Init example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
@@ -47,6 +47,10 @@ Whenever a DMA transfer fails LED4 flashes with a frequency of 1 Hz.
       the system clock frequency is exactly 56 MHz). Since the generated system
       clock frequency may vary from one board to another observed PWM signal
       frequency might be slightly different.
+
+@par Keywords
+
+Timers, DMA, PWM, Frequency, Duty Cycle, Waveform, Oscilloscope, Output, Signal
 
 @par Directory contents 
 

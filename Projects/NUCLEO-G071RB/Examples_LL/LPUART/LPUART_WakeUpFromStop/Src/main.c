@@ -39,7 +39,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /**
-  * @brief Variables used for charcater reception from PC Com port
+  * @brief Variables used for character reception from PC Com port
   */
 __IO uint8_t      ubFinalCharReceived = 0;
 __IO uint32_t     ubReceivedChar;
@@ -101,9 +101,6 @@ int main(void)
     /* At this point, MCU just wakes up from Stop 0 mode */
   }
   
-  /* Switch off LED4 */
-  LL_GPIO_ResetOutputPin(LED4_GPIO_PORT, LED4_PIN);
-
   /* Infinite loop */
   while (1)
   {
@@ -378,7 +375,7 @@ void SystemClock_Config(void)
   LL_RCC_HSI_Enable();
   while(LL_RCC_HSI_IsReady() != 1) 
   {
-  };
+  }
 
   /* Main PLL configuration and activation */
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_4, 70, LL_RCC_PLLR_DIV_5);
@@ -386,14 +383,14 @@ void SystemClock_Config(void)
   LL_RCC_PLL_EnableDomain_SYS();
   while(LL_RCC_PLL_IsReady() != 1) 
   {
-  };
+  }
 
   /* Sysclk activation on the main PLL */
 
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL) 
   {
-  };
+  }
 
   /* Set AHB prescaler*/
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);

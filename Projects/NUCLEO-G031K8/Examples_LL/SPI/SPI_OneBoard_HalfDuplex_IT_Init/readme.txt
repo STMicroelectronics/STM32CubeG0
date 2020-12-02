@@ -42,6 +42,10 @@ LED3 is On if data is well received.
 
 In case of errors, LED3 is blinking Slowly (1s).
 
+@par Keywords
+
+Connectivity, SPI, Half-duplex, Transmission, Reception, Master, Slave, MISO, MOSI, Interrupt
+
 @par Directory contents 
 
   - SPI/SPI_OneBoard_HalfDuplex_IT_Init/Inc/stm32g0xx_it.h          Interrupt handlers header file

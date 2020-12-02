@@ -33,7 +33,11 @@ After a reset when re-entering in the main, RCC WWDG Reset Flag will be checked 
 
 Waiting a new User push-button pressed to re-activate the WWDG
 
-@par Directory contents 
+@par Keywords
+
+System, WWDG, Timeout, Refresh, Counter update, MCU Reset, Downcounter, Event, Window
+
+@par Directory contents
 
   - WWDG/WWDG_RefreshUntilUserEvent_Init/Inc/stm32g0xx_it.h          Interrupt handlers header file
   - WWDG/WWDG_RefreshUntilUserEvent_Init/Inc/main.h                  Header for main.c module

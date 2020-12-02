@@ -414,7 +414,7 @@ MUX_StatusTypeDef BSP_MUX_Disable(MUX_TypeCMuxIdTypeDef TypeCMuxId)
 }
 
 /**
- * @brief  Set the pin assignement of the USB Type-C connector when it operates
+ * @brief  Set the pin assignment of the USB Type-C connector when it operates
  *         in one of the following mode:
  *         DFP_D: Downstream Facing Port associated with a DisplayPort Source device
  *         UFP_D: Upstream Facing Port associated with a DisplayPort Source device

@@ -79,7 +79,7 @@ Timer, DMA, PWM, Frequency, Duty Cycle, Waveform, Oscilloscope, Output, Signal
   - This example runs on STM32G070RBTx devices.
   - In this example, the clock is set to 56 MHz.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G070RB 
+  - This example has been tested with NUCLEO-G070RB 
     board and can be easily tailored to any other supported device 
     and development board.
 

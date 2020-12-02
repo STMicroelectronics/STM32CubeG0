@@ -61,6 +61,8 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_adc1;
+extern ADC_HandleTypeDef hadc1;
 extern DAC_HandleTypeDef hdac1;
 extern TIM_HandleTypeDef htim2;
 /* USER CODE BEGIN EV */
@@ -68,7 +70,7 @@ extern ADC_HandleTypeDef    AdcHandle;
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
@@ -146,6 +148,34 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles DMA1 channel 1 interrupt.
+  */
+void DMA1_Channel1_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_adc1);
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles ADC1, COMP1 and COMP2 interrupts (COMP interrupts through EXTI lines 17 and 18).
+  */
+void ADC1_COMP_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC1_COMP_IRQn 0 */
+
+  /* USER CODE END ADC1_COMP_IRQn 0 */
+  HAL_ADC_IRQHandler(&hadc1);
+  /* USER CODE BEGIN ADC1_COMP_IRQn 1 */
+
+  /* USER CODE END ADC1_COMP_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM2 global interrupt.
   */
 void TIM2_IRQHandler(void)
@@ -174,27 +204,6 @@ void TIM6_DAC_LPTIM1_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-/**
-  * @brief  This function handles ADC interrupt request.
-  * @param  None
-  * @retval None
-  */
-void ADCx_IRQHandler(void)
-{
-  HAL_ADC_IRQHandler(&AdcHandle);
-}
-
-/**
-  * @brief  This function handles DMA interrupt request.
-  * @param  None
-  * @retval None
-  */
-void ADCx_DMA_IRQHandler(void)
-{
-  HAL_DMA_IRQHandler(AdcHandle.DMA_Handle);
-}
-
-
 /**
   * @brief  This function handles external line 4_15 interrupt request.
   * @param  None

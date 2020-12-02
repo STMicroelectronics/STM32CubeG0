@@ -46,7 +46,6 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "stm32g0xx_ll_rtc.h"
 #include <stdio.h>
 
 /* USER CODE END Includes */
@@ -87,7 +86,6 @@ void Alarm_Callback(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED4_Pin LL_GPIO_PIN_5
 #define LED4_GPIO_Port GPIOA
-
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

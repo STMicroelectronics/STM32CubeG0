@@ -1,5 +1,5 @@
 /**
-  @page CEC CEC_DataExchange_Device_1 example
+  @page CEC_DataExchange_Device_1 example
   
   @verbatim
   ******************************************************************************

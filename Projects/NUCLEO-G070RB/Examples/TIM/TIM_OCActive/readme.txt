@@ -85,7 +85,7 @@ Timer, Output, Compare, Active, Signals,
 
   - This example runs on STM32G070RBTx devices.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G070RB 
+  - This example has been tested with NUCLEO-G070RB 
     board and can be easily tailored to any other supported device 
     and development board.      
 

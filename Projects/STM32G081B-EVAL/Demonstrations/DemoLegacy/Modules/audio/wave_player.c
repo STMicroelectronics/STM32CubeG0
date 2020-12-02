@@ -499,6 +499,11 @@ static void WavePlayer_PlaybackStart(uint8_t Select)
     WavePlayer_Play(Buffer1, BUFFER_SIZE_WORD);
 
     BufferSelect = Buffer2;
+    
+    if (HAL_TIM_Base_Start(&htim) != HAL_OK)
+    {
+      while(1);
+    }
   }
 }
 
@@ -649,11 +654,6 @@ static void WavePlayer_Play(uint32_t * pBuffer, uint32_t Size)
 
   /* Overwrite DMA configuration to combine DMA transfers with dual channel conversion */
   hdac.DMA_Handle1->Instance->CPAR = (uint32_t)(&hdac.Instance->DHR12LD);
-
-  if (HAL_TIM_Base_Start(&htim) != HAL_OK)
-  {
-    while(1);
-  }
 }
 
 /**
@@ -776,7 +776,7 @@ static void WavePlayer_DisplayPlaybackScreen(uint8_t Select)
   BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE);
   BSP_LCD_DisplayStringAt(35, 46, (uint8_t *)PlayList[Select-1], CENTER_MODE);
 
-  /* Retreive file size */
+  /* Retrieve file size */
   sprintf(file_name, "USER/%s", PlayList[Select-1]);
 
   if (f_stat (file_name, &fno) != FR_OK)

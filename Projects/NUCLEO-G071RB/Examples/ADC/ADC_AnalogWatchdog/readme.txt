@@ -52,7 +52,7 @@ Other peripherals used:
 Board settings:
  - ADC is configured to convert ADC_CHANNEL_4 (Arduino connector CN8 pin A2, Morpho connector CN7 pin 32).
  - The voltage input on ADC channel is provided from DAC (DAC1_CHANNEL_1).
-   ADC input from pin PA4 and DAC ouput to pin PA4:
+   ADC input from pin PA4 and DAC output to pin PA4:
    If same pin is used no connection is required, it is done internally. Otherwise, user need to connect a wire between Arduino connector CN8 pin A2, Morpho connector CN7 pin 32 and Arduino connector CN8 pin A2, Morpho connector CN7 pin 32
  - Voltage is increasing at each click on User push-button, from 0 to maximum range in 4 steps.
    Clicks on User push-button follow circular cycles: At clicks counter maximum value reached, counter is set back to 0.

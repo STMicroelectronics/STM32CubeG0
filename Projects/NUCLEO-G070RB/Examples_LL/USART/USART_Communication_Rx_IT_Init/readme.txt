@@ -26,16 +26,20 @@ using LL initialization function to demonstrate LL init usage.
 
 USART Peripheral is configured in asynchronous mode (115200 bauds, 8 data bit, 1 start bit, 1 stop bit, no parity).
 No HW flow control is used.
-GPIO associated to User push-button is linked with EXTI. 
+GPIO associated to User push-button is linked with EXTI.
 USART RX Not Empty interrupt is enabled.
 
 Example execution:
-When character is received on USART Rx line, a RXNE interrupt occurs. 
-USART IRQ Handler routine is then checking received character value. 
-On a specific value ('S' or 's'), LED4 is turned On. 
+When character is received on USART Rx line, a RXNE interrupt occurs.
+USART IRQ Handler routine is then checking received character value.
+On a specific value ('S' or 's'), LED4 is turned On.
 Received character is echoed on Tx line.
 On press on push button, LED4 is turned Off.
 In case of errors, LED4 is blinking.
+
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, Interrupt, HyperTerminal, Receiver
 
 @par Directory contents 
 

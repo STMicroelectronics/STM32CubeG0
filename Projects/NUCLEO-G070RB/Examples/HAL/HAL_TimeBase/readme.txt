@@ -57,13 +57,14 @@ In an infinite loop, LED4 toggles spaced out over 1s delay, except when tick inc
       to have correct HAL operation.
 
 @par Keywords
+
 System, TIM, Time base, HAL
 
-@par Directory contents  
+@par Directory contents
 
   - HAL/HAL_TimeBase/Inc/stm32g0xx_hal_conf.h    HAL configuration file
   - HAL/HAL_TimeBase/Inc/stm32g0xx_it.h          Interrupt handlers header file
-  - HAL/HAL_TimeBase/Inc/stm32g0xx.h             Header for main.c module  
+  - HAL/HAL_TimeBase/Inc/stm32g0xx.h             Header for main.c module
   - HAL/HAL_TimeBase/Src/stm32g0xx_it.c          Interrupt handlers
   - HAL/HAL_TimeBase/Src/stm32g0xx_hal_msp.c     HAL MSP file
   - HAL/HAL_TimeBase/Src/main.c                        Main program
@@ -73,7 +74,7 @@ System, TIM, Time base, HAL
 
   - This example runs on STM32G070RBTx devices
     
-  - This example has been tested with STMicroelectronics NUCLEO-G070RB board and can be
+  - This example has been tested with NUCLEO-G070RB board and can be
     easily tailored to any other supported device and development board.      
 
 @par How to use it ? 

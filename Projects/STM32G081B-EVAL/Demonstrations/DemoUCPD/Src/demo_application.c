@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    demo_application.c
   * @author  MCD Application Team
-  * @brief   demo application code
+  * @brief   UCPD demo application code
   ******************************************************************************
   * @attention
   *
@@ -27,14 +27,15 @@
 #include "logo_STM32_G0.h"
 #include "demo_application.h"
 #include "string.h"
+#include "stdio.h"
 #include "cmsis_os.h"
 #if defined(_GUI_INTERFACE)
 #include "gui_api.h"
 #endif /* _GUI_INTERFACE */
 
-/* Exported variables --------------------------------------------------------*/
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
+/** @addtogroup STM32_USBPD_APPLICATION
+  * @{
+  */
 
 /** @addtogroup STM32_USBPD_APPLICATION_DEMO
   * @{
@@ -110,6 +111,12 @@
 */
 #define DEMO_ERROR_MAX_MSG_SIZE  25U
 
+#define FREERTOS_DEMO_LCD_PRIORITY              osPriorityLow
+#if defined(_GUI_INTERFACE)
+#define FREERTOS_DEMO_LCD_STACK_SIZE            (240)
+#else
+#define FREERTOS_DEMO_LCD_STACK_SIZE            (280)
+#endif /*_GUI_INTERFACE*/
 
 typedef enum {
   MENU_EMPTY,
@@ -117,6 +124,7 @@ typedef enum {
   MENU_SOURCECAPA_RECEIVED,
   MENU_SINKCAPA_RECEIVED,
   MENU_EXTCAPA_RECEIVED,
+  MENU_SNKEXTCAPA_RECEIVED,
   MENU_BUILD,
   MENU_CABLE,
   MENU_MAX
@@ -132,8 +140,10 @@ typedef enum {
   COMMAND_CONTROLMSG_PR_SWAP,
   COMMAND_CONTROLMSG_VCONN_SWAP,
   COMMAND_CONTROLMSG_SOFT_RESET,
+  COMMAND_REQUEST_VDM_DISCOVERY,
   COMMAND_CONTROLMSG_GET_SRC_CAPEXT,
   COMMAND_CONTROLMSG_GET_STATUS,
+  COMMAND_CONTROLMSG_GET_SNK_CAPEXT,
 } DEMO_COMMAND;
 
 enum {
@@ -151,7 +161,8 @@ typedef struct
 } typedef_COMMANDE;
 
 /* Private macro -------------------------------------------------------------*/
-#define DEMO_MAX_COMMAND  12u
+#define DEMO_MAX_COMMAND  14u
+#define ABS(X)  ((X) > 0 ? (X) : -(X))
 
 /* Private variables ---------------------------------------------------------*/
 typedef_COMMANDE g_tab_command_global[DEMO_MAX_COMMAND] = {
@@ -163,20 +174,21 @@ typedef_COMMANDE g_tab_command_global[DEMO_MAX_COMMAND] = {
   { COMMAND_CONTROLMSG_PR_SWAP          ,"POWER ROLE SWAP    ", COMMANDROLE_DRP },
   { COMMAND_CONTROLMSG_VCONN_SWAP       ,"VCONN SWAP         ", COMMANDROLE_VCONN },
   { COMMAND_CONTROLMSG_SOFT_RESET       ,"SOFT RESET         ", COMMANDROLE_SRC | COMMANDROLE_SNK },
+  { COMMAND_REQUEST_VDM_DISCOVERY       ,"REQUEST VDM DISCO  " ,COMMANDROLE_SRC | COMMANDROLE_SNK },
   { COMMAND_CONTROLMSG_GET_SRC_CAPEXT   ,"GET SOURCE EXT CAPA", COMMANDROLE_SNK },
   { COMMAND_CONTROLMSG_GET_STATUS       ,"GET_STATUS         ", 0               },
+  { COMMAND_CONTROLMSG_GET_SNK_CAPEXT   ,"GET SINK EXT CAPA  ", COMMANDROLE_SRC },
   { COMMAND_NONE                        ,""                   , 0}
 };
 
 DEMO_MENU g_tab_menu_next[2][MENU_MAX] = {
-
-  { MENU_EMPTY,  MENU_SOURCECAPA_RECEIVED, MENU_SINKCAPA_RECEIVED, MENU_EXTCAPA_RECEIVED, MENU_CABLE, MENU_COMMAND, MENU_BUILD },
-  { MENU_EMPTY,  MENU_SOURCECAPA_RECEIVED, MENU_EXTCAPA_RECEIVED,  MENU_EMPTY,            MENU_BUILD, MENU_COMMAND, MENU_EMPTY }
+  { MENU_EMPTY,  MENU_SOURCECAPA_RECEIVED, MENU_SINKCAPA_RECEIVED, MENU_EXTCAPA_RECEIVED, MENU_SNKEXTCAPA_RECEIVED, MENU_CABLE, MENU_COMMAND, MENU_BUILD },
+  { MENU_EMPTY,  MENU_SOURCECAPA_RECEIVED, MENU_EXTCAPA_RECEIVED,  MENU_EMPTY,            MENU_BUILD,               MENU_EMPTY, MENU_COMMAND, MENU_EMPTY }
 };
 
 DEMO_MENU g_tab_menu_prev[2][MENU_MAX] = {
-  { MENU_EMPTY, MENU_BUILD, MENU_COMMAND, MENU_SOURCECAPA_RECEIVED, MENU_SINKCAPA_RECEIVED,   MENU_CABLE,            MENU_EXTCAPA_RECEIVED},
-  { MENU_EMPTY, MENU_BUILD, MENU_COMMAND, MENU_EMPTY,               MENU_SOURCECAPA_RECEIVED, MENU_EXTCAPA_RECEIVED, MENU_EMPTY }
+  { MENU_EMPTY, MENU_CABLE, MENU_COMMAND, MENU_SOURCECAPA_RECEIVED, MENU_SINKCAPA_RECEIVED,   MENU_EXTCAPA_RECEIVED,  MENU_COMMAND,           MENU_SNKEXTCAPA_RECEIVED },
+  { MENU_EMPTY, MENU_BUILD, MENU_COMMAND, MENU_EMPTY,               MENU_SOURCECAPA_RECEIVED, MENU_EMPTY,             MENU_EXTCAPA_RECEIVED,  MENU_EMPTY }
 };
 
 static typedef_COMMANDE g_tab_command_PORT[2][DEMO_MAX_COMMAND];
@@ -192,6 +204,9 @@ static uint8_t joyevent = 0;
 const uint8_t g_tab_error_strings[DEMO_ERROR_TYPE_MAXNBITEMS][DEMO_ERROR_MAX_MSG_SIZE] = {
   "  POWER SUPPLY ERROR  ",    /* Power Supply error */
   " FLASH SETTINGS ERROR ",    /* Error in settings stored in flash */
+  "      NMI ERROR       ",    /* Power Supply error in NMI Handler */
+  "   HARD FAULT ERROR   ",    /* Power Supply error in HARD FAULT Handler */
+  "      OVC ERROR       ",    /* Over current in power monitoring */
 };
 
 /* Private variables ---------------------------------------------------------*/
@@ -214,6 +229,7 @@ static void Display_sourcecapa_menu_nav(uint8_t PortNum, int8_t Or);
 static uint8_t  Display_sourcecapa_menu_exec(uint8_t PortNum);
 
 static void Display_extcapa_menu_nav(uint8_t PortNum, int8_t Or);
+static void Display_sinkextcapa_menu_nav(uint8_t PortNum, int8_t Orientation);
 
 static void Display_command_menu(uint8_t PortNum);
 static void Display_command_menu_nav(uint8_t PortNum, int8_t Or);
@@ -221,13 +237,12 @@ static void Display_command_menu_exec(uint8_t PortNum);
 
 static void Display_cableinfo_menu(uint8_t PortNum);
 
-void DEMO_Task(void const *argument);
+static void DEMO_Task(void const *queue_id);
 static void string_completion(uint8_t *Str, uint8_t SizeMax);
 
 /**
   * @brief  Demo BSP initialisation
-  * @param  None
-  * @retval None
+  * @retval DEMO_ErrorCode status
   */
 DEMO_ErrorCode DEMO_InitBSP(void)
 {
@@ -245,26 +260,6 @@ DEMO_ErrorCode DEMO_InitBSP(void)
 
   BSP_LCD_DrawBitmap(0, 0, (uint8_t *)header_data_logo);
 
-  /* Protection against bad compilation configuration */
-  if (BSP_PWR_DCDCGetCtrlMode(0) == DCDC_CTRL_MODE_GPIO)
-  {
-       BSP_LCD_SetFont(&Font16);
-       BSP_LCD_SetTextColor(LCD_COLOR_RED);
-       BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-       BSP_LCD_DisplayStringAt(0, 1 + (6 * Font16.Height), (uint8_t*)"Power configuration incorrect", CENTER_MODE);
-
-       BSP_LCD_DisplayStringAt(0, 1 + (7 * Font16.Height), (uint8_t*)"PWM mode in firmware", CENTER_MODE);
-       BSP_LCD_DisplayStringAt(0, 1 + (8 * Font16.Height), (uint8_t*)"but board is in GPIO mode", CENTER_MODE);
-       while(1);
-  }
-  else if (BSP_PWR_DCDCGetCtrlMode(0) == DCDC_CTRL_MODE_UNKNOWN)
-  {
-       BSP_LCD_SetFont(&Font16);
-       BSP_LCD_SetTextColor(LCD_COLOR_RED);
-       BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-       BSP_LCD_DisplayStringAt(0, 1 + (6 * Font16.Height), (uint8_t*)"Board configuration unknown", CENTER_MODE);
-  }
-  
   Display_Selected_port();
   Display_border();
 
@@ -278,9 +273,9 @@ DEMO_ErrorCode DEMO_InitBSP(void)
 DEMO_ErrorCode DEMO_InitTask()
 {
   osMessageQDef(MsgBox, LCD_ALARMBOX_MESSAGES_MAX, uint32_t);
-  osThreadDef(LCD, DEMO_Task, osPriorityLow, 0, 280);
 
   LCDMsgBox = osMessageCreate(osMessageQ(MsgBox), NULL);
+  osThreadDef(LCD, DEMO_Task, FREERTOS_DEMO_LCD_PRIORITY, 0, FREERTOS_DEMO_LCD_STACK_SIZE);
   if(NULL == osThreadCreate(osThread(LCD), &LCDMsgBox))
   {
     return DEMO_ERROR;
@@ -299,7 +294,7 @@ DEMO_ErrorCode DEMO_InitTask()
 void DEMO_PostCADMessage(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDef Cc)
 {
   uint32_t event = (DEMO_MSG_CAD |  (Cc << DEMO_CAD_CC_NUM_Pos | (PortNum << DEMO_CAD_PORT_NUM_Pos) | State ));
-  osMessagePut(LCDMsgBox, event, 0);
+  (void)osMessagePut(LCDMsgBox, event, 0);
 }
 
 /**
@@ -311,7 +306,7 @@ void DEMO_PostCADMessage(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDef 
 void DEMO_PostNotificationMessage(uint8_t PortNum, USBPD_NotifyEventValue_TypeDef EventVal)
 {
   uint32_t event = DEMO_MSG_PENOTIFY | PortNum << DEMO_PE_PORT_NUM_Pos | EventVal;
-  osMessagePut(LCDMsgBox, event, 0);
+  (void)osMessagePut(LCDMsgBox, event, 0);
 }
 
 
@@ -382,6 +377,37 @@ void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
   }
 }
 
+/**
+  * @brief  Format power to be displayed on the screen
+  * @param  PortNum The handle of the port
+  * @param  Vsense  Vsense value
+  * @param  Isense  Isense value
+  * @retval None
+  */
+static void Format_power(uint8_t PortNum, uint32_t Vsense, uint32_t Isense)
+{
+  char  pstr[25]={0};
+
+  sprintf(pstr,"%2ld.%.2ldV %1ld.%.2ldA",(Vsense / 1000), (Vsense % 1000)/10, (Isense/1000), (Isense % 1000)/10);
+  
+  if(USBPD_TRUE == DPM_Params[PortNum].VconnStatus)
+  {
+    sprintf(pstr, "%s VC ", pstr);
+  }
+  else
+  {
+    sprintf(pstr, "%s     ", pstr);
+  }
+  
+  if (USBPD_PORT_0 == PortNum)
+  {
+    BSP_LCD_DisplayStringAt(57, Font12.Height * 4, (uint8_t*)pstr,LEFT_MODE);
+  }
+  else
+  {      
+    BSP_LCD_DisplayStringAt(185, Font12.Height * 4, (uint8_t*)pstr, LEFT_MODE);
+  }
+}
 
 /**
   * @brief  Display power
@@ -389,9 +415,8 @@ void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
   */
 static void Display_power(void)
 {
-  uint32_t vsense;
-  int32_t isense;
-  char  pstr[20]={0};
+  uint32_t vsense = 0;
+  int32_t isense = 0;
   static uint8_t counter = 0;
 
   counter++;
@@ -407,28 +432,9 @@ static void Display_power(void)
     /* Port 0 */
     if(DPM_Ports[USBPD_PORT_0].DPM_IsConnected)
     {
-      vsense = BSP_PWR_VBUSGetVoltage(USBPD_PORT_0);
-      isense = BSP_PWR_VBUSGetCurrent(USBPD_PORT_0);
-      if(isense < 0)
-      {
-        isense = -isense;
-        sprintf(pstr,"%2d.%0.2dV -%1d.%0.2dA",(vsense / 1000), (vsense % 1000)/10, (isense/1000), (isense % 1000)/10);
-      }
-      else
-      {
-        sprintf(pstr,"%2d.%0.2dV %1d.%0.2dA",(vsense / 1000), (vsense % 1000)/10, (isense/1000), (isense % 1000)/10);
-      }
-
-      if(USBPD_TRUE == DPM_Params[USBPD_PORT_0].VconnStatus)
-      {
-        sprintf(pstr, "%s VC ", pstr);
-      }
-      else
-      {
-        sprintf(pstr, "%s     ", pstr);
-      }
-
-      BSP_LCD_DisplayStringAt(57, Font12.Height * 4, (uint8_t*)pstr,LEFT_MODE);
+      BSP_USBPD_PWR_VBUSGetVoltage(USBPD_PORT_0, &vsense);
+      BSP_USBPD_PWR_VBUSGetCurrent(USBPD_PORT_0, &isense);
+      Format_power(USBPD_PORT_0, vsense, ABS(isense));
     }
     else
     {
@@ -439,28 +445,9 @@ static void Display_power(void)
     /* Port 1 */
     if(DPM_Ports[USBPD_PORT_1].DPM_IsConnected)
     {
-      vsense = BSP_PWR_VBUSGetVoltage(USBPD_PORT_1);
-      isense = BSP_PWR_VBUSGetCurrent(USBPD_PORT_1);
-      if(isense < 0)
-      {
-        isense = -isense;
-        sprintf(pstr,"%2d.%0.2dV -%1d.%0.2dA",(vsense / 1000), (vsense % 1000)/10, (isense/1000), (isense % 1000)/10);
-      }
-      else
-      {
-        sprintf(pstr,"%2d.%0.2dV %1d.%0.2dA",(vsense / 1000), (vsense % 1000)/10, (isense/1000), (isense % 1000)/10);
-      }
-
-      if(USBPD_TRUE == DPM_Params[USBPD_PORT_1].VconnStatus)
-      {
-        sprintf(pstr, "%s VC ", pstr);
-      }
-      else
-      {
-        sprintf(pstr, "%s     ", pstr);
-      }
-
-      BSP_LCD_DisplayStringAt(185, Font12.Height * 4, (uint8_t*)pstr, LEFT_MODE);
+      BSP_USBPD_PWR_VBUSGetVoltage(USBPD_PORT_1, &vsense);
+      BSP_USBPD_PWR_VBUSGetCurrent(USBPD_PORT_1, &isense);
+      Format_power(USBPD_PORT_1, vsense, ABS(isense));
     }
     else
     {
@@ -478,7 +465,6 @@ static void Display_power(void)
 static void Display_contract_port(uint8_t PortNum)
 {
   uint32_t pos;
-  uint32_t height;
   
   BSP_LCD_SetFont(&Font16);
   BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
@@ -486,34 +472,33 @@ static void Display_contract_port(uint8_t PortNum)
 
   pos = (PortNum == 0)? 54:181;
   pos = pos +  Font16.Width;
-  height = 10+ Font16.Height;
 
   /* PDX */
   if(DPM_Ports[PortNum].DPM_IsConnected)
   {
     if (USBPD_SPECIFICATION_REV3 == DPM_Params[PortNum].PE_SpecRevision)
     {
-      BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"PD3", LEFT_MODE);
+      BSP_LCD_DisplayStringAt(pos, 10+ Font16.Height, (uint8_t*)"PD3", LEFT_MODE);
     }
     else
     {
-      BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"PD2", LEFT_MODE);
+      BSP_LCD_DisplayStringAt(pos, 10+Font16.Height, (uint8_t*)"PD2", LEFT_MODE);
     }
 
     /* UFP/DFP */
     if (USBPD_PORTDATAROLE_UFP == DPM_Params[PortNum].PE_DataRole)
     {
-      BSP_LCD_DisplayStringAt(pos + 38, height, (uint8_t*)"UFP", LEFT_MODE);
+      BSP_LCD_DisplayStringAt(pos + 38, 10+ Font16.Height, (uint8_t*)"UFP", LEFT_MODE);
     }
     else
     {
-      BSP_LCD_DisplayStringAt(pos + 38, height, (uint8_t*)"DFP", LEFT_MODE);
+      BSP_LCD_DisplayStringAt(pos + 38, 10 + Font16.Height, (uint8_t*)"DFP", LEFT_MODE);
     }
 
   }
   else
   {
-    BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"          ", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(pos, 10+Font16.Height, (uint8_t*)"          ", LEFT_MODE);
   }
 }
 
@@ -554,6 +539,18 @@ void DEMO_Display_Error(uint8_t PortNum, uint8_t ErrorType)
 {
   uint8_t *pmsg;
   
+  /* Refresh current in case of OVC */
+  if (ErrorType == DEMO_ERROR_TYPE_POWER_OVER_CURRENT)
+  {
+    uint32_t vsense;
+    BSP_LCD_SetFont(&Font12);
+    BSP_LCD_SetTextColor(LCD_COLOR_ST_PINK);
+    BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+
+    BSP_USBPD_PWR_VBUSGetVoltage(PortNum, &vsense);
+    Format_power(PortNum, vsense, ABS(IsenseSafety[PortNum]));
+  }
+
   Display_clear_info();
 
   BSP_LCD_SetFont(&Font16);
@@ -577,7 +574,6 @@ void DEMO_Display_Error(uint8_t PortNum, uint8_t ErrorType)
 static void Display_cc_port(uint8_t PortNum, CCxPin_TypeDef cc)
 {
   uint32_t pos;
-  uint32_t height;
 
   BSP_LCD_SetFont(&Font16);
   BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
@@ -585,18 +581,17 @@ static void Display_cc_port(uint8_t PortNum, CCxPin_TypeDef cc)
 
   pos = (PortNum == 0)? 54+30:181+30;
   pos = pos +  5*Font16.Width;
-  height = 10+ Font16.Height;
 
   switch(cc)
   {
   case CCNONE :
-    BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"    ", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(pos, 10+ Font16.Height, (uint8_t*)"    ", LEFT_MODE);
     break;
   case CC1 :
-    BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"CC1", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(pos, 10+ Font16.Height, (uint8_t*)"CC1", LEFT_MODE);
     break;
   case CC2 :
-    BSP_LCD_DisplayStringAt(pos, height, (uint8_t*)"CC2", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(pos, 10+ Font16.Height, (uint8_t*)"CC2", LEFT_MODE);
     break;
   }
 }
@@ -607,13 +602,13 @@ static void Display_cc_port(uint8_t PortNum, CCxPin_TypeDef cc)
   */
 static void Display_border(void)
 {
-  uint16_t height = Font12.Height;
   BSP_LCD_SetBackColor(LCD_COLOR_CYAN);
   BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE_DARK);
 
-  BSP_LCD_DrawLine(0, 5 * height, 320, 5 * height);
-  BSP_LCD_DrawLine(0, 16 * height -1 , 320, 16 * height - 1);
-  BSP_LCD_DrawLine(160, 16 * height - 1,  160, 240);
+  BSP_LCD_DrawLine(0, 5 * Font12.Height, 320, 5 * Font12.Height);
+  BSP_LCD_DrawLine(0, 16 * Font12.Height -1 , 320, 16 * Font12.Height - 1);
+  BSP_LCD_DrawLine(160, 16 * Font12.Height - 1,  160, 240);
+
 }
 
 /**
@@ -664,13 +659,13 @@ static void Display_build_info(void)
   BSP_LCD_DisplayStringAt(0, 1 + (9 * Font16.Height), (uint8_t*)"VDM", CENTER_MODE);
 #endif
 
-  char tab[25] = {0};
+  char tab[30] = {0};
   sprintf(tab,"FW:%6x-STACK:%8x", USBPD_FW_VERSION, _LIB_ID);
   BSP_LCD_DisplayStringAt(0, 1 + (10 * Font16.Height), (uint8_t*)tab, CENTER_MODE);
 }
 
 /**
-  * @brief  Menu selection managment
+  * @brief  Menu selection management
   * @param  PortNum     The handle of the port
   * @param  IndexMax    MAX index
   * @param  LineMax     MAX line
@@ -883,7 +878,7 @@ static void Display_sinkcapa_menu_nav(uint8_t PortNum, int8_t Nav)
       {
         uint32_t maxcurrent = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_FIXED_MAX_CURRENT_Msk) >> USBPD_PDO_SRC_FIXED_MAX_CURRENT_Pos)*10;
         uint32_t maxvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_FIXED_VOLTAGE_Msk) >> USBPD_PDO_SRC_FIXED_VOLTAGE_Pos)*50;
-        sprintf((char*)_str, "FIXED:%2dV %2d.%dA", maxvoltage/1000, maxcurrent/1000, (maxcurrent % 1000) /100);
+        sprintf((char*)_str, "FIXED:%2ldV %2ld.%ldA", maxvoltage/1000, maxcurrent/1000, (maxcurrent % 1000) /100);
       }
       break;
     case USBPD_CORE_PDO_TYPE_BATTERY :
@@ -891,7 +886,7 @@ static void Display_sinkcapa_menu_nav(uint8_t PortNum, int8_t Nav)
         uint32_t maxvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_BATTERY_MAX_VOLTAGE_Msk) >> USBPD_PDO_SRC_BATTERY_MAX_VOLTAGE_Pos) * 50;
         uint32_t minvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_BATTERY_MIN_VOLTAGE_Msk) >> USBPD_PDO_SRC_BATTERY_MIN_VOLTAGE_Pos) * 50;
         uint32_t maxpower = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_BATTERY_MAX_POWER_Msk) >> USBPD_PDO_SRC_BATTERY_MAX_POWER_Pos) * 250;
-        sprintf((char*)_str, " BATT:%2d.%1d-%2d.%1dV %2d.%dW", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxpower/1000), (maxpower%1000)/100);
+        sprintf((char*)_str, " BATT:%2ld.%1ld-%2ld.%1ldV %2ld.%ldW", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxpower/1000), (maxpower%1000)/100);
       }
       break;
     case USBPD_CORE_PDO_TYPE_VARIABLE :
@@ -899,7 +894,7 @@ static void Display_sinkcapa_menu_nav(uint8_t PortNum, int8_t Nav)
         uint32_t maxvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_VARIABLE_MAX_VOLTAGE_Msk) >> USBPD_PDO_SRC_VARIABLE_MAX_VOLTAGE_Pos) * 50;
         uint32_t minvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_VARIABLE_MIN_VOLTAGE_Msk) >> USBPD_PDO_SRC_VARIABLE_MIN_VOLTAGE_Pos) * 50;
         uint32_t maxcurrent = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_VARIABLE_MAX_CURRENT_Msk) >> USBPD_PDO_SRC_VARIABLE_MAX_CURRENT_Pos) * 10;
-        sprintf((char*)_str, " VAR: %2d.%1d-%2d.%1dV %2d.%dA ", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxcurrent/1000), ((maxcurrent % 1000) /100));
+        sprintf((char*)_str, " VAR: %2ld.%1ld-%2ld.%1ldV %2ld.%ldA ", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxcurrent/1000), ((maxcurrent % 1000) /100));
       }
       break;
     case USBPD_CORE_PDO_TYPE_APDO :
@@ -907,7 +902,7 @@ static void Display_sinkcapa_menu_nav(uint8_t PortNum, int8_t Nav)
         uint32_t minvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_APDO_MIN_VOLTAGE_Msk) >> USBPD_PDO_SRC_APDO_MIN_VOLTAGE_Pos) * 100;
         uint32_t maxvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_APDO_MAX_VOLTAGE_Msk) >> USBPD_PDO_SRC_APDO_MAX_VOLTAGE_Pos) * 100;
         uint32_t maxcurrent = ((DPM_Ports[PortNum].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_SRC_APDO_MAX_CURRENT_Msk) >> USBPD_PDO_SRC_APDO_MAX_CURRENT_Pos) * 50;
-        sprintf((char*)_str, " APDO:%2d.%1d-%2d.%1dV %2d.%dA ", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxcurrent/1000), ((maxcurrent % 1000) /100));
+        sprintf((char*)_str, " APDO:%2ld.%1ld-%2ld.%1ldV %2ld.%ldA ", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxcurrent/1000), ((maxcurrent % 1000) /100));
       }
       break;
     default :
@@ -945,7 +940,7 @@ static void Display_sourcecapa_menu(uint8_t PortNum)
   BSP_LCD_SetFont(&Font16);
 
   /* Display menu source capa */
-  sprintf((char *)str, "Source capa : %d",DPM_Ports[PortNum].DPM_NumberOfRcvSRCPDO);
+  sprintf((char *)str, "Source capa : %ld",DPM_Ports[PortNum].DPM_NumberOfRcvSRCPDO);
   BSP_LCD_DisplayStringAt(0, 1 + 6 * Font12.Height, str, LEFT_MODE);
 
   BSP_LCD_SetFont(&Font12);
@@ -987,7 +982,7 @@ static void Display_sourcecapa_menu_nav(uint8_t PortNum, int8_t Nav)
       {
         uint32_t maxcurrent = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_FIXED_MAX_CURRENT_Msk) >> USBPD_PDO_SRC_FIXED_MAX_CURRENT_Pos)*10;
         uint32_t maxvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_FIXED_VOLTAGE_Msk) >> USBPD_PDO_SRC_FIXED_VOLTAGE_Pos)*50;
-        sprintf((char*)_str, " FIXED:%2dV %2d.%dA ", (maxvoltage/1000), (maxcurrent/1000), ((maxcurrent % 1000) /100));
+        sprintf((char*)_str, " FIXED:%2ldV %2ld.%ldA ", (maxvoltage/1000), (maxcurrent/1000), ((maxcurrent % 1000) /100));
       }
       break;
     case USBPD_CORE_PDO_TYPE_BATTERY :
@@ -995,7 +990,7 @@ static void Display_sourcecapa_menu_nav(uint8_t PortNum, int8_t Nav)
         uint32_t maxvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_BATTERY_MAX_VOLTAGE_Msk) >> USBPD_PDO_SRC_BATTERY_MAX_VOLTAGE_Pos) * 50;
         uint32_t minvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_BATTERY_MIN_VOLTAGE_Msk) >> USBPD_PDO_SRC_BATTERY_MIN_VOLTAGE_Pos) * 50;
         uint32_t maxpower = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_BATTERY_MAX_POWER_Msk) >> USBPD_PDO_SRC_BATTERY_MAX_POWER_Pos) * 250;
-        sprintf((char*)_str, " BATT:%2d.%1d-%2d.%1dV %2d.%dW", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxpower/1000), (maxpower%1000)/100);
+        sprintf((char*)_str, " BATT:%2ld.%1ld-%2ld.%1ldV %2ld.%ldW", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxpower/1000), (maxpower%1000)/100);
       }
       break;
     case USBPD_CORE_PDO_TYPE_VARIABLE :
@@ -1003,7 +998,7 @@ static void Display_sourcecapa_menu_nav(uint8_t PortNum, int8_t Nav)
         uint32_t maxvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_VARIABLE_MAX_VOLTAGE_Msk) >> USBPD_PDO_SRC_VARIABLE_MAX_VOLTAGE_Pos) * 50;
         uint32_t minvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_VARIABLE_MIN_VOLTAGE_Msk) >> USBPD_PDO_SRC_VARIABLE_MIN_VOLTAGE_Pos) * 50;
         uint32_t maxcurrent = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_VARIABLE_MAX_CURRENT_Msk) >> USBPD_PDO_SRC_VARIABLE_MAX_CURRENT_Pos) * 10;
-        sprintf((char*)_str, " VAR: %2d.%1d-%2d.%1dV %2d.%dA", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxcurrent/1000), ((maxcurrent % 1000) /100));
+        sprintf((char*)_str, " VAR: %2ld.%1ld-%2ld.%1ldV %2ld.%ldA", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxcurrent/1000), ((maxcurrent % 1000) /100));
       }
       break;
     case USBPD_CORE_PDO_TYPE_APDO :
@@ -1011,7 +1006,7 @@ static void Display_sourcecapa_menu_nav(uint8_t PortNum, int8_t Nav)
         uint32_t minvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_APDO_MIN_VOLTAGE_Msk) >> USBPD_PDO_SRC_APDO_MIN_VOLTAGE_Pos) * 100;
         uint32_t maxvoltage = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_APDO_MAX_VOLTAGE_Msk) >> USBPD_PDO_SRC_APDO_MAX_VOLTAGE_Pos) * 100;
         uint32_t maxcurrent = ((DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[index] & USBPD_PDO_SRC_APDO_MAX_CURRENT_Msk) >> USBPD_PDO_SRC_APDO_MAX_CURRENT_Pos) * 50;
-        sprintf((char*)_str, " APDO:%2d.%1d-%2d.%1dV %2d.%dA", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxcurrent/1000), ((maxcurrent % 1000) /100));
+        sprintf((char*)_str, " APDO:%2ld.%1ld-%2ld.%1ldV %2ld.%ldA", (minvoltage/1000),(minvoltage/100)%10, (maxvoltage/1000),(maxvoltage/100)%10, (maxcurrent/1000), ((maxcurrent % 1000) /100));
       }
       break;
     default :
@@ -1039,7 +1034,7 @@ static void Display_sourcecapa_menu_nav(uint8_t PortNum, int8_t Nav)
 /**
   * @brief  src capa menu exec
   * @param  PortNum     The handle of the port
-  * @retval None
+  * @retval status      0 if ok
   */
 uint8_t Display_sourcecapa_menu_exec(uint8_t PortNum)
 {
@@ -1173,7 +1168,7 @@ static void Display_extcapa_menu_nav(uint8_t PortNum, int8_t Orientation)
 
   sprintf((char *)_str[0], "VID:0x%x",      DPM_Ports[PortNum].DPM_RcvSRCExtendedCapa.VID);
   sprintf((char *)_str[1], "PID:0x%x",      DPM_Ports[PortNum].DPM_RcvSRCExtendedCapa.PID);
-  sprintf((char *)_str[2], "XID:0x%x",      DPM_Ports[PortNum].DPM_RcvSRCExtendedCapa.XID);
+  sprintf((char *)_str[2], "XID:0x%lx",      DPM_Ports[PortNum].DPM_RcvSRCExtendedCapa.XID);
   sprintf((char *)_str[3], "F rev:0x%x",    DPM_Ports[PortNum].DPM_RcvSRCExtendedCapa.FW_revision);
   sprintf((char *)_str[4], "H rev:0x%x",    DPM_Ports[PortNum].DPM_RcvSRCExtendedCapa.HW_revision);
   sprintf((char *)_str[5], "V reg:%d",      DPM_Ports[PortNum].DPM_RcvSRCExtendedCapa.Voltage_regulation);
@@ -1187,6 +1182,91 @@ static void Display_extcapa_menu_nav(uint8_t PortNum, int8_t Orientation)
   sprintf((char *)_str[13],"SRCin:%d",      DPM_Ports[PortNum].DPM_RcvSRCExtendedCapa.Source_inputs);
   sprintf((char *)_str[14],"Nbbatt:%d",     DPM_Ports[PortNum].DPM_RcvSRCExtendedCapa.NbBatteries);
   sprintf((char *)_str[15],"PDP:%d",        DPM_Ports[PortNum].DPM_RcvSRCExtendedCapa.SourcePDP);
+
+  for(int8_t i = 0; i < _max; i++)
+  {
+    uint8_t _size = strlen((char *)_str[i]);
+    if(_size < 19 )
+    {
+      _str[i][_size] = ' ';
+      _str[i][19] = '\0';
+    }
+  }
+
+  BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+  BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE_DARK);
+  BSP_LCD_SetFont(&Font16);
+
+  Menu_manage_selection(PortNum, _max, MAX_LINE_EXTCAPA, &_start, &_end, Orientation);
+
+  for(int8_t index=_start; index < _end; index++)
+  {
+
+    if((index - _start) == g_tab_menu_pos[PortNum])
+    {
+      BSP_LCD_SetBackColor(LCD_COLOR_ST_PINK);
+      BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+    }
+
+    BSP_LCD_DisplayStringAt(0, 1 + 6 * Font12.Height  + (index + 1 - _start) * Font16.Height,  (uint8_t*)_str[index], CENTER_MODE);
+
+    if((index - _start) == g_tab_menu_pos[PortNum])
+    {
+      BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+      BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE_DARK);
+    }
+  }
+}
+
+/**
+  * @brief  Sink ext capa menu display
+  * @param  PortNum     The handle of the port
+  * @retval None
+  */
+static void Display_sinkextcapa_menu(uint8_t PortNum)
+{
+  uint8_t str[30];
+
+  BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+  BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE_DARK);
+  BSP_LCD_SetFont(&Font16);
+
+  /* Display menu source capa */
+  sprintf((char *)str, "Sink Extended capa : ");
+  BSP_LCD_DisplayStringAt(0, 1 + 6 * Font12.Height, str, LEFT_MODE);
+
+  Display_sinkextcapa_menu_nav(PortNum, 0);
+}
+
+/**
+  * @brief  Sink ext capa menu navigation
+  * @param  PortNum     The handle of the port
+  * @param  Orientation Orientation
+  * @retval None
+  */
+static void Display_sinkextcapa_menu_nav(uint8_t PortNum, int8_t Orientation)
+{
+  uint8_t _str[15][20];
+  uint8_t _max = 15;  /* Nb field inside sink extended capa */
+  uint8_t _start, _end;
+
+  memset(_str, ' ', sizeof(_str));
+
+  sprintf((char *)_str[0],  "VID:0x%x",            DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.VID);
+  sprintf((char *)_str[1],  "PID:0x%x",            DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.PID);
+  sprintf((char *)_str[2],  "XID:0x%lx",            DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.XID);
+  sprintf((char *)_str[3],  "F rev:0x%x",          DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.FW_revision);
+  sprintf((char *)_str[4],  "H rev:0x%x",          DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.HW_revision);
+  sprintf((char *)_str[5],  "SKEDB_Ver:0x%x",      DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.SKEDB_Version);
+  sprintf((char *)_str[6],  "LoadStep:0x%x",       DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.LoadStep);
+  sprintf((char *)_str[7],  "SinkLoadCharac:0x%x", DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.SinkLoadCharac.Value);
+  sprintf((char *)_str[8],  "Compliance:%d",       DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.Compliance);
+  sprintf((char *)_str[9],  "Ttemp:%d",            DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.Touchtemp);
+  sprintf((char *)_str[10], "BatteryInfo:0x%x",    DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.BatteryInfo);
+  sprintf((char *)_str[11], "SinkModes:0x%x",      DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.SinkModes);
+  sprintf((char *)_str[12], "SinkMinPDP:%d",       DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.SinkMinimumPDP);
+  sprintf((char *)_str[13], "SinkOpePDP:%d",       DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.SinkOperationalPDP);
+  sprintf((char *)_str[14], "SinkMaxPDP:%d",       DPM_Ports[PortNum].DPM_RcvSNKExtendedCapa.SinkMaximumPDP);
 
   for(int8_t i = 0; i < _max; i++)
   {
@@ -1366,11 +1446,20 @@ static void Display_command_menu_exec(uint8_t PortNum)
     else
       Display_debug_port(PortNum, (uint8_t*)"request not sent");
     break;
+  case COMMAND_CONTROLMSG_GET_SNK_CAPEXT :
+    if( USBPD_OK == USBPD_PE_Request_CtrlMessage(PortNum, USBPD_CONTROLMSG_GET_SNK_CAPEXT, USBPD_SOPTYPE_SOP))
+      Display_debug_port(PortNum, (uint8_t*)"request snk extcapa");
+    else
+      Display_debug_port(PortNum, (uint8_t*)"request not sent");
+    break;
   case COMMAND_CONTROLMSG_GET_STATUS :
     if( USBPD_OK == USBPD_PE_Request_CtrlMessage(PortNum, USBPD_CONTROLMSG_GET_STATUS, USBPD_SOPTYPE_SOP))
       Display_debug_port(PortNum, (uint8_t*)"request status");
     else
       Display_debug_port(PortNum, (uint8_t*)"request not sent");
+    break;
+  case COMMAND_REQUEST_VDM_DISCOVERY :
+    USBPD_DPM_RequestVDM_DiscoverySVID(PortNum, USBPD_SOPTYPE_SOP);
     break;
   default :
     break;
@@ -1407,6 +1496,9 @@ static void Display_menuupdate_info(uint8_t PortNum, DEMO_MENU MenuSel)
   case MENU_EXTCAPA_RECEIVED :
     Display_extcapa_menu(PortNum);
     break;
+  case MENU_SNKEXTCAPA_RECEIVED :
+    Display_sinkextcapa_menu(PortNum);
+    break;
   case MENU_CABLE:
     Display_cableinfo_menu(PortNum);
     break;
@@ -1438,6 +1530,9 @@ static void Display_menunav_info(uint8_t PortNum, uint8_t MenuSel, int8_t Nav)
     break;
   case MENU_EXTCAPA_RECEIVED : /* Display menu source capa */
     Display_extcapa_menu_nav(PortNum, Nav);
+    break;
+  case MENU_SNKEXTCAPA_RECEIVED : /* Display menu sink capa */
+    Display_sinkextcapa_menu_nav(PortNum, Nav);
     break;
   }
 }
@@ -1505,7 +1600,7 @@ static void Display_debug_port(uint8_t PortNum, uint8_t *msg)
 }
 
 /**
-  * @brief  main demo function to manage all the appplication event and to update MMI
+  * @brief  main demo function to manage all the application event and to update MMI
   * @retval None
   */
 static void Display_Selected_port(void)
@@ -1566,7 +1661,7 @@ static void Display_Selected_port(void)
 }
 
 /**
-  * @brief  main demo function to manage all the appplication event and to update MMI
+  * @brief  main demo function to manage all the application event and to update MMI
   * @param  Event Event value
   * @retval None
   */
@@ -1638,7 +1733,7 @@ static void DEMO_Manage_event(uint32_t Event)
          break;
        case USBPD_CAD_EVENT_DETACHED :
 
-         /* Reset cable information : vconn availble only for port 0 */
+         /* Reset cable information : vconn available only for port 0 */
          if (_portnum == 0 )
          {
            pIdentity.CableVDO_Presence = 0;
@@ -1705,8 +1800,14 @@ static void DEMO_Manage_event(uint32_t Event)
       case USBPD_NOTIFY_GETSRCCAP_REJECTED :
         Display_debug_port(_portnum, (uint8_t *)"reject source capa");
         break;
+      case USBPD_NOTIFY_GETSNKCAP_ACCEPTED :
+        Display_debug_port(_portnum, (uint8_t *)"receive sink capa");
+        break;
+      case USBPD_NOTIFY_GETSNKCAP_REJECTED :
+        Display_debug_port(_portnum, (uint8_t *)"reject sink capa");
+        break;
       case USBPD_NOTIFY_GETSNKCAP_TIMEOUT :
-        Display_debug_port(_portnum, (uint8_t *)"timeout source capa");
+        Display_debug_port(_portnum, (uint8_t *)"timeout sink capa");
         break;
       case USBPD_NOTIFY_REQUEST_ACCEPTED :
         Display_debug_port(_portnum, (uint8_t *)"request accepted");
@@ -1745,6 +1846,15 @@ static void DEMO_Manage_event(uint32_t Event)
       case USBPD_NOTIFY_REQUEST_ENTER_MODE_BUSY :
         Display_debug_port(_portnum, (uint8_t *)"vdm enter mode BSY");
         break;
+      case USBPD_NOTIFY_GET_SNK_CAP_EXT_RECEIVED :
+        Display_debug_port(_portnum, (uint8_t *)"rec get SNK cap ext");
+        break;
+      case USBPD_NOTIFY_SNK_CAP_EXT_SENT :
+        Display_debug_port(_portnum, (uint8_t *)"SNK capa ext sent");
+        break;
+      case USBPD_NOTIFY_SNK_CAP_EXT_RECEIVED :
+        Display_debug_port(_portnum, (uint8_t *)"rec SNK cap ext");
+        break;
       }
     }
   break;
@@ -1758,7 +1868,7 @@ static void DEMO_Manage_event(uint32_t Event)
   * @param  queue_id ID of the queue
   * @retval None
   */
-void DEMO_Task(void const *queue_id)
+static void DEMO_Task(void const *queue_id)
 {
   osMessageQId  queue = *(osMessageQId *)queue_id;
   MUX_HPDStateTypeDef hpd_state      = HPD_STATE_LOW;
@@ -1810,5 +1920,13 @@ static void string_completion(uint8_t *Str, uint8_t SizeMax)
     Str[SizeMax] = '\0';
   }
 }
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -57,7 +57,7 @@ Power, PWR, EXTI, PVD, Interrupt, Wakeup, External reset
 
   - This example runs on STM32G071xx devices
     
-  - This example has been tested with STMicroelectronics NUCLEO-G071RB
+  - This example has been tested with NUCLEO-G071RB
     board and can be easily tailored to any other supported device
     and development board.
 

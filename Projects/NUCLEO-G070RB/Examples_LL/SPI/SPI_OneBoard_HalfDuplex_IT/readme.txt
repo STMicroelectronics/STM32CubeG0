@@ -42,6 +42,10 @@ LED4 is On if data is well received.
 
 In case of errors, LED4 is blinking Slowly (1s).
 
+@par Keywords
+
+Connectivity, SPI, Half-duplex, Transmission, Reception, Master, Slave, MISO, MOSI, Interrupt
+
 @par Directory contents 
 
   - SPI/SPI_OneBoard_HalfDuplex_IT/Inc/stm32g0xx_it.h          Interrupt handlers header file
@@ -63,10 +67,10 @@ In case of errors, LED4 is blinking Slowly (1s).
     - Connect Master MOSI PB5 to Slave MISO PB14
 
 Relation with Board connector:
-  PB3  is connected to pin 31 of CN11 connector
-  PB5  is connected to pin 29 of CN11 connector
-  PB13 is connected to pin 30 of CN11 connector
-  PB14 is connected to pin 28 of CN11 connector
+  PB3  is connected to pin 31 of CN10 connector
+  PB5  is connected to pin 29 of CN10 connector
+  PB13 is connected to pin 30 of CN10 connector
+  PB14 is connected to pin 25 of CN10 connector
 
 @par How to use it ? 
 

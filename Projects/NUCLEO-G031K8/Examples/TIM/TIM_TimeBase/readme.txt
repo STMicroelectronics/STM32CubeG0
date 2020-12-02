@@ -76,8 +76,7 @@ Timer, TIM, time base , Interrupt, Clock source
   - This example runs on STM32G031K8Tx devices.
   - In this example, the clock is set to 64 MHz.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G031K8
-    board and can be easily tailored to any other supported device
+  - This example has been tested with NUCLEO-G031K8 board and can be easily tailored to any other supported device
     and development board.      
 
 @par How to use it ? 

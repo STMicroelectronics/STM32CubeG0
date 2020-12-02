@@ -74,6 +74,10 @@ void HAL_MspInit(void)
   /* PendSV_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(PendSV_IRQn, 3, 0);
 
+  /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral
+  */
+  HAL_SYSCFG_StrobeDBattpinsConfig(SYSCFG_CFGR1_UCPD2_STROBE);
+
   /* USER CODE BEGIN MspInit 1 */
 
   /* USER CODE END MspInit 1 */
@@ -95,15 +99,15 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
   /* USER CODE END ADC1_MspInit 0 */
     /* Peripheral clock enable */
     __HAL_RCC_ADC_CLK_ENABLE();
-  
+
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
-    /**ADC1 GPIO Configuration    
+    /**ADC1 GPIO Configuration
     PA3     ------> ADC1_IN3
     PB1     ------> ADC1_IN9
     PB10     ------> ADC1_IN11
     PB11     ------> ADC1_IN15
-    PB12     ------> ADC1_IN16 
+    PB12     ------> ADC1_IN16
     */
     GPIO_InitStruct.Pin = GPIO_PIN_3;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
@@ -155,13 +159,13 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
   /* USER CODE END ADC1_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_ADC_CLK_DISABLE();
-  
-    /**ADC1 GPIO Configuration    
+
+    /**ADC1 GPIO Configuration
     PA3     ------> ADC1_IN3
     PB1     ------> ADC1_IN9
     PB10     ------> ADC1_IN11
     PB11     ------> ADC1_IN15
-    PB12     ------> ADC1_IN16 
+    PB12     ------> ADC1_IN16
     */
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_3);
 
@@ -192,10 +196,10 @@ void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* hlptim)
   /* USER CODE END LPTIM1_MspInit 0 */
     /* Peripheral clock enable */
     __HAL_RCC_LPTIM1_CLK_ENABLE();
-  
+
     __HAL_RCC_GPIOC_CLK_ENABLE();
-    /**LPTIM1 GPIO Configuration    
-    PC2     ------> LPTIM1_IN2 
+    /**LPTIM1 GPIO Configuration
+    PC2     ------> LPTIM1_IN2
     */
     GPIO_InitStruct.Pin = GPIO_PIN_2;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -226,9 +230,9 @@ void HAL_LPTIM_MspDeInit(LPTIM_HandleTypeDef* hlptim)
   /* USER CODE END LPTIM1_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_LPTIM1_CLK_DISABLE();
-  
-    /**LPTIM1 GPIO Configuration    
-    PC2     ------> LPTIM1_IN2 
+
+    /**LPTIM1 GPIO Configuration
+    PC2     ------> LPTIM1_IN2
     */
     HAL_GPIO_DeInit(GPIOC, GPIO_PIN_2);
 

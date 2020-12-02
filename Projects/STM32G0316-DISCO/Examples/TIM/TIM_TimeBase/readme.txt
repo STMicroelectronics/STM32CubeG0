@@ -76,7 +76,7 @@ Timer, TIM, time base , Interrupt, Clock source
   - This example runs on STM32G031J6Mx devices.
   - In this example, the clock is set to 64 MHz.
     
-  - This example has been tested with STMicroelectronics STM32G0316-DISCO
+  - This example has been tested with STM32G0316-DISCO
     board and can be easily tailored to any other supported device
     and development board.      
 

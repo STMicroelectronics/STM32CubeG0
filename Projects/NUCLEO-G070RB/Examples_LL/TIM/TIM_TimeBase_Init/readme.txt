@@ -7,12 +7,12 @@
   * @author  MCD Application Team
   * @brief   Description of the TIM_TimeBase_Init example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
@@ -24,10 +24,10 @@ example is based on the STM32G0xx TIM LL API. The peripheral initialization
 uses LL unitary service functions for optimization purposes (performance and size). 
 
    In this example TIM1 input clock TIM1CLK is set to APB2 clock (PCLK2),   
-   since APB2 pre-scaler is equal to 1.                                     
-      TIM1CLK = PCLK2                                                       
-      PCLK1 = HCLK                                                          
-      => TIM1CLK = SystemCoreClock (56 MHz)                                 
+   since APB2 pre-scaler is equal to 1.
+      TIM1CLK = PCLK2
+      PCLK1 = HCLK
+      => TIM1CLK = SystemCoreClock (56 MHz)
 
 To set the TIM1 counter clock frequency to 10 KHz, the pre-scaler (PSC) is calculated as follows:
 PSC = (TIM1CLK / TIM1 counter clock) - 1
@@ -51,6 +51,10 @@ at each counter overflow (when the counter reaches the auto-reload value).
 
 Finally the timebase frequency is calculated as follows:
 timebase frequency = TIM1 counter clock /((PSC + 1)*(ARR + 1)*(RCR + 1))
+
+@par Keywords
+
+Timer, TIM, timebase, Interrupt, Clock source
 
 @par Directory contents 
 

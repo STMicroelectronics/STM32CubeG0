@@ -17,14 +17,14 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __SD_DISKIO_H
 #define __SD_DISKIO_H
 
 #ifdef __cplusplus
  extern "C" {
-#endif 
+#endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32_adafruit_sd.h"

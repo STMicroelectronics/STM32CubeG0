@@ -45,10 +45,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "stm32g0xx_ll_crc.h"
-#if defined(USE_FULL_ASSERT)
-#include "stm32_assert.h"
-#endif /* USE_FULL_ASSERT */
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -84,7 +81,6 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED3_Pin LL_GPIO_PIN_6
 #define LED3_GPIO_Port GPIOC
-
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

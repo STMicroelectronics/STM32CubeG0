@@ -47,12 +47,15 @@ typedef struct
 {
   uint32_t PE_DataSwap                                    : 1;  /*!< support data swap                                     */
   uint32_t PE_VconnSwap                                   : 1;  /*!< support VCONN swap                                    */
-  uint32_t Reserved1                                      :30;  /*!< Reserved bits */
+  uint32_t PE_DR_Swap_To_DFP                              : 1U; /*!< If supported, DR Swap to DFP can be accepted or not by the user else directly rejected */
+  uint32_t PE_DR_Swap_To_UFP                              : 1U; /*!< If supported, DR Swap to UFP can be accepted or not by the user else directly rejected */
+  uint32_t Reserved1                                      : 28U;  /*!< Reserved bits */
   USBPD_SNKPowerRequest_TypeDef DPM_SNKRequestedPower;          /*!< Requested Power by the sink board                     */
-  USBPD_SCEDB_TypeDef DPM_SRCExtendedCapa;                      /*!< SRC Extended Capability                               */
   USBPD_MIDB_TypeDef  DPM_ManuInfoPort;                         /*!< Manufacturer information used for the port            */
   uint16_t            ReservedManu;                             /*!< Reserved bits to match with Manufacturer information            */
-
+  USBPD_SCEDB_TypeDef DPM_SRCExtendedCapa;                      /*!< SRC Extended Capability                               */
+  USBPD_SKEDB_TypeDef DPM_SNKExtendedCapa;                      /*!< SNK Extended Capability                                */
+  uint8_t             ReservedSnkCapa[3];                       /*!< Reserved bits to match with SnkCapaExt information     */
 } USBPD_USER_SettingsTypeDef;
 
 typedef struct
@@ -103,9 +106,11 @@ typedef struct
   USBPD_SDB_TypeDef             DPM_RcvStatus;                           /*!< Status received by port partner                                      */
   USBPD_PPSSDB_TypeDef          DPM_RcvPPSStatus;                        /*!< PPS Status received by port partner                                  */
   USBPD_SCEDB_TypeDef           DPM_RcvSRCExtendedCapa;                  /*!< SRC Extended Capability received by port partner                     */
+  USBPD_SKEDB_TypeDef           DPM_RcvSNKExtendedCapa;                  /*!< SNK Extended Capability received by port partner                     */
   USBPD_GMIDB_TypeDef           DPM_GetManufacturerInfo;                 /*!< Get Manufacturer Info                                                */
   USBPD_GBSDB_TypeDef           DPM_GetBatteryStatus;                    /*!< Get Battery status                                                   */
   USBPD_GBCDB_TypeDef           DPM_GetBatteryCapability;                /*!< Get Battery Capability                                               */
+  USBPD_BSDO_TypeDef            DPM_BatteryStatus;                       /*!< Battery status                                                       */
   volatile uint16_t             DPM_TimerAlert;                          /*!< Timer used to monitor current and trig an ALERT                      */
   USBPD_ADO_TypeDef             DPM_SendAlert;                           /*!< Save the Alert sent to port partner                                  */
   USBPD_ADO_TypeDef             DPM_RcvAlert;                            /*!< Save the Alert received by port partner                              */
@@ -132,17 +137,13 @@ typedef void     (*GUI_SAVE_INFO)(uint8_t PortNum, uint8_t DataId, uint8_t *Ptr,
 /*
  * USBPD FW version
  */
-#define USBPD_FW_VERSION  0x17062019u
+#define USBPD_FW_VERSION  0x29102020u
 
 /*
  * USBPD Start Port Number
  */
 #define USBPD_START_PORT_NUMBER  1u
 
-/*
- * Number af thread defined by user to include in the low power control
- */
-#define USBPD_USER_THREAD_COUNT    0
 /* USER CODE END Define */
 
 /* Exported constants --------------------------------------------------------*/
@@ -168,9 +169,11 @@ USBPD_HandleTypeDef DPM_Ports[USBPD_PORT_COUNT] =
     .FlagSendGetSrcCapaExtended = 0,
     .DPM_TimerSRCExtendedCapa = 0,                  /*!< timer to request the extended capa                                   */
     .DPM_RcvSRCExtendedCapa = {0},                  /*!< SRC Extended Capability received by port partner                     */
+    .DPM_RcvSNKExtendedCapa = {0},                  /*!< SNK Extended Capability received by port partner                     */
     .DPM_GetManufacturerInfo = {0},                 /*!< Get Manufacturer Info                                                */
     .DPM_GetBatteryStatus = {0},                    /*!< Get Battery status                                                   */
     .DPM_GetBatteryCapability = {0},                /*!< Get Battery Capability                                               */
+    .DPM_BatteryStatus = {0},                       /*!< Battery status                                                       */
     .DPM_TimerAlert = 0,                            /*!< Timer used to monitor current and trig an ALERT                      */
     .DPM_SendAlert = {0},                           /*!< Save the Alert sent to port partner                                  */
     .DPM_RcvAlert = {0},                            /*!< Save the Alert received by port partner                              */
@@ -181,9 +184,11 @@ USBPD_HandleTypeDef DPM_Ports[USBPD_PORT_COUNT] =
     .FlagSendGetSrcCapaExtended = 0,
     .DPM_TimerSRCExtendedCapa = 0,                  /*!< timer to request the extended capa                                   */
     .DPM_RcvSRCExtendedCapa = {0},                  /*!< SRC Extended Capability received by port partner                     */
+    .DPM_RcvSNKExtendedCapa = {0},                  /*!< SNK Extended Capability received by port partner                     */
     .DPM_GetManufacturerInfo = {0},                 /*!< Get Manufacturer Info                                                */
     .DPM_GetBatteryStatus = {0},                    /*!< Get Battery status                                                   */
     .DPM_GetBatteryCapability = {0},                /*!< Get Battery Capability                                               */
+    .DPM_BatteryStatus = {0},                       /*!< Battery status                                                       */
     .DPM_TimerAlert = 0,                            /*!< Timer used to monitor current and trig an ALERT                      */
     .DPM_SendAlert = {0},                           /*!< Save the Alert sent to port partner                                  */
     .DPM_RcvAlert = {0},                            /*!< Save the Alert received by port partner                              */
@@ -203,9 +208,9 @@ USBPD_HandleTypeDef DPM_Ports[USBPD_PORT_COUNT] =
   */
 USBPD_StatusTypeDef USBPD_DPM_UserInit(void);
 void                USBPD_DPM_SetNotification_GUI(GUI_NOTIFICATION_FORMAT_SEND PtrFormatSend, GUI_NOTIFICATION_POST PtrPost, GUI_SAVE_INFO PtrSaveInfo);
+void                USBPD_DPM_WaitForTime(uint32_t Time);
 void                USBPD_DPM_UserExecute(void const *argument);
 void                USBPD_DPM_UserCableDetection(uint8_t PortNum, USBPD_CAD_EVENT State);
-void                USBPD_DPM_WaitForTime(uint32_t Time);
 void                USBPD_DPM_UserTimerCounter(uint8_t PortNum);
 
 /**
@@ -229,7 +234,7 @@ void                USBPD_DPM_PowerRoleSwap(uint8_t PortNum, USBPD_PortPowerRole
 
 USBPD_StatusTypeDef USBPD_DPM_EvaluateVconnSwap(uint8_t PortNum);
 USBPD_StatusTypeDef USBPD_DPM_PE_VconnPwr(uint8_t PortNum, USBPD_FunctionalState State);
-
+void                USBPD_DPM_EnterErrorRecovery(uint8_t PortNum);
 USBPD_StatusTypeDef USBPD_DPM_EvaluateDataRoleSwap(uint8_t PortNum);
 USBPD_FunctionalState USBPD_DPM_IsPowerReady(uint8_t PortNum, USBPD_VSAFE_StatusTypeDef Vsafe);
 
@@ -273,7 +278,8 @@ USBPD_StatusTypeDef USBPD_DPM_RequestGetCountryInfo(uint8_t PortNum, uint16_t Co
 USBPD_StatusTypeDef USBPD_DPM_RequestGetBatteryCapability(uint8_t PortNum, uint8_t *pBatteryCapRef);
 USBPD_StatusTypeDef USBPD_DPM_RequestGetBatteryStatus(uint8_t PortNum, uint8_t *pBatteryStatusRef);
 USBPD_StatusTypeDef USBPD_DPM_RequestSecurityRequest(uint8_t PortNum);
-
+USBPD_StatusTypeDef USBPD_DPM_RequestFirwmwareUpdate(uint8_t PortNum, USBPD_ExtendedMsg_TypeDef MessageType, uint8_t *pPayload, uint16_t Size);
+USBPD_StatusTypeDef USBPD_DPM_RequestUVDMMessage(uint8_t PortNum, USBPD_SOPType_TypeDef SOPType);
 /* USER CODE END Function */
 /**
   * @}

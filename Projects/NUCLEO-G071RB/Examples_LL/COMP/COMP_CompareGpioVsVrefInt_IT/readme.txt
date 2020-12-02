@@ -60,6 +60,9 @@ Other peripheral used:
   1 GPIO for analog input of comparator: PC.05 (Arduino connector CN9 pin D0, Morpho connector CN10 pin 37)
   EXTI line 17 (connected to COMP1 output)
 
+@par Keywords
+
+comparator, stop mode, voltage compare, wakeup trigger, interrupt.
 
 @par Directory contents 
 

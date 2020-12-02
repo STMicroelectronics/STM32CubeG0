@@ -88,7 +88,7 @@ Oscilloscope, Output, Signal,
 
   - This example runs on STM32G070RBTx devices.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G070RB 
+  - This example has been tested with NUCLEO-G070RB
     board and can be easily tailored to any other supported device 
     and development board.
 
@@ -97,7 +97,7 @@ Oscilloscope, Output, Signal,
     - Connect the following pins to an oscilloscope to monitor the different waveforms:
       - TIM1 CH1 PA.08 (pin 23 in CN10 connector)
       - TIM3 CH1 PA.06 (pin 13 in CN10 connector)
-      - TIM15 CH1 PB.14 (pin 28 in CN10 connector)
+      - TIM15 CH1 PB.14 (pin 25 in CN10 connector)
 	  
 @par How to use it ? 
 

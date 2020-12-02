@@ -23,14 +23,14 @@
 Data buffer transmission/reception between two boards via SPI using DMA.
 
 Board: NUCLEO-G031K8 (embeds a STM32G031K8 device)
-CLK Pin: PB3 (CN3, pin 15)
-MISO Pin: PB4 (CN4, pin 15)
-MOSI Pin: PB5 (CN4, pin 14)
+CLK Pin : PB3 (CN4, pin 15)
+MISO Pin: PB4 (CN3, pin 15)
+MOSI Pin: PB5 (CN3, pin 14)
    _________________________                       __________________________
   |           ______________|                      |______________           |
   |          |SPI1          |                      |          SPI1|          |
   |          |              |                      |              |          |
-  |          |    CLK(PB.03)|______________________|CLK(PB.03)   |          |
+  |          |    CLK(PB.03)|______________________|CLK(PB.03)    |          |
   |          |              |                      |              |          |
   |          |   MISO(PB.04)|______________________|MISO(PB.04)   |          |
   |          |              |                      |              |          |
@@ -114,9 +114,9 @@ Connectivity, SPI, Full-duplex, Interrupt, Transmission, Reception, Master, Slav
     easily tailored to any other supported device and development board.
 
   - NUCLEO-G031K8 Set-up
-    - Connect Master board PB3 (CN3, pin 15) to Slave Board PB3 (CN3, pin 15)
-    - Connect Master board PB4 (CN4, pin 15) to Slave Board PB4 (CN4, pin 15)
-    - Connect Master board PB5 (CN4, pin 14) to Slave Board PB5 (CN4, pin 14)
+    - Connect Master board PB3 (CN4, pin 15) to Slave Board PB3 (CN4, pin 15)
+    - Connect Master board PB4 (CN3, pin 15) to Slave Board PB4 (CN3, pin 15)
+    - Connect Master board PB5 (CN3, pin 14) to Slave Board PB5 (CN3, pin 14)
     - Connect Master board GND  to Slave Board GND
 
 @par How to use it ? 

@@ -390,7 +390,7 @@ static void FilesBrowserDisplayFiles(uint8_t sel)
       BSP_LCD_DisplayStringAt(170, 46+Font16.Height*3, (uint8_t *)"fsize   :", NO_MODE);
       BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE);      
 
-      /* Convert and Dispaly file size in Bytes, Kilo or Mega Bytes */
+      /* Convert and Display file size in Bytes, Kilo or Mega Bytes */
       if( fileinfo.fsize < 1024)
       {
         sprintf((char *)buff,"%d Bytes   ", (unsigned int)fileinfo.fsize);

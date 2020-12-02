@@ -47,7 +47,7 @@ generated an error.
 
 @par Keywords
 
-comparator, stop mode, voltage compare, wakeup trigger, comparator interrupt.
+comparator, stop mode, voltage compare, wakeup trigger, interrupt.
 
 @par Directory contents 
 

@@ -67,7 +67,7 @@ software obtained with BOARD_IN_STOP_MODE disabled.
 
 At the very beginning, board 1 LED1 is ON then is turned off.
 This means that board 1 has entered STOP mode.
-Parallely, board 2 LED1 is quickly blinking (100 ms period). The user has
+Parallelly, board 2 LED1 is quickly blinking (100 ms period). The user has
 just to wait for board 1 LED1 to be turned off then to press board 2 Tamper push-button
 to send the first wake-up stimulus to board 1.
 This starts the test sequence and no more action is required from the user
@@ -142,7 +142,8 @@ file depending hardware configuration used.
 
 @par Keywords
 
-Connectivity, UART, Printf, Baud rate, RS-232, HyperTerminal, full-duplex, HyperTerminal,Transmission, Reception, Asynchronous
+Connectivity, LPUART, baud rate, RS-232, HyperTerminal, full-duplex,
+Transmitter, Receiver, Asynchronous, Low Power
 
 @par Directory contents
 

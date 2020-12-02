@@ -1,5 +1,5 @@
 /**
-  @page RTC_Standby RTC_LowPower_STANDBY example
+  @page RTC_LowPower_STANDBY RTC_LowPower_STANDBY example
   
   @verbatim
   ******************************************************************************
@@ -85,7 +85,7 @@ System, RTC, EXTI, Internal time stamp, Low power, Standby mode, Wake up,
 
   - This example runs on STM32G081RBTx devices
     
-  - This example has been tested with STMicroelectronics STM32G081B-EVAL
+  - This example has been tested with STM32G081B-EVAL
     evaluation board and can be easily tailored to any other supported device 
     and development board.
 

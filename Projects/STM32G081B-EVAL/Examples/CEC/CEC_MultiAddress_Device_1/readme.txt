@@ -1,5 +1,5 @@
 /**
-  @page CEC CEC_MultiAddress_Device_1 example
+  @page CEC_MultiAddress_Device_1 example
   
   @verbatim
   ******************************************************************************
@@ -151,9 +151,9 @@ Connectivity, CEC, Transmission, Reception, joystick, Data exchange
 
 In order to make the program work, you must do the following :
  - Open your preferred toolchain 
- - Rebuild all files (CEC_DataExchange_Device_1 project) and load your image into target memory
+ - Rebuild all files (CEC_MultiAddress_Device_1 project) and load your image into target memory
     o Load the project in Device_1 Board
- - Rebuild all files (CEC_DataExchange_Device_2 project) and load your image into target memory
+ - Rebuild all files (CEC_MultiAddress_Device_2 project) and load your image into target memory
     o Load the project in Device_2 Board
  - Be aware that PB10 pin is missing but PB10 is connected directly to it (SB23 is closed).
  - With a wire, connect PB10-PB10 between the 2 boards

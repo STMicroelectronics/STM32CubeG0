@@ -7,17 +7,17 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
   * the License. You may obtain a copy of the License at:
-  *                               www.st.com/SLA0044
+  *                             www.st.com/SLA0044
   *
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
@@ -34,9 +34,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-   #define BIT_0	( 1 << 0 )
-   #define BIT_1	( 1 << 1 )
-   #define BIT_2	( 1 << 2 )
+   #define BIT_0  ( 1 << 0 )
+   #define BIT_1  ( 1 << 1 )
+   #define BIT_2  ( 1 << 2 )
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -96,7 +96,7 @@ int main(void)
   /* USER CODE BEGIN SysInit */
   /* Initialize LEDs */
   BSP_LED_Init(LED1);
-  
+
   /* Initialize buttons */
   BSP_PB_Init(BUTTON_TAMPER, BUTTON_MODE_EXTI);
   /* USER CODE END SysInit */
@@ -107,19 +107,19 @@ int main(void)
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
-  
+
   /* USER CODE END RTOS_MUTEX */
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
-  
+
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */
-  
+
   /* USER CODE END RTOS_TIMERS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
-  
+
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -128,14 +128,13 @@ int main(void)
   LEDThreadHandle = osThreadCreate(osThread(LEDThread), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  
+
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
   osKernelStart();
-  
-  /* We should never get here as control is now taken by the scheduler */
 
+  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -156,7 +155,8 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -173,7 +173,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1;
@@ -190,7 +190,7 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
 {
-  osSignalSet( LEDThreadHandle, BIT_1); 
+  osSignalSet( LEDThreadHandle, BIT_1);
 }
 
 /* USER CODE END 4 */
@@ -198,13 +198,12 @@ void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
 /* USER CODE BEGIN Header_ToggleLEDsThread */
 /**
   * @brief  Function implementing the LEDThread thread.
-  * @param  argument: Not used 
+  * @param  argument: Not used
   * @retval None
   */
 /* USER CODE END Header_ToggleLEDsThread */
 void ToggleLEDsThread(void const * argument)
 {
-
   /* USER CODE BEGIN 5 */
   (void) argument;
   osEvent event;
@@ -212,12 +211,12 @@ void ToggleLEDsThread(void const * argument)
   for(;;)
   {
     event = osSignalWait( BIT_1, osWaitForever);
-	if(event.value.signals == BIT_1)
-    {      
+  if(event.value.signals == BIT_1)
+    {
       BSP_LED_Toggle(LED1);
     }
   }
-  /* USER CODE END 5 */ 
+  /* USER CODE END 5 */
 }
 
 /**
@@ -237,7 +236,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-  
+
   /* USER CODE END Callback 1 */
 }
 
@@ -249,7 +248,7 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  
+
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -262,7 +261,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

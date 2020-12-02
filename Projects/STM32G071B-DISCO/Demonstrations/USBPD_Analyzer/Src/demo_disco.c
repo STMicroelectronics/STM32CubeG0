@@ -22,6 +22,7 @@
 #include "usbpd_trace.h"
 #include "usbpd_dpm_core.h"
 #include "usbpd_dpm_conf.h"
+#include "usbpd_devices_conf.h"
 #include "usbpd_pwr_if.h"
 #include "stm32g071b_discovery.h"
 #include "stm32g071b_discovery_lcd.h"
@@ -33,6 +34,15 @@
 #include "string.h"
 #include "stdio.h"
 #include "cmsis_os.h"
+#include "usbpd_hw_if.h"
+
+/** @addtogroup STM32_USBPD_APPLICATION
+  * @{
+  */
+
+/** @addtogroup STM32_USBPD_APPLICATION_DISCO
+  * @{
+  */
 
 
 /* Exported variables --------------------------------------------------------*/
@@ -75,6 +85,9 @@ uint16_t MessageType :                  /*!< Message Header's message Type      
   }
   b;
 } DEMO_MsgHeader_TypeDef;
+/**
+  * @}
+  */
 
 /* Private define ------------------------------------------------------------*/
 #define STR_SIZE_MAX 18
@@ -328,7 +341,6 @@ void Intialize_RX_processing(CCxPin_TypeDef cc);
 
 void DEMO_Task_SPY(void const *);
 void DEMO_Task_Standalone(void const *);
-void SPY_TRACE_TX_Task(void const *argument);
 static void DEMO_PostGetInfoMessage(uint8_t PortNum, uint16_t GetInfoVal);
 
 void vTimerCallback( TimerHandle_t xTimer );
@@ -373,10 +385,15 @@ DEMO_ErrorCode DEMO_InitBSP(void)
  return DEMO_OK;
 }
 
+/**
+  * @brief  Demo Task initialisation
+  * @param  mode Disco mode
+  * @retval DEMO_ErrorCode status
+  */
 DEMO_ErrorCode DEMO_InitTask(DEMO_MODE mode)
 {
   osThreadDef(SPY, DEMO_Task_SPY, osPriorityNormal, 0, 280);
-  osThreadDef(STD, DEMO_Task_Standalone, osPriorityAboveNormal, 0, 280);
+  osThreadDef(STD, DEMO_Task_Standalone, osPriorityLow, 0, 280);
 
   osMessageQDef(DemoEvent, 30, uint32_t);
   DemoEvent = osMessageCreate(osMessageQ(DemoEvent), NULL);
@@ -393,9 +410,6 @@ DEMO_ErrorCode DEMO_InitTask(DEMO_MODE mode)
     {
       while(1);
     }
-    TraceQueueId = osMessageCreate(osMessageQ(DemoTRACE), NULL);
-    osThreadDef(TRA_TX, SPY_TRACE_TX_Task, osPriorityLow, 0, configMINIMAL_STACK_SIZE * 2);
-    osThreadCreate(osThread(TRA_TX), NULL);
   }
   else
   {
@@ -441,7 +455,7 @@ const int8_t *Decode_HEADER(uint16_t Header)
 void DEMO_PostCADMessage(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDef Cc)
 {
   uint32_t event = (DEMO_MSG_CAD |  (Cc << DEMO_CAD_CC_NUM_Pos | (PortNum << DEMO_CAD_PORT_NUM_Pos) | State ));
-  osMessagePut(DemoEvent, event, 0);
+  (void)osMessagePut(DemoEvent, event, 0);
 }
 
 /**
@@ -453,7 +467,7 @@ void DEMO_PostCADMessage(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDef 
 void DEMO_PostNotificationMessage(uint8_t PortNum, USBPD_NotifyEventValue_TypeDef EventVal)
 {
   uint32_t event = DEMO_MSG_PENOTIFY | PortNum << DEMO_MSG_PORT_NUM_Pos | EventVal;
-  osMessagePut(DemoEvent, event, 0);
+  (void)osMessagePut(DemoEvent, event, 0);
 }
 
 /**
@@ -465,7 +479,7 @@ void DEMO_PostNotificationMessage(uint8_t PortNum, USBPD_NotifyEventValue_TypeDe
 static void DEMO_PostGetInfoMessage(uint8_t PortNum, uint16_t GetInfoVal)
 {
   uint32_t event = DEMO_MSG_GETINFO | PortNum << DEMO_MSG_PORT_NUM_Pos | GetInfoVal;
-  osMessagePut(DemoEvent, event, 0);
+  (void)osMessagePut(DemoEvent, event, 0);
 }
 
 /**
@@ -476,7 +490,7 @@ static void DEMO_PostGetInfoMessage(uint8_t PortNum, uint16_t GetInfoVal)
 void DEMO_PostMMIMessage(uint32_t EventVal)
 {
   uint32_t event = DEMO_MSG_MMI | EventVal;
-  osMessagePut(DemoEvent, event, 0);
+  (void)osMessagePut(DemoEvent, event, 0);
 }
 
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
@@ -567,7 +581,7 @@ static void Display_stlogo(void)
 }
 
 /**
-  * @brief  Menu selection managment
+  * @brief  Menu selection management
   * @param  IndexMax    MAX index
   * @param  LineMax     MAX line
   * @param  Start       Pointer on Start
@@ -691,7 +705,7 @@ static DEMO_MENU Menu_manage_next(uint8_t MenuId)
   {
     if(MENU_START == MenuId)
     {
-      BSP_PWRMON_GetVoltage(ALERT_VBUS, &_vbusVoltage);
+      BSP_USBPD_PWR_VBUSGetVoltage(0, &_vbusVoltage);
       if(_vbusVoltage < 1500)
       {
         return MENU_VERSION; /* only allowed change when nothing plugged : version */
@@ -763,7 +777,7 @@ static DEMO_MENU Menu_manage_prev(uint8_t MenuId)
     if(MENU_SELECT_SOURCECAPA == MenuId)                return MENU_MEASURE;
     if(MENU_SINKCAPA_RECEIVED == MenuId)                return MENU_SELECT_SOURCECAPA;
     if(MENU_COMMAND == MenuId)                          return MENU_SINKCAPA_RECEIVED;
-    BSP_PWRMON_GetVoltage(ALERT_VBUS, &_vbusVoltage);
+    BSP_USBPD_PWR_VBUSGetVoltage(0, &_vbusVoltage);
     if(_vbusVoltage < 1500) /* if nothing is connected */
     {
       if(MENU_VERSION == MenuId) {st_logo=10;  return MENU_STLOGO;}
@@ -1223,7 +1237,11 @@ static void Display_pd_spec_menu(void)
   BSP_LCD_SetFont(&Font16);
 
   /* Display menu command */
-  BSP_PWRMON_GetVoltage(ALERT_VBUS, &_vbusVoltage);
+  if (hmode != MODE_SPY)
+    BSP_USBPD_PWR_VBUSGetVoltage(0, &_vbusVoltage);
+  else
+    BSP_PWRMON_GetVoltage(ALERT_VBUS, &_vbusVoltage);
+
   if ((hmode != MODE_SPY) && (_vbusVoltage >1500) && (DPM_Ports[0].DPM_NumberOfRcvSRCPDO == 0)) /* VBUS is there, but no source capa received yet */
   {
     if (pe_disabled == 1) /* i.e. if we received notification that the attached device is not a PD device */
@@ -1706,9 +1724,9 @@ uint8_t Display_sourcecapa_menu_exec(void)
     rdo.ProgRDO.CapabilityMismatch = 0;
     rdo.ProgRDO.NoUSBSuspend = 0;
     rdo.ProgRDO.OperatingCurrentIn50mAunits = 1500 /50;
-    rdo.ProgRDO.OutputVoltageIn20mV = (4500 + (indexAPDO * 100)) /20;
+    rdo.ProgRDO.OutputVoltageIn20mV = (3400 + (indexAPDO * 20)) /20;
     indexAPDO++;
-    if (indexAPDO > 14) indexAPDO = 0;
+    if (indexAPDO > 125) indexAPDO = 0;
     rdo.FixedVariableRDO.ObjectPosition = g_tab_menu_sel + 1;
     USBPD_PE_Send_Request(0, rdo.d32, USBPD_CORE_PDO_TYPE_APDO);
     return(0); /* ok */
@@ -1767,7 +1785,7 @@ static void Display_menu_version()
   BSP_LCD_DisplayStringAtLine(2, (uint8_t*)"MonitorUCPD");
 
   /* Display the version of firmware */
-  sprintf((char *)str_version, "w26.5 C");
+  sprintf((char *)str_version, "w29.5 C");
 #if defined(_GUI_INTERFACE)
   if(MODE_SPY != hmode) {
   sprintf((char *)str_version,"%s GUI", str_version);
@@ -1819,7 +1837,7 @@ static void Display_menunav_info(uint8_t MenuSel, int8_t Nav)
   case MENU_SINKCAPA_RECEIVED : /* Display menu source capa */
     Display_sinkcapa_menu_nav(Nav);
     break;
-  case MENU_EXTCAPA_RECEIVED : /* Display menu source capa */
+  case MENU_EXTCAPA_RECEIVED : /* Display menu ext source capa */
     Display_extcapa_menu_nav(Nav);
     break;
   }
@@ -1852,7 +1870,7 @@ static uint8_t Display_menuexec_info(uint8_t MenuSel)
 }
 
 /**
-  * @brief  main demo function to manage all the appplication event and to update MMI
+  * @brief  main demo function to manage all the application event and to update MMI
   * @retval None
   */
 uint32_t count_msg_received = 0;
@@ -2081,7 +2099,7 @@ void Intialize_RX_processing(CCxPin_TypeDef cc)
 
 
 /**
-  * @brief  main demo function to manage all the appplication event and to update MMI in standalone mode
+  * @brief  main demo function to manage all the application event and to update MMI in standalone mode
   * @param  Event
   * @retval None
   */
@@ -2139,7 +2157,7 @@ static void DEMO_Manage_event(uint32_t Event)
         demo_timeout = HAL_GetTick();
         break;
       case DEMO_MMI_ACTION_SEL_PRESS :
-        if (Display_menuexec_info(_tab_menu_val) ==0) /* If action successfull */
+        if (Display_menuexec_info(_tab_menu_val) ==0) /* If action successful */
         {
           _tab_menu_val=next_menu;
         }
@@ -2190,11 +2208,6 @@ static void DEMO_Manage_event(uint32_t Event)
               /* Request has accepted so switch to the next request */
               DEMO_PostGetInfoMessage(0, DEMO_MSG_GETINFO_SVID);
             }
-            else
-            {
-              /* Request has not been accept by the stack so retry to send a message */
-              DEMO_PostGetInfoMessage(0, DEMO_MSG_GETINFO_SNKCAPA);
-            }
           }
           break;
         }
@@ -2223,9 +2236,14 @@ static void DEMO_Manage_event(uint32_t Event)
         {
           _tab_menu_val = MENU_START;
           Display_menuupdate_info(_tab_menu_val);
-          /* start a timer to delay request to avoid ony conflict with request coming from oposite part */
+          /* start a timer to delay request to avoid only conflict with request coming from opposite part */
           xTimerStart( xTimers, 0 );
           _tab_connect_status = 2;
+        }
+        if (_tab_connect_status == 2)
+        {
+          /* refresh the screen */
+          Display_menuupdate_info(_tab_menu_val);
         }
         break;
       case USBPD_NOTIFY_VDM_SVID_RECEIVED :
@@ -2343,7 +2361,7 @@ void DEMO_Task_Standalone(void const *arg)
 
   for (;;)
   {
-    osEvent event = osMessageGet(DemoEvent, 100);
+    osEvent event = osMessageGet(DemoEvent, 400);
     DEMO_Manage_event(DEMO_MSG_MMI | DEMO_MMI_ACTION_NONE);
     if(osEventMessage == event.status)
     {
@@ -2388,10 +2406,10 @@ void DEMO_SPY_Handler(void)
       return;
     }
 
-    /* check RXMSGEND an Rx message has been recieved */
+    /* check RXMSGEND an Rx message has been received */
     if(_interrupt & UCPD_SR_RXMSGEND )
     {
-      /* for DMA mode add a control to check if the number of data recived is corresponding with the number of
+      /* for DMA mode add a control to check if the number of data received is corresponding with the number of
          data receive by USBPD */
       uint16_t _datasize = husbpd->RX_PAYSZ;
       LL_UCPD_ClearFlag_RxMsgEnd(husbpd);
@@ -2400,7 +2418,7 @@ void DEMO_SPY_Handler(void)
 
       if(((_interrupt & UCPD_SR_RXERR) == 0) && (ovrflag == 0))
       {
-        /* Rx message has been recieved without error */
+        /* Rx message has been received without error */
         DEMO_MsgHeader_TypeDef header = *(DEMO_MsgHeader_TypeDef *)ptr_RxBuff;
 
         if(header.b.PortDataRole == USBPD_PORTDATAROLE_UFP)
@@ -2439,15 +2457,6 @@ void DEMO_SPY_Handler(void)
   }
 }
 
-void SPY_TRACE_TX_Task(void const *argument)
-{
-  for(;;)
-  {
-    USBPD_TRACE_TX_Process();
-    osDelay(5);
-  }
-}
-
 static void string_completion(uint8_t *str)
 {
   uint8_t size = strlen((char *)str);
@@ -2469,5 +2478,13 @@ void vTimerCallback(TimerHandle_t xTimer)
   /* the timer has expired so if the connection is still valid, send a stack message to request a message */
   DEMO_PostGetInfoMessage(0, DEMO_MSG_GETINFO_SNKCAPA);
 }
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

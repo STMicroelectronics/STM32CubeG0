@@ -1,19 +1,16 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    ADC/ADC_AnalogWatchdog/Src/stm32g0xx_it.c
-  * @author  MCD Application Team
-  * @brief   Main Interrupt Service Routines.
-  *          This file provides template for all exceptions handler and
-  *          peripherals interrupt service routine.
+  * @file    stm32g0xx_it.c
+  * @brief   Interrupt Service Routines.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics. 
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
+  * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
   *
@@ -26,7 +23,6 @@
 #include "stm32g0xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -36,7 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
- 
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -46,7 +42,6 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-extern ADC_HandleTypeDef    AdcHandle;
 
 /* USER CODE END PV */
 
@@ -61,13 +56,15 @@ extern ADC_HandleTypeDef    AdcHandle;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_adc1;
+extern ADC_HandleTypeDef hadc1;
 extern DAC_HandleTypeDef hdac1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
@@ -145,6 +142,34 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles DMA1 channel 1 interrupt.
+  */
+void DMA1_Channel1_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_adc1);
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles ADC1, COMP1 and COMP2 interrupts (COMP interrupts through EXTI lines 17 and 18).
+  */
+void ADC1_COMP_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC1_COMP_IRQn 0 */
+
+  /* USER CODE END ADC1_COMP_IRQn 0 */
+  HAL_ADC_IRQHandler(&hadc1);
+  /* USER CODE BEGIN ADC1_COMP_IRQn 1 */
+
+  /* USER CODE END ADC1_COMP_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM6, DAC1 and LPTIM1 interrupts (LPTIM1 interrupt through EXTI line 29).
   */
 void TIM6_DAC_LPTIM1_IRQHandler(void)
@@ -168,29 +193,6 @@ void EXTI4_15_IRQHandler(void)
 {
   HAL_GPIO_EXTI_IRQHandler(USER_BUTTON_PIN);
 }
-
-
-/**
-  * @brief  This function handles ADC interrupt request.
-  * @param  None
-  * @retval None
-  */
-void ADCx_IRQHandler(void)
-{
-  HAL_ADC_IRQHandler(&AdcHandle);
-}
-
-/**
-* @brief  This function handles DMA interrupt request.
-* @param  None
-* @retval None
-*/
-void ADCx_DMA_IRQHandler(void)
-{
-  HAL_DMA_IRQHandler(AdcHandle.DMA_Handle);
-}
-
-
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

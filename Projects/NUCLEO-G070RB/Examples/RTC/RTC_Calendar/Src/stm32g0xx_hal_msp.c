@@ -42,7 +42,11 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+#ifdef RTC_CLOCK_SOURCE_LSE
+static uint32_t RtcClockSource = RCC_RTCCLKSOURCE_LSE;
+#elif defined (RTC_CLOCK_SOURCE_LSI)
+static uint32_t RtcClockSource = RCC_RTCCLKSOURCE_LSI;
+#endif
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -72,6 +76,10 @@ void HAL_MspInit(void)
 
   /* System interrupt init*/
 
+  /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral
+  */
+  HAL_SYSCFG_StrobeDBattpinsConfig(SYSCFG_CFGR1_UCPD1_STROBE | SYSCFG_CFGR1_UCPD2_STROBE);
+
   /* USER CODE BEGIN MspInit 1 */
 
   /* USER CODE END MspInit 1 */
@@ -98,22 +106,44 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef* hrtc)
          configure the RTC clock source (to be done once after reset).
        - Reset the Back up Domain using __HAL_RCC_BACKUPRESET_FORCE() and
          __HAL_RCC_BACKUPRESET_RELEASE().
-       - Configure the needed RTc clock source */
+       - Configure the needed RTC clock source */
     __HAL_RCC_PWR_CLK_ENABLE();
     HAL_PWR_EnableBkUpAccess();
 
+    /* Get RTC clock configuration */
+    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
 
-    /* Configure LSE as RTC clock */
-    RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSE;
+    /* If selected source was previously the opposite source clock, first select none*/
+    if (PeriphClkInitStruct.RTCClockSelection != RCC_RTCCLKSOURCE_NONE)
+    {
+      PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_NONE;
+      if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+      {
+        Error_Handler();
+      }
+    }
+
+    /* Configure LSE/LSI as RTC clock source */
+#ifdef RTC_CLOCK_SOURCE_LSE
+    RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
     RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+    RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
+#elif defined (RTC_CLOCK_SOURCE_LSI)
+    RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+    RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+    RCC_OscInitStruct.LSEState = RCC_LSE_OFF;
+#else
+#error Please select the RTC Clock source inside the main.h file
+#endif /*RTC_CLOCK_SOURCE_LSE*/
+
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
     {
       Error_Handler();
     }
 
-    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-    PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+    PeriphClkInitStruct.RTCClockSelection = RtcClockSource;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
     {
       Error_Handler();

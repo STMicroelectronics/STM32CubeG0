@@ -1,5 +1,5 @@
 /**
-  @page USB-PD_Consumer USBPD provider example
+  @page USB-PD_Provider_1port USBPD provider example
  
   @verbatim
   ******************************************************************************
@@ -22,7 +22,7 @@
 
 How to create a simple type C provider.
 
-This application intialize the type C port 1 in source mode with only one PDO at 5V.
+This application initialize the type C port 1 in source mode with only one PDO at 5V.
 
 Connect UCPD cube Monitor on the VCP associated to our board (only available if USB cable is connected)
 The UCPD Cube Monitor will be used to trace all the messages exchange between the ports partner.  
@@ -46,7 +46,7 @@ on STM32Cube with RTOS".
 
 @par Keywords
 
-Middleware, USCPD, Type C, USBPD, FreeRTOS, 
+USB_PD_Lib, UCPD, Type C, USBPD, FreeRTOS
 
 @par Directory contents
     - USB-PD/USB-PD_Provider_1port/Src/main.c                       Main program file
@@ -57,9 +57,9 @@ Middleware, USCPD, Type C, USBPD, FreeRTOS,
     - USB-PD/USB-PD_Provider_1port/Src/usbpd.c                      Ucpd init file
     - USB-PD/USB-PD_Provider_1port/Src/usbpd_dpm_core.c             device policy manager core file
     - USB-PD/USB-PD_Provider_1port/Src/usbpd_dpm_users.c            device policy manager users file
-    - USB-PD/USB-PD_Provider_1port/Src/usbpd_pwr_if.c               power if managment file
-    - USB-PD/USB-PD_Provider_1port/Src/usbpd_pwr_user.c             power managment file
-    - USB-PD/USB-PD_Provider_1port/Src/usbpd_vdm_users.c            user vendor define message managment file
+    - USB-PD/USB-PD_Provider_1port/Src/usbpd_pwr_if.c               power if management file
+    - USB-PD/USB-PD_Provider_1port/Src/usbpd_pwr_user.c             power management file
+    - USB-PD/USB-PD_Provider_1port/Src/usbpd_vdm_users.c            user vendor define message management file
     - USB-PD/USB-PD_Provider_1port/Inc/FreeRTOSConfig.h             FreeRTOS Configuration file
     - USB-PD/USB-PD_Provider_1port/Inc/main.h                       Main program header file
     - USB-PD/USB-PD_Provider_1port/Inc/stm32_assert.h               assert program header file
@@ -71,12 +71,12 @@ Middleware, USCPD, Type C, USBPD, FreeRTOS,
     - USB-PD/USB-PD_Provider_1port/Src/usbpd.h                      header of Ucpd init file
     - USB-PD/USB-PD_Provider_1port/Src/usbpd_devices_conf.h         UCPD device configuration file
     - USB-PD/USB-PD_Provider_1port/Src/usbpd_dpm_conf.h             UCPD stack configuration file
-    - USB-PD/USB-PD_Provider_1port/Src/usbpd_dpm_core.h             device policy manger core header file
+    - USB-PD/USB-PD_Provider_1port/Src/usbpd_dpm_core.h             device policy manager core header file
     - USB-PD/USB-PD_Provider_1port/Src/usbpd_dpm_users.h            device policy manager users header file
-    - USB-PD/USB-PD_Provider_1port/Src/usbpd_pwr_if.h               power if managment header file
+    - USB-PD/USB-PD_Provider_1port/Src/usbpd_pwr_if.h               power if management header file
     - USB-PD/USB-PD_Provider_1port/Src/usbpd_pdo_defs.h             pdo definition header file
-    - USB-PD/USB-PD_Provider_1port/Src/usbpd_pwr_user.h             power managment header file
-    - USB-PD/USB-PD_Provider_1port/Src/usbpd_vdm_users.h            vendor define message managment header file
+    - USB-PD/USB-PD_Provider_1port/Src/usbpd_pwr_user.h             power management header file
+    - USB-PD/USB-PD_Provider_1port/Src/usbpd_vdm_users.h            vendor define message management header file
 
 
 @par Hardware and Software environment

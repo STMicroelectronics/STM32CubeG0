@@ -20,7 +20,7 @@
 @par Example Description
 
 How to use the DAC peripheral to generate a voltage waveform from a digital data
-stream transfered by DMA. This example is based on the STM32G0xx
+stream transferred by DMA. This example is based on the STM32G0xx
 DAC LL API. The peripheral initialization uses LL unitary service
 functions for optimization purposes (performance and size).
 
@@ -52,6 +52,9 @@ Other peripheral used:
   1 GPIO for DAC channel output PA.04 (Arduino connector CN8 pin A2, Morpho connector CN7 pin 32)
   For waveform voltage generation: 1 DMA channel, 1 timer.
 
+@par Keywords
+
+Analog, DAC, Waveform, Voltage output, Oscilloscope, Signal, Hardware trigger, DMA, Timer, Sinus
 
 @par Directory contents 
 

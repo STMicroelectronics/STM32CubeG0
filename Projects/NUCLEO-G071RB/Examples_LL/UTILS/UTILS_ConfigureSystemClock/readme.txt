@@ -7,12 +7,12 @@
   * @author  MCD Application Team
   * @brief   Description of the UTILS example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
@@ -32,6 +32,11 @@ A LED4 toggle of 1sec provides this information that system is well configured t
 
 Anyway, user can connect on oscilloscope to MCO pin (PA.08) to check requested frequency: 
  - SYSCLK frequency with frequency value around @50MHz.
+
+@par Keywords
+
+Utils, system, Clock, HSI, PLL, flash latency, SYSCLK, frequency Oscilloscope
+
 
 @par Directory contents 
 

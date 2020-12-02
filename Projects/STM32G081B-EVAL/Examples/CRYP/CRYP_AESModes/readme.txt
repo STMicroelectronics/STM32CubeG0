@@ -53,36 +53,33 @@ This example successively carries out
    - AES128 CTR decryption
    - AES256 CTR decryption
 
+When resorting to IAR Embedded Workbench IDE, AES algorithms processing status
+are displayed on debugger Terminal I/O as follows: View --> Terminal I/O.
+When resorting to MDK-ARM KEIL IDE:
+Command Code could not be displayed on debugger but user can use the Virtual Com port of the STM32G081B-EVAL 
+to display Command Code on PC side using an hyperterminal. See below, information related to this possibility.
+When resorting to STM32CubeIDE:
+Command Code is displayed on debugger as follows: Window--> Show View--> Console.
+In Debug configuration : 
+- Window\Debugger, select the Debug probe : ST-LINK(OpenOCD)
+- window\ Startup,add the command "monitor arm semihosting enable"
+
+Results can be displayed on PC (through HyperTerminal or TeraTerm) by Virtual Com Port
+by enabling USE_VCP_CONNECTION compilation switch inside main.h and use the proper configuration
+(115200 bauds, 8 bits data, 1 stop bit, no parity, no HW flow control).
+
+When all ciphering and deciphering operations are successful, LED2 is turned on.
+In case of ciphering or deciphering issue, LED3 is turned on. 
+
 @par Keywords
 
 Security, Cryptography, CRYPT, AES, ECB, CBC, CTR, MAC, USART
 
-Depending of IDE, to watch content of Terminal I/O note that
- - When resorting to IAR Embedded Workbench IDE:
-   plain data, encrypted and decrypted data are displayed on debugger Terminal I/O as follows: View --> Terminal I/O.
- - When resorting to MDK-ARM KEIL IDE:
-   Command Code could not be displayed on debugger but user can use the Virtual Com port of the STM32G081B-EVAL
-   to display Command Code on PC side using an hyperterminal. See below, information related to this possibility.
- - When resorting to AC6 SW4STM32 IDE:
-   In Debug configuration window\ Startup, in addition to "monitor reset halt" add the command "monitor arm semihosting enable"
-   Command Code is displayed on debugger as follows: Window--> Show View--> Console.
-
-Other proposal to retrieve display of Command Code for all IDE is to use the Virtual Com.
-
-In order to select use of Virtual Com port feature of STLINK for connection between STM32G081B-EVAL and PC,
-User has to set USE_VCP_CONNECTION define to 1 in main.h file.
-If so, please ensure that USART communication between the target MCU and ST-LINK MCU is properly enabled 
-on HW board in order to support Virtual Com Port (Default HW SB configuration allows use of VCP)
-
-When all ciphering and deciphering operations are successful, LED1 is turned on.
-In case of ciphering or deciphering issue, LED3 is turned on. 
-
-
-@par Directory contents 
+@par Directory contents
 
   - CRYP/CRYP_AESModes/Inc/stm32g0xx_hal_conf.h    HAL configuration file
   - CRYP/CRYP_AESModes/Inc/stm32g0xx_it.h          Interrupt handlers header file
-  - CRYP/CRYP_AESModes/Inc/main.h                  Header for main.c module  
+  - CRYP/CRYP_AESModes/Inc/main.h                  Header for main.c module
   - CRYP/CRYP_AESModes/Src/stm32g0xx_it.c          Interrupt handlers
   - CRYP/CRYP_AESModes/Src/main.c                  Main program
   - CRYP/CRYP_AESModes/Src/stm32g0xx_hal_msp.c     HAL MSP module
@@ -92,25 +89,16 @@ In case of ciphering or deciphering issue, LED3 is turned on.
 @par Hardware and Software environment
 
   - This example runs on STM32G081RBTx devices.
+  - This example has been tested with one STM32G081B-EVAL board embedding
+    a STM32G081RBTx device and can be easily tailored to any other supported device
+    and development board.
 
-  - This example has been tested with STM32G081B-EVAL board with socket using STM32G081xx plugged-in  
-    and can be easily tailored to any other supported device and development board.
-
-  - Hyperterminal configuration:
-    - BaudRate = 115200 baud  
-    - Word Length = 8 Bits
-    - One Stop Bit
-    - No parity
-    - Hardware flow control disabled (RTS and CTS signals)
-    - Receive and transmit enabled
-
-@par How to use it ? 
+@par How to use it ?
 
 In order to make the program work, you must do the following:
- - Open your preferred toolchain 
+ - Open your preferred toolchain
  - Rebuild all files and load your image into target memory
  - Run the example
-
 
  * <h3><center>&copy; COPYRIGHT STMicroelectronics</center></h3>
  */

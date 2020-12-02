@@ -44,8 +44,11 @@ NUCLEO-G070RB's LED4 can be used to monitor the transfer status:
 - LED4 is turn on if DMA data transferred consistency.
 - LED4 is blinking every 1 sec in case of error.
 
+@par Keywords
 
-@par Directory contents 
+System, DMA, Data Transfer, Memory to memory, Flash, SRAM
+
+@par Directory contents
 
   - DMA/DMA_CopyFromFlashToMemory/Inc/stm32g0xx_it.h          Interrupt handlers header file
   - DMA/DMA_CopyFromFlashToMemory/Inc/main.h                  Header for main.c module  

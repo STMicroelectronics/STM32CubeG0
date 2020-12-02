@@ -21,7 +21,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -46,14 +45,16 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+ADC_HandleTypeDef hadc1;
+DMA_HandleTypeDef hdma_adc1;
+
 DAC_HandleTypeDef hdac1;
 
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-/* ADC handler declaration */
-ADC_HandleTypeDef    AdcHandle;
+
 /* Variables for ADC conversion data */
 __IO   uint16_t   aADCxConvertedData[ADC_CONVERTED_DATA_BUFFER_SIZE]; /* ADC group regular conversion data (array of data) */
 
@@ -74,11 +75,12 @@ __IO   uint8_t ubUserButtonClickEvent = RESET;  /* Event detection: Set after Us
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_DAC1_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_ADC1_Init(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-static void Configure_ADC(void);
 static void Generate_waveform_SW_update_Config(void);
 static void Generate_waveform_SW_update(void);
 /* USER CODE END PFP */
@@ -116,8 +118,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_DAC1_Init();
   MX_TIM2_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
   for (tmp_index_adc_converted_data = 0; tmp_index_adc_converted_data < ADC_CONVERTED_DATA_BUFFER_SIZE; tmp_index_adc_converted_data++)
   {
@@ -129,23 +133,9 @@ int main(void)
   
   /* Configure User push-button in Interrupt mode */
   BSP_PB_Init(BUTTON_USER, BUTTON_MODE_EXTI);
- /* Configure ADC */
-  /* Note: This function configures the ADC but does not enable it.           */
-  /*       Only ADC internal voltage regulator is enabled by function         */
-  /*       "HAL_ADC_Init()".                                                  */
-  /*       To activate ADC (ADC enable and ADC conversion start), use         */
-  /*       function "HAL_ADC_Start_xxx()".                                    */
-  /*       This is intended to optimize power consumption:                    */
-  /*       1. ADC configuration can be done once at the beginning             */
-  /*          (ADC disabled, minimal power consumption)                       */
-  /*       2. ADC enable (higher power consumption) can be done just before   */
-  /*          ADC conversions needed.                                         */
-  /*          Then, possible to perform successive ADC activation and         */
-  /*          deactivation without having to set again ADC configuration.     */
-  Configure_ADC();
-  
+
   /* Run the ADC calibration */
-  if (HAL_ADCEx_Calibration_Start(&AdcHandle) != HAL_OK)
+  if (HAL_ADCEx_Calibration_Start(&hadc1) != HAL_OK)
   {
     /* Calibration Error */
     Error_Handler();
@@ -166,7 +156,7 @@ int main(void)
   
   /*## Start ADC conversions ###############################################*/
   /* Start ADC group regular conversion with DMA */
-  if (HAL_ADC_Start_DMA(&AdcHandle,
+  if (HAL_ADC_Start_DMA(&hadc1,
                         (uint32_t *)aADCxConvertedData,
                         ADC_CONVERTED_DATA_BUFFER_SIZE
                        ) != HAL_OK)
@@ -202,7 +192,7 @@ int main(void)
     /*       and "HAL_ADC_ConvHalfCpltCallback()".                            */
 
     /* Note: ADC conversions data are stored into array                       */
-    /*       "aADCConvertedData"                                              */
+    /*       "aADCxConvertedData"                                             */
     /*       (for debug: see variable content into watch window).             */
     
     /* Note: ADC conversion data are computed to physical values              */
@@ -223,7 +213,8 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -240,7 +231,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1;
@@ -252,6 +243,63 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC1_Init(void)
+{
+
+  /* USER CODE BEGIN ADC1_Init 0 */
+
+  /* USER CODE END ADC1_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC1_Init 1 */
+
+  /* USER CODE END ADC1_Init 1 */
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+  */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc1.Init.LowPowerAutoWait = DISABLE;
+  hadc1.Init.LowPowerAutoPowerOff = DISABLE;
+  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIG_T2_TRGO;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
+  hadc1.Init.DMAContinuousRequests = ENABLE;
+  hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
+  hadc1.Init.SamplingTimeCommon1 = ADC_SAMPLETIME_79CYCLES_5;
+  hadc1.Init.SamplingTimeCommon2 = ADC_SAMPLETIME_1CYCLE_5;
+  hadc1.Init.OversamplingMode = DISABLE;
+  hadc1.Init.TriggerFrequencyMode = ADC_TRIGGER_FREQ_HIGH;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_4;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLINGTIME_COMMON_1;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC1_Init 2 */
+
+  /* USER CODE END ADC1_Init 2 */
+
 }
 
 /**
@@ -271,14 +319,14 @@ static void MX_DAC1_Init(void)
   /* USER CODE BEGIN DAC1_Init 1 */
 
   /* USER CODE END DAC1_Init 1 */
-  /** DAC Initialization 
+  /** DAC Initialization
   */
   hdac1.Instance = DAC1;
   if (HAL_DAC_Init(&hdac1) != HAL_OK)
   {
     Error_Handler();
   }
-  /** DAC channel OUT1 config 
+  /** DAC channel OUT1 config
   */
   sConfig.DAC_SampleAndHold = DAC_SAMPLEANDHOLD_DISABLE;
   sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
@@ -341,6 +389,22 @@ static void MX_TIM2_Init(void)
 }
 
 /**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -354,152 +418,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-/**
-  * @brief  Configure ADC (ADC instance: ADCx) and GPIO used by ADC channels.
-  *         Configuration of GPIO:
-  *           - Pin:                    PA.04 (on this STM32 device, ADC1 channel 4 is mapped on this GPIO)
-  *           - Mode:                   analog
-  *         Configuration of ADC:
-  *         - Common to several ADC:
-  *           - Conversion clock:       Synchronous from PCLK
-  *           - Internal path:          None                         (default configuration from reset state)
-  *         - Multimode
-  *           Feature not available                                  (feature not available on this STM32 serie)
-  *         - ADC instance
-  *           - Resolution:             12 bits                      (default configuration from reset state)
-  *           - Data alignment:         right aligned                (default configuration from reset state)
-  *           - Low power mode:         disabled                     (default configuration from reset state)
-  *         - Group regular
-  *           - Trigger source:         external trigger from TIM2
-  *           - Trigger edge:           rising                       (default configuration from reset state)
-  *           - Continuous mode:        single conversion            (default configuration from reset state)
-  *           - DMA transfer:           enabled, unlimited requests
-  *           - Overrun:                data overwritten
-  *           - Sequencer length:       disabled: 1 rank             (default configuration from reset state)
-  *           - Sequencer discont:      disabled: sequence done in 1 scan (default configuration from reset state)
-  *           - Sequencer rank 1:       ADCx ADCx_CHANNELa
-  *         - Group injected
-  *           Feature not available                                  (feature not available on this STM32 serie)
-  *         - Channel
-  *           - Sampling time:          ADCx ADCx_CHANNELa set to sampling time 160.5 ADC clock cycles (on this STM32 serie, sampling time is common to group of channels)
-  *           - Differential mode:      single ended                 (feature fixed on this STM32 serie: channels single ended)
-  *         - Analog watchdog
-  *           Feature not used: all parameters let to default configuration from reset state
-  *           - AWD number:             1
-  *           - Monitored channels:     none                         (default configuration from reset state)
-  *           - Threshold high:         0x000                        (default configuration from reset state)
-  *           - Threshold low:          0xFFF                        (default configuration from reset state)
-  *         - Oversampling
-  *           Feature not used: all parameters let to default configuration from reset state
-  *           - Scope:                  none                         (default configuration from reset state)
-  *           - Discontinuous mode:     disabled                     (default configuration from reset state)
-  *           - Ratio:                  2                            (default configuration from reset state)
-  *           - Shift:                  none                         (default configuration from reset state)
-  *         - Interruptions
-  *           None: with HAL driver, ADC interruptions are set using
-  *           function "HAL_ADC_start_xxx()".
-  * @note   Using HAL driver, configuration of GPIO used by ADC channels,
-  *         NVIC and clock source at top level (RCC)
-  *         are not implemented into this function,
-  *         must be implemented into function "HAL_ADC_MspInit()".
-  * @param  None
-  * @retval None
-  */
-__STATIC_INLINE void Configure_ADC(void)
-{
-  ADC_ChannelConfTypeDef   sConfig;
-  
-  /*## Configuration of ADC ##################################################*/
-  
-  /*## Configuration of ADC hierarchical scope: ##############################*/
-  /*## common to several ADC, ADC instance, ADC group regular  ###############*/
-  
-  /* Set ADC instance of HAL ADC handle AdcHandle */
-  AdcHandle.Instance = ADCx;
-  
-  /* Configuration of HAL ADC handle init structure:                          */
-  /* parameters of scope ADC instance and ADC group regular.                  */
-  /* Note: On this STM32 serie, ADC group regular sequencer has               */
-  /*       two settings depending on parameter "ScanConvMode":                */
-  /*       - sequencer configured to fully configurable:                      */
-  /*         sequencer length and each rank                                   */
-  /*         affectation to a channel are configurable.                       */
-  /*       - sequencer configured to not fully configurable:                  */
-  /*         sequencer length and each rank affectation to a channel          */
-  /*         are fixed by channel HW number.                                  */
-  AdcHandle.Init.ClockPrescaler        = ADC_CLOCK_SYNC_PCLK_DIV2;
-  AdcHandle.Init.Resolution            = ADC_RESOLUTION_12B;
-  AdcHandle.Init.DataAlign             = ADC_DATAALIGN_RIGHT;
-  AdcHandle.Init.ScanConvMode          = ADC_SCAN_DISABLE;              /* Sequencer set to fully configurable: only the rank 1 is enabled (no scan sequence on several ranks) */
-  AdcHandle.Init.EOCSelection          = ADC_EOC_SINGLE_CONV;
-  AdcHandle.Init.ContinuousConvMode    = ENABLE;                        /* Continuous mode to have maximum conversion speed (no delay between conversions) */
-  AdcHandle.Init.NbrOfConversion       = 1;                             /* Parameter discarded because sequencer is disabled. Parameter relevancy depending on setting of parameter "ScanConvMode" */
-  AdcHandle.Init.DiscontinuousConvMode = DISABLE;                       /* Parameter discarded because sequencer is disabled */
-  AdcHandle.Init.ExternalTrigConv      = ADC_SOFTWARE_START;            /* Software start to trig the 1st conversion manually, without external event */
-  AdcHandle.Init.ExternalTrigConvEdge  = ADC_EXTERNALTRIGCONVEDGE_NONE; /* Parameter discarded because trig of conversion by software start (no external event) */
-  AdcHandle.Init.DMAContinuousRequests = ENABLE;                        /* ADC with DMA transfer: continuous requests to DMA to match with DMA configured in circular mode */
-  AdcHandle.Init.Overrun               = ADC_OVR_DATA_OVERWRITTEN;
-  AdcHandle.Init.SamplingTimeCommon1   = LL_ADC_SAMPLINGTIME_160CYCLES_5;
-  AdcHandle.Init.OversamplingMode      = DISABLE;
-  AdcHandle.Init.TriggerFrequencyMode = ADC_TRIGGER_FREQ_HIGH;
-
-  if (HAL_ADC_Init(&AdcHandle) != HAL_OK)
-  {
-    /* ADC initialization error */
-    Error_Handler();
-  }
-  
-  
-  /*## Configuration of ADC hierarchical scope: ##############################*/
-  /*## ADC group injected and channels mapped on group injected ##############*/
-  
-  /* Note: Feature not available on this STM32 serie */ 
-  
-  
-  /*## Configuration of ADC hierarchical scope: ##############################*/
-  /*## channels mapped on group regular         ##############################*/
-  
-  /* Configuration of channel on ADCx regular group on sequencer rank 1 */
-  /* Note: On this STM32 serie, ADC group regular sequencer has               */
-  /*       two settings depending on parameter "ScanConvMode":                */
-  /*       Refer to comment above.                                            */
-  /*       This setting will impact configuration of channels in              */
-  /*       ADC group regular sequencer.                                       */
-  /* Note: Considering IT occurring after each ADC conversion                 */
-  /*       (IT by ADC group regular end of unitary conversion),               */
-  /*       select sampling time and ADC clock with sufficient                 */
-  /*       duration to not create an overhead situation in IRQHandler.        */
-  /* Note: On this STM32 serie, sampling time is common to                    */
-  /*       groups of channels.                                                */
-  /*       Refer to sampling time configured above, at ADC instance scope.    */
-  sConfig.Channel      = ADCx_CHANNELa;               /* ADC channel selection */
-  sConfig.Rank         = ADC_REGULAR_RANK_1;          /* ADC group regular rank in which is mapped the selected ADC channel */
-  sConfig.SamplingTime = ADC_SAMPLINGTIME_COMMON_1;   /* ADC channel sampling time */
-  
-  if (HAL_ADC_ConfigChannel(&AdcHandle, &sConfig) != HAL_OK)
-  {
-    /* Channel Configuration Error */
-    Error_Handler();
-  }
-  
-  
-  /*## Configuration of ADC hierarchical scope: multimode ####################*/
-  /* Note: Feature not available on this STM32 serie */ 
-  
-  
-  /*## Configuration of ADC transversal scope: analog watchdog ###############*/
-  
-  /* Note: ADC analog watchdog not used and not configured in this example.   */
-  /*       Refer to other ADC examples using this feature.                    */
-  
-  
-  /*## Configuration of ADC transversal scope: oversampling ##################*/
-  
-  /* Note: ADC oversampling not used and not configured in this example.      */
-  /*       Refer to other ADC examples using this feature.                    */
-  
-}
 
 /**
   * @brief  For this example, generate a waveform voltage on a spare DAC
@@ -704,7 +622,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

@@ -45,6 +45,8 @@ extern "C" {
 /* USER CODE BEGIN EC */
 #define  TIMEOUT_VALUE 0xFF 
 
+/* Set this define to 1 to use VCP connection */
+#define  USE_VCP_CONNECTION 0
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

@@ -9,18 +9,17 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics. 
+  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
+  * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -108,7 +107,6 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
 
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
@@ -176,7 +174,7 @@ void SystemClock_Config(void)
   LL_RCC_HSI_Enable();
   while(LL_RCC_HSI_IsReady() != 1)
   {
-  };
+  }
 
   /* Set AHB prescaler*/
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
@@ -185,16 +183,16 @@ void SystemClock_Config(void)
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI)
   {
-  };
+  }
 
   /* Set APB1 prescaler*/
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
 
   LL_Init1msTick(16000000);
 
-  LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
   /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
   LL_SetSystemCoreClock(16000000);
+  LL_RCC_SetI2CClockSource(LL_RCC_I2C1_CLKSOURCE_PCLK1);
 }
 
 /**
@@ -214,9 +212,9 @@ static void MX_I2C1_Init(void)
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
-  /**I2C1 GPIO Configuration  
+  /**I2C1 GPIO Configuration
   PB9   ------> I2C1_SDA
-  PB8   ------> I2C1_SCL 
+  PB8   ------> I2C1_SCL
   */
   GPIO_InitStruct.Pin = LL_GPIO_PIN_9;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
@@ -251,7 +249,7 @@ static void MX_I2C1_Init(void)
   NVIC_EnableIRQ(I2C1_IRQn);
 
   /* USER CODE END I2C1_Init 1 */
-  /** I2C Initialization 
+  /** I2C Initialization
   */
   I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;
   I2C_InitStruct.Timing = 0x00F02B86;
@@ -335,7 +333,7 @@ static void MX_GPIO_Init(void)
 #ifndef SLAVE_BOARD
 /**
   * @brief  This function configures EXTI Line as Button
-  * @note   Peripheral configuration is minimal configuration from reset values.  
+  * @note   Peripheral configuration is minimal configuration from reset values.
   * @param  None
   * @retval None
   */
@@ -346,18 +344,18 @@ void Configure_EXTI()
   VIRTUAL_BUTTON_GPIO_CLK_ENABLE();
   /* Configure IO */
   LL_GPIO_SetPinMode(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_MODE_INPUT);
-  LL_GPIO_SetPinPull(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_PULL_UP); 
+  LL_GPIO_SetPinPull(VIRTUAL_BUTTON_GPIO_PORT, VIRTUAL_BUTTON_PIN, LL_GPIO_PULL_UP);
 
   /* -2- Connect External Line to the GPIO*/
   VIRTUAL_BUTTON_SYSCFG_SET_EXTI();
-  
+
   /*-3- Enable a rising trigger External line 15 Interrupt */
   VIRTUAL_BUTTON_EXTI_LINE_ENABLE();
   VIRTUAL_BUTTON_EXTI_RISING_TRIG_ENABLE();
-  
+
   /*-4- Configure NVIC for EXTI4_15_IRQn */
-  NVIC_EnableIRQ(VIRTUAL_BUTTON_EXTI_IRQn); 
-  NVIC_SetPriority(VIRTUAL_BUTTON_EXTI_IRQn,0);
+  NVIC_EnableIRQ(VIRTUAL_BUTTON_EXTI_IRQn);
+  NVIC_SetPriority(VIRTUAL_BUTTON_EXTI_IRQn, 0);
 }
 
 #endif /* MASTER_BOARD */
@@ -596,7 +594,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

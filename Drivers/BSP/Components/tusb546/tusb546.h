@@ -187,7 +187,7 @@
 #define TUSB546_REG_USB3_CM_ACTIVE_EQ_Msk             (0x1U << TUSB546_REG_USB3_CM_ACTIVE_EQ_Pos)              /*!< 0x80 */
 #define TUSB546_REG_USB3_CM_ACTIVE_EQ                 TUSB546_REG_USB3_CM_ACTIVE_EQ_Msk                        /*!< USB 3.1 compliance mode */
 
-/** @defgroup TUSB546_MODE  TUSB546 functionning mode
+/** @defgroup TUSB546_MODE  TUSB546 functioning mode
   * @{
   */
 #define TUSB546_MODE_DISABLED         0x0U

@@ -1,0 +1,8 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G0C1E-EV
+[Others]
+Define=
+HALModule=UART
+[Groups]
+Doc=../readme.txt;../Expected_Results.txt;
+Drivers/BSP/STM32G0C1E-EV=../../../../../../Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval.c;

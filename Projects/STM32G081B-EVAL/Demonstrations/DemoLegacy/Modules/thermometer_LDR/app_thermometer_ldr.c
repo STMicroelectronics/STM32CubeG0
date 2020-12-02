@@ -72,7 +72,7 @@ ADC_HandleTypeDef    AdcHandle;
 /**
   * @brief  setup the HW for the 8 uart application 
   * @param  None.
-  * @note   set the memeory + Hw initialisation.  
+  * @note   set the memory + Hw initialisation.  
   * @retval None.
   */
 KMODULE_RETURN _LightDependentResistorConfig(void)
@@ -132,7 +132,7 @@ KMODULE_RETURN _LightDependentResistorConfig(void)
       return KMODULE_ERROR_EXEC;
     }
     
-    /* Wait for the first convertion */
+    /* Wait for the first conversion */
     HAL_ADC_PollForConversion(&AdcHandle, 10);
   }
   
@@ -142,7 +142,7 @@ KMODULE_RETURN _LightDependentResistorConfig(void)
 /**
   * @brief  setup the HW for the 8 uart application 
   * @param  None.
-  * @note   set the memeory + Hw initialisation.  
+  * @note   set the memory + Hw initialisation.  
   * @retval None.
   */
 KMODULE_RETURN _ThermometerConfig(void)
@@ -191,7 +191,7 @@ void ThermometerLDRDemo(void)
     /* Get first temperature value */     
     TempValueNew = BSP_TSENSOR_ReadTemp();
     
-    /* Display first Temperature Informations */
+    /* Display first Temperature Information */
     ThermometerUserInformation(TempValueNew);
     
     /* Init Old Temp value at first start */
@@ -200,7 +200,7 @@ void ThermometerLDRDemo(void)
     /* Get LDR value */           
     LDRValueNew = ((4095- (uint16_t)HAL_ADC_GetValue(&AdcHandle))/40);      
     
-    /* Display Temperature Informations */      
+    /* Display Temperature Information */      
     LDRUserInformation(LDRValueNew);
     
     /* Init Old LDR value at first start */
@@ -218,7 +218,7 @@ void ThermometerLDRDemo(void)
         /* ReInit Old Temp value */
         TempValueOld = TempValueNew;
         
-        /* Display Temperature Informations */
+        /* Display Temperature Information */
         ThermometerUserInformation(TempValueNew);
       }
       
@@ -230,7 +230,7 @@ void ThermometerLDRDemo(void)
         /* ReInit Old LDR value */
         LDRValueOld = LDRValueNew;
         
-        /* Display Temperature Informations */      
+        /* Display Temperature Information */      
         LDRUserInformation(LDRValueNew);
       }
     }

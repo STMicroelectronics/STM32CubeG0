@@ -24,7 +24,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32g0xx_it.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -62,14 +61,14 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern ADC_HandleTypeDef hadc1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
-
 /**
   * @brief This function handles Non maskable interrupt.
   */
@@ -145,39 +144,13 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32g0xx.s).                    */
 /******************************************************************************/
 
-/* USER CODE BEGIN 1 */
-
 /**
-  * @brief  This function handles external line 4_15 interrupt request.
-  * @param  None
-  * @retval None
-  */
-void EXTI4_15_IRQHandler(void)
-{
-  HAL_GPIO_EXTI_IRQHandler(USER_BUTTON_PIN);
-}
-
-/* Note: Lines of code commented below correspond to the example using        */
-/*       HAL driver only.                                                     */
-/*       This example demonstrating a mix of HAL and LL drivers has replaced  */
-/*       these lines using LL driver.                                         */
-// /**
-//   * @brief  This function handles ADC interrupt request.
-//   * @param  None
-//   * @retval None
-//   */
-// void ADCx_IRQHandler(void)
-// {
-//   HAL_ADC_IRQHandler(&AdcHandle);
-// }
-
-/**
-  * @brief  This function handles ADCx interrupt request.
-  * @param  None
-  * @retval None
+  * @brief This function handles ADC1 interrupt.
   */
 void ADC1_IRQHandler(void)
 {
+  /* USER CODE BEGIN ADC1_IRQn 0 */
+
   /* Customize process using LL interface to improve the performance          */
   /* (exhaustive feature management not handled).                             */
   
@@ -191,7 +164,7 @@ void ADC1_IRQHandler(void)
     LL_ADC_ClearFlag_EOC(ADCx);
     
     /* Clear flag ADC group regular end of sequence conversions */
-    /* Note: Clear this flag optionaly, this flag is set with end of          */
+    /* Note: Clear this flag optionally, this flag is set with end of         */
     /*       unitary conversion since there is only 1 rank in                 */
     /*       group regular sequencer.                                         */
     LL_ADC_ClearFlag_EOS(ADCx);
@@ -209,6 +182,23 @@ void ADC1_IRQHandler(void)
     /* Call interruption treatment function */
     AdcGrpRegularOverrunError_Callback();
   }
+  
+  /* USER CODE END ADC1_IRQn 0 */
+  /* USER CODE BEGIN ADC1_IRQn 1 */
+
+  /* USER CODE END ADC1_IRQn 1 */
+}
+
+/* USER CODE BEGIN 1 */
+
+/**
+  * @brief  This function handles external line 4_15 interrupt request.
+  * @param  None
+  * @retval None
+  */
+void EXTI4_15_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(USER_BUTTON_PIN);
 }
 
 /* USER CODE END 1 */

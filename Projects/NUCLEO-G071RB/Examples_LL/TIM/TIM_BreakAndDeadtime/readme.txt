@@ -1,18 +1,18 @@
 /**
   @page TIM_BreakAndDeadtime TIM example
-  
+
   @verbatim
   ******************************************************************************
-  * @file    Examples_LL/TIM/TIM_BreakAndDeadtime/readme.txt 
+  * @file    Examples_LL/TIM/TIM_BreakAndDeadtime/readme.txt
   * @author  MCD Application Team
   * @brief   Description of the TIM_BreakAndDeadtime example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
@@ -31,8 +31,8 @@ TIM1CLK is fixed to 56 MHz, the TIM1 Prescaler is set to have
 TIM1 counter clock = 10 MHz.
 
 The TIM1 auto-reload is set to generate PWM signal at 10 KHz:
-               
-The Three Duty cycles are computed as the following description: 
+
+The Three Duty cycles are computed as the following description:
 The channel 1 duty cycle is set to 50% so channel 1N is set to 50%.
 The channel 2 duty cycle is set to 25% so channel 2N is set to 75%.
 The channel 3 duty cycle is set to 12.5% so channel 3N is set to 87.5%.
@@ -47,12 +47,16 @@ the different complementary signals, and the Lock level 1 is selected.
 Note that calculated duty cycles apply to the reference signal (OCxREF) from
 which outputs OCx and OCxN are generated. As dead time insertion is enabled the
 duty cycle measured on OCx will be slightly lower.
-  
+
 The break Polarity is used at High level.
 
 The TIM1 waveforms can be displayed using an oscilloscope.
 
-@par Directory contents 
+@par Keywords
+
+Timer, TIM, PWM, Signal, Duty cycle, Dead-time, Break-time, Break polarity, Oscilloscope.
+
+@par Directory contents
 
   - TIM/TIM_BreakAndDeadtime/Inc/stm32g0xx_it.h          Interrupt handlers header file
   - TIM/TIM_BreakAndDeadtime/Inc/main.h                  Header for main.c module
@@ -64,24 +68,24 @@ The TIM1 waveforms can be displayed using an oscilloscope.
 @par Hardware and Software environment
 
   - This example runs on STM32G071xx devices.
-    
+
   - This example has been tested with NUCLEO-G071RB board and can be
     easily tailored to any other supported device and development board.
 
   - NUCLEO-G071RB Set-up
     - Connect the TIM1 pins to an oscilloscope to monitor the different waveforms:
-      - TIM1_CH1  PA.08: connected to pin 23 of CN10 connector  
-      - TIM1_CH1N PA.07: connected to pin 15 of CN10 connector 
-      - TIM1_CH2  PA.09: connected to pin 21 of CN10 connector 
-      - TIM1_CH2N PB.00: connected to pin 17 of CN10 connector 
-      - TIM1_CH3  PA.10: connected to pin 33 of CN10 connector 
-      - TIM1_CH3N PB.01: connected to pin 34 of CN7 connector 
+      - TIM1_CH1  PA.08: connected to pin 23 of CN10 connector
+      - TIM1_CH1N PA.07: connected to pin 15 of CN10 connector
+      - TIM1_CH2  PA.09: connected to pin 21 of CN10 connector
+      - TIM1_CH2N PB.00: connected to pin 17 of CN10 connector
+      - TIM1_CH3  PA.10: connected to pin 33 of CN10 connector
+      - TIM1_CH3N PB.01: connected to pin 34 of CN7 connector
 
     - Connect the TIM1 break to the GND. To generate a break event, switch this
-      pin level from 0V to 3.3V.  
-      - TIM1_BKIN  PA.06: connected to pin 13 of CN10 connector 
+      pin level from 0V to 3.3V.
+      - TIM1_BKIN  PA.06: connected to pin 13 of CN10 connector
 
-@par How to use it ? 
+@par How to use it ?
 
 In order to make the program work, you must do the following :
  - Open your preferred toolchain
@@ -90,4 +94,3 @@ In order to make the program work, you must do the following :
 
  * <h3><center>&copy; COPYRIGHT STMicroelectronics</center></h3>
  */
- 

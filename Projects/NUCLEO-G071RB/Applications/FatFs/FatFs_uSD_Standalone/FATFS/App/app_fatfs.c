@@ -5,7 +5,7 @@
   * @author  MCD Application Team
   * @brief   FatFs_uSD_Standalone application file
   ******************************************************************************
-   * @attention
+  * @attention
   *
   * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.</center></h2>
@@ -59,14 +59,15 @@ uint8_t workBuffer[_MAX_SS];
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
 static int32_t FS_FileOperations(void);
+static uint8_t Buffercmp(uint32_t* pBuffer1, uint32_t* pBuffer2, uint16_t BufferLength);
 /* USER CODE END PFP */
 
 /**
   * @brief  FatFs initialization
   * @param  None
-  * @retval Initialization result 
+  * @retval Initialization result
   */
-int32_t MX_FATFS_Init(void) 
+int32_t MX_FATFS_Init(void)
 {
   /*## FatFS: Link the disk I/O driver(s)  ###########################*/
   if (FATFS_LinkDriver(&SD_Driver, SDPath) != 0)
@@ -85,12 +86,12 @@ int32_t MX_FATFS_Init(void)
 /**
   * @brief  FatFs application main process
   * @param  None
-  * @retval Process result 
+  * @retval Process result
   */
 int32_t MX_FATFS_Process(void)
 {
   /* USER CODE BEGIN FATFS_Process */
-  int32_t process_res = APP_OK;  
+  int32_t process_res = APP_OK;
   /* Mass Storage Application State Machine */
   switch(Appli_state)
   {
@@ -106,13 +107,20 @@ int32_t MX_FATFS_Process(void)
       {
         process_res = APP_ERROR;
       }
-#endif
+      else
+      {
+        process_res = APP_INIT;
+        Appli_state = APPLICATION_RUNNING;
+      }
+#else
+      process_res = APP_INIT;
       Appli_state = APPLICATION_RUNNING;
+#endif
     }
     else
     {
     process_res = APP_ERROR;
-      
+
     }
 
     break;
@@ -127,7 +135,7 @@ int32_t MX_FATFS_Process(void)
   }
   return process_res;
   /* USER CODE END FATFS_Process */
-}  
+}
 
 /**
   * @brief  Gets Time from RTC (generated when FS_NORTC==0; see ff.c)
@@ -138,14 +146,14 @@ DWORD get_fattime(void)
 {
   /* USER CODE BEGIN get_fattime */
   return 0;
-  /* USER CODE END get_fattime */  
+  /* USER CODE END get_fattime */
 }
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN Application */
 /**
   * @brief File system : file operation
-  * @retval File operation result 
+  * @retval File operation result
   */
 static int32_t FS_FileOperations(void)
 {
@@ -182,8 +190,10 @@ static int32_t FS_FileOperations(void)
             /* Compare read data with the expected data */
             if((bytesread == byteswritten))
             {
-              /* Success of the demo: no error occurrence */
-              return 0;
+              if(Buffercmp((uint32_t *)rtext, (uint32_t *)wtext, sizeof(rtext)))
+              {  /* Success of the demo: no error occurrence */
+                return 0;
+              }
             }
           }
         }
@@ -192,6 +202,31 @@ static int32_t FS_FileOperations(void)
   }
   /* Error */
   return -1;
+}
+
+
+/**
+  * @brief  Compares two buffers.
+  * @param  pBuffer1, pBuffer2: buffers to be compared.
+  * @param  BufferLength: buffer's length
+  * @retval 1: pBuffer identical to pBuffer1
+  *         0: pBuffer differs from pBuffer1
+  */
+static uint8_t Buffercmp(uint32_t* pBuffer1, uint32_t* pBuffer2, uint16_t BufferLength)
+{
+
+  while (BufferLength--)
+  {
+    if (*pBuffer1 != *pBuffer2)
+    {
+      return 1;
+    }
+
+    pBuffer1++;
+    pBuffer2++;
+  }
+
+  return 0;
 }
 
 /* USER CODE END Application */

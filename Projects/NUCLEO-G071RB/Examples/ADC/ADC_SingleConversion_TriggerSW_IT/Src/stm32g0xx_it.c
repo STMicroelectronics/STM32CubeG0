@@ -61,13 +61,14 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern ADC_HandleTypeDef hadc1;
 extern DAC_HandleTypeDef hdac1;
 /* USER CODE BEGIN EV */
 extern ADC_HandleTypeDef    AdcHandle;
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
@@ -145,6 +146,20 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles ADC1, COMP1 and COMP2 interrupts (COMP interrupts through EXTI lines 17 and 18).
+  */
+void ADC1_COMP_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC1_COMP_IRQn 0 */
+
+  /* USER CODE END ADC1_COMP_IRQn 0 */
+  HAL_ADC_IRQHandler(&hadc1);
+  /* USER CODE BEGIN ADC1_COMP_IRQn 1 */
+
+  /* USER CODE END ADC1_COMP_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM6, DAC1 and LPTIM1 interrupts (LPTIM1 interrupt through EXTI line 29).
   */
 void TIM6_DAC_LPTIM1_IRQHandler(void)
@@ -160,7 +175,6 @@ void TIM6_DAC_LPTIM1_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 
-
 /**
   * @brief  This function handles external line 4_15 interrupt request.
   * @param  None
@@ -169,15 +183,6 @@ void TIM6_DAC_LPTIM1_IRQHandler(void)
 void EXTI4_15_IRQHandler(void)
 {
   HAL_GPIO_EXTI_IRQHandler(USER_BUTTON_PIN);
-}
-/**
-  * @brief  This function handles ADC interrupt request.
-  * @param  None
-  * @retval None
-  */
-void ADCx_IRQHandler(void)
-{
-  HAL_ADC_IRQHandler(&AdcHandle);
 }
 
 /* USER CODE END 1 */

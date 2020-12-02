@@ -7,19 +7,17 @@
   ******************************************************************************
   * @attention
   *
-   * @attention
-  *
-  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
   * the License. You may obtain a copy of the License at:
   *                             www.st.com/SLA0044
-  *  
+  *
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
@@ -108,7 +106,7 @@ int main(void)
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
-  
+
   /* USER CODE END RTOS_MUTEX */
 
   /* Create the semaphores(s) */
@@ -117,15 +115,15 @@ int main(void)
   osSemaphoreHandle = osSemaphoreCreate(osSemaphore(osSemaphore), 1);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
-  
+
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */
-  
+
   /* USER CODE END RTOS_TIMERS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
-  
+
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -138,14 +136,13 @@ int main(void)
   SEM_Thread2Handle = osThreadCreate(osThread(SEM_Thread2), (void *) osSemaphoreHandle);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  
+
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
   osKernelStart();
-  
-  /* We should never get here as control is now taken by the scheduler */
 
+  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -166,7 +163,8 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -183,7 +181,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1;
@@ -204,13 +202,12 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN Header_SemaphoreThread1 */
 /**
   * @brief  Function implementing the SEM_Thread1 thread.
-  * @param  argument: Not used 
+  * @param  argument: Not used
   * @retval None
   */
 /* USER CODE END Header_SemaphoreThread1 */
 void SemaphoreThread1(void const * argument)
 {
-
   /* USER CODE BEGIN 5 */
   uint32_t count = 0;
   osSemaphoreId semaphore = (osSemaphoreId) argument;
@@ -220,7 +217,7 @@ void SemaphoreThread1(void const * argument)
 
     if (semaphore != NULL)
     {
-	  OsStatus = osSemaphoreWait(semaphore , 100);
+    OsStatus = osSemaphoreWait(semaphore , 100);
       /* Try to obtain the semaphore */
       if (OsStatus == osOK)
       {
@@ -246,7 +243,7 @@ void SemaphoreThread1(void const * argument)
       }
     }
   }
-  /* USER CODE END 5 */ 
+  /* USER CODE END 5 */
 }
 
 /* USER CODE BEGIN Header_SemaphoreThread2 */
@@ -322,7 +319,7 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
- 
+
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -335,7 +332,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

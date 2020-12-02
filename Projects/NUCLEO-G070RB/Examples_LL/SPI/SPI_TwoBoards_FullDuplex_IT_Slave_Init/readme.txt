@@ -46,7 +46,7 @@ The communication is done with 2 boards through SPI.
 This example shows how to configure GPIO and SPI peripherals
 to use a Full-Duplex communication using IT mode through the STM32G0xx COM_INSTANCE1_TYPE LL API.
 
-This example is splitted in two projects, Master board and Slave board:
+This example is split in two projects, Master board and Slave board:
 
 - Master Board
   SPI1 Peripheral is configured in Master mode.
@@ -74,6 +74,9 @@ In case of errors, LED4 is blinking Slowly (1s).
 @note You need to perform a reset on Master board, then perform it on Slave board
       to have the correct behaviour of this example.
 
+@par Keywords
+
+Connectivity, SPI, Full-duplex, Transmission, Reception, Slave, MISO, MOSI, Interrupt
 
 @par Directory contents 
 

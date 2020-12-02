@@ -29,7 +29,7 @@
   *           SOF and EOF are created too.
   * @param    ToSendTLV    The TLV_ToSend_Data structure that will be used.
   * @param    Tag          The Tag to put as the master Tag in this instruction.
-  * @param    SizeMax      The maximal size of the instruction. Will be used to protect writting against overflow.
+  * @param    SizeMax      The maximal size of the instruction. Will be used to protect writing against overflow.
   * @param    Ptr          A pointer to the value. This function does not allocate memory, it is the user's responsibility to allocate this.
   * @return   0 if everything went fine, 0xFF otherwise.
   */

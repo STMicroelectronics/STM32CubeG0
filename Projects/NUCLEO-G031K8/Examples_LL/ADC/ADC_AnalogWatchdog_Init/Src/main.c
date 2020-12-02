@@ -22,7 +22,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -53,7 +52,6 @@
   /* Values defined to be higher than worst cases: low clock frequency,       */
   /* maximum prescalers.                                                      */
   /* Unit: ms                                                                 */
-  #define ADC_CHANNEL_CONF_RDY_TIMEOUT_MS  (   1UL)
   #define ADC_CALIBRATION_TIMEOUT_MS       (   1UL)
   #define ADC_ENABLE_TIMEOUT_MS            (   1UL)
   #define ADC_DISABLE_TIMEOUT_MS           (   1UL)
@@ -126,12 +124,10 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-  
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
 
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
@@ -161,7 +157,7 @@ int main(void)
   /* Start ADC group regular conversion */
   /* Note: Hardware constraint (refer to description of the functions         */
   /*       below):                                                            */
-  /*       On this STM32 serie, setting of this feature is conditioned to     */
+  /*       On this STM32 series, setting of this feature is conditioned to    */
   /*       ADC state:                                                         */
   /*       ADC must be enabled without conversion on going on group regular,  */
   /*       without ADC disable command on going.                              */
@@ -213,7 +209,7 @@ void SystemClock_Config(void)
   LL_RCC_HSI_Enable();
   while(LL_RCC_HSI_IsReady() != 1)
   {
-  };
+  }
 
   /* Set AHB prescaler*/
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
@@ -222,14 +218,13 @@ void SystemClock_Config(void)
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI)
   {
-  };
+  }
 
   /* Set APB1 prescaler*/
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
 
   LL_Init1msTick(16000000);
 
-  LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
   /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
   LL_SetSystemCoreClock(16000000);
   LL_RCC_SetADCClockSource(LL_RCC_ADC_CLKSOURCE_SYSCLK);
@@ -247,17 +242,17 @@ static void MX_ADC1_Init(void)
 
   /* USER CODE END ADC1_Init 0 */
 
-  LL_ADC_REG_InitTypeDef ADC_REG_InitStruct = {0};
   LL_ADC_InitTypeDef ADC_InitStruct = {0};
+  LL_ADC_REG_InitTypeDef ADC_REG_InitStruct = {0};
 
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* Peripheral clock enable */
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_ADC);
-  
+
   LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
-  /**ADC1 GPIO Configuration  
-  PA4   ------> ADC1_IN4 
+  /**ADC1 GPIO Configuration
+  PA4   ------> ADC1_IN4
   */
   GPIO_InitStruct.Pin = LL_GPIO_PIN_4;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
@@ -278,11 +273,40 @@ static void MX_ADC1_Init(void)
   NVIC_EnableIRQ(ADC1_IRQn);
   
   /* USER CODE END ADC1_Init 1 */
-  /** Configure Regular Channel 
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
-  LL_ADC_SetCommonPathInternalCh(__LL_ADC_COMMON_INSTANCE(ADC1), LL_ADC_PATH_INTERNAL_VREFINT);
-  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion) 
-  */
+
+   #define ADC_CHANNEL_CONF_RDY_TIMEOUT_MS ( 1U)
+   #if (USE_TIMEOUT == 1)
+   uint32_t Timeout ; /* Variable used for Timeout management */
+   #endif /* USE_TIMEOUT */
+
+  ADC_InitStruct.Clock = LL_ADC_CLOCK_SYNC_PCLK_DIV4;
+  ADC_InitStruct.Resolution = LL_ADC_RESOLUTION_12B;
+  ADC_InitStruct.DataAlignment = LL_ADC_DATA_ALIGN_RIGHT;
+  ADC_InitStruct.LowPowerMode = LL_ADC_LP_MODE_NONE;
+  LL_ADC_Init(ADC1, &ADC_InitStruct);
+  LL_ADC_REG_SetSequencerConfigurable(ADC1, LL_ADC_REG_SEQ_CONFIGURABLE);
+
+   /* Poll for ADC channel configuration ready */
+   #if (USE_TIMEOUT == 1)
+   Timeout = ADC_CHANNEL_CONF_RDY_TIMEOUT_MS;
+   #endif /* USE_TIMEOUT */
+   while (LL_ADC_IsActiveFlag_CCRDY(ADC1) == 0)
+     {
+   #if (USE_TIMEOUT == 1)
+   /* Check Systick counter flag to decrement the time-out value */
+   if (LL_SYSTICK_IsActiveCounterFlag())
+     {
+   if(Timeout-- == 0)
+         {
+   Error_Handler();
+         }
+     }
+   #endif /* USE_TIMEOUT */
+     }
+   /* Clear flag ADC channel configuration ready */
+   LL_ADC_ClearFlag_CCRDY(ADC1);
   ADC_REG_InitStruct.TriggerSource = LL_ADC_REG_TRIG_SOFTWARE;
   ADC_REG_InitStruct.SequencerLength = LL_ADC_REG_SEQ_SCAN_DISABLE;
   ADC_REG_InitStruct.SequencerDiscont = LL_ADC_REG_SEQ_DISCONT_DISABLE;
@@ -292,24 +316,53 @@ static void MX_ADC1_Init(void)
   LL_ADC_REG_Init(ADC1, &ADC_REG_InitStruct);
   LL_ADC_SetOverSamplingScope(ADC1, LL_ADC_OVS_DISABLE);
   LL_ADC_SetTriggerFrequencyMode(ADC1, LL_ADC_CLOCK_FREQ_MODE_HIGH);
-  LL_ADC_REG_SetSequencerConfigurable(ADC1, LL_ADC_REG_SEQ_CONFIGURABLE);
   LL_ADC_SetSamplingTimeCommonChannels(ADC1, LL_ADC_SAMPLINGTIME_COMMON_1, LL_ADC_SAMPLINGTIME_160CYCLES_5);
   LL_ADC_SetSamplingTimeCommonChannels(ADC1, LL_ADC_SAMPLINGTIME_COMMON_2, LL_ADC_SAMPLINGTIME_160CYCLES_5);
   LL_ADC_DisableIT_EOC(ADC1);
   LL_ADC_DisableIT_EOS(ADC1);
-  ADC_InitStruct.Clock = LL_ADC_CLOCK_SYNC_PCLK_DIV4;
-  ADC_InitStruct.Resolution = LL_ADC_RESOLUTION_12B;
-  ADC_InitStruct.DataAlignment = LL_ADC_DATA_ALIGN_RIGHT;
-  ADC_InitStruct.LowPowerMode = LL_ADC_LP_MODE_NONE;
-  LL_ADC_Init(ADC1, &ADC_InitStruct);
-  /** Configure Analog WatchDog 1 
+
+   /* Enable ADC internal voltage regulator */
+   LL_ADC_EnableInternalRegulator(ADC1);
+   /* Delay for ADC internal voltage regulator stabilization. */
+   /* Compute number of CPU cycles to wait for, from delay in us. */
+   /* Note: Variable divided by 2 to compensate partially */
+   /* CPU processing cycles (depends on compilation optimization). */
+   /* Note: If system core clock frequency is below 200kHz, wait time */
+   /* is only a few CPU processing cycles. */
+   uint32_t wait_loop_index;
+   wait_loop_index = ((LL_ADC_DELAY_INTERNAL_REGUL_STAB_US * (SystemCoreClock / (100000 * 2))) / 10);
+   while(wait_loop_index != 0)
+     {
+   wait_loop_index--;
+     }
+  /** Configure Analog WatchDog 1
   */
   LL_ADC_SetAnalogWDMonitChannels(ADC1, LL_ADC_AWD1, LL_ADC_AWD_ALL_CHANNELS_REG);
   LL_ADC_ConfigAnalogWDThresholds(ADC1, LL_ADC_AWD1, ADC_AWD_THRESHOLD_HIGH, ADC_AWD_THRESHOLD_LOW);
   LL_ADC_EnableIT_AWD1(ADC1);
-  /** Configure Regular Channel 
+  /** Configure Regular Channel
   */
   LL_ADC_REG_SetSequencerRanks(ADC1, LL_ADC_REG_RANK_1, LL_ADC_CHANNEL_4);
+
+   /* Poll for ADC channel configuration ready */
+   #if (USE_TIMEOUT == 1)
+   Timeout = ADC_CHANNEL_CONF_RDY_TIMEOUT_MS;
+   #endif /* USE_TIMEOUT */
+   while (LL_ADC_IsActiveFlag_CCRDY(ADC1) == 0)
+     {
+   #if (USE_TIMEOUT == 1)
+   /* Check Systick counter flag to decrement the time-out value */
+   if (LL_SYSTICK_IsActiveCounterFlag())
+     {
+   if(Timeout-- == 0)
+         {
+   Error_Handler();
+         }
+     }
+   #endif /* USE_TIMEOUT */
+     }
+   /* Clear flag ADC channel configuration ready */
+   LL_ADC_ClearFlag_CCRDY(ADC1);
   LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_4, LL_ADC_SAMPLINGTIME_COMMON_1);
   /* USER CODE BEGIN ADC1_Init 2 */
 
@@ -377,7 +430,7 @@ static void MX_GPIO_Init(void)
   *           none: ADC conversion start-stop to be performed
   *                 after this function
   *         - ADC group injected
-  *           Feature not available                                  (feature not available on this STM32 serie)
+  *           Feature not available                                  (feature not available on this STM32 series)
   * @param  None
   * @retval None
   */
@@ -393,7 +446,7 @@ void Activate_ADC(void)
   
   /* Note: Hardware constraint (refer to description of the functions         */
   /*       below):                                                            */
-  /*       On this STM32 serie, setting of these features is conditioned to   */
+  /*       On this STM32 series, setting of these features is conditioned to  */
   /*       ADC state:                                                         */
   /*       ADC must be disabled.                                              */
   /* Note: In this example, all these checks are not necessary but are        */
@@ -420,8 +473,8 @@ void Activate_ADC(void)
     }
     
     /* Disable ADC DMA transfer request during calibration */
-    /* Note: Specificity of this STM32 serie: Calibration factor is           */
-    /*       available in data register and also transfered by DMA.           */
+    /* Note: Specificity of this STM32 series: Calibration factor is          */
+    /*       available in data register and also transferred by DMA.          */
     /*       To not insert ADC calibration factor among ADC conversion data   */
     /*       in DMA destination address, DMA transfer must be disabled during */
     /*       calibration.                                                     */
@@ -499,7 +552,7 @@ void Activate_ADC(void)
   /*       "LL_ADC_REG_StartConversion();"                                    */
   
   /*## Operation on ADC hierarchical scope: ADC group injected ###############*/
-  /* Note: Feature not available on this STM32 serie */ 
+  /* Note: Feature not available on this STM32 series */ 
   
 }
 
@@ -616,7 +669,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
 
   /* User can add his own implementation to report the file name and line number,

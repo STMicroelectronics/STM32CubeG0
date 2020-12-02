@@ -38,6 +38,10 @@ Received character is echoed on Tx line.
 On press on push button, LED4 is turned Off.
 In case of errors, LED4 is blinking.
 
+@par Keywords
+
+Connectivity, UART/USART, Asynchronous, RS-232, baud rate, Interrupt, HyperTerminal, Receiver, VCP
+
 @par Directory contents 
 
   - USART/USART_Communication_Rx_IT_VCP_Init/Inc/stm32g0xx_it.h          Interrupt handlers header file

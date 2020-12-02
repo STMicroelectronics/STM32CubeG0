@@ -1,0 +1,10 @@
+[ProjectFiles]
+HeaderPath=..\..\..\..\..\..\Drivers\BSP\STM32G0C1E-EV
+[Others]
+Define=
+HALModule=RTC;EXTI
+[Groups]
+Application/User=../Src/stm32g0xx_hal_timebase_rtc_wakeup.c;
+Doc=../readme.txt;
+Drivers/BSP/STM32G0C1E-EV=../../../../../../Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval.c;
+Drivers/STM32G0xx_HAL_Driver=../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_exti.c;

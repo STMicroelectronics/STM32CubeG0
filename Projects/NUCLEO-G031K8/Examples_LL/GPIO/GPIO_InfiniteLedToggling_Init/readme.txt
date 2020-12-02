@@ -29,6 +29,9 @@ On NUCLEO-G031K8 board this IO is connected to LED3.
 
 In this example, HCLK is configured at 16 MHz.
 
+@par Keywords
+
+System, GPIO, Output, Alternate function, Push-pull, Toggle
 
 @par Directory contents 
 

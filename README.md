@@ -17,6 +17,8 @@ Details about the content of this release are available in the release note [her
 
 ## Boards available
   * STM32G0
+    * [STM32G0C1E-EV](https://www.st.com/en/evaluation-tools/stm32g0c1e-ev.html)
+    * [NUCLEO-G0B1RE](https://www.st.com/en/evaluation-tools/nucleo-g0b1re.html)
     * [STM32G081B-EVAL](https://www.st.com/en/evaluation-tools/stm32g081b-eval.html)
     * [NUCLEO-G070RB](https://www.st.com/en/evaluation-tools/nucleo-g070rb.html)
     * [NUCLEO-G071RB](https://www.st.com/en/evaluation-tools/nucleo-g071rb.html)

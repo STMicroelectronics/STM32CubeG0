@@ -43,7 +43,7 @@
  * @brief STM32G071B DISCOVERY BSP Driver version number
    */
 #define __STM32G071B_DISCOVERY_BSP_VERSION_MAIN   (0x01U) /*!< [31:24] main version */
-#define __STM32G071B_DISCOVERY_BSP_VERSION_SUB1   (0x01U) /*!< [23:16] sub1 version */
+#define __STM32G071B_DISCOVERY_BSP_VERSION_SUB1   (0x02U) /*!< [23:16] sub1 version */
 #define __STM32G071B_DISCOVERY_BSP_VERSION_SUB2   (0x00U) /*!< [15:8]  sub2 version */
 #define __STM32G071B_DISCOVERY_BSP_VERSION_RC     (0x00U) /*!< [7:0]  release candidate */
 #define __STM32G071B_DISCOVERY_BSP_VERSION            ((__STM32G071B_DISCOVERY_BSP_VERSION_MAIN << 24)\
@@ -999,7 +999,7 @@ void LCD_IO_WriteData(uint8_t Value)
 /**
   * @brief  Writes multiple data to the LCD
   * @param  pData pointer to the data to be written
-  * @param  Size of data to be writen
+  * @param  Size of data to be written
   * @retval none
   */
 void LCD_IO_WriteMultipleData(uint8_t *pData, uint32_t Size)

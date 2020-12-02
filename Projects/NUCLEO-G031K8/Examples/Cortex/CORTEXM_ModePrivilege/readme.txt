@@ -1,9 +1,9 @@
     /**
-  @page CortexM_Mode_Privilege Cortex-M0+ Mode Privilege example
+  @page CORTEXM_ModePrivilege Cortex-M0+ Mode Privilege example
 
   @verbatim
   ******************************************************************************
-  * @file    CORTEXM/CORTEXM_ModePrivilege/readme.txt 
+  * @file    CORTEX/CORTEXM_ModePrivilege/readme.txt 
   * @author  MCD Application Team
   * @brief   Description of the Cortex-M0+ Mode Privilege example.
   ******************************************************************************
@@ -52,13 +52,13 @@ System, Cortex, Mode Privilege, Privileged access, thread mode, main stack, proc
 
 @par Directory contents 
 
-  - CORTEXM/CORTEXM_ModePrivilege/Inc/stm32g0xx_hal_conf.h    HAL configuration file
-  - CORTEXM/CORTEXM_ModePrivilege/Inc/stm32g0xx_it.h          Interrupt handlers header file
-  - CORTEXM/CORTEXM_ModePrivilege/Inc/main.h                  Header for main.c module  
-  - CORTEXM/CORTEXM_ModePrivilege/Src/stm32g0xx_it.c          Interrupt handlers
-  - CORTEXM/CORTEXM_ModePrivilege/Src//stm32g0xx_hal_msp.c     HAL MSP file
-  - CORTEXM/CORTEXM_ModePrivilege/Src/main.c                  Main program
-  - CORTEXM/CORTEXM_ModePrivilege/Src/system_stm32g0xx.c      STM32G0xx system source file
+  - CORTEX/CORTEXM_ModePrivilege/Inc/stm32g0xx_hal_conf.h    HAL configuration file
+  - CORTEX/CORTEXM_ModePrivilege/Inc/stm32g0xx_it.h          Interrupt handlers header file
+  - CORTEX/CORTEXM_ModePrivilege/Inc/main.h                  Header for main.c module  
+  - CORTEX/CORTEXM_ModePrivilege/Src/stm32g0xx_it.c          Interrupt handlers
+  - CORTEX/CORTEXM_ModePrivilege/Src//stm32g0xx_hal_msp.c     HAL MSP file
+  - CORTEX/CORTEXM_ModePrivilege/Src/main.c                  Main program
+  - CORTEX/CORTEXM_ModePrivilege/Src/system_stm32g0xx.c      STM32G0xx system source file
 
 @par Hardware and Software environment
 

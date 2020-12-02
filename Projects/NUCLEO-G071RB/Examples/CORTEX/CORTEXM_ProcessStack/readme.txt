@@ -3,7 +3,7 @@
 
   @verbatim
   ******************************************************************************
-  * @file    CORTEXM/CORTEXM_ProcessStack/readme.txt 
+  * @file    CORTEX/CORTEXM_ProcessStack/readme.txt 
   * @author  MCD Application Team
   * @brief   Description of the Cortex-M0+ Mode Privilege example.
   ******************************************************************************
@@ -33,7 +33,7 @@ The associated program is used to:
 automatically.
 In case of error, LED4 is blinking fast. In case of success, LED4 is turned on.
 
-To monitor the stack used  a set of variables is available within the program. It is also
+To monitor the stack used a set of variables is available within the program. It is also
 possible to use the 'Cortex register' window of the debugger.
  
 @note Care must be taken when using HAL_Delay(), this function provides accurate delay (in milliseconds)
@@ -51,13 +51,13 @@ System, Cortex, Process Stack, HCLK, Thread mode Stack, main stack, process stac
 
 @par Directory contents 
 
-  - CORTEXM/CORTEXM_ProcessStack/Inc/stm32g0xx_hal_conf.h    HAL configuration file
-  - CORTEXM/CORTEXM_ProcessStack/Inc/stm32g0xx_it.h          Interrupt handlers header file
-  - CORTEXM/CORTEXM_ProcessStack/Inc/main.h                  Header for main.c module  
-  - CORTEXM/CORTEXM_ProcessStack/Src/stm32g0xx_it.c          Interrupt handlers
-  - CORTEXM/CORTEXM_ProcessStack/Src//stm32g0xx_hal_msp.c     HAL MSP file
-  - CORTEXM/CORTEXM_ProcessStack/Src/main.c                  Main program
-  - CORTEXM/CORTEXM_ProcessStack/Src/system_stm32g0xx.c      STM32G0xx system source file
+  - CORTEX/CORTEXM_ProcessStack/Inc/stm32g0xx_hal_conf.h    HAL configuration file
+  - CORTEX/CORTEXM_ProcessStack/Inc/stm32g0xx_it.h          Interrupt handlers header file
+  - CORTEX/CORTEXM_ProcessStack/Inc/main.h                  Header for main.c module 
+  - CORTEX/CORTEXM_ProcessStack/Src/stm32g0xx_it.c          Interrupt handlers
+  - CORTEX/CORTEXM_ProcessStack/Src//stm32g0xx_hal_msp.c     HAL MSP file
+  - CORTEX/CORTEXM_ProcessStack/Src/main.c                  Main program
+  - CORTEX/CORTEXM_ProcessStack/Src/system_stm32g0xx.c      STM32G0xx system source file
 
 @par Hardware and Software environment
 

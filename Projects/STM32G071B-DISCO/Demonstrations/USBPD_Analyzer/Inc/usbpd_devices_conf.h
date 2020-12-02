@@ -36,7 +36,8 @@ extern "C" {
 #include "stm32g0xx_ll_rcc.h"
 #include "stm32g0xx_ll_tim.h"
 
-#include "stm32g071b_discovery_pwr.h"
+#include "usbpd_pwr_if.h"   
+#include "stm32g071b_discovery_usbpd_pwr.h"
 
 /* USER CODE END Includes */
 
@@ -49,11 +50,11 @@ extern "C" {
       usbpd_hw.c
 -------------------------------------------------------------------------------*/
 
-/* defined used to configure function : BSP_USBPD_GetUSPDInstance */
+/* defined used to configure function : USBPD_HW_GetUSPDInstance */
 #define UCPD_INSTANCE0 UCPD1
 #define UCPD_INSTANCE1 UCPD2
 
-/* defined used to configure function : BSP_USBPD_Init_DMARxInstance,BSP_USBPD_DeInit_DMARxInstance */
+/* defined used to configure function : USBPD_HW_Init_DMARxInstance,USBPD_HW_DeInit_DMARxInstance */
 #define UCPDDMA_INSTANCE0_CLOCKENABLE_RX  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 #define UCPDDMA_INSTANCE1_CLOCKENABLE_RX  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 
@@ -69,7 +70,7 @@ extern "C" {
 #define UCPDDMA_INSTANCE0_CHANNEL_RX   DMA1_Channel5
 #define UCPDDMA_INSTANCE1_CHANNEL_RX   DMA1_Channel2
 
-/* defined used to configure function : BSP_USBPD_Init_DMATxInstance, BSP_USBPD_DeInit_DMATxInstance */
+/* defined used to configure function : USBPD_HW_Init_DMATxInstance, USBPD_HW_DeInit_DMATxInstance */
 #define UCPDDMA_INSTANCE0_CLOCKENABLE_TX  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 #define UCPDDMA_INSTANCE1_CLOCKENABLE_TX  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 
@@ -85,7 +86,7 @@ extern "C" {
 #define UCPDDMA_INSTANCE0_CHANNEL_TX   DMA1_Channel3
 #define UCPDDMA_INSTANCE1_CHANNEL_TX   DMA1_Channel4
 
-/* defined used to configure  BSP_USBPD_SetFRSSignalling */
+/* defined used to configure  USBPD_HW_SetFRSSignalling */
 #define UCPDFRS_INSTANCE0_FRSCC1   do{                                                                   \
                                      LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);                \
                                      LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_2, LL_GPIO_MODE_ALTERNATE); \

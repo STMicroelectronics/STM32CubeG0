@@ -86,7 +86,7 @@ Transmission, Reception, Asynchronous, interrupt
 
   - STM32G081B-EVAL Set-up
     - Connect a null-modem female/female RS232 cable between the DB9 connector
-      CN9 (USART1) and PC serial port to display data on the HyperTerminal.
+      CN11 (USART1) and PC serial port to display data on the HyperTerminal.
       @note Make sure that :
         - jumper JP14  is on RS232_RX position (1-2)  and
         - jumper JP8 is on RX position (1-2) and

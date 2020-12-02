@@ -1,11 +1,14 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    usbpd_vdm_user.c
   * @author  MCD Application Team
   * @brief   USBPD provider demo file
   ******************************************************************************
+  * @attention
   *
-  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
   * SLA0044, the "License"; You may not use this file except in compliance with
@@ -14,6 +17,7 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbpd_core.h"
@@ -71,6 +75,20 @@ static USBPD_StatusTypeDef USBPD_VDM_ReceiveUVDM(uint8_t PortNum, USBPD_UVDMHead
 /* USER CODE END Private_prototypes */
 
 /* Private variables ---------------------------------------------------------*/
+USBPD_VDM_SettingsTypeDef DPM_VDM_Settings[USBPD_PORT_COUNT] =
+{
+  {
+    .VDM_XID_SOP                = USBPD_XID,    /*!< A decimal number assigned by USB-IF before certification */
+    .VDM_USB_VID_SOP            = USBPD_VID,    /*!< A decimal number assigned by USB-IF before certification */
+    .VDM_PID_SOP                = USBPD_PID,    /*!< A unique number assigned by the Vendor ID holder identifying the product. */
+    .VDM_ModalOperation         = MODAL_OPERATION_NONSUPP, /*!< Product support Modes based on @ref USBPD_ModalOp_TypeDef */
+    .VDM_bcdDevice_SOP          = 0xAAAA,        /*!< A unique number assigned by the Vendor ID holder containing identity information relevant to the release version of the product. */
+    .VDM_USBHostSupport         = USB_NOTCAPABLE, /*!< Indicates whether the UUT is capable of enumerating USB Host */
+    .VDM_USBDeviceSupport       = USB_NOTCAPABLE, /*!< Indicates whether the UUT is capable of enumerating USB Devices */
+    .VDM_ProductTypeUFPorCP     = PRODUCT_TYPE_UNDEFINED, /*!< Product type UFP or CablePlug of the UUT based on @ref USBPD_ProductType_TypeDef */
+  }
+};
+
 /* USER CODE BEGIN Private_variables */
 const USBPD_VDM_Callbacks vdmCallbacks =
 {

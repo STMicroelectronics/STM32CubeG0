@@ -33,7 +33,7 @@ In the interrupt routine a led connected to a specific GPIO pin is toggled.
 
 In this example:
     - External line 15 is connected to GPIO_PIN_15 pin
-      - when rising edge is detected on External line 15 by puting and removing a jumper between PA.15 (Arduino D2) and GND, LED3 toggles
+      - when rising edge is detected on External line 15 by putting and removing a jumper between PA.15 (Arduino D2) and GND, LED3 toggles
 
 On NUCLEO-G031K8:
     - External line 15 is connected to PA.15 (Arduino D2)

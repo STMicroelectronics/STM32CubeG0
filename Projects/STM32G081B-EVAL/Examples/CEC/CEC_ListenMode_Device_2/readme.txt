@@ -1,5 +1,5 @@
 /**
-  @page CEC CEC_ListenMode_Device_2 example
+  @page CEC_ListenMode_Device_2 example
   
   @verbatim
   ******************************************************************************
@@ -124,7 +124,7 @@ In this example, HCLK is configured at 56 MHz.
 
 @par Keywords
 
-Connectivity, CEC, Lissen mode, Transmission, Reception, joystick, Data exchange
+Connectivity, CEC, Listen mode, Transmission, Reception, joystick, Data exchange
 
 @par Directory contents 
 
@@ -148,11 +148,11 @@ Connectivity, CEC, Lissen mode, Transmission, Reception, joystick, Data exchange
 
 In order to make the program work, you must do the following :
  - Open your preferred toolchain 
- - Rebuild all files (CEC_DataExchange_Device_1 project) and load your image into target memory
+ - Rebuild all files (CEC_ListenMode_Device_1 project) and load your image into target memory
     o Load the project in Device_1 Board
- - Rebuild all files (CEC_DataExchange_Device_2 project) and load your image into target memory
+ - Rebuild all files (CEC_ListenMode_Device_2 project) and load your image into target memory
     o Load the project in Device_2 Board
- - Rebuild all files (CEC_DataExchange_Device_3 project) and load your image into target memory
+ - Rebuild all files (CEC_ListenMode_Device_3 project) and load your image into target memory
     o Load the project in Device_3 Board
  - With a wire, connect PB10-PB10-PB10 between the 3 boards
  - Add a pull-up resistor of 27kohm between PB10 and V3.3

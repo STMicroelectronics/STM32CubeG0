@@ -7,12 +7,12 @@
   * @author  MCD Application Team
   * @brief   Description of the TIM_PWMOutput_Init example.
   ******************************************************************************
-   * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause 
+  *                       opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   @endverbatim
@@ -58,6 +58,10 @@ Initially the output channel is configured in output compare toggle mode.
 @note The TIM3_CH1 is not toggling. In fact, if the dutycycle is 0% so the TIM3_CH1 is OFF. When pushing 
 successively the user button, the TIM3_CH1 is ON and its luminosity rises as the dutycycle value keep 
 increasing.
+
+@par Keywords
+
+Timers, Output, signal, PWM, Oscilloscope, Frequency, Duty cycle, Waveform
 
 @par Directory contents 
 

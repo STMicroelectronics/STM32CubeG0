@@ -24,7 +24,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -59,8 +58,8 @@
   /* for min/typ/max values).                                                 */
   /* (unit: mV).                                                              */
   #define VREFINT                          ((uint32_t)1220)
-  #define COMP_WINDOW_THRESHOLD_HIGH       (VREFINT)        /* COMP1 input plus is selected to VrefInt in this exemple */
-  #define COMP_WINDOW_THRESHOLD_LOW        (VREFINT /2)     /* COMP2 input plus is selected to 1/2 VrefInt in this exemple */
+  #define COMP_WINDOW_THRESHOLD_HIGH       (VREFINT)        /* COMP1 input plus is selected to VrefInt in this example */
+  #define COMP_WINDOW_THRESHOLD_LOW        (VREFINT /2)     /* COMP2 input plus is selected to 1/2 VrefInt in this example */
   
 /* Definitions of data related to this example */
   /* Full-scale digital value with a resolution of 12 bits (voltage range     */
@@ -122,12 +121,15 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
 
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
   /* System interrupt init*/
+
+  /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral
+  */
+  LL_SYSCFG_DisableDBATT(LL_SYSCFG_UCPD1_STROBE | LL_SYSCFG_UCPD2_STROBE);
 
   /* USER CODE BEGIN Init */
 
@@ -186,7 +188,7 @@ void SystemClock_Config(void)
   LL_RCC_HSI_Enable();
   while(LL_RCC_HSI_IsReady() != 1)
   {
-  };
+  }
 
   /* Set AHB prescaler*/
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
@@ -195,13 +197,11 @@ void SystemClock_Config(void)
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI)
   {
-  };
+  }
 
   /* Set APB1 prescaler*/
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
-
   LL_Init1msTick(16000000);
-
   /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
   LL_SetSystemCoreClock(16000000);
 }
@@ -223,8 +223,8 @@ static void MX_COMP1_Init(void)
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOC);
-  /**COMP1 GPIO Configuration  
-  PC5   ------> COMP1_INP 
+  /**COMP1 GPIO Configuration
+  PC5   ------> COMP1_INP
   */
   GPIO_InitStruct.Pin = LL_GPIO_PIN_5;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
@@ -555,7 +555,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d", file, line) */

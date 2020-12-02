@@ -49,7 +49,7 @@ STM32G071RBTx devices using STM32CubeG0 HAL and running on NUCLEO-G071RB board f
 
   - This example runs on STM32G0xx devices.
     
-  - This example has been tested with STMicroelectronics NUCLEO-G071RB
+  - This example has been tested with NUCLEO-G071RB
     boards and can be easily tailored to any other supported device 
     and development board.
 

@@ -66,7 +66,7 @@
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0+ Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0+ Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
@@ -130,7 +130,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
   /* USER CODE END SysTick_IRQn 0 */
-  
+
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -161,7 +161,7 @@ void TIM6_DAC_LPTIM1_IRQHandler(void)
   }
 
   /* USER CODE END TIM6_DAC_LPTIM1_IRQn 0 */
-  
+
   /* USER CODE BEGIN TIM6_DAC_LPTIM1_IRQn 1 */
 
   /* USER CODE END TIM6_DAC_LPTIM1_IRQn 1 */

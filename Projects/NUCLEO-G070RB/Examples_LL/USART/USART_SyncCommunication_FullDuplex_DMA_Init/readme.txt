@@ -41,6 +41,10 @@ At end of transmission, both received buffers are compared to expected ones.
 In case of both transfers successfully completed, LED4 is turned on.
 In case of errors, LED4 is blinking Slowly (1s).
 
+@par Keywords
+
+Connectivity, UART/USART, Synchronous, baud rate, DMA, SPI interface, Receiver, Transmitter, full-duplex
+
 @par Directory contents 
 
   - USART/USART_SyncCommunication_FullDuplex_DMA_Init/Inc/stm32g0xx_it.h          Interrupt handlers header file

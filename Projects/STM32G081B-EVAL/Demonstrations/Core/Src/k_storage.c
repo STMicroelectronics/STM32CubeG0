@@ -129,7 +129,7 @@ void kStorage_SdDetection(uint8_t status)
 }
 
 /**
-  * @brief  Return the first file present inside a direcory with FileExt
+  * @brief  Return the first file present inside a directory with FileExt
   * @param  DirName: Directory name
   * @param  Action :  Opendir, previous or next files, Closedir
   * @param  FileExt:  extension filter if NULL not filter
