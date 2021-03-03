@@ -41,6 +41,7 @@ HAL Driver G0 | CMSIS Device G0 | CMSIS Core | Was delivered in the full MCU pac
 Tag v1.2.0 | Tag v1.2.0 | Tag v4.5_cm0 | Tag v1.2.0 (and following, if any, till next new tag)
 Tag v1.3.0 | Tag v1.3.0 | Tag v5.4.0_cm0 | Tag v1.3.0 (and following, if any, till next new tag)
 Tag v1.4.0 | Tag v1.4.0 | Tag v5.6.0_cm0 | Tag v1.4.0 (and following, if any, till next new tag)
+Tag v1.4.1 | Tag v1.4.0 | Tag v5.6.0_cm0 | Tag v1.4.1 (and following, if any, till next new tag)
 
 The full **STM32CubeG0** MCU package is available [here](https://github.com/STMicroelectronics/STM32CubeG0).
 

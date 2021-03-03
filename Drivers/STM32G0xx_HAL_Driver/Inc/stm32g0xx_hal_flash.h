@@ -369,7 +369,7 @@ typedef struct
                                          OB_USER_BANK_SWAP        | OB_USER_DUAL_BANK                      | \
                                          OB_USER_RAM_PARITY_CHECK | OB_USER_nBOOT_SEL  | OB_USER_nBOOT1    | \
                                          OB_USER_nBOOT0           | OB_USER_NRST_MODE  | OB_USER_INPUT_RESET_HOLDER)   /*!< all option bits */
-#else 
+#else
 #define OB_USER_ALL                     (                                                OB_USER_nRST_STOP | \
                                          OB_USER_nRST_STDBY                            | OB_USER_IWDG_SW   | \
                                          OB_USER_IWDG_STOP        | OB_USER_IWDG_STDBY | OB_USER_WWDG_SW   | \
@@ -743,7 +743,7 @@ typedef struct
   *     @arg @ref FLASH_FLAG_BSY2 FLASH bank 2 write/erase operations in progress flag(*)
   *     @arg @ref FLASH_FLAG_BSY FLASH write/erase operations in progress flag  - legacy name for single bank
   *     @arg @ref FLASH_FLAG_CFGBSY FLASH configuration is busy : program or erase setting are used.
-  *     @arg @ref FLASH_FLAG_ECCC1 FLASH one ECC error has been detected and corrected 
+  *     @arg @ref FLASH_FLAG_ECCC1 FLASH one ECC error has been detected and corrected
   *     @arg @ref FLASH_FLAG_ECCD1 FLASH two ECC errors have been detected on bank 1
   *     @arg @ref FLASH_FLAG_ECCC2 FLASH one ECC error has been detected and corrected on bank 2(*)
   *     @arg @ref FLASH_FLAG_ECCD2 FLASH two ECC errors have been detected on bank 2(*)
@@ -779,7 +779,7 @@ typedef struct
   *     @arg @ref FLASH_FLAG_FASTERR FLASH Fast programming error flag
   *     @arg @ref FLASH_FLAG_RDERR FLASH PCROP read  error flag
   *     @arg @ref FLASH_FLAG_OPTVERR FLASH Option validity error flag
-  *     @arg @ref FLASH_FLAG_ECCC1 FLASH one ECC error has been detected and corrected 
+  *     @arg @ref FLASH_FLAG_ECCC1 FLASH one ECC error has been detected and corrected
   *     @arg @ref FLASH_FLAG_ECCD1 FLASH two ECC errors have been detected on bank 1
   *     @arg @ref FLASH_FLAG_ECCC2 FLASH one ECC error has been detected and corrected on bank 2(*)
   *     @arg @ref FLASH_FLAG_ECCD2 FLASH two ECC errors have been detected on bank 2(*)
@@ -876,24 +876,22 @@ HAL_StatusTypeDef  FLASH_WaitForLastOperation(uint32_t Timeout);
 #define FLASH_SIZE_DATA_REGISTER        FLASHSIZE_BASE
 
 #if defined(FLASH_DBANK_SUPPORT)
-#define FLASH_BANK_SIZE                 (FLASH_SIZE >> 1) /*!< FLASH Bank Size is Flash size divided by 2 */
-#else
-#define FLASH_BANK_SIZE                 (FLASH_SIZE)      /*!< FLASH Bank Size */
-#endif
+#define OB_DUAL_BANK_BASE               (FLASH_R_BASE + 0x20U)               /*!< Not use cmsis FLASH alias to avoid iar warning about volatile reading sequence */
+#define FLASH_SALES_TYPE_Pos            (24U)
+#define FLASH_SALES_TYPE                (0x3UL << FLASH_SALES_TYPE_Pos)     /*!< 0x000001E0 */
+#define FLASH_SALES_TYPE_0              (0x1UL << FLASH_SALES_TYPE_Pos)     /*!< 0x01000000 */
+#define FLASH_SALES_TYPE_1              (0x2UL << FLASH_SALES_TYPE_Pos)     /*!< 0x02000000 */
+#define FLASH_SALES_VALUE               ((*((uint32_t *)PACKAGE_BASE)) & (FLASH_SALES_TYPE))
+#define OB_DUAL_BANK_VALUE              ((*((uint32_t *)OB_DUAL_BANK_BASE)) & (FLASH_OPTR_DUAL_BANK))
+#define FLASH_BANK_NB                   (((FLASH_SALES_VALUE == 0U) || ((FLASH_SALES_VALUE == FLASH_SALES_TYPE_0) && (OB_DUAL_BANK_VALUE == 0U)))?1U:2U)
+#define FLASH_BANK_SIZE                 ((FLASH_BANK_NB==1U)?(FLASH_SIZE):(FLASH_SIZE >> 1U)) /*!< FLASH Bank Size. Divided by 2 if 2 Banks */
+#else /* FLASH_DBANK_SUPPORT */
+#define FLASH_BANK_SIZE                 (FLASH_SIZE)   /*!< FLASH Bank Size */
+#endif /* FLASH_DBANK_SUPPORT */
 
 #define FLASH_PAGE_SIZE                 0x00000800U    /*!< FLASH Page Size, 2 KBytes */
-
-#if defined(STM32G081xx)||defined(STM32G071xx)||defined(STM32G070xx)
-#define FLASH_PAGE_NB                   64U
-#elif defined(STM32G0C1xx)||defined(STM32G0B1xx)||defined(STM32G0B0xx)
-/* warning : on those product, constant represents number of page per bank */
-#define FLASH_PAGE_NB                   128U
-#else
-#define FLASH_PAGE_NB                   32U
-#endif
-
+#define FLASH_PAGE_NB                   (FLASH_BANK_SIZE/FLASH_PAGE_SIZE) /* Number of pages per bank */
 #define FLASH_TIMEOUT_VALUE             1000U          /*!< FLASH Execution Timeout, 1 s */
-
 #define FLASH_TYPENONE                  0x00000000U    /*!< No programming Procedure On Going */
 
 #if defined(FLASH_PCROP_SUPPORT)
@@ -947,9 +945,12 @@ HAL_StatusTypeDef  FLASH_WaitForLastOperation(uint32_t Timeout);
 #define IS_FLASH_PAGE(__PAGE__)                        ((__PAGE__) < FLASH_PAGE_NB)
 
 #if defined(FLASH_DBANK_SUPPORT)
-#define IS_FLASH_BANK(__BANK__)                        (((__BANK__) == FLASH_BANK_1)  || \
-                                                        ((__BANK__) == FLASH_BANK_2)  || \
-                                                        ((__BANK__) == (FLASH_BANK_2 | FLASH_BANK_1)))
+#define IS_FLASH_BANK(__BANK__)                       \
+      ((FLASH_BANK_NB == 2U) ?                         \
+      (((__BANK__) == FLASH_BANK_1)  ||               \
+      ((__BANK__) == FLASH_BANK_2)  ||                \
+      ((__BANK__) == (FLASH_BANK_2 | FLASH_BANK_1))): \
+      ((__BANK__) == FLASH_BANK_1))
 #else
 #define IS_FLASH_BANK(__BANK__)                        ((__BANK__) == FLASH_BANK_1)
 #endif
@@ -964,8 +965,11 @@ HAL_StatusTypeDef  FLASH_WaitForLastOperation(uint32_t Timeout);
                                                        (((__VALUE__) & ~OPTIONBYTE_ALL) == 0x00U))
 
 #if defined(FLASH_DBANK_SUPPORT)
-#define IS_OB_WRPAREA(__VALUE__)                       (((__VALUE__) == OB_WRPAREA_ZONE_A) || ((__VALUE__) == OB_WRPAREA_ZONE_B) || \
-                                                        ((__VALUE__) == OB_WRPAREA_ZONE2_A) || ((__VALUE__) == OB_WRPAREA_ZONE2_B))
+#define IS_OB_WRPAREA(__VALUE__)                                                     \
+      ((FLASH_BANK_NB == 2U) ?                                                        \
+      (((__VALUE__) == OB_WRPAREA_ZONE_A) || ((__VALUE__) == OB_WRPAREA_ZONE_B) ||   \
+      ((__VALUE__) == OB_WRPAREA_ZONE2_A) || ((__VALUE__) == OB_WRPAREA_ZONE2_B)) :  \
+      (((__VALUE__) == OB_WRPAREA_ZONE_A) || ((__VALUE__) == OB_WRPAREA_ZONE_B)))
 #else
 #define IS_OB_WRPAREA(__VALUE__)                       (((__VALUE__) == OB_WRPAREA_ZONE_A) || ((__VALUE__) == OB_WRPAREA_ZONE_B))
 #endif
@@ -981,8 +985,11 @@ HAL_StatusTypeDef  FLASH_WaitForLastOperation(uint32_t Timeout);
 
 #if defined(FLASH_PCROP_SUPPORT)
 #if defined(FLASH_DBANK_SUPPORT)
-#define IS_OB_PCROP_CONFIG(__CONFIG__)                 (((__CONFIG__) & ~(OB_PCROP_ZONE_A | OB_PCROP_ZONE_B | \
-                                                                          OB_PCROP_ZONE2_A | OB_PCROP_ZONE2_B | OB_PCROP_RDP_ERASE)) == 0x00U)
+#define IS_OB_PCROP_CONFIG(__CONFIG__)                                                           \
+      ((FLASH_BANK_NB == 2U) ?                                                                    \
+      (((__CONFIG__) & ~(OB_PCROP_ZONE_A | OB_PCROP_ZONE_B |                                     \
+                         OB_PCROP_ZONE2_A | OB_PCROP_ZONE2_B | OB_PCROP_RDP_ERASE)) == 0x00U):   \
+      (((__CONFIG__) & ~(OB_PCROP_ZONE_A | OB_PCROP_ZONE_B | OB_PCROP_RDP_ERASE)) == 0x00U))
 #else
 #define IS_OB_PCROP_CONFIG(__CONFIG__)                 (((__CONFIG__) & ~(OB_PCROP_ZONE_A | OB_PCROP_ZONE_B | OB_PCROP_RDP_ERASE)) == 0x00U)
 #endif
