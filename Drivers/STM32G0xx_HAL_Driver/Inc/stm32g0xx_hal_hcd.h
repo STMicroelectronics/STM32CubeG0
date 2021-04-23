@@ -28,7 +28,7 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stm32g0xx_ll_usb.h"
 
-
+#if defined (USB_DRD_FS)
 /** @addtogroup STM32G0xx_HAL_Driver
   * @{
   */
@@ -481,13 +481,13 @@ HAL_StatusTypeDef  HAL_HCD_PMAReset(HCD_HandleTypeDef *hhcd);
   */
 /* Private functions prototypes ----------------------------------------------*/
 
- /**
+/**
   * @}
   */
- /**
+/**
   * @}
   */
-
+#endif /* defined (USB_DRD_FS) */
 
 #ifdef __cplusplus
 }
