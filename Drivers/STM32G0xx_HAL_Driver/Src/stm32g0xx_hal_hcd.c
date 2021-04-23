@@ -58,8 +58,7 @@
   */
 
 #ifdef HAL_HCD_MODULE_ENABLED
-
-
+#if defined (USB_DRD_FS)
 
 /** @defgroup HCD HCD
   * @brief HCD HAL module driver
@@ -2492,7 +2491,7 @@ static HAL_StatusTypeDef  HAL_HCD_PMAFree(HCD_HandleTypeDef *hhcd, uint32_t pma_
 /**
   * @}
   */
-
+#endif /* defined (USB_DRD_FS) */
 #endif /* HAL_HCD_MODULE_ENABLED */
 
 /**
