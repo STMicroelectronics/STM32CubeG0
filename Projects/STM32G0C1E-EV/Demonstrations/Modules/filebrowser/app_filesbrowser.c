@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -73,16 +72,16 @@ const K_ModuleItem_Typedef ModuleFilesBrowser =
 };
 
 /**
-  * @brief  Run the 8 uart application 
+  * @brief  Run the 8 uart application
   * @param  None.
-  * @note   run and display information about the uart transaction.  
-  * @retval None.
+  * @note   run and display information about the uart transaction.
+  * @retval KMODULE_RETURN status.
   */
 KMODULE_RETURN _FilesBrowserDemoExec(void)
 {
   /* Prepare the main MMI */
   kMenu_Execute(FilesBrowserMenu);
-  
+
   /* Execute the app 8uart */
   /* App initialization    */
   return KMODULE_OK;
@@ -94,21 +93,23 @@ FILINFO fileinfo;
 
 uint8_t stringline[MAX_LINE][256];
 /**
-  * @brief  Run the Files browser 
+  * @brief  Run the Files browser
   * @param  None.
-  * @note   run and display Files accordng the user action.  
+  * @note   run and display Files according the user action.
   * @retval None.
   */
 void FilesBrowserDemo(void)
 {
   uint8_t filename[256];
   uint8_t foldername[256];
+  uint8_t fullname[(256*2)+1];
   uint8_t folder_level = 0;
-  uint16_t folderposition= 0, foldertargetposition;
   uint8_t index;
   uint8_t sel = 1;
   uint8_t application_state = FILESBROWSER_INIT;
-  
+  uint16_t folderposition= 0, foldertargetposition;
+  uint16_t len;
+
   do
   {
     switch(application_state)
@@ -129,33 +130,33 @@ void FilesBrowserDemo(void)
       sel = 0;
       if(kStorage_GetDirectoryFiles(foldername, KSTORAGE_FINDFIRST, stringline[1], NULL) == KSTORAGE_NOERROR)
       {
-        sprintf((char *)stringline[1], "%s",stringline[1]);
         folderposition = 1;
         sel = 1;
         for(index = 2; index < MAX_LINE; index++)
         {
           if(kStorage_GetDirectoryFiles(foldername, KSTORAGE_FINDNEXT, stringline[index], NULL) == KSTORAGE_NOERROR)
           {
-            sprintf((char *)stringline[index], "%s",stringline[index]);
             folderposition++;
           }
         }
       }
-      /* Display the files list */    
+      /* Display the files list */
     case FILEBROWSER_DISPLAYFILES :
       FilesBrowserDisplayFiles(sel);
       application_state = FILEBROWSER_WAITEVENT;
       break;
-      
+
       /* Wait for an user event */
     case FILEBROWSER_WAITEVENT :
-      
+
       /* User action init */
+      /* Debounce */
+      HAL_Delay(100);
       user_event = JOY_NONE;
       user_action = 0;
       application_state = FILEBROWSER_WAITEVENT;
       while(user_event == JOY_NONE);
-      
+
       /* treatment of the user request */
       switch(user_event)
       {
@@ -168,9 +169,15 @@ void FilesBrowserDemo(void)
             folderposition++;
             for(index = 1 ; index < (MAX_LINE - 1); index++)
             {
-              strcpy((char *)stringline[index],(char *)stringline[index+1]);
+              len = 0;
+              while (stringline[index+1][len] != '\0')
+              {
+                stringline[index][len] = stringline[index+1][len];
+                len++;
+              }
+              stringline[index][len] = '\0';
             }
-            sprintf((char *)stringline[index], "%s",filename);        
+            sprintf((char *)stringline[index], "%s",filename);
           }
         }
         else
@@ -178,7 +185,7 @@ void FilesBrowserDemo(void)
           sel++;
           if( sel>folderposition) sel--;
         }
-        
+
         application_state = FILEBROWSER_DISPLAYFILES;
         break;
       case JOY_UP :
@@ -189,19 +196,17 @@ void FilesBrowserDemo(void)
           {
             foldertargetposition = folderposition;
             kStorage_GetDirectoryFiles(foldername, KSTORAGE_FINDCLOSE, filename, NULL);
-            folderposition = 0;        
-            do 
+            folderposition = 0;
+            do
             {
               kStorage_GetDirectoryFiles(foldername, ((folderposition == 0) ? KSTORAGE_FINDFIRST: KSTORAGE_FINDNEXT), stringline[1], NULL);
               folderposition++;
             } while(folderposition != (foldertargetposition - (MAX_LINE - 1)));
-            
-            sprintf((char *)stringline[1], "%s",stringline[1]);
+
             for(index = 2; index < MAX_LINE; index++)
             {
               if(kStorage_GetDirectoryFiles(foldername, KSTORAGE_FINDNEXT, stringline[index], NULL) == KSTORAGE_NOERROR)
               {
-                sprintf((char *)stringline[index], "%s",stringline[index]);
                 folderposition++;
               }
             }
@@ -216,27 +221,27 @@ void FilesBrowserDemo(void)
           application_state = FILEBROWSER_DISPLAYFILES;
           }
         }
-        
+
         break;
       case JOY_SEL :
         {
           if (sel != 0 )
           {
-            sprintf((char *)filename,"%s\\%s", stringline[0], stringline[sel]);
-            kStorage_GetFileInfo(filename, &fileinfo);
-            
-            sprintf((char *)filename,"%d", fileinfo.fattrib);
-            
+            strcpy((char *)foldername, (char *)stringline[0]);
+            sprintf((char *)fullname,"%s\\%s", foldername, stringline[sel]);
+            kStorage_GetFileInfo(fullname, &fileinfo);
+
             /* enter inside the folder */
             if(((fileinfo.fattrib & AM_DIR)== AM_DIR) && (folder_level < FOLDER_LEVEL_MAX))
             {
               kStorage_GetDirectoryFiles(foldername, KSTORAGE_FINDCLOSE, filename, NULL);
-              sprintf((char *)stringline[0],"%s\\%s", stringline[0], fileinfo.fname);
+              sprintf((char *)fullname,"%s\\%s", stringline[0], fileinfo.fname);
+              strcpy((char *)stringline[0], (char *)fullname);
               strcpy((char *)foldername, (char *)stringline[0]);
               folder_level++;
               application_state = FILEBROWSER_GETFILE;
             }
-          }        
+          }
         }
         break;
       case JOY_LEFT :
@@ -256,7 +261,7 @@ void FilesBrowserDemo(void)
                 index--;
               }
             } while(index != 0);
-            strcpy((char *)foldername, (char *)stringline[0]);      
+            strcpy((char *)foldername, (char *)stringline[0]);
             application_state = FILEBROWSER_GETFILE;
         }
         break;
@@ -265,11 +270,10 @@ void FilesBrowserDemo(void)
         break;
       }
       break;
-      
+
     case FILEBROWSER_EXIT :
       /* Close the find */
       kStorage_GetDirectoryFiles(foldername, KSTORAGE_FINDCLOSE, filename, NULL);
-      //return;
       application_state = FILEBROWSER_END;
       break;
     }
@@ -278,9 +282,9 @@ void FilesBrowserDemo(void)
 }
 
 /**
-  * @brief  Get User action 
-  * @param  sel : User selection (JOY_SEL,...)
-  * @note   This example is the only way to get user information.  
+  * @brief  Get User action
+  * @param  sel   User selection (JOY_SEL,...)
+  * @note   This example is the only way to get user information.
   * @retval None
   */
 void FilesBrowserMenuUserAction(uint8_t sel)
@@ -292,32 +296,33 @@ void FilesBrowserMenuUserAction(uint8_t sel)
   }
 }
 
-          
+
 /**
   * @brief  Refresh the file list
-  * @param  sel : User selection (JOY_SEL,...)
-  * @note   display user information  
+  * @param  sel   User selection (JOY_SEL,...)
+  * @note   display user information
   * @retval None
   */
 static void FilesBrowserDisplayFiles(uint8_t sel)
-{ 
+{
   uint8_t index;
-  uint8_t buff[200];
+  uint8_t len;
+  uint8_t buff[256*2+1];
   uint8_t strtmp[13];
   FILINFO fileinfo;
-  
+
   /* Display information */
   BSP_LCD_SetBackColor(LCD_COLOR_ST_PINK);
   BSP_LCD_SetTextColor(LCD_COLOR_ST_PINK);
   BSP_LCD_FillRect(0, 0, BSP_LCD_GetXSize(), Font24.Height);
   BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-  BSP_LCD_DisplayStringAtLine(0, stringline[0]); 
-  
+  BSP_LCD_DisplayStringAtLine(0, stringline[0]);
+
   /* Draw the folder area */
   BSP_LCD_SetTextColor(LCD_COLOR_ST_GREEN_DARK);
   BSP_LCD_DrawRect(20, 45, 140, 129);
   BSP_LCD_SetFont(&Font16);
-  
+
   for (index = 1; index < MAX_LINE; index++)
   {
     if(index == sel)
@@ -337,14 +342,23 @@ static void FilesBrowserDisplayFiles(uint8_t sel)
     else
     {
       /* add space to guarantee right display */
-      while(strlen((char*)stringline[index]) < 12)
+      if(strlen((char*)stringline[index]) < 12)
       {
-        sprintf((char*)stringline[index], "%s ", stringline[index]);
+        len = 0;
+        while(stringline[index][len] != '\0')
+        {
+          len++;
+        }
+        for(;len<12;len++)
+        {
+          stringline[index][len] = ' ';
+        }
+        stringline[index][12]= '\0';
       }
       if(strlen((char*)stringline[index]) >12)
       {
         strncpy((char*)strtmp,(char const*)stringline[index],11);
-        strtmp[11] = '*';        
+        strtmp[11] = '*';
         strtmp[12] = '\0';
         BSP_LCD_DisplayStringAt(21, 30 + Font16.Height*index, strtmp, NO_MODE);
       }
@@ -355,7 +369,7 @@ static void FilesBrowserDisplayFiles(uint8_t sel)
       }
     }
   }
-  
+
   if(sel != 0)
   {
     /* Display information about the selected file */
@@ -363,7 +377,7 @@ static void FilesBrowserDisplayFiles(uint8_t sel)
     kStorage_GetFileInfo(buff, &fileinfo);
     BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
     BSP_LCD_SetTextColor(LCD_COLOR_ST_PINK);
-    
+
     if((fileinfo.fattrib & AM_DIR) == AM_DIR)
     {
       index = 1;
@@ -374,7 +388,7 @@ static void FilesBrowserDisplayFiles(uint8_t sel)
       index = 0;
       BSP_LCD_DisplayStringAt(170, 46, (uint8_t *)"file info   ", NO_MODE);
     }
-    
+
     BSP_LCD_DisplayStringAt(170, 46+Font16.Height, (uint8_t *)"name:", NO_MODE);
     BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE);
     BSP_LCD_DisplayStringAt(186, 46+Font16.Height*2, stringline[sel],NO_MODE);
@@ -388,7 +402,7 @@ static void FilesBrowserDisplayFiles(uint8_t sel)
     {
       BSP_LCD_SetTextColor(LCD_COLOR_ST_PINK);
       BSP_LCD_DisplayStringAt(170, 46+Font16.Height*3, (uint8_t *)"fsize   :", NO_MODE);
-      BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE);      
+      BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE);
 
       /* Convert and Display file size in Bytes, Kilo or Mega Bytes */
       if( fileinfo.fsize < 1024)
@@ -403,12 +417,12 @@ static void FilesBrowserDisplayFiles(uint8_t sel)
       {
         sprintf((char *)buff,"%d MB     ", (unsigned int)fileinfo.fsize/1048576);
       }
-      BSP_LCD_DisplayStringAt(186, 46+Font16.Height*4, buff, NO_MODE); 
+      BSP_LCD_DisplayStringAt(186, 46+Font16.Height*4, buff, NO_MODE);
       BSP_LCD_SetTextColor(LCD_COLOR_ST_PINK);
       BSP_LCD_DisplayStringAt(170, 46+Font16.Height*5, (uint8_t *)"fattrib :", NO_MODE);
       BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE);
       sprintf((char *)buff,"0x%.2x", fileinfo.fattrib);
-      BSP_LCD_DisplayStringAt(186, 46+Font16.Height*6, buff, NO_MODE); 
+      BSP_LCD_DisplayStringAt(186, 46+Font16.Height*6, buff, NO_MODE);
     }
   }
   else

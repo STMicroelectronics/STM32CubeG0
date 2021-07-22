@@ -1186,6 +1186,9 @@
                     <name>$PROJ_DIR$\..\..\Modules\ucpd\usbpd_pwr_if.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\..\..\Modules\ucpd\usbpd_usb_if.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\..\..\Modules\ucpd\usbpd_vdm_user.c</name>
                 </file>
             </group>
@@ -1212,7 +1215,7 @@
     <group>
         <name>Doc</name>
         <file>
-            <name>$PROJ_DIR$\..\..\readme.txt</name>
+            <name>$PROJ_DIR$\..\readme.txt</name>
         </file>
     </group>
     <group>

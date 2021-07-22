@@ -87,6 +87,9 @@ Connectivity, USB_Device, USB, MSC, Full Speed, flash, microSD card
     - Insert a microSD card into the STM32G0C1E-EV
     - Connect the STM32G0C1E-EV board CN7(on MB1352) to the PC through "TYPE-C" to "Standard A" cable
 
+@note User shall remove the jumpers JP3 and JP4
+
+
 @par How to use it ?
 
 In order to make the program work, you must do the following :

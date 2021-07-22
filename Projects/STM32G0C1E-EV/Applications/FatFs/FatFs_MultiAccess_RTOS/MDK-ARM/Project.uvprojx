@@ -357,7 +357,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../../../../../../Firmware/Drivers/BSP/STM32G0C1E-EV</IncludePath>
+              <IncludePath>../Core/Inc;../../../../../Drivers/BSP/STM32G0C1E-EV</IncludePath>
             </VariousControls>
           </Aads>
           <LDads>

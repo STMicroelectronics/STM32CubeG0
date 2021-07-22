@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics. 
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -60,7 +59,7 @@ HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   uwTimclock = HAL_RCC_GetPCLK1Freq();
 
   /* Compute the prescaler value to have TIM7 counter clock equal to 1MHz */
-  uwPrescalerValue = (uint32_t) ((uwTimclock / 1000000) - 1);
+  uwPrescalerValue = (uint32_t) ((uwTimclock / 1000000U) - 1U);
 
   /* Initialize TIM7 */
   htim7.Instance = TIM7;
@@ -71,7 +70,7 @@ HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   + ClockDivision = 0
   + Counter direction = Up
   */
-  htim7.Init.Period = (1000000 / 1000) - 1;
+  htim7.Init.Period = (1000000U / 1000U) - 1U;
   htim7.Init.Prescaler = uwPrescalerValue;
   htim7.Init.ClockDivision = 0;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;

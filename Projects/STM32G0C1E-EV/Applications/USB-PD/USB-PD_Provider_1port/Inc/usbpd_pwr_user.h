@@ -7,21 +7,20 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USBPD_PWR_USER_H_
-#define __USBPD_PWR_USER_H_
+#ifndef USBPD_PWR_USER_H_
+#define USBPD_PWR_USER_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -93,6 +92,17 @@ typedef enum
   DCDC_CTRL_MODE_GPIO,
   DCDC_CTRL_MODE_PWM,
 } USBPD_PWR_DCDCCtrlModeTypeDef;
+
+/**
+  * @brief  Low Power Mode of TypeC ports
+  */
+typedef enum
+{
+  USBPD_PWR_MODE_OFF = 0,
+  USBPD_PWR_MODE_HIBERNATE,
+  USBPD_PWR_MODE_LOWPOWER,
+  USBPD_PWR_MODE_NORMAL
+} USBPD_PWR_PowerModeTypeDef;
 
 /**
   * @brief  VBUS connection status
@@ -201,56 +211,56 @@ typedef void USBPD_PWR_VBUSDetectCallbackFunc(uint32_t Instance,
 /**
   * @brief  Number of TypeC ports
   */
-#define USBPD_PWR_INSTANCES_NBR                 2u
+#define USBPD_PWR_INSTANCES_NBR           (2U)
 
 /**
   * @brief  Type-C port identifier
   */
-#define USBPD_PWR_TYPE_C_PORT_1                 0u
-#define USBPD_PWR_TYPE_C_PORT_2                 1u
+#define USBPD_PWR_TYPE_C_PORT_1           (0U)
+#define USBPD_PWR_TYPE_C_PORT_2           (1U)
 
 /**
   * @brief  CC pin identifier
   */
-#define USBPD_PWR_TYPE_C_CC1                    1U
-#define USBPD_PWR_TYPE_C_CC2                    2U
+#define USBPD_PWR_TYPE_C_CC1              (1U)
+#define USBPD_PWR_TYPE_C_CC2              (2U)
 
 /**
   * @brief  VBUS disconnection threshold values (in mV)
   */
-#define USBPD_PWR_HIGH_VBUS_THRESHOLD           (2800U)
-#define USBPD_PWR_LOW_VBUS_THRESHOLD            (750U)
-#define USBPD_PWR_VBUS_THRESHOLD_5V             (3900U)
-#define USBPD_PWR_VBUS_THRESHOLD_9V             (7000U)
-#define USBPD_PWR_VBUS_THRESHOLD_15V            (12500U)
-#define USBPD_PWR_VBUS_THRESHOLD_20V            (17000U)
-#define USBPD_PWR_VBUS_THRESHOLD_APDO           (2150U)
+#define USBPD_PWR_HIGH_VBUS_THRESHOLD     (2800U)
+#define USBPD_PWR_LOW_VBUS_THRESHOLD      (750U)
+#define USBPD_PWR_VBUS_THRESHOLD_5V       (3900U)
+#define USBPD_PWR_VBUS_THRESHOLD_9V       (7000U)
+#define USBPD_PWR_VBUS_THRESHOLD_15V      (12500U)
+#define USBPD_PWR_VBUS_THRESHOLD_20V      (17000U)
+#define USBPD_PWR_VBUS_THRESHOLD_APDO     (2150U)
 
 /**
   * @brief  VBUS discharge parameters
   */
-#define USBPD_PWR_DISCHARGE_MARGIN              (500U)
-#define USBPD_PWR_DISCHARGE_TIME                (6U)
+#define USBPD_PWR_DISCHARGE_MARGIN        (500U)
+#define USBPD_PWR_DISCHARGE_TIME          (6U)
 
 /**
   * @brief  Calibration settings
   */
-#define USBPD_PWR_DCDC_PRECISION                (20U)     /* DCDC output precision set to 20mV (Noise)*/
-#define USBPD_PWR_CALIBRATION_ENABLED           (1U)
-#define USBPD_PWR_CALIBRATION_DISABLED          (0U)
+#define USBPD_PWR_DCDC_PRECISION          (20U)     /* DCDC output precision set to 20mV (Noise)*/
+#define USBPD_PWR_CALIBRATION_ENABLED     (1U)
+#define USBPD_PWR_CALIBRATION_DISABLED    (0U)
 
 /**
   * @brief  Standard VBUS voltage levels
   */
-#define USBPD_PWR_VBUS_5V                       5000U
-#define USBPD_PWR_VBUS_9V                       9000U
-#define USBPD_PWR_VBUS_15V                      15000U
+#define USBPD_PWR_VBUS_5V                 5000U
+#define USBPD_PWR_VBUS_9V                 9000U
+#define USBPD_PWR_VBUS_15V                15000U
 
 /**
   * @brief  power timeout
   */
-#define USBPD_PWR_TIMEOUT_PDO                   250U         /* Timeout for PDO to PDO or PDO to APDO at 250ms*/
-#define USBPD_PWR_TIMEOUT_APDO                  25U          /* Timeout for APDO to APDO at 25ms*/
+#define USBPD_PWR_TIMEOUT_PDO             250U         /* Timeout for PDO to PDO or PDO to APDO at 250ms*/
+#define USBPD_PWR_TIMEOUT_APDO            25U          /* Timeout for APDO to APDO at 25ms*/
 
 /**
   * @brief  Invalid value set during issue with voltage setting
@@ -331,6 +341,12 @@ int32_t BSP_USBPD_PWR_Init(uint32_t Instance);
 
 int32_t BSP_USBPD_PWR_Deinit(uint32_t Instance);
 
+int32_t BSP_USBPD_PWR_SetRole(uint32_t Instance, USBPD_PWR_PowerRoleTypeDef Role);
+
+int32_t BSP_USBPD_PWR_SetPowerMode(uint32_t Instance, USBPD_PWR_PowerModeTypeDef PwrMode);
+
+int32_t BSP_USBPD_PWR_GetPowerMode(uint32_t Instance, USBPD_PWR_PowerModeTypeDef *PwrMode);
+
 int32_t BSP_USBPD_PWR_VBUSInit(uint32_t Instance);
 
 int32_t BSP_USBPD_PWR_VBUSDeInit(uint32_t Instance);
@@ -390,6 +406,8 @@ int32_t BSP_USBPD_PWR_VCONNIsOn(uint32_t Instance,
 
 int32_t BSP_USBPD_PWR_VCCSetState(uint32_t Instance, uint32_t State);
 
+void    BSP_USBPD_PWR_EventCallback(uint32_t Instance);
+
 /**
   * @}
   */
@@ -406,7 +424,7 @@ int32_t BSP_USBPD_PWR_VCCSetState(uint32_t Instance, uint32_t State);
 }
 #endif
 
-#endif /* __USBPD_PWR_USER_H_ */
+#endif /* USBPD_PWR_USER_H_ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

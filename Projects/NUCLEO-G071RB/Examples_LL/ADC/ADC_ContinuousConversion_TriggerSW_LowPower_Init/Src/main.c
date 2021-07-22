@@ -16,13 +16,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics. 
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -420,6 +419,30 @@ static void MX_ADC1_Init(void)
      {
    wait_loop_index--;
      }
+  /** Configure Regular Channel
+  */
+  LL_ADC_REG_SetSequencerRanks(ADC1, LL_ADC_REG_RANK_1, LL_ADC_CHANNEL_4);
+
+   /* Poll for ADC channel configuration ready */
+   #if (USE_TIMEOUT == 1)
+   Timeout = ADC_CHANNEL_CONF_RDY_TIMEOUT_MS;
+   #endif /* USE_TIMEOUT */
+   while (LL_ADC_IsActiveFlag_CCRDY(ADC1) == 0)
+     {
+   #if (USE_TIMEOUT == 1)
+   /* Check Systick counter flag to decrement the time-out value */
+   if (LL_SYSTICK_IsActiveCounterFlag())
+     {
+   if(Timeout-- == 0)
+         {
+   Error_Handler();
+         }
+     }
+   #endif /* USE_TIMEOUT */
+     }
+   /* Clear flag ADC channel configuration ready */
+   LL_ADC_ClearFlag_CCRDY(ADC1);
+  LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_4, LL_ADC_SAMPLINGTIME_COMMON_1);
   /** Configure Regular Channel
   */
   LL_ADC_REG_SetSequencerRanks(ADC1, LL_ADC_REG_RANK_1, LL_ADC_CHANNEL_4);

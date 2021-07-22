@@ -105,7 +105,7 @@ Connectivity, I2C, Communication, Transmission, Reception, SCL, SDA, Wake up, In
 
   - This example runs on STM32G031K8Tx devices.
 
-  - This example has been tested with NUCLEO-G031K8 board and can be
+  - This example has been tested with STM32G031K8Tx board and can be
     easily tailored to any other supported device and development board.
 
   - NUCLEO-G031K8 Set-up

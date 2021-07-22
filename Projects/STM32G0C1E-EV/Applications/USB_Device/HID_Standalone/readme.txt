@@ -92,6 +92,9 @@ Connectivity, USB_Device, USB, HID, Full Speed, Mouse, Remote Wakeup
     -Connect the STM32G0C1E-EV board CN7 to the PC through "TYPE-C" to "Standard A" cable.
     - Press the Tamper push-button  to move the cursor.
 
+@note User shall remove the jumpers JP3 and JP4
+
+
 @par How to use it ?
 
 In order to make the program work, you must do the following :

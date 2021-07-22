@@ -27,6 +27,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32g0xx_hal.h"
+
 #include "stm32g0xx_ll_ucpd.h"
 #include "stm32g0xx_ll_usart.h"
 #include "stm32g0xx_ll_rcc.h"
@@ -81,10 +82,6 @@ void Error_Handler(void);
 #define VSENSE_1_GPIO_Port GPIOB
 #define ISENSE_1_Pin LL_GPIO_PIN_10
 #define ISENSE_1_GPIO_Port GPIOB
-#define VSENSE_DCDC_Pin LL_GPIO_PIN_11
-#define VSENSE_DCDC_GPIO_Port GPIOB
-#define ISENSE_2_Pin LL_GPIO_PIN_12
-#define ISENSE_2_GPIO_Port GPIOB
 #define VBUS_DISCHARGE1_Pin LL_GPIO_PIN_13
 #define VBUS_DISCHARGE1_GPIO_Port GPIOB
 #define VBUS_DISCHARGE2_Pin LL_GPIO_PIN_14

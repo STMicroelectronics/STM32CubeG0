@@ -34,6 +34,9 @@
 #include "string.h"
 #include "stdio.h"
 #endif /* _TRACE */
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
 
 /** @addtogroup STM32_USBPD_APPLICATION
   * @{
@@ -105,6 +108,7 @@ void                USBPD_DPM_UserExecute(void *argument);
 /** @defgroup USBPD_USER_PRIVATE_VARIABLES USBPD USER Private Variables
   * @{
   */
+
 /* USER CODE BEGIN Private_Variables */
 extern USBPD_ParamsTypeDef DPM_Params[];
 USBPD_HandleTypeDef DPM_Ports[USBPD_PORT_COUNT];
@@ -148,6 +152,16 @@ USBPD_StatusTypeDef USBPD_DPM_UserInit(void)
 /* USER CODE BEGIN USBPD_DPM_UserInit */
   return USBPD_OK;
 /* USER CODE END USBPD_DPM_UserInit */
+}
+
+/**
+  * @brief  User delay implementation which is OS dependent
+  * @param  Time time in ms
+  * @retval None
+  */
+void USBPD_DPM_WaitForTime(uint32_t Time)
+{
+  osDelay(Time);
 }
 
 /**
@@ -199,19 +213,6 @@ void USBPD_DPM_UserTimerCounter(uint8_t PortNum)
   */
 
 /**
-  * @brief  Callback function called by PE layer when HardReset message received from PRL
-  * @param  PortNum The current port number
-  * @param  CurrentRole the current role
-  * @param  Status status on hard reset event
-  * @retval None
-  */
-void USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status)
-{
-/* USER CODE BEGIN USBPD_DPM_HardReset */
-/* USER CODE END USBPD_DPM_HardReset */
-}
-
-/**
   * @brief  Callback function called by PE to inform DPM about PE event.
   * @param  PortNum The current port number
   * @param  EventVal @ref USBPD_NotifyEventValue_TypeDef
@@ -222,6 +223,19 @@ void USBPD_DPM_Notification(uint8_t PortNum, USBPD_NotifyEventValue_TypeDef Even
 /* USER CODE BEGIN USBPD_DPM_Notification */
 
 /* USER CODE END USBPD_DPM_Notification */
+}
+
+/**
+  * @brief  Callback function called by PE layer when HardReset message received from PRL
+  * @param  PortNum The current port number
+  * @param  CurrentRole the current role
+  * @param  Status status on hard reset event
+  * @retval None
+  */
+void USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status)
+{
+/* USER CODE BEGIN USBPD_DPM_HardReset */
+/* USER CODE END USBPD_DPM_HardReset */
 }
 
 /**
@@ -406,6 +420,19 @@ void USBPD_DPM_ExtendedMessageReceived(uint8_t PortNum, USBPD_ExtendedMsg_TypeDe
 /* USER CODE BEGIN USBPD_DPM_ExtendedMessageReceived */
 
 /* USER CODE END USBPD_DPM_ExtendedMessageReceived */
+}
+
+/**
+  * @brief  DPM callback to allow PE to enter ERROR_RECOVERY state.
+  * @param  PortNum Port number
+  * @retval None
+  */
+void USBPD_DPM_EnterErrorRecovery(uint8_t PortNum)
+{
+/* USER CODE BEGIN USBPD_DPM_EnterErrorRecovery */
+  /* Inform CAD to enter recovery mode */
+  USBPD_CAD_EnterErrorRecovery(PortNum);
+/* USER CODE END USBPD_DPM_EnterErrorRecovery */
 }
 
 /**

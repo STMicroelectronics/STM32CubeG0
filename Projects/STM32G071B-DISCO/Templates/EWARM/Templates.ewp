@@ -349,7 +349,6 @@
           <state>$PROJ_DIR$/../../../../Drivers/CMSIS/Include</state>
           <state>$PROJ_DIR$/../../../../Drivers/BSP/STM32G071B-Discovery</state>
           <state>$PROJ_DIR$/../../../../Drivers/STM32G0xx_HAL_Driver/Inc</state>
-          <state>$PROJ_DIR$/../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy</state>
           <state>$PROJ_DIR$/../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include</state>
         </option>
         <option>

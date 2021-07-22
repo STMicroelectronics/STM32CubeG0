@@ -66,7 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.30.1.17146</state>
+                    <state>8.32.2.19370</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -116,7 +116,7 @@
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
-                    <version>26</version>
+                    <version>27</version>
                     <state>35</state>
                 </option>
                 <option>
@@ -133,7 +133,7 @@
                 </option>
                 <option>
                     <name>CoreVariant</name>
-                    <version>26</version>
+                    <version>27</version>
                     <state>35</state>
                 </option>
                 <option>
@@ -156,7 +156,7 @@
                 </option>
                 <option>
                     <name>GFPUCoreSlave2</name>
-                    <version>26</version>
+                    <version>27</version>
                     <state>35</state>
                 </option>
                 <option>
@@ -215,7 +215,7 @@
             <name>ICCARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>34</version>
+                <version>35</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -224,6 +224,7 @@
                     <state>STM32G0C1xx</state>
                     <state>USE_FULL_LL_DRIVER</state>
                     <state>USBPDCORE_LIB_NO_PD</state>
+                    <state>USBPD_TYPE_STATE_MACHINE</state>
                     <state>USBPD_PORT_COUNT=1</state>
                     <state>_SNK</state>
                 </option>
@@ -362,6 +363,7 @@
                     <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\inc</state>
                     <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\inc</state>
                     <state>$PROJ_DIR$\..\USB-PD\Target</state>
+                    <state>$PROJ_DIR$\..\USB-PD</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -478,6 +480,10 @@
                 <option>
                     <name>IccRTTI2</name>
                     <state>0</state>
+                </option>
+                <option>
+                    <name>OICompilerExtraOption</name>
+                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -699,7 +705,7 @@
             <name>ILINK</name>
             <archiveVersion>0</archiveVersion>
             <data>
-                <version>21</version>
+                <version>22</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -1015,6 +1021,10 @@
                     <name>IlinkTrustzoneImportLibraryOut</name>
                     <state>HID_Standalone_import_lib.o</state>
                 </option>
+                <option>
+                    <name>OILinkExtraOption</name>
+                    <state>1</state>
+                </option>
             </data>
         </settings>
         <settings>
@@ -1067,6 +1077,24 @@
                 </file>
             </group>
             <group>
+                <name>USB-PD</name>
+                <file>
+                    <name>$PROJ_DIR$\..\USB-PD\usbpd.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\USB-PD\usbpd_dpm_core.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\USB-PD\usbpd_dpm_user.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\USB-PD\usbpd_pwr_if.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\USB-PD\usbpd_usb_if.c</name>
+                </file>
+            </group>
+            <group>
                 <name>USB_Device</name>
                 <group>
                     <name>App</name>
@@ -1101,6 +1129,9 @@
                 <file>
                     <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\STM32G0C1E-EV\stm32g0c1e_eval.c</name>
                 </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\STM32G0C1E-EV\stm32g0c1e_eval_pwr.c</name>
+                </file>
             </group>
         </group>
         <group>
@@ -1113,6 +1144,12 @@
             <name>STM32G0xx_HAL_Driver</name>
             <file>
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_adc.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_adc_ex.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_cortex.c</name>
@@ -1137,6 +1174,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_i2c.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_lptim.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_pcd.c</name>
@@ -1190,13 +1230,19 @@
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_cad_hw_if.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_dpm_core.c</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_hw.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_hw_if_it.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_phy_hw_if.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_pwr_hw_if.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_trace.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\lib\USBPDCORE_NOPD_CM0PLUS_wc32.a</name>

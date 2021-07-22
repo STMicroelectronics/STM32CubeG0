@@ -9,13 +9,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics. 
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2019-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -236,6 +235,12 @@ void SystemClock_Config(void)
   }
 
   LL_PWR_EnableBkUpAccess();
+  if(LL_RCC_GetRTCClockSource() != LL_RCC_RTC_CLKSOURCE_LSI)
+  {
+    LL_RCC_ForceBackupDomainReset();
+    LL_RCC_ReleaseBackupDomainReset();
+    LL_RCC_SetRTCClockSource(LL_RCC_RTC_CLKSOURCE_LSI);
+  }
   /* Main PLL configuration and activation */
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_1, 8, LL_RCC_PLLR_DIV_2);
   LL_RCC_PLL_Enable();
@@ -260,12 +265,6 @@ void SystemClock_Config(void)
 
   /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
   LL_SetSystemCoreClock(64000000);
-  if(LL_RCC_GetRTCClockSource() != LL_RCC_RTC_CLKSOURCE_LSI)
-  {
-    LL_RCC_ForceBackupDomainReset();
-    LL_RCC_ReleaseBackupDomainReset();
-    LL_RCC_SetRTCClockSource(LL_RCC_RTC_CLKSOURCE_LSI);
-  }
   LL_RCC_EnableRTC();
 }
 
@@ -317,8 +316,6 @@ static void MX_RTC_Init(void)
   RTC_AlarmStruct.AlarmDateWeekDaySel = LL_RTC_ALMA_DATEWEEKDAYSEL_DATE;
   RTC_AlarmStruct.AlarmDateWeekDay = 0x1;
   LL_RTC_ALMA_Init(RTC, LL_RTC_FORMAT_BCD, &RTC_AlarmStruct);
-  LL_RTC_SetOutputPolarity(RTC, LL_RTC_OUTPUTPOLARITY_PIN_HIGH );
-  LL_RTC_SetAlarmOutputType(RTC, LL_RTC_ALARM_OUTPUTTYPE_OPENDRAIN );
   LL_RTC_DisableAlarmPullUp(RTC);
   /* USER CODE BEGIN RTC_Init 2 */
 

@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -33,7 +32,7 @@ extern "C" {
   * @brief This is the list of modules to be used in the HAL driver
   */
 #define HAL_MODULE_ENABLED
-/* #define HAL_ADC_MODULE_ENABLED   */
+#define HAL_ADC_MODULE_ENABLED   
 /* #define HAL_CEC_MODULE_ENABLED   */
 /* #define HAL_COMP_MODULE_ENABLED   */
 /* #define HAL_CRC_MODULE_ENABLED   */
@@ -41,12 +40,12 @@ extern "C" {
 /* #define HAL_DAC_MODULE_ENABLED   */
 /* #define HAL_EXTI_MODULE_ENABLED   */
 /* #define HAL_FDCAN_MODULE_ENABLED   */
-/* #define HAL_HCD_MODULE_ENABLED   */
+#define HAL_HCD_MODULE_ENABLED   
 /* #define HAL_I2C_MODULE_ENABLED   */
 /* #define HAL_I2S_MODULE_ENABLED   */
 /* #define HAL_IWDG_MODULE_ENABLED   */
 /* #define HAL_IRDA_MODULE_ENABLED   */
-/* #define HAL_LPTIM_MODULE_ENABLED   */
+#define HAL_LPTIM_MODULE_ENABLED  
 #define HAL_PCD_MODULE_ENABLED
 /* #define HAL_RNG_MODULE_ENABLED   */
 /* #define HAL_RTC_MODULE_ENABLED   */
@@ -69,7 +68,7 @@ extern "C" {
 /**
   * @brief This is the list of modules where register callback can be used
   */
-#define USE_HAL_ADC_REGISTER_CALLBACKS    0u
+#define USE_HAL_ADC_REGISTER_CALLBACKS    1u
 #define USE_HAL_CEC_REGISTER_CALLBACKS    0u
 #define USE_HAL_COMP_REGISTER_CALLBACKS   0u
 #define USE_HAL_CRYP_REGISTER_CALLBACKS   0u

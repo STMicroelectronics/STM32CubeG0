@@ -28,7 +28,8 @@
 #include "string.h"
 
 /* Private typedef -----------------------------------------------------------*/
-typedef enum {
+typedef enum
+{
   GUI_OK,
   GUI_ERASE_ERROR,
   GUI_WRITE_ERROR,
@@ -44,6 +45,12 @@ typedef enum {
   * @retval GUI status state (GUI_OK: USER Settings from GUI saving area else from original FW)
   */
 GUI_StatusTypeDef     BSP_GUI_LoadDataFromFlash(void);
+
+/**
+  * @brief  Erase User settings in GUI saving area
+  * @retval GUI status state
+  */
+GUI_StatusTypeDef BSP_GUI_EraseDataInFlash(void);
 
 /**
   * @brief  Save User settings in GUI saving area

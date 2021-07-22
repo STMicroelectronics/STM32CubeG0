@@ -7,12 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                               www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -106,15 +106,13 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     PA3     ------> ADC1_IN3
     PB1     ------> ADC1_IN9
     PB10     ------> ADC1_IN11
-    PB11     ------> ADC1_IN15
-    PB12     ------> ADC1_IN16
     */
     GPIO_InitStruct.Pin = GPIO_PIN_3;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
+    GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_10;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -164,12 +162,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     PA3     ------> ADC1_IN3
     PB1     ------> ADC1_IN9
     PB10     ------> ADC1_IN11
-    PB11     ------> ADC1_IN15
-    PB12     ------> ADC1_IN16
     */
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_3);
 
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_1|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12);
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_1|GPIO_PIN_10);
 
     /* ADC1 DMA DeInit */
     HAL_DMA_DeInit(hadc->DMA_Handle);

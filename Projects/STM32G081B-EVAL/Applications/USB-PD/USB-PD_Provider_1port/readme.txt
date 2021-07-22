@@ -89,6 +89,7 @@ USB_PD_Lib, UCPD, Type C, USBPD, FreeRTOS
 @par How to use it ?
 
 In order to make the program work, you must do the following:
+ - As UCPD Monitor is using a dedicated flash area for storing USPBD port capabilties, please make sure to erase full flash content before starting. (With STM32CubeProgrammer for example)
  - Open your preferred toolchain 
  - Rebuild all files and load your image into target memory
  - Run the example

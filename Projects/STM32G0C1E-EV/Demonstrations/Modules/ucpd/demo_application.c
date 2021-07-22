@@ -6,12 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2020 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -106,7 +106,7 @@
 #define MAX_LINE_COMMAND  4u
 #define MAX_LINE_EXTCAPA  5u
 
-/* DEMO Error messages max size 
+/* DEMO Error messages max size
 */
 #define DEMO_ERROR_MAX_MSG_SIZE  25U
 
@@ -389,22 +389,22 @@ static void Format_power(uint8_t PortNum, uint32_t Vsense, uint32_t Isense)
   char  pstr[25]={0};
 
   sprintf(pstr,"%2ld.%.2ldV %1ld.%.2ldA",(Vsense / 1000), (Vsense % 1000)/10, (Isense/1000), (Isense % 1000)/10);
-  
+
   if(USBPD_TRUE == DPM_Params[PortNum].VconnStatus)
   {
-    sprintf(pstr, "%s VC ", pstr);
+    strncat(pstr, " VC ", sizeof(pstr) - 1);
   }
   else
   {
-    sprintf(pstr, "%s     ", pstr);
+    strncat(pstr, "     ", sizeof(pstr) - 1);
   }
-  
+
   if (USBPD_PORT_0 == PortNum)
   {
     BSP_LCD_DisplayStringAt(57, Font12.Height * 4, (uint8_t*)pstr,LEFT_MODE);
   }
   else
-  {      
+  {
     BSP_LCD_DisplayStringAt(185, Font12.Height * 4, (uint8_t*)pstr, LEFT_MODE);
   }
 }
@@ -465,7 +465,7 @@ static void Display_power(void)
 static void Display_contract_port(uint8_t PortNum)
 {
   uint32_t pos;
-  
+
   BSP_LCD_SetFont(&Font16);
   BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
   BSP_LCD_SetTextColor(LCD_COLOR_ST_BLUE_DARK);
@@ -550,7 +550,7 @@ void DEMO_Display_Error(uint8_t PortNum, uint8_t ErrorType)
     BSP_USBPD_PWR_VBUSGetVoltage(PortNum, &vsense);
     Format_power(PortNum, vsense, ABS(IsenseSafety[PortNum]));
   }
-  
+
   Display_clear_info();
 
   BSP_LCD_SetFont(&Font16);
@@ -641,7 +641,8 @@ static void Display_build_info(void)
   BSP_LCD_DisplayStringAt(0, 1 + (5 * Font16.Height), (uint8_t*)"BSP built for", CENTER_MODE);
   BSP_LCD_DisplayStringAt(0, 1 + (6 * Font16.Height), (uint8_t*)"STM32G0C1E-EV", CENTER_MODE);
   sprintf((char *)_str,"REV B");
-  sprintf((char *)_str,"%s - PWM",_str);
+  strncat((char *)_str," - PWM", sizeof(_str) - 1);
+
   BSP_LCD_DisplayStringAt(0,1 + (7 * Font16.Height), _str, CENTER_MODE);
 
   _str[0] = 0;
@@ -649,9 +650,9 @@ static void Display_build_info(void)
   sprintf((char *)_str,"GUI");
 #endif
 #if defined(_TRACE)
-  sprintf((char *)_str,"%s TRACE", _str);
+  strncat((char *)_str," TRACE", sizeof(_str) - 1);
 #endif
-  sprintf((char *)_str,"%s PPS", _str);
+  strncat((char *)_str," PPS", sizeof(_str) - 1);
 
   BSP_LCD_DisplayStringAt(0,1 + (8 * Font16.Height), _str, CENTER_MODE);
 
@@ -1045,12 +1046,12 @@ uint8_t Display_sourcecapa_menu_exec(uint8_t PortNum)
   uint32_t snkpdolist[USBPD_MAX_NB_PDO];
   USBPD_PDO_TypeDef snk_fixed_pdo;
   static uint8_t indexAPDO = 0;
-  
+
   /* Read SNK PDO list for retrieving useful data to fill in RDO */
   USBPD_PWR_IF_GetPortPDOs(PortNum, USBPD_CORE_DATATYPE_SNK_PDO, (uint8_t*)&snkpdolist[0], &size);
   /* Store value of 1st SNK PDO (Fixed) in local variable */
   snk_fixed_pdo.d32 = snkpdolist[0];
-  
+
   /* selected SRC PDO */
   pdo.d32 = DPM_Ports[PortNum].DPM_ListOfRcvSRCPDO[g_tab_menu_sel[PortNum]];
   switch(pdo.GenericPDO.PowerObject)

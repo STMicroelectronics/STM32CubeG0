@@ -10,12 +10,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2018 STMicroelectronics</center></h2>
+  * Copyright (c) 2018-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -221,6 +221,8 @@ static void MUX_SEL_On(SelectId_TypeDef Sel);
 static void MUX_SEL_Off(SelectId_TypeDef Sel);
 static void MUX_DebounceTimerSetConfig(uint32_t DebounceTime);
 static void MUX_DebounceTimerResetConfig(void);
+static void TIMx_Base_MspInit(TIM_HandleTypeDef *htim);
+static void TIMx_Base_MspDeInit(TIM_HandleTypeDef *htim);
 /**
   * @}
   */
@@ -746,7 +748,7 @@ MUX_StatusTypeDef BSP_MUX_RegisterUSB3DetectCallbackFunc(MUX_TypeCMuxIdTypeDef  
   * @param  htim TIM handle
   * @retval None
   */
-void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
+static void TIMx_Base_MspInit(TIM_HandleTypeDef *htim)
 {
     /* Enable Debounce Timer clock */
     DEBOUNCE_TIM_CLK_ENABLE();
@@ -761,7 +763,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
   * @param  htim TIM handle
   * @retval None
   */
-void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef *htim)
+static void TIMx_Base_MspDeInit(TIM_HandleTypeDef *htim)
 {
     /* Enable Debounce Timer clock */
     DEBOUNCE_TIM_CLK_DISABLE();
@@ -1014,7 +1016,10 @@ static void MUX_DebounceTimerSetConfig(uint32_t DebounceTime)
     htim.Init.RepetitionCounter = 0;
     htim.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 
+    TIMx_Base_MspInit(&htim);
     HAL_TIM_Base_Init(&htim);
+    /* Clear update flag */
+    __HAL_TIM_CLEAR_FLAG(&htim, TIM_FLAG_UPDATE);
 }
 
 /**
@@ -1023,7 +1028,8 @@ static void MUX_DebounceTimerSetConfig(uint32_t DebounceTime)
 */
 static void MUX_DebounceTimerResetConfig(void)
 {
-    HAL_TIM_Base_DeInit(&htim);
+  TIMx_Base_MspDeInit(&htim);
+  HAL_TIM_Base_DeInit(&htim);
 }
 
 /**

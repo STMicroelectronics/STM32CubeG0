@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -61,8 +60,10 @@ extern USBPD_ParamsTypeDef DPM_Params[USBPD_PORT_COUNT];
 /* Exported functions --------------------------------------------------------*/
 USBPD_StatusTypeDef USBPD_DPM_InitCore(void);
 USBPD_StatusTypeDef USBPD_DPM_InitOS(void);
-void USBPD_DPM_Run(void);
+void                USBPD_DPM_Run(void);
 void                USBPD_DPM_TimerCounter(void);
+ /* USBPDCORE_LIB_NO_PD */
+__WEAK void         USBPD_DPM_ErrorHandler(void);
 /* USER CODE BEGIN functions */
 
 /* USER CODE END functions */

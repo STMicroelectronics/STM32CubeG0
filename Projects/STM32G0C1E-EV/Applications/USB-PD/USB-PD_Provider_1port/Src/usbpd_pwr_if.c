@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -352,6 +351,18 @@ USBPD_StatusTypeDef USBPD_PWR_IF_SearchRequestedPDO(uint8_t PortNum, uint32_t Rd
 }
 
 /**
+  * @brief  Function called in case of critical issue is detected to switch in safety mode.
+  * @param  ErrorType Type of error detected by monitoring (based on @ref USBPD_PWR_IF_ERROR)
+  * @retval None
+  */
+void USBPD_PWR_IF_AlarmType(USBPD_PWR_IF_ERROR ErrorType)
+{
+/* USER CODE BEGIN USBPD_PWR_IF_AlarmType */
+
+/* USER CODE END USBPD_PWR_IF_AlarmType */
+}
+
+/**
   * @brief  the function is called in case of critical issue is detected to switch in safety mode.
   * @retval None
   */
@@ -414,6 +425,9 @@ void USBPD_PWR_IF_ResetVbusThreshold(uint8_t PortNum)
 /* USER CODE END USBPD_PWR_IF_ResetVbusThreshold */
 }
 
+/* USER CODE BEGIN USBPD_USER_EXPORTED_FUNCTIONS_Definition */
+
+/* USER CODE END USBPD_USER_EXPORTED_FUNCTIONS_Definition */
 /**
   * @}
   */

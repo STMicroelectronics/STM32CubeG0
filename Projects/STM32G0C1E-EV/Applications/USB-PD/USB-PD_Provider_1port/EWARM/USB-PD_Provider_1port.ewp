@@ -351,7 +351,6 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$/../Inc</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc</state>
-          <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy</state>
           <state>$PROJ_DIR$/../../../../../../Utilities/GUI_INTERFACE</state>
           <state>$PROJ_DIR$/../../../../../../Utilities/TRACER_EMB</state>
           <state>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/include</state>
@@ -1113,9 +1112,6 @@
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_adc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_gpio.c</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_rcc.c</name>
       </file>
       <file>
@@ -1135,6 +1131,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_flash_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_gpio.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_dma.c</name>

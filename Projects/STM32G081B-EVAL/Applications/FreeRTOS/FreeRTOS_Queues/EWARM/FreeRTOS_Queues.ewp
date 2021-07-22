@@ -344,7 +344,6 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$/../Inc</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc</state>
-          <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy</state>
           <state>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/include</state>
           <state>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</state>
           <state>$PROJ_DIR$/../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM0</state>

@@ -24,6 +24,7 @@
 #include "usbpd_dpm_conf.h"
 #include "usbpd_pwr_if.h"
 #include "usbpd_hw_if.h"
+#include "usbpd_usb_if.h"
 #include "demo_application.h"
 #if defined(_TRACE)
 #include "usbpd_trace.h"
@@ -188,7 +189,7 @@ USBPD_StatusTypeDef USBPD_DPM_UserInit(void)
   {
     return USBPD_ERROR;
   }
-  
+
   DEMO_InitTask();
 
   osMessageQDef(MsgBox, DPM_BOX_MESSAGES_MAX, uint32_t);
@@ -485,7 +486,7 @@ void USBPD_DPM_Notification(uint8_t PortNum, USBPD_NotifyEventValue_TypeDef Even
   case USBPD_NOTIFY_REQUEST_ACCEPTED:
     /* Update the VBUS threshold according the new request */
     USBPD_PWR_IF_UpdateVbusThreshold(PortNum);
-    
+
       /* Update DPM_RDOPosition only if current role is SNK */
       if (USBPD_PORTPOWERROLE_SNK == DPM_Params[PortNum].PE_PowerRole)
     {
@@ -508,7 +509,7 @@ void USBPD_DPM_Notification(uint8_t PortNum, USBPD_NotifyEventValue_TypeDef Even
   case USBPD_NOTIFY_REQUEST_WAIT:
       /* Requested rejected by the source */
     break;
-    
+
   case USBPD_NOTIFY_POWER_SWAP_TO_SNK_DONE:
     USBPD_PWR_IF_ResetVbusThreshold(PortNum);
     break;
@@ -562,6 +563,50 @@ void USBPD_DPM_Notification(uint8_t PortNum, USBPD_NotifyEventValue_TypeDef Even
       }
     }
     break;
+
+  /*
+   *  USB management
+   */
+  case USBPD_NOTIFY_USBSTACK_START:
+    {
+      /* start host/device stack */
+      if (USBPD_PORTDATAROLE_DFP == DPM_Params[PortNum].PE_DataRole)
+      {
+        USBPD_USBIF_HostStart(PortNum);
+      }
+      else
+      {
+        USBPD_USBIF_DeviceStart(PortNum);
+      }
+      break;
+    }
+  case USBPD_NOTIFY_USBSTACK_STOP:
+    {
+      /* stop host/device stack */
+      if (USBPD_PORTDATAROLE_DFP == DPM_Params[PortNum].PE_DataRole)
+      {
+        USBPD_USBIF_HostStop(PortNum);
+      }
+      else
+      {
+        USBPD_USBIF_DeviceStop(PortNum);
+      }
+      break;
+    }
+  case USBPD_NOTIFY_DATAROLESWAP_DFP :
+    {
+      /* switch or start host stack */
+      USBPD_USBIF_Swap2Host(PortNum);
+      break;
+    }
+  case USBPD_NOTIFY_DATAROLESWAP_UFP :
+    {
+      /* switch or start the device stack */
+      USBPD_USBIF_Swap2Device(PortNum);
+      break;
+    }
+  /*************************** end USB management *****************************/
+
   default:
 	  break;
   }

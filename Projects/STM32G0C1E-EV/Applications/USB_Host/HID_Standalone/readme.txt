@@ -132,6 +132,9 @@ Connectivity, USB_Host, USB, HID, Human Interface, Full Speed, High Speed, Mouse
       - No parity
       - BaudRate = 115200 baud
       - Flow control: None
+	  
+@note User shall remove the jumpers JP3 and JP4
+
 
 @par How to use it ?
 

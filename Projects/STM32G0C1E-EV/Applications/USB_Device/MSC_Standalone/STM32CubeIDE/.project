@@ -117,6 +117,11 @@
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_pcd_ex.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32G0xx_HAL_Driver/stm32g0xx_hal_lptim.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_lptim.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32G0xx_HAL_Driver/stm32g0xx_hal_pwr.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_pwr.c</locationURI>
@@ -167,6 +172,16 @@
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_uart_ex.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32G0xx_HAL_Driver/stm32g0xx_ll_dma.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_dma.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32G0xx_HAL_Driver/stm32g0xx_ll_rcc.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_rcc.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32G0xx_HAL_Driver/stm32g0xx_ll_ucpd.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_ucpd.c</locationURI>
@@ -176,15 +191,10 @@
 			<type>1</type>
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_ll_usb.c</locationURI>
 		</link>
-		<link>
+			<link>
 			<name>Middlewares/STM32_USBPD_Library/usbpd_cad_hw_if.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_cad_hw_if.c</locationURI>
-		</link>
-		<link>
-			<name>Middlewares/STM32_USBPD_Library/usbpd_dpm_core.c</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_dpm_core.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/STM32_USBPD_Library/usbpd_hw.c</name>
@@ -192,9 +202,29 @@
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_hw.c</locationURI>
 		</link>
 		<link>
+			<name>Middlewares/STM32_USBPD_Library/usbpd_hw_if_it.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_hw_if_it.c</locationURI>
+		</link>
+		<link>
 			<name>Middlewares/STM32_USBPD_Library/usbpd_phy_hw_if.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_phy_hw_if.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/STM32_USBPD_Library/usbpd_pwr_hw_if.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_pwr_hw_if.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/STM32_USBPD_Library/usbpd_trace.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_trace.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/STM32_USBPD_Library/usbpd_timersserver.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_timersserver.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/USB_Device_Library/usbd_core.c</name>
@@ -211,6 +241,7 @@
 			<type>1</type>
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c</locationURI>
 		</link>
+		
 		<link>
 			<name>Middlewares/USB_Device_Library/usbd_msc.c</name>
 			<type>1</type>
@@ -231,6 +262,31 @@
 			<type>1</type>
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_scsi.c</locationURI>
 		</link>
+			<link>
+			<name>Application/User/USB-PD/usbpd_usb_if.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/USB-PD/usbpd_usb_if.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/USB-PD/usbpd.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/USB-PD/usbpd.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/USB-PD/usbpd_dpm_core.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/USB-PD/usbpd_dpm_core.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/USB-PD/usbpd_dpm_user.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/USB-PD/usbpd_dpm_user.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/USB-PD/usbpd_pwr_if.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/USB-PD/usbpd_pwr_if.c</locationURI>
+		</link>
 		<link>
 			<name>Application/User/Core/main.c</name>
 			<type>1</type>
@@ -250,6 +306,11 @@
 			<name>Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval_pwr.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval_pwr.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval_sd.c</name>

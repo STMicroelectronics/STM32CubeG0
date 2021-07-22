@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -30,16 +29,13 @@
 /* USER CODE END 1 */
 
 /* Private variables ---------------------------------------------------------*/
-const uint8_t HWBoardVersionName[] = "STM32G0C1E-EV";
-const uint8_t PDTypeName[] = "MB1581B";
+#define BSP_BOARD_NAME  "STM32G0C1E-EV";
+#define BSP_BOARD_ID    "MB1581B";
 
 /* Private functions ---------------------------------------------------------*/
-static const uint8_t*          GetHWBoardVersionName(void);
-static const uint8_t*          GetPDTypeName(void);
 
 /* USER CODE BEGIN 2 */
 /* USER CODE END 2 */
-
 /* USBPD init function */
 void MX_USBPD_Init(void)
 {
@@ -54,7 +50,7 @@ void MX_USBPD_Init(void)
   }
 
   /* Initialize GUI before retrieving PDO from RAM */
-  GUI_Init(GetHWBoardVersionName, GetPDTypeName, HW_IF_PWR_GetVoltage, HW_IF_PWR_GetCurrent);
+  GUI_Init(BSP_GetBoardName, BSP_GetBoardID, HW_IF_PWR_GetVoltage, HW_IF_PWR_GetCurrent);
 
   /* Initialise the DPM application */
   if (USBPD_OK != USBPD_DPM_UserInit())
@@ -76,22 +72,23 @@ void MX_USBPD_Init(void)
   /* USER CODE END EnableIRQ */
 
 }
+
 /**
-  * @brief  This method returns HW board version name
-  * @retval HW Board version name
+  * @brief  This method returns the board name
+  * @retval pointer to the board name string
   */
-static const uint8_t* GetHWBoardVersionName(void)
+__weak const uint8_t* BSP_GetBoardName(void)
 {
-  return HWBoardVersionName;
+  return (const uint8_t*)BSP_BOARD_NAME;
 }
 
 /**
-  * @brief  This method returns HW PD Type name
-  * @retval HW Board version name
+  * @brief  This method returns the board ID
+  * @retval pointer to the board ID string
   */
-static const uint8_t* GetPDTypeName(void)
+__weak const uint8_t* BSP_GetBoardID(void)
 {
-  return PDTypeName;
+  return (const uint8_t*)BSP_BOARD_ID;
 }
 
 /* USER CODE BEGIN 4 */

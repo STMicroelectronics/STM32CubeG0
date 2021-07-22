@@ -625,7 +625,7 @@
                 <option>
                     <name>AUserIncludes</name>
                     <state>$PROJ_DIR$\..\Core\Inc</state>
-                    <state>$PROJ_DIR$/../../../../../../Firmware/Drivers/BSP/STM32G0C1E-EV</state>
+                    <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\STM32G0C1E-EV</state>
                 </option>
                 <option>
                     <name>AExtraOptionsCheckV2</name>

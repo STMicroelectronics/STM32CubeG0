@@ -25,7 +25,9 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#ifndef _STDINT
 #include "stdint.h"
+#endif /* _STDINT */
 #include "tracer_emb_conf.h"
 
 /** @addtogroup TRACER_EMB
@@ -108,7 +110,7 @@ void TRACER_EMB_CALLBACK_TX(void);
 
 #if TRACER_EMB_DMA_MODE == 1UL
 void TRACER_EMB_IRQHandlerDMA(void);
-#endif
+#endif  /* TRACER_EMB_DMA_MODE == 1 */
 
 void TRACER_EMB_IRQHandlerUSART(void);
 

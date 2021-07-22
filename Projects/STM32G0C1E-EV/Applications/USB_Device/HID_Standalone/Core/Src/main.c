@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -22,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usb_device.h"
+#include "usbpd.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -31,6 +31,8 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+ADC_HandleTypeDef hadc1;
+DMA_HandleTypeDef hdma_adc1;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -96,15 +98,10 @@ int main(void)
     /* Global Init of USBPD HW */
   USBPD_HW_IF_GlobalHwInit();
 
-  /* Initialize the Device Policy Manager */
-  if (USBPD_OK != USBPD_DPM_InitCore())
-  {
-    Error_Handler();
-  }
-
   MX_USB_Device_Init();
 
   /* USER CODE BEGIN 2 */
+    MX_USBPD_Init();
   /* Configure the application hardware resources */
   BSP_PB_Init(BUTTON_TAMPER, BUTTON_MODE_EXTI);
   BSP_LED_Init(LED3);
@@ -117,6 +114,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    /* Run the detection state machine */
+    USBPD_DPM_Run();
   }
   /* USER CODE END 3 */
 }
@@ -169,6 +168,8 @@ void SystemClock_Config(void)
   }
   /** Configures CRS
   */
+  __HAL_RCC_CRS_CLK_ENABLE();
+
   RCC_CRSInitStruct.Prescaler = RCC_CRS_SYNC_DIV1;
   RCC_CRSInitStruct.Source = RCC_CRS_SYNC_SOURCE_USB;
   RCC_CRSInitStruct.Polarity = RCC_CRS_SYNC_POLARITY_RISING;
@@ -179,7 +180,6 @@ void SystemClock_Config(void)
   HAL_RCCEx_CRSConfig(&RCC_CRSInitStruct);
   /** Enable the SYSCFG APB clock
   */
-  __HAL_RCC_CRS_CLK_ENABLE();
 }
 
 /**
@@ -189,10 +189,10 @@ void SystemClock_Config(void)
   */
 static void MX_GPIO_Init(void)
 {
-  
+
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  
+
 }
 
 /* USER CODE BEGIN 4 */

@@ -9,13 +9,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -166,7 +165,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
 
     /* USART3 DMA Init */
     /* USART3_TX Init */
-    hdma_usart3_tx.Instance = DMA1_Channel1;
+    hdma_usart3_tx.Instance = DMA1_Channel2;
     hdma_usart3_tx.Init.Request = DMA_REQUEST_USART3_TX;
     hdma_usart3_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
     hdma_usart3_tx.Init.PeriphInc = DMA_PINC_DISABLE;

@@ -5,12 +5,12 @@
   * @brief   This file contains the device define.
   ******************************************************************************
   *
-  * Copyright (c) 2017 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -126,21 +126,21 @@ extern "C" {
 #define TIMX_CHANNEL_CH2               LL_TIM_CHANNEL_CH2
 #define TIMX_CHANNEL_CH3               LL_TIM_CHANNEL_CH3
 #define TIMX_CHANNEL_CH4               LL_TIM_CHANNEL_CH4
-#define TIMX_CHANNEL1_SETEVENT         do{                                                                    \
+#define TIMX_CHANNEL1_SETEVENT         do{                                                                   \
                                           LL_TIM_OC_SetCompareCH1(TIMX, (TimeUs + TIMX->CNT) % TIM_MAX_TIME);\
-                                          LL_TIM_ClearFlag_CC1(TIMX);                                         \
+                                          LL_TIM_ClearFlag_CC1(TIMX);                                        \
                                        }while(0)
-#define TIMX_CHANNEL2_SETEVENT         do{                                                                    \
+#define TIMX_CHANNEL2_SETEVENT         do{                                                                   \
                                           LL_TIM_OC_SetCompareCH2(TIMX, (TimeUs + TIMX->CNT) % TIM_MAX_TIME);\
-                                          LL_TIM_ClearFlag_CC2(TIMX);                                         \
+                                          LL_TIM_ClearFlag_CC2(TIMX);                                        \
                                        }while(0)
-#define TIMX_CHANNEL3_SETEVENT         do{                                                                    \
+#define TIMX_CHANNEL3_SETEVENT         do{                                                                   \
                                           LL_TIM_OC_SetCompareCH3(TIMX, (TimeUs + TIMX->CNT) % TIM_MAX_TIME);\
-                                          LL_TIM_ClearFlag_CC3(TIMX);                                         \
+                                          LL_TIM_ClearFlag_CC3(TIMX);                                        \
                                        }while(0)
-#define TIMX_CHANNEL4_SETEVENT         do{                                                                    \
+#define TIMX_CHANNEL4_SETEVENT         do{                                                                   \
                                           LL_TIM_OC_SetCompareCH4(TIMX, (TimeUs + TIMX->CNT) % TIM_MAX_TIME);\
-                                          LL_TIM_ClearFlag_CC4(TIMX);                                         \
+                                          LL_TIM_ClearFlag_CC4(TIMX);                                        \
                                        }while(0)
 #define TIMX_CHANNEL1_GETFLAG          LL_TIM_IsActiveFlag_CC1
 #define TIMX_CHANNEL2_GETFLAG          LL_TIM_IsActiveFlag_CC2
@@ -152,5 +152,4 @@ extern "C" {
 #endif
 
 #endif /* USBPD_DEVICE_CONF_H */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

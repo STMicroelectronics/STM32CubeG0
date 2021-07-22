@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -175,14 +174,14 @@ void SystemClock_Config(void)
 
   /* Set APB1 prescaler*/
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
+  /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
+  LL_SetSystemCoreClock(64000000);
 
    /* Update the time base */
   if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
   {
     Error_Handler();
   }
-  /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
-  LL_SetSystemCoreClock(64000000);
   LL_RCC_SetUSARTClockSource(LL_RCC_USART3_CLKSOURCE_PCLK1);
   LL_RCC_SetLPTIMClockSource(LL_RCC_LPTIM1_CLKSOURCE_PCLK1);
   LL_RCC_SetADCClockSource(LL_RCC_ADC_CLKSOURCE_SYSCLK);

@@ -217,6 +217,11 @@
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_timersserver.c</locationURI>
 		</link>
 		<link>
+			<name>Middlewares/STM32_USBPD_Library/usbpd_trace.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_trace.c</locationURI>
+		</link>
+		<link>
 			<name>Application/User/Core/main.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/Src/main.c</locationURI>
@@ -250,6 +255,11 @@
 			<name>Application/User/USB-PD/usbpd_pwr_if.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/USB-PD/usbpd_pwr_if.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/USB-PD/usbpd_usb_if.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/USB-PD/usbpd_usb_if.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval.c</name>

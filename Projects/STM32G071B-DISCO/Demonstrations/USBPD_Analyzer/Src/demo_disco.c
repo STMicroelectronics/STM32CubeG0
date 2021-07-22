@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2019-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -952,15 +951,15 @@ static void Display_sourcecapa_menu(void)
 
   if(DPM_Ports[0].DPM_NumberOfRcvSRCPDO != 0)
   {
-    if( DPM_Ports[0].DPM_ListOfRcvSRCPDO[0] & USBPD_PDO_SRC_FIXED_UNCHUNK_SUPPORTED)     sprintf((char *)_str, "%s UNCK", (char *)_str);
-    if( DPM_Ports[0].DPM_ListOfRcvSRCPDO[0] & USBPD_PDO_SRC_FIXED_DRD_SUPPORT_Msk)       sprintf((char *)_str, "%s DRD", (char *)_str);
-    if( DPM_Ports[0].DPM_ListOfRcvSRCPDO[0] & USBPD_PDO_SRC_FIXED_USBCOMM_NOT_SUPPORTED) sprintf((char *)_str, "%s USB", (char *)_str);
-    if( DPM_Ports[0].DPM_ListOfRcvSRCPDO[0] & USBPD_PDO_SRC_FIXED_DRP_SUPPORT_Msk)       sprintf((char *)_str, "%s DRP", (char *)_str);
+    if( DPM_Ports[0].DPM_ListOfRcvSRCPDO[0] & USBPD_PDO_SRC_FIXED_UNCHUNK_SUPPORTED)     strncat((char *)_str, " UNCK", sizeof(_str) - 1);
+    if( DPM_Ports[0].DPM_ListOfRcvSRCPDO[0] & USBPD_PDO_SRC_FIXED_DRD_SUPPORT_Msk)       strncat((char *)_str, " DRD", sizeof(_str) - 1);
+    if( DPM_Ports[0].DPM_ListOfRcvSRCPDO[0] & USBPD_PDO_SRC_FIXED_USBCOMM_NOT_SUPPORTED) strncat((char *)_str, " USB", sizeof(_str) - 1);
+    if( DPM_Ports[0].DPM_ListOfRcvSRCPDO[0] & USBPD_PDO_SRC_FIXED_DRP_SUPPORT_Msk)       strncat((char *)_str, " DRP", sizeof(_str) - 1);
   }
 
   if(_str[0] == ' ')
   {
-    memcpy(&_str[0], &_str[1], STR_SIZE_MAX);
+    memmove(&_str[0], &_str[1], STR_SIZE_MAX);
   }
 
   string_completion(_str);
@@ -1788,11 +1787,11 @@ static void Display_menu_version()
   sprintf((char *)str_version, "w29.5 C");
 #if defined(_GUI_INTERFACE)
   if(MODE_SPY != hmode) {
-  sprintf((char *)str_version,"%s GUI", str_version);
+  strncat((char *)str_version, " GUI", sizeof(str_version) - 1);
   }
 #endif
 #if defined(_TRACE)
-  sprintf((char *)str_version,"%s TRACE", str_version);
+  strncat((char *)str_version," TRACE", sizeof(str_version) - 1);
 #endif
   BSP_LCD_SetFont(&Font8);
   BSP_LCD_DisplayStringAtLine(7,  (uint8_t *)str_version);

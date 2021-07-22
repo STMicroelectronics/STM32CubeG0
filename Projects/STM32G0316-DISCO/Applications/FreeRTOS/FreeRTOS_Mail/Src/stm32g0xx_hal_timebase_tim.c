@@ -28,13 +28,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2019-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -82,7 +81,7 @@ HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   uwTimclock = HAL_RCC_GetPCLK1Freq();
 
   /* Compute the prescaler value to have TIM17 counter clock equal to 1MHz */
-  uwPrescalerValue = (uint32_t) ((uwTimclock / 1000000) - 1);
+  uwPrescalerValue = (uint32_t) ((uwTimclock / 1000000U) - 1U);
 
   /* Initialize TIM17 */
   htim17.Instance = TIM17;
@@ -93,7 +92,7 @@ HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   + ClockDivision = 0
   + Counter direction = Up
   */
-  htim17.Init.Period = (1000000 / 1000) - 1;
+  htim17.Init.Period = (1000000U / 1000U) - 1U;
   htim17.Init.Prescaler = uwPrescalerValue;
   htim17.Init.ClockDivision = 0;
   htim17.Init.CounterMode = TIM_COUNTERMODE_UP;

@@ -310,7 +310,7 @@
         </option>
         <option>
           <name>CCRequirePrototypes</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>CCDiagWarnAreErr</name>
@@ -344,7 +344,6 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$/../Inc</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc</state>
-          <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Include</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32G0C1E-EV</state>

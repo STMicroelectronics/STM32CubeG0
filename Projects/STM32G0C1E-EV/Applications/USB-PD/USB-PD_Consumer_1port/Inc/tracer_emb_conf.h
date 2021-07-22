@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -75,7 +74,8 @@ extern "C" {
 #define TRACER_EMB_USART_IRQHANDLER                  USART3_4_5_6_LPUART1_IRQHandler
 #define TRACER_EMB_TX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
 #define TRACER_EMB_RX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
-
+#define TRACER_EMB_TX_IRQ_PRIORITY                   3
+ /* TRACER_EMB_DMA_MODE == 1UL */
 #define TRACER_EMB_DMA_INSTANCE                      DMA1
 #define TRACER_EMB_ENABLE_CLK_DMA()                  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 #define TRACER_EMB_TX_DMA_REQUEST                    LL_DMAMUX_REQ_USART3_TX
@@ -86,6 +86,8 @@ extern "C" {
 #define TRACER_EMB_TX_DMA_IRQHANDLER                 DMA1_Ch4_7_DMA2_Ch1_5_DMAMUX1_OVR_IRQHandler
 #define TRACER_EMB_TX_DMA_ACTIVE_FLAG                LL_DMA_IsActiveFlag_TC7
 #define TRACER_EMB_TX_DMA_CLEAR_FLAG                 LL_DMA_ClearFlag_GI7
+#define TRACER_EMB_TX_DMA_PRIORITY                   0
+ /* TRACER_EMB_DMA_MODE == 1UL */
 
 #ifdef __cplusplus
 }

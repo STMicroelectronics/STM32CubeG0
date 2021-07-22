@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -392,11 +391,11 @@ static void Format_power(uint8_t PortNum, uint32_t Vsense, uint32_t Isense)
   
   if(USBPD_TRUE == DPM_Params[PortNum].VconnStatus)
   {
-    sprintf(pstr, "%s VC ", pstr);
+    strncat(pstr, " VC ", sizeof(pstr) - 1);
   }
   else
   {
-    sprintf(pstr, "%s     ", pstr);
+    strncat(pstr, "     ", sizeof(pstr) - 1);
   }
   
   if (USBPD_PORT_0 == PortNum)
@@ -641,7 +640,7 @@ static void Display_build_info(void)
   BSP_LCD_DisplayStringAt(0, 1 + (5 * Font16.Height), (uint8_t*)"BSP built for", CENTER_MODE);
   BSP_LCD_DisplayStringAt(0, 1 + (6 * Font16.Height), (uint8_t*)"STM32G081B-EVAL", CENTER_MODE);
   sprintf((char *)_str,"REV C");
-  sprintf((char *)_str,"%s - PWM",_str);
+  strncat((char *)_str," - PWM",sizeof(_str) - 1);
   BSP_LCD_DisplayStringAt(0,1 + (7 * Font16.Height), _str, CENTER_MODE);
 
   _str[0] = 0;
@@ -649,9 +648,9 @@ static void Display_build_info(void)
   sprintf((char *)_str,"GUI");
 #endif
 #if defined(_TRACE)
-  sprintf((char *)_str,"%s TRACE", _str);
+  strncat((char *)_str," TRACE", sizeof(_str) - 1);
 #endif
-  sprintf((char *)_str,"%s PPS", _str);
+  strncat((char *)_str," PPS", sizeof(_str) - 1);
 
   BSP_LCD_DisplayStringAt(0,1 + (8 * Font16.Height), _str, CENTER_MODE);
 

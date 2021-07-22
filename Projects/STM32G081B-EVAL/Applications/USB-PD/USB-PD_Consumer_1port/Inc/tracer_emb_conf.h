@@ -73,7 +73,8 @@ extern "C" {
 #define TRACER_EMB_USART_IRQHANDLER                  USART3_4_LPUART1_IRQHandler
 #define TRACER_EMB_TX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
 #define TRACER_EMB_RX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
-
+#define TRACER_EMB_TX_IRQ_PRIORITY                   3
+ /* TRACER_EMB_DMA_MODE == 1UL */
 #define TRACER_EMB_DMA_INSTANCE                      DMA1
 #define TRACER_EMB_ENABLE_CLK_DMA()                  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 #define TRACER_EMB_TX_DMA_REQUEST                    LL_DMAMUX_REQ_USART3_TX
@@ -84,6 +85,8 @@ extern "C" {
 #define TRACER_EMB_TX_DMA_IRQHANDLER                 DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler
 #define TRACER_EMB_TX_DMA_ACTIVE_FLAG                LL_DMA_IsActiveFlag_TC4
 #define TRACER_EMB_TX_DMA_CLEAR_FLAG                 LL_DMA_ClearFlag_GI4
+#define TRACER_EMB_TX_DMA_PRIORITY                   0
+ /* TRACER_EMB_DMA_MODE == 1UL */
 
 #ifdef __cplusplus
 }

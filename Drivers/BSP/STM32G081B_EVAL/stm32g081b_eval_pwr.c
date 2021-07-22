@@ -13,12 +13,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2018 STMicroelectronics</center></h2>
+  * Copyright (c) 2018-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -373,6 +373,10 @@ static PWR_StatusTypeDef PWR_VBUSSetVoltage(uint32_t Instance,
                                          uint32_t VBusInmV,
                                          uint16_t Precision);
 
+static void ADCx_MspInit(ADC_HandleTypeDef *hadc);
+static void ADCx_MspDeInit(ADC_HandleTypeDef *hadc);
+static void LPTIMx_MspInit(LPTIM_HandleTypeDef *hlptim);
+static void LPTIMx_MspDeInit(LPTIM_HandleTypeDef *hlptim);
 /* USER CODE END POWER_Private_Prototypes */
 /**
   * @}
@@ -393,9 +397,9 @@ extern DMA_HandleTypeDef hdma_adc1;
 /**
   * @brief  Get the VSENSE_DCDC measurement with  DCDC_EN = 0 and = 1
   *         controller.
-  * @param  voltageDCDCOff
-  * @param  voltageDCDCOnT0 at T0
-  * @param  voltageDCDCOnT10 at T10 = 100ms
+  * @param  voltageDCDCOff voltage DCDC Off.
+  * @param  voltageDCDCOnT0  voltage DCDC Off at T0.
+  * @param  voltageDCDCOnT10  voltage DCDC Off at T10 = 100ms.
   * @retval none
   */
 void BSP_PWR_VBUSIsGPIO(uint32_t *voltageDCDCOff, uint32_t *voltageDCDCOnT0, uint32_t *voltageDCDCOnT10)
@@ -423,6 +427,7 @@ void BSP_PWR_VBUSIsGPIO(uint32_t *voltageDCDCOff, uint32_t *voltageDCDCOnT0, uin
   /* Initialize ADC */
   hadc.Instance = DB_ADC;
 
+  ADCx_MspDeInit(&hadc);
   if (HAL_ADC_DeInit(&hadc) != HAL_OK)
   {
     /* ADC de-initialization Error */
@@ -445,6 +450,7 @@ void BSP_PWR_VBUSIsGPIO(uint32_t *voltageDCDCOff, uint32_t *voltageDCDCOnT0, uin
   hadc.Init.SamplingTimeCommon1   = ADC_SAMPLETIME_39CYCLES_5;
   hadc.Init.OversamplingMode      = DISABLE;
 
+  ADCx_MspInit(&hadc);
   if (HAL_ADC_Init(&hadc) != HAL_OK)
   {
     error++;
@@ -562,6 +568,7 @@ void BSP_PWR_VBUSIsGPIO(uint32_t *voltageDCDCOff, uint32_t *voltageDCDCOnT0, uin
   HAL_GPIO_DeInit(GPIO_PORT[GPIO_V_CTL1], GPIO_PIN[GPIO_V_CTL1]);
 
   /* De-initialize ADC& */
+  ADCx_MspDeInit(&hadc);
   HAL_ADC_DeInit(&hadc);
 
   /* Disable ADC clock */
@@ -2329,6 +2336,7 @@ static uint8_t PWR_ADC_SetConfig(void)
     hadc1.Init.SamplingTimeCommon1   = ADC_SAMPLETIME_39CYCLES_5;
     hadc1.Init.OversamplingMode      = DISABLE;
 
+    ADCx_MspInit(&hadc1);
     if (HAL_ADC_Init(&hadc1) != HAL_OK) ret++;
 
     /* Run the ADC calibration */
@@ -2369,6 +2377,7 @@ static void PWR_ADC_ResetConfig(void)
     PWR_ADC_ResetChannelConfig(ADC_ISENSE_2);
 
     /* De-initialize ADCx */
+    ADCx_MspDeInit(&hadc1);
     HAL_ADC_DeInit(&hadc1);
   }
 }
@@ -3027,7 +3036,7 @@ static uint8_t PWR_ResumeVBusSensing(void)
   * @param hadc ADC handle
   * @retval None
   */
-void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
+static void ADCx_MspInit(ADC_HandleTypeDef *hadc)
 {
   /* Enable ADCx clock */
   ADCx_CLK_ENABLE();
@@ -3066,7 +3075,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
   * @param hadc ADC handle
   * @retval None
   */
-void HAL_ADC_MspDeInit(ADC_HandleTypeDef *hadc)
+static void ADCx_MspDeInit(ADC_HandleTypeDef *hadc)
 {
   /* Reset ADC peripheral */
   ADCx_FORCE_RESET();
@@ -3172,7 +3181,7 @@ void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
   * @param  hlptim LPTIM handle
   * @retval None
   */
-void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef *hlptim)
+static void LPTIMx_MspInit(LPTIM_HandleTypeDef *hlptim)
 {
   RCC_PeriphCLKInitTypeDef clk_config = {0u};
   GPIO_InitTypeDef         gpio_config = {0u};
@@ -3206,7 +3215,7 @@ void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef *hlptim)
   * @param  hlptim LPTIM handle
   * @retval None
   */
-void HAL_LPTIM_MspDeInit(LPTIM_HandleTypeDef *hlptim)
+static void LPTIMx_MspDeInit(LPTIM_HandleTypeDef *hlptim)
 {
   /* Reset PC1 configuration */
   HAL_GPIO_DeInit(GPIO_V_CTL1_PORT, GPIO_V_CTL1_PIN);
@@ -3243,7 +3252,7 @@ static uint8_t PWR_InitPowerSource(void)
   hlptim.Init.OutputPolarity  = LPTIM_OUTPUTPOLARITY_HIGH;
   hlptim.Init.UpdateMode      = LPTIM_UPDATE_IMMEDIATE;
 
-  HAL_LPTIM_DeInit(&hlptim);
+  LPTIMx_MspInit(&hlptim);
   if (HAL_LPTIM_Init(&hlptim) != HAL_OK) ret++;
 
   /* Start PWM signal generation (VBUS voltage defaults at 5V)*/
@@ -3260,7 +3269,7 @@ static uint8_t PWR_InitPowerSource(void)
 static void PWR_DeInitPowerSource(void)
 {
   HAL_LPTIM_PWM_Stop(&hlptim);
-  HAL_LPTIM_DeInit(&hlptim);
+  LPTIMx_MspDeInit(&hlptim);
 }
 
 /**

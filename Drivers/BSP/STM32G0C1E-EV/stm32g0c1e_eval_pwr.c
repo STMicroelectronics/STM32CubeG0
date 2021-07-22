@@ -13,12 +13,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2020 STMicroelectronics</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -172,7 +172,7 @@ typedef struct
 
 /* VBUS voltage level values (in mV) */
 #define VBUS_VOLTAGE_0V_IN_MV   0u
-#define VBUS_VOLTAGE_5V_IN_MV   5000u
+#define VBUS_VOLTAGE_5V_IN_MV   5100u
 #define VBUS_VOLTAGE_9V_IN_MV   9000u
 #define VBUS_VOLTAGE_15V_IN_MV  15000u
 #define VBUS_VOLTAGE_18V_IN_MV  18000u
@@ -398,9 +398,9 @@ extern DMA_HandleTypeDef hdma_adc1;
 /**
   * @brief  Get the VSENSE_DCDC measurement with  DCDC_EN = 0 and = 1
   *         controller.
-  * @param  voltageDCDCOff
-  * @param  voltageDCDCOnT0 at T0
-  * @param  voltageDCDCOnT10 at T10 = 100ms
+  * @param  voltageDCDCOff voltage DCDC Off.
+  * @param  voltageDCDCOnT0  voltage DCDC Off at T0.
+  * @param  voltageDCDCOnT10  voltage DCDC Off at T10 = 100ms.
   * @retval none
   */
 void BSP_PWR_VBUSIsGPIO(uint32_t *voltageDCDCOff, uint32_t *voltageDCDCOnT0, uint32_t *voltageDCDCOnT10)
@@ -424,7 +424,7 @@ void BSP_PWR_VBUSIsGPIO(uint32_t *voltageDCDCOff, uint32_t *voltageDCDCOnT0, uin
 
   /* Enable ADC clock */
   DB_ADC_CLK_ENABLE();
-  
+
   /* Register ADC MSP callback functions */
   if ((HAL_ADC_RegisterCallback(&hadc, HAL_ADC_MSPINIT_CB_ID, PWR_ADC_MspInit) != HAL_OK)
    || (HAL_ADC_RegisterCallback(&hadc, HAL_ADC_MSPDEINIT_CB_ID, PWR_ADC_MspDeInit) != HAL_OK))
@@ -441,7 +441,7 @@ void BSP_PWR_VBUSIsGPIO(uint32_t *voltageDCDCOff, uint32_t *voltageDCDCOnT0, uin
     /* ADC de-initialization Error */
     error++;
   }
-  
+
 
   hadc.Init.ClockPrescaler        = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc.Init.Resolution            = ADC_RESOLUTION_12B;
@@ -884,7 +884,7 @@ PWR_StatusTypeDef BSP_PWR_RegisterVBUSDetectCallback(uint32_t                   
 uint8_t BSP_PWR_VBUSIsOn(uint32_t Instance)
 {
   uint8_t state = 0;
-  
+
   BSP_USBPD_PWR_VBUSIsOn(Instance, &state);
 
   return state;
@@ -905,7 +905,7 @@ uint8_t BSP_PWR_VCONNIsOn(uint32_t Instance,
                           uint32_t CCPinId)
 {
   uint8_t state = 0;
-  
+
   BSP_USBPD_PWR_VCONNIsOn(Instance, CCPinId, &state);
 
   return state;
@@ -1236,7 +1236,7 @@ int32_t BSP_USBPD_PWR_VBUSOn(uint32_t Instance)
       PWR_GPIO_On(GPIO_SOURCE_EN);
 
       /* Set VBUS to its default voltage level */
-      ret = PWR_VBUSSetVoltage(Instance, VBUS_VOLTAGE_5V_IN_MV, 200u); /* 5% max = 250mV max */
+      ret = PWR_VBUSSetVoltage(Instance, VBUS_VOLTAGE_5V_IN_MV, 80u); /* 5% max = 250mV max */
 
       /* Stop VBUS Discharge */
       PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
@@ -1913,8 +1913,8 @@ int32_t BSP_USBPD_PWR_RegisterVBUSDetectCallback(uint32_t                       
       adc_awd_config.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
       adc_awd_config.Channel        = ADCx_CHANNEL_VSENSE_1;
     }
-    else 
-    { 
+    else
+    {
       adc_awd_config.WatchdogNumber = ADC_ANALOGWATCHDOG_2;
       adc_awd_config.Channel        = ADCx_CHANNEL_VSENSE_2;
     }
@@ -2339,7 +2339,7 @@ static uint8_t PWR_ADC_SetConfig(void)
     /* Register ADC MSP callback functions */
     if (HAL_ADC_RegisterCallback(&hadc1, HAL_ADC_MSPINIT_CB_ID, PWR_ADC_MspInit) != HAL_OK) ret++;
     if (HAL_ADC_RegisterCallback(&hadc1, HAL_ADC_MSPDEINIT_CB_ID, PWR_ADC_MspDeInit) != HAL_OK) ret++;
-    
+
     /* Configuration of hadc1 init structure: ADC parameters and regular group */
     hadc1.Instance = ADCx;
 
@@ -2409,7 +2409,7 @@ static void PWR_ADC_ResetConfig(void)
 
     /* De-initialize ADCx */
     (void)HAL_ADC_DeInit(&hadc1);
-    
+
     /* Un-register ADC MSP callback functions */
     HAL_ADC_UnRegisterCallback(&hadc1, HAL_ADC_MSPINIT_CB_ID);
     HAL_ADC_UnRegisterCallback(&hadc1, HAL_ADC_MSPDEINIT_CB_ID);
@@ -2665,7 +2665,7 @@ static int32_t PWR_VBUSSetVoltage(uint32_t Instance,
                                                 uint32_t VBusInmV,
                                                 uint16_t Precision)
 {
-  static uint8_t aPWMDutyCalibrated[VBUS_LEVEL_NB] = 
+  static uint8_t aPWMDutyCalibrated[VBUS_LEVEL_NB] =
   {
     0x0,   /* 5V */
     0x0,   /* 9V */
@@ -2689,9 +2689,9 @@ static int32_t PWR_VBUSSetVoltage(uint32_t Instance,
     {
     case VBUS_VOLTAGE_0V_IN_MV:
       {
-      duty_cycle    = 0x10u;
-      /* Set PWM duty cycle to its initial value */
-      PWR_SetPWMDutyCycle(duty_cycle);
+        duty_cycle    = 0x10u;
+        /* Set PWM duty cycle to its initial value */
+        PWR_SetPWMDutyCycle(duty_cycle);
         _retr = BSP_ERROR_NONE;
         break;
       }
@@ -2837,7 +2837,7 @@ static int32_t PWR_VBUSSetVoltage(uint32_t Instance,
           }
         }
         /* Limit PWM setpoint to max value (if required) */
-        else 
+        else
         {
           if ((ABS(pwm)) >= (uint32_t)BSP_USBPD_PWR_DCDC_MAX_PWM_STEP)
           {
@@ -2945,7 +2945,7 @@ static int32_t PWR_VBUSSetVoltage(uint32_t Instance,
 #if defined(_TRACE)
         sprintf(_str, "ca1PPS:%d", duty_cycle);
         USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
-#endif        
+#endif
         break;
         }
       }
@@ -3382,7 +3382,6 @@ static void PWR_DCDCPreChargeC57(uint32_t Instance)
        Step 4: go back to working mode... */
     PWR_GPIO_Init(GPIO_V_CTL1);
     (void)PWR_InitPowerSource();
-    HAL_Delay(20);
   }
 }
 

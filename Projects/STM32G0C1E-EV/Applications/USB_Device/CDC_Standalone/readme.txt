@@ -145,6 +145,8 @@ Connectivity, USB_Device, USB, CDC, Virtual COM Port
     - Stop Bit = 1
     - Parity = None
     - Flow control = None
+	
+@note User shall remove the jumpers JP3 and JP4
 
 
 @par How to use it ?

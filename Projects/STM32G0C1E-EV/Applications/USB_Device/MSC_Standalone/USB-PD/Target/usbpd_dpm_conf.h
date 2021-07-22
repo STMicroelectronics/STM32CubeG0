@@ -40,13 +40,17 @@
 /* USER CODE END Typedef */
 
 /* Private variables ---------------------------------------------------------*/
-
-USBPD_SettingsTypeDef DPM_Settings[USBPD_PORT_COUNT] =
+#ifndef __USBPD_DPM_CORE_C
+extern USBPD_SettingsTypeDef            DPM_Settings[USBPD_PORT_COUNT];
+#else /* __USBPD_DPM_CORE_C */
+const USBPD_SettingsTypeDef       DPM_Settings[USBPD_PORT_COUNT] =
 {
   {
     .PE_DefaultRole = USBPD_PORTPOWERROLE_SNK,  /* Default port role                                       */
   }
 };
+#endif /* !__USBPD_DPM_CORE_C */
+
 /* USER CODE END Variable */
 
 /* Exported constants --------------------------------------------------------*/

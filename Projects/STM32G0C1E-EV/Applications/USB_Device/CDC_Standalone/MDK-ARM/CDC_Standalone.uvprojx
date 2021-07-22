@@ -16,8 +16,8 @@
         <TargetCommonOption>
           <Device>STM32G0C1CETx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32G0Bx_DFP.0.0.1</PackID>
-          <PackURL>http://www.keil.com/pack</PackURL>
+          <PackID>Keil.STM32G0xx_DFP.1.3.0</PackID>
+          <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IROM(0x08000000-0x807FFFF) IRAM(0x20000000-0x20023FFF) CLOCK(8000000) CPUTYPE("Cortex-M0+") TZ</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32G0C1xx,USE_FULL_LL_DRIVER,USBPDCORE_LIB_NO_PD,_SNK,USBPD_PORT_COUNT=1,_SNK</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc;../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy;../../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include;../../../../../../Drivers/CMSIS/Include;../../../../../../Drivers/BSP/STM32G0C1E-EV;../../../../../../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../../../../../../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../USB_Device/App;../USB_Device/Target;../../../../../../Middlewares/ST/STM32_USBPD_Library/Core/inc;../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/inc;../USB-PD/Target</IncludePath>
+              <IncludePath>../Core/Inc;../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc;../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy;../../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include;../../../../../../Drivers/CMSIS/Include;../../../../../../Drivers/BSP/STM32G0C1E-EV;../../../../../../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../../../../../../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../USB_Device/App;../USB_Device/Target;../../../../../../Middlewares/ST/STM32_USBPD_Library/Core/inc;../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/inc;../USB-PD/Target;../USB-PD</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -411,6 +411,36 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Application/User/USB-PD</GroupName>
+          <Files>
+            <File>
+              <FileName>usbpd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../USB-PD/usbpd.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_dpm_core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../USB-PD/usbpd_dpm_core.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_dpm_user.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../USB-PD/usbpd_dpm_user.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_pwr_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../USB-PD/usbpd_pwr_if.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_usb_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../USB-PD/usbpd_usb_if.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Application/User/USB_Device/App</GroupName>
           <Files>
             <File>
@@ -458,6 +488,11 @@
               <FileType>1</FileType>
               <FilePath>../../../../../../Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32g0c1e_eval_pwr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Drivers/BSP/STM32G0C1E-EV/stm32g0c1e_eval_pwr.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -477,6 +512,16 @@
               <FileName>stm32g0xx_hal.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32g0xx_hal_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32g0xx_hal_adc_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_adc_ex.c</FilePath>
             </File>
             <File>
               <FileName>stm32g0xx_hal_cortex.c</FileName>
@@ -522,6 +567,11 @@
               <FileName>stm32g0xx_hal_pcd_ex.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_pcd_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32g0xx_hal_lptim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_lptim.c</FilePath>
             </File>
             <File>
               <FileName>stm32g0xx_hal_pwr.c</FileName>
@@ -594,19 +644,34 @@
               <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_cad_hw_if.c</FilePath>
             </File>
             <File>
-              <FileName>usbpd_dpm_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_dpm_core.c</FilePath>
-            </File>
-            <File>
               <FileName>usbpd_hw.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_hw.c</FilePath>
             </File>
             <File>
+              <FileName>usbpd_hw_if_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_hw_if_it.c</FilePath>
+            </File>
+            <File>
               <FileName>usbpd_phy_hw_if.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_phy_hw_if.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_pwr_hw_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_pwr_hw_if.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_trace.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_trace.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_timersserver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_timersserver.c</FilePath>
             </File>
             <File>
               <FileName>USBPDCORE_NOPD_CM0PLUS_Keil.lib</FileName>

@@ -5,17 +5,20 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Release Notes for Projects of STM32CubeG0 Firmware Package</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
-  <link rel="stylesheet" href="../_htmresc/mini-st_2020.css" />
+  <link rel="stylesheet" href="../_htmresc/mini-st.css" />
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
-  <link rel="icon" type="image/x-icon" href="_htmresc/favicon.png" />
+  <link rel="icon" type="image/x-icon" href="../_htmresc/favicon.png" />
 </head>
 <body>
 <div class="row">
@@ -58,44 +61,16 @@
 <li><a href="https://www.st.com/resource/en/user_manual/DM00734798.pdf">UM2776</a> : STM32CubeG0 demonstration firmware for STM32G0C1E-EV board</li>
 </ul>
 </div>
-<div class="col-sm-12 col-lg-8">
-<h1 id="update-history">Update History</h1>
+<section id="update-history" class="col-sm-12 col-lg-8">
+<h1>Update History</h1>
 <div class="collapse">
-<input type="checkbox" id="collapse-section5" checked aria-hidden="true"> <label for="collapse-section5" aria-hidden="true">V1.4.0 / 03-November-2020</label>
+<input type="checkbox" id="collapse-section6" checked aria-hidden="true"> <label for="collapse-section6" aria-hidden="true">V1.5.0 / 17-June-2021</label>
 <div>
 <h2 id="main-changes">Main Changes</h2>
 <h3 id="maintenance-release-and-product-update">Maintenance release and Product Update</h3>
 <p>Official Release of STM32CubeG0 Firmware projects introducing <strong>STM32G0C1xx/B1xx/B0xx</strong> devices.</p>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting STM32G041xx/31xx/30xx and STM32G081xx/71xx/70xx devices.</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
-<p><strong>New FW examples</strong></p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Headline</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">NUCLEO-G0B1RE: add templates, exemples, applications</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">STM32G0C1E-EV: add templates, exemples, applications, demonstration</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[STM32G081B-EVAL] Add I2C_EEPROM (legacy format) to the STM32G081B-EVAL examples</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[STM32G081B-EVAL] Missing CRYPT AES CCM example on STM32G081 EVAL</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[STM32G081B-EVAL] Add CRYP_AESModes_Suspension and CRYP_GCM_Suspension examples</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Add STM32CubeIDE projects and remove SW4STM32 projects</td>
-</tr>
-</tbody>
-</table>
 <p><strong>Fixed bugs list</strong></p>
 <table>
 <thead>
@@ -105,127 +80,49 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Correction in STM32G081B-EVAL_Demonstrations</td>
+<td style="text-align: left;">STM32G0C1E-EV/Applications/USB_Device/DFU_Standalone MDK-ARM-warnings.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">STM32G071B-DISCO_Demonstrations Change output (.hex) relative path for DISCO binary generation</td>
+<td style="text-align: left;">CRS clock enable is called after config API.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Correct STM32G081B-EVAL_Examples_CRYP_Readme</td>
+<td style="text-align: left;">STM32G0C1E-EV/Applications/USB-PD/USBPD_SOURCE_HID STM32CubeIDE-warnings.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Correct STM32G081B-EVAL_Examples_CEC_CEC_ListenMode_Device_Readme</td>
+<td style="text-align: left;">Warnings generated using the new GCC version 9.3.1 (along with CubeIDE v1.6.0).</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Correct STM32G081B-EVAL_Examples_BSP_BSP_Example-CubeIDE-warnings</td>
+<td style="text-align: left;">Duplicate <span class="citation" data-cites="par">@par</span> Keywords tag in readme file for FatFs_uSD_Standalone example.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Correct NUCLEO-G0_Examples_I2C_I2C_TwoBoards_RestartAdvComIT_Readme</td>
+<td style="text-align: left;">[RCC][G0] Wrong systick configuration and HAL delay with MX generate code.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Correct NUCLEO-G070RB_Examples_I2C_I2C_TwoBoards_RestartAdvComIT_Update main.c “Semihosting Test”</td>
+<td style="text-align: left;">[G0]USBPD : Error with Timer Service Source when TIM4 till TIM20 are configured.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Correct NUCLEO-G070RB_Examples_LL_I2C_I2C_OneBoard_Communication_IT_Readme</td>
+<td style="text-align: left;">[USBPD][G0] Few updates in FTL files to allow adding more user code.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Correct NUCLEO-G070RB_Examples_LL_SPI_SPI_OneBoard_HalfDuplex_IT_Readme</td>
+<td style="text-align: left;">[I2C] G0 - “stm32g0xx.h” inclusion should be removed from I2C template.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Correct STM32G081B-EVAL_Examples_UART_UART_Printf Readme</td>
+<td style="text-align: left;">RTC : RTC output should be disabled when tamper is activated.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">[UC5] Improve Pdsc generation</td>
+<td style="text-align: left;">[LL SPI Example] Clears DMA global flag GIFx which is not inline with errata 2.3.1.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">[UCPD applications] Remove TX processing task</td>
+<td style="text-align: left;">Remove the include “cmsis_os.h” from g0xx_it.c from FreeRTOS applications.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">[CubeMx v6.1.0] Updates examples, applications using latest CubeMX</td>
+<td style="text-align: left;">LPTIM_ConfigClock function call to be added.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">[Codespell] Correct misspelled words in FW examples</td>
+<td style="text-align: left;">[G0] TIM LL/HAL : Break and Dead time Extra code generated in MX_TIMx_Init() function.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">[FOSS-Audit] Change CMSIS license headers from BSD-3 to Apache 2.0 in FW projects</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[USBPD] Integrate USB-PD stack v3.1.0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[USBPD] Update the CPU clock to 64Mhz</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[FreeRTOS application] FreeRTOS apps regeneration using CubeMx + PG</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[FatFs_uSD_Standalone] Application regeneration using CubeMx and PG</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[Examples_LL] LL_SYSCFG_DisableDBATT should be added in LL examples (w/o ioc update)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">G0 I2C examples: Align the I2C DeInit pins code with CubeMX</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[FW Package] File Readme.md shall be renamed README.md with capital letters</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">STM32G0 - LPRUN example is not optimized</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[USBPD]PDO management not correct when GUI is enabled</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[USBPD]_GUI_INTERFACE should be disabled</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[USBPD] Explicit_Contract information not properly sent to UCPD Monitor on DETACH</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">STM32G0 - LPRUN example is not optimized</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Bad RTC accuracy in demo projects due to prescaler using LSI setting instead of LSE</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[I2C LL examples] Unused EXTERNAL_PULL_UP_AVAILABLE</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[ALL][GCC] G0 GCC startup file should use cortex M0+</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[STM32G071B-DISCO][Demonstration] Refresh LCD in case of new capabilities received by Disco</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[FW][CubeMX] Replace all board name by board=custom</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[STM32G071B-DISCO][Demonstration] Instabilities with DISCO-G0 when request changing voltage</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[NUCLEO-G07xRB_MIX2C2C_OneBoard_ComSlave7_10bits_IT] Wrong Readme</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[NUCLEO-G07xRB] Change LL example polarity for automatic testing</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[NUCLEO-G0xx][LL LPTIM] MDK-ARM link issue after adding of new API LL_LPTIM_Disable()</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[STM32G081B-EVAL][Demonstration]__HAL_FLASH_CLEAR_FLAG() replaced by clear of FLAHSH-&gt;SR register</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[PWR][Examples] HAL_PWR_PVD_Falling/rising_Callback() API update in HAL PWR_PVD FW exemples</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[FW Package] Headers shall be added to the binary demo-related "readme.txt" files</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[STM32G081B-EVAL][USBPD Applications] Hard reset sent with Application Provider on Keil</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">[ALL] Use CMSIS bits definition in system_stm32g0xx.c since RCC_CFGR_SWS_* have been removed from CMSIS</td>
+<td style="text-align: left;">[Templates] Migrate to default ARM compiler 6 in MDK-ARM Templates projects.</td>
 </tr>
 </tbody>
 </table>
@@ -653,6 +550,654 @@
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">IAR Embedded Workbench for ARM (EWARM)</td>
+<td>V8.50.6</td>
+<td style="text-align: left;">G0C1xx/B1xx/B0xx</td>
+<td style="text-align: left;"><a href="./Utilities/PC_Software/EWARMv8_STM32G0Bx_V0.2.zip">Patch EWARM</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IAR Embedded Workbench for ARM (EWARM)</td>
+<td>V8.50.6</td>
+<td style="text-align: left;">G061xx/51xx/50xx</td>
+<td style="text-align: left;"><a href="./Utilities/PC_Software/EWARMv8_STM32G05x_V0.2.zip">Patch EWARM</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RealView Microcontroller Development Kit (MDK-ARM)</td>
+<td>V5.31</td>
+<td style="text-align: left;">G0C1xx/B1xx/B0xx</td>
+<td style="text-align: left;"><a href="./Utilities/PC_Software/Keil.STM32G0Bx_DFP.0.0.2.zip">Patch MDK-ARM</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RealView Microcontroller Development Kit (MDK-ARM)</td>
+<td>V5.31</td>
+<td style="text-align: left;">G061xx/51xx/50xx</td>
+<td style="text-align: left;"><a href="./Utilities/PC_Software/Keil.STM32G05x_DFP.0.0.2.zip">Patch MDK-ARM</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STM32CubeIDE</td>
+<td>V1.7.0</td>
+<td style="text-align: left;">G0C1xx/B1xx/B0xx</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="supported-devices-and-boards">Supported Devices and boards</h2>
+<ul>
+<li>STM32G041xx, STM32G031xx and STM32G030xx devices</li>
+<li>STM32G081xx, STM32G071xx and STM32G070xx devices</li>
+<li>STM32G0C1xx, STM32G0B1xx and STM32G0B0xx devices</li>
+<li>STM32G0B1RE Nucleo kit (MB1360 C-01)</li>
+<li>STM32G071RB Nucleo kit RevC (MB1360 C-01)</li>
+<li>STM32G070RB Nucleo kit RevC (MB1360 C-01)</li>
+<li>STM32G0C1E Evaluation board RevA (MB1581 A-01)</li>
+<li>STM32G081B Evaluation board RevB (MB1350 B-01)</li>
+<li>STM32G081B/<strong>STM32G0B1RE</strong> Legacy daughter board RevA (MB1351 A-01)</li>
+<li>STM32G081B USBPD daughter board RevC (MB1352 C-01)</li>
+<li>STM32G071B Discovery kit RevC (MB1378 C-01)</li>
+<li>STM32G031K8 Nucleo32 kit (MB1455)</li>
+<li>STM32G0316 Discovery kit (MB1454)</li>
+</ul>
+<h2 id="backward-compatibility">Backward Compatibility</h2>
+<p>This release is compatible with the previous versions</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>This projects release is compatible with:</p>
+<ul>
+<li>STM32CubeMX V6.3.0</li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section5" aria-hidden="true"> <label for="collapse-section5" aria-hidden="true">V1.4.0 / 03-November-2020</label>
+<div>
+<h2 id="main-changes-1">Main Changes</h2>
+<h3 id="maintenance-release-and-product-update-1">Maintenance release and Product Update</h3>
+<p>Official Release of STM32CubeG0 Firmware projects introducing <strong>STM32G0C1xx/B1xx/B0xx</strong> devices.</p>
+<p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting STM32G041xx/31xx/30xx and STM32G081xx/71xx/70xx devices.</p>
+<p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
+<p><strong>New FW examples</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Headline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">NUCLEO-G0B1RE: add templates, exemples, applications</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">STM32G0C1E-EV: add templates, exemples, applications, demonstration</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[STM32G081B-EVAL] Add I2C_EEPROM (legacy format) to the STM32G081B-EVAL examples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[STM32G081B-EVAL] Missing CRYPT AES CCM example on STM32G081 EVAL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[STM32G081B-EVAL] Add CRYP_AESModes_Suspension and CRYP_GCM_Suspension examples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Add STM32CubeIDE projects and remove SW4STM32 projects</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fixed bugs list</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Headline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Correction in STM32G081B-EVAL_Demonstrations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">STM32G071B-DISCO_Demonstrations Change output (.hex) relative path for DISCO binary generation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Correct STM32G081B-EVAL_Examples_CRYP_Readme</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Correct STM32G081B-EVAL_Examples_CEC_CEC_ListenMode_Device_Readme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Correct STM32G081B-EVAL_Examples_BSP_BSP_Example-CubeIDE-warnings</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Correct NUCLEO-G0_Examples_I2C_I2C_TwoBoards_RestartAdvComIT_Readme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Correct NUCLEO-G070RB_Examples_I2C_I2C_TwoBoards_RestartAdvComIT_Update main.c “Semihosting Test”</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Correct NUCLEO-G070RB_Examples_LL_I2C_I2C_OneBoard_Communication_IT_Readme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Correct NUCLEO-G070RB_Examples_LL_SPI_SPI_OneBoard_HalfDuplex_IT_Readme</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Correct STM32G081B-EVAL_Examples_UART_UART_Printf Readme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[UC5] Improve Pdsc generation</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[UCPD applications] Remove TX processing task</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[CubeMx v6.1.0] Updates examples, applications using latest CubeMX</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[Codespell] Correct misspelled words in FW examples</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[FOSS-Audit] Change CMSIS license headers from BSD-3 to Apache 2.0 in FW projects</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[USBPD] Integrate USB-PD stack v3.1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[USBPD] Update the CPU clock to 64Mhz</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[FreeRTOS application] FreeRTOS apps regeneration using CubeMx + PG</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[FatFs_uSD_Standalone] Application regeneration using CubeMx and PG</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[Examples_LL] LL_SYSCFG_DisableDBATT should be added in LL examples (w/o ioc update)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">G0 I2C examples: Align the I2C DeInit pins code with CubeMX</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[FW Package] File Readme.md shall be renamed README.md with capital letters</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STM32G0 - LPRUN example is not optimized</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[USBPD]PDO management not correct when GUI is enabled</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[USBPD]_GUI_INTERFACE should be disabled</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[USBPD] Explicit_Contract information not properly sent to UCPD Monitor on DETACH</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STM32G0 - LPRUN example is not optimized</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bad RTC accuracy in demo projects due to prescaler using LSI setting instead of LSE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[I2C LL examples] Unused EXTERNAL_PULL_UP_AVAILABLE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[ALL][GCC] G0 GCC startup file should use cortex M0+</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[STM32G071B-DISCO][Demonstration] Refresh LCD in case of new capabilities received by Disco</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[FW][CubeMX] Replace all board name by board=custom</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[STM32G071B-DISCO][Demonstration] Instabilities with DISCO-G0 when request changing voltage</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[NUCLEO-G07xRB_MIX2C2C_OneBoard_ComSlave7_10bits_IT] Wrong Readme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[NUCLEO-G07xRB] Change LL example polarity for automatic testing</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[NUCLEO-G0xx][LL LPTIM] MDK-ARM link issue after adding of new API LL_LPTIM_Disable()</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[STM32G081B-EVAL][Demonstration]__HAL_FLASH_CLEAR_FLAG() replaced by clear of FLAHSH-&gt;SR register</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[PWR][Examples] HAL_PWR_PVD_Falling/rising_Callback() API update in HAL PWR_PVD FW exemples</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[FW Package] Headers shall be added to the binary demo-related "readme.txt" files</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[STM32G081B-EVAL][USBPD Applications] Hard reset sent with Application Provider on Keil</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[ALL] Use CMSIS bits definition in system_stm32g0xx.c since RCC_CFGR_SWS_* have been removed from CMSIS</td>
+</tr>
+</tbody>
+</table>
+<h3 id="warning-1"><strong>Warning</strong></h3>
+<p>For applications using device connected on CN7 (Type-C connector on MB1352):</p>
+<ul>
+<li><p>When the power source jumper JP24 is configured to D5V position (with this configuration the mother board is powered from the daughter board), there is no risk to get an over voltage on USB Vbus connector CN7.</p></li>
+<li><p>When the ST-Link is used as power source there is a risk to get an over voltage in connector. In such power configuration, software safety protection is required to detect the overvoltage.</p>
+<p>Please refer to /* SAFETY PROTECTION CODE BEGIN */ section in main.c of USB_Host applications.</p></li>
+</ul>
+<h2 id="contents-1">Contents</h2>
+<p><strong>STM32G0C1E-EV</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Board</th>
+<th style="text-align: left;">Project category</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G0C1E-EV</strong></td>
+<td style="text-align: left;"><strong>Applications</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\STM32G0C1E-EV\Applications</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>STM32G0C1E-EV</strong></td>
+<td style="text-align: left;"><strong>Demonstrations</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\STM32G0C1E-EV\Demonstrations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G0C1E-EV</strong></td>
+<td style="text-align: left;"><strong>Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G0C1E-EV\Examples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>STM32G0C1E-EV</strong></td>
+<td style="text-align: left;"><strong>Examples_LL</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G0C1E-EV\Examples_LL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G0C1E-EV</strong></td>
+<td style="text-align: left;"><strong>Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G0C1E-EV\Templates</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>STM32G0C1E-EV</strong></td>
+<td style="text-align: left;"><strong>LL Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G0C1E-EV\Templates_LL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NUCLEO-G0B1RE</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Board</th>
+<th style="text-align: left;">Project category</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G0B1RE</strong></td>
+<td style="text-align: left;"><strong>Applications</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G0B1RE\Applications</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G0B1RE</strong></td>
+<td style="text-align: left;"><strong>Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G0B1RE\Examples</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G0B1RE</strong></td>
+<td style="text-align: left;"><strong>LL Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G0B1RE\Examples_LL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G0B1RE</strong></td>
+<td style="text-align: left;"><strong>MIX Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G0B1RE\Examples_MIX</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G0B1RE</strong></td>
+<td style="text-align: left;"><strong>Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G0B1RE\Templates</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G0B1RE</strong></td>
+<td style="text-align: left;"><strong>LL Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G0B1RE\Templates_LL</td>
+</tr>
+</tbody>
+</table>
+<p>NUCLEO-G070RB</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Board</th>
+<th style="text-align: left;">Project category</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G070RB</strong></td>
+<td style="text-align: left;"><strong>Applications</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G070RB\Applications</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G070RB</strong></td>
+<td style="text-align: left;"><strong>Demonstrations</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G070RB\Demonstrations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G070RB</strong></td>
+<td style="text-align: left;"><strong>Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G070RB\Examples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G070RB</strong></td>
+<td style="text-align: left;"><strong>LL Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G070RB\Examples_LL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G070RB</strong></td>
+<td style="text-align: left;"><strong>MIX Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G070RB\Examples_MIX</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G070RB</strong></td>
+<td style="text-align: left;"><strong>Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G070RB\Templates</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G070RB</strong></td>
+<td style="text-align: left;"><strong>LL Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G070RB\Templates_LL</td>
+</tr>
+</tbody>
+</table>
+<p>NUCLEO-G071RB</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Board</th>
+<th style="text-align: left;">Project category</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G071RB</strong></td>
+<td style="text-align: left;"><strong>Applications</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G071RB\Applications</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G071RB</strong></td>
+<td style="text-align: left;"><strong>Demonstrations</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G071RB\Demonstrations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G071RB</strong></td>
+<td style="text-align: left;"><strong>Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G071RB\Examples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G071RB</strong></td>
+<td style="text-align: left;"><strong>LL Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G071RB\Examples_LL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G071RB</strong></td>
+<td style="text-align: left;"><strong>MIX Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G071RB\Examples_MIX</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G071RB</strong></td>
+<td style="text-align: left;"><strong>Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G071RB\Templates</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G071RB</strong></td>
+<td style="text-align: left;"><strong>LL Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G071RB\Templates_LL</td>
+</tr>
+</tbody>
+</table>
+<p>STM32G071B-DISCO</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Board</th>
+<th style="text-align: left;">Project category</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G071B-DISCO</strong></td>
+<td style="text-align: left;"><strong>Demonstrations</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\STM32G071B-DISCO\Demonstrations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>STM32G071B-DISCO</strong></td>
+<td style="text-align: left;"><strong>Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G071B-DISCO\Examples</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G071B-DISCO</strong></td>
+<td style="text-align: left;"><strong>LL Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G071B-DISCO\Examples_LL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>STM32G071B-DISCO</strong></td>
+<td style="text-align: left;"><strong>MIX Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G071B-DISCO\Examples_MIX</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G071B-DISCO</strong></td>
+<td style="text-align: left;"><strong>Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G071B-DISCO\Templates</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>STM32G071B-DISCO</strong></td>
+<td style="text-align: left;"><strong>LL Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G071B-DISCO\Templates_LL</td>
+</tr>
+</tbody>
+</table>
+<p>STM32G081B-EVAL</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Board</th>
+<th style="text-align: left;">Project category</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G081B-EVAL</strong></td>
+<td style="text-align: left;"><strong>Applications</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\STM32G081B-EVAL\Applications</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>STM32G081B-EVAL</strong></td>
+<td style="text-align: left;"><strong>Demonstrations</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\STM32G081B-EVAL\Demonstrations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G081B-EVAL</strong></td>
+<td style="text-align: left;"><strong>Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G081B-EVAL\Examples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>STM32G081B-EVAL</strong></td>
+<td style="text-align: left;"><strong>Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G081B-EVAL\Templates</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G081B-EVAL</strong></td>
+<td style="text-align: left;"><strong>LL Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G081B-EVAL\Templates_LL</td>
+</tr>
+</tbody>
+</table>
+<p>STM32G0316-DISCO</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Board</th>
+<th style="text-align: left;">Project category</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G0316-DISCO</strong></td>
+<td style="text-align: left;"><strong>Applications</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\STM32G0316-DISCO\Applications</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>STM32G0316-DISCO</strong></td>
+<td style="text-align: left;"><strong>Demonstrations</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\STM32G0316-DISCO\Demonstrations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G0316-DISCO</strong></td>
+<td style="text-align: left;"><strong>Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G0316-DISCO\Examples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>STM32G0316-DISCO</strong></td>
+<td style="text-align: left;"><strong>Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G0316-DISCO\Templates</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>STM32G0316-DISCO</strong></td>
+<td style="text-align: left;"><strong>LL Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\STM32G0316-DISCO\Templates_LL</td>
+</tr>
+</tbody>
+</table>
+<p>NUCLEO-G031K8</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Board</th>
+<th style="text-align: left;">Project category</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G031K8</strong></td>
+<td style="text-align: left;"><strong>Applications</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G031K8\Applications</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G031K8</strong></td>
+<td style="text-align: left;"><strong>Demonstrations</strong></td>
+<td style="text-align: left;"><a href="http://www.st.com/SLA0044">SLA0044</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G031K8\Demonstrations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G031K8</strong></td>
+<td style="text-align: left;"><strong>Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G031K8\Examples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G031K8</strong></td>
+<td style="text-align: left;"><strong>LL Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G031K8\Examples_LL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G031K8</strong></td>
+<td style="text-align: left;"><strong>MIX Examples</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G031K8\Examples_MIX</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>NUCLEO-G031K8</strong></td>
+<td style="text-align: left;"><strong>Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G031K8\Templates</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NUCLEO-G031K8</strong></td>
+<td style="text-align: left;"><strong>LL Templates</strong></td>
+<td style="text-align: left;"><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause</a></td>
+<td style="text-align: left;">Projects\NUCLEO-G031K8\Templates_LL</td>
+</tr>
+</tbody>
+</table>
+<p>Note: in the tables above, project categories <strong>highlighted</strong> have changed since previous release.</p>
+<h2 id="known-limitations-1">Known Limitations</h2>
+<ul>
+<li>A few applications on STM32G0C1E-EV projects are not available at CubeMx format (with .ioc)</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-1">Development Toolchains and Compilers</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Toolchain + ST-Link</th>
+<th>Version</th>
+<th style="text-align: left;">Device</th>
+<th style="text-align: left;">Patch(if available)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">IAR Embedded Workbench for ARM (EWARM)</td>
 <td>V8.30.1</td>
 <td style="text-align: left;">G0C1xx/B1xx/B0xx</td>
 <td style="text-align: left;"><a href="./Utilities/PC_Software/EWARMv8_STM32G0Bx_V0.2.zip">Patch EWARM</a></td>
@@ -683,7 +1228,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="supported-devices-and-boards">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-1">Supported Devices and boards</h2>
 <ul>
 <li>STM32G041xx, STM32G031xx and STM32G030xx devices</li>
 <li>STM32G081xx, STM32G071xx and STM32G070xx devices</li>
@@ -699,9 +1244,9 @@
 <li>STM32G031K8 Nucleo32 kit (MB1455)</li>
 <li>STM32G0316 Discovery kit (MB1454)</li>
 </ul>
-<h2 id="backward-compatibility">Backward Compatibility</h2>
+<h2 id="backward-compatibility-1">Backward Compatibility</h2>
 <p>This release is compatible with the previous versions</p>
-<h2 id="dependencies">Dependencies</h2>
+<h2 id="dependencies-1">Dependencies</h2>
 <p>This projects release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V6.1.0</li>
@@ -711,7 +1256,7 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section4" aria-hidden="true"> <label for="collapse-section4" aria-hidden="true">V1.3.0 / 25-June-2019</label>
 <div>
-<h2 id="main-changes-1">Main Changes</h2>
+<h2 id="main-changes-2">Main Changes</h2>
 <h3 id="maintenance-release">Maintenance release</h3>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting STM32G041xx/31xx/30xx and STM32G081xx/71xx/70xx devices</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
@@ -759,7 +1304,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="contents-1">Contents</h2>
+<h2 id="contents-2">Contents</h2>
 <p><strong>NUCLEO-G070RB</strong></p>
 <table>
 <thead>
@@ -1061,14 +1606,14 @@
 </tbody>
 </table>
 <p>Note: in the tables above, project categories <strong>highlighted</strong> have changed since previous release.</p>
-<h2 id="known-limitations-1">Known Limitations</h2>
-<h2 id="development-toolchains-and-compilers-1">Development Toolchains and Compilers</h2>
+<h2 id="known-limitations-2">Known Limitations</h2>
+<h2 id="development-toolchains-and-compilers-2">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25 + ST-Link</li>
 <li>System Workbench for STM32 (SW4STM32) toolchain V2.7.2 + ST-Link</li>
 </ul>
-<h2 id="supported-devices-and-boards-1">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-2">Supported Devices and boards</h2>
 <ul>
 <li>STM32G041xx, STM32G031xx and STM32G030xx devices</li>
 <li>STM32G081xx, STM32G071xx and STM32G070xx devices</li>
@@ -1081,9 +1626,9 @@
 <li>STM32G031K8 Nucleo32 kit (MB1455)</li>
 <li>STM32G0316 Discovery kit (MB1454)</li>
 </ul>
-<h2 id="backward-compatibility-1">Backward Compatibility</h2>
+<h2 id="backward-compatibility-2">Backward Compatibility</h2>
 <p>This release is compatible with the previous versions</p>
-<h2 id="dependencies-1">Dependencies</h2>
+<h2 id="dependencies-2">Dependencies</h2>
 <p>This projects release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V5.3.0</li>
@@ -1093,8 +1638,8 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section3" aria-hidden="true"> <label for="collapse-section3" aria-hidden="true">V1.2.0 / 05-April-2019</label>
 <div>
-<h2 id="main-changes-2">Main Changes</h2>
-<h3 id="maintenance-release-and-product-update-1">Maintenance release and product Update</h3>
+<h2 id="main-changes-3">Main Changes</h2>
+<h3 id="maintenance-release-and-product-update-2">Maintenance release and product Update</h3>
 <p>First Official release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting <strong>STM32G041xx/31xx/30xx</strong> devices and introducing new <strong>STM32G0316-DISCO</strong> and <strong>NUCLEO-G031K8</strong> boards.</p>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting <strong>STM32G081xx/71xx/70xx</strong> devices</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
@@ -1145,7 +1690,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="contents-2">Contents</h2>
+<h2 id="contents-3">Contents</h2>
 <table>
 <thead>
 <tr class="header">
@@ -1381,18 +1926,18 @@
 </tbody>
 </table>
 <p>Note: in the table above, project categories <strong>highlighted</strong> have changed since previous release.</p>
-<h2 id="known-limitations-2">Known Limitations</h2>
+<h2 id="known-limitations-3">Known Limitations</h2>
 <ul>
 <li>SW4STM32 project is not provided for STM32G081B-EVAL UCPD demonstration in relocate mode</li>
 <li>SW4STM32 and MDK-ARM projects are not provided for STM32G081B-EVAL CRYP_DMA examples</li>
 </ul>
-<h2 id="development-toolchains-and-compilers-2">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-3">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25 + ST-Link</li>
 <li>System Workbench for STM32 (SW4STM32) toolchain V2.7.2 + ST-Link</li>
 </ul>
-<h2 id="supported-devices-and-boards-2">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-3">Supported Devices and boards</h2>
 <ul>
 <li>STM32G041xx, STM32G031xx and STM32G030xx devices</li>
 <li>STM32G081xx, STM32G071xx and STM32G070xx devices</li>
@@ -1405,9 +1950,9 @@
 <li><strong>STM32G031K8 Nucleo32 kit (MB1455)</strong></li>
 <li><strong>STM32G0316 Discovery kit (MB1454)</strong></li>
 </ul>
-<h2 id="backward-compatibility-2">Backward Compatibility</h2>
+<h2 id="backward-compatibility-3">Backward Compatibility</h2>
 <p>This release is compatible with the previous versions</p>
-<h2 id="dependencies-2">Dependencies</h2>
+<h2 id="dependencies-3">Dependencies</h2>
 <p>This projects release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V5.2.0</li>
@@ -1417,7 +1962,7 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section2" aria-hidden="true"> <label for="collapse-section2" aria-hidden="true">V1.1.0 / 06-February-2019</label>
 <div>
-<h2 id="main-changes-3">Main Changes</h2>
+<h2 id="main-changes-4">Main Changes</h2>
 <h3 id="maintenance-release-1">Maintenance release</h3>
 <p>Official release of STM32CubeG0 (STM32Cube for STM32G0 Series) supporting STM32G081xx/71xx/70xx devices and introducing new <strong>STM32G071-DISCO</strong> board, designed to highlight <strong>USBPD features</strong>.</p>
 <p>NUCLEO-G071RB, NUCLEO-G070RB and STM32G081B-EVAL completed with new examples in STM32CubeMx format.</p>
@@ -1481,7 +2026,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="contents-3">Contents</h2>
+<h2 id="contents-4">Contents</h2>
 <table>
 <thead>
 <tr class="header">
@@ -1645,18 +2190,18 @@
 </tbody>
 </table>
 <p>Note: in the table above, project categories <strong>highlighted</strong> have changed since previous release.</p>
-<h2 id="known-limitations-3">Known limitations</h2>
+<h2 id="known-limitations-4">Known limitations</h2>
 <ul>
 <li>SW4STM32 project is not provided for STM32G081B-EVAL UCPD demonstration in relocate mode</li>
 <li>SW4STM32 and MDK-ARM projects are not provided for STM32G081B-EVAL CRYP_DMA examples</li>
 </ul>
-<h2 id="development-toolchains-and-compilers-3">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-4">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
 <li>System Workbench STM32 (SW4STM32) toolchain V2.5</li>
 </ul>
-<h2 id="supported-devices-and-boards-3">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-4">Supported Devices and boards</h2>
 <ul>
 <li>STM32G081xx devices RevB</li>
 <li>STM32G071xx devices RevB</li>
@@ -1668,9 +2213,9 @@
 <li>STM32G081B UCPD daughter board RevC (MB1352 C-01)</li>
 <li><strong>STM32G071B Discovery kit RevC (MB1378 C-01</strong>)</li>
 </ul>
-<h2 id="backward-compatibility-3">Backward compatibility</h2>
+<h2 id="backward-compatibility-4">Backward compatibility</h2>
 <p>This release is compatible with the previous versions</p>
-<h2 id="dependencies-3">Dependencies</h2>
+<h2 id="dependencies-4">Dependencies</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V5.1.x</li>
@@ -1680,7 +2225,7 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section1" aria-hidden="true"> <label for="collapse-section1" aria-hidden="true">V1.0.0 / 26-October-2018</label>
 <div>
-<h2 id="main-changes-4">Main Changes</h2>
+<h2 id="main-changes-5">Main Changes</h2>
 <h3 id="first-release">First release</h3>
 <p>First release of STM32CubeG0 (STM32Cube for STM32G0 Series) projects supporting <strong>STM32G081xx/71xx/70xx devices</strong></p>
 <p>In the STM32CubeG0 MCU Package, most of the examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
@@ -1697,7 +2242,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="contents-4">Contents</h2>
+<h2 id="contents-5">Contents</h2>
 <table>
 <thead>
 <tr class="header">
@@ -1825,14 +2370,14 @@
 </tbody>
 </table>
 <p>Note: in the table above, project categories <strong>highlighted</strong> have changed since previous release.</p>
-<h2 id="known-limitations-4">Known limitations</h2>
+<h2 id="known-limitations-5">Known limitations</h2>
 <ul>
 <li>SW4STM32 project is not provided for STM32G081B-EVAL UCPD demonstration in relocate mode</li>
 <li>SW4STM32 and MDK-ARM projects are not provided for STM32G081B-EVAL CRYP_DMA examples</li>
 <li>FatFs applications generated with CubeMx not yet available</li>
 <li>USB PD applications generated with CubeMx not yet available</li>
 </ul>
-<h2 id="development-toolchains-and-compilers-4">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-5">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2+ ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
@@ -1849,14 +2394,14 @@
 <li>STM32G081B Legacy daughter board RevA (MB1351 A-01)</li>
 <li>STM32G081B UCPD daughter board RevC (MB1352 C-01)</li>
 </ul>
-<h2 id="dependencies-4">Dependencies</h2>
+<h2 id="dependencies-5">Dependencies</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V5.0.x</li>
 </ul>
 </div>
 </div>
-</div>
+</section>
 </div>
 <footer class="sticky">
 <p>For complete documentation on STM32G0xx,visit: [<a href="http://www.st.com/stm32g0">www.st.com/stm32g0</a>]</p>

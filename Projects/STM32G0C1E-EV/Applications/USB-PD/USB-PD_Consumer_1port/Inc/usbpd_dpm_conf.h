@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -80,7 +79,7 @@ USBPD_SettingsTypeDef       DPM_Settings[USBPD_PORT_COUNT] =
     .PE_PD3_Support.d =                           /*!< PD3 SUPPORT FEATURE                                              */
     {
       .PE_UnchunkSupport                = USBPD_FALSE,  /* support Unchunked mode (valid only spec revision 3.0)   */
-      .PE_FastRoleSwapSupport           = USBPD_FALSE,   /* support fast role swap only spec revsion 3.0            */
+      .PE_FastRoleSwapSupport           = USBPD_FALSE,   /* support fast role swap only spec revision 3.0            */
       .Is_GetPPSStatus_Supported        = USBPD_FALSE,  /*!< PPS message NOT supported by PE stack */
       .Is_SrcCapaExt_Supported          = USBPD_FALSE,  /*!< Source_Capabilities_Extended message supported or not by DPM */
       .Is_Alert_Supported               = USBPD_FALSE,   /*!< Alert message supported or not by DPM */

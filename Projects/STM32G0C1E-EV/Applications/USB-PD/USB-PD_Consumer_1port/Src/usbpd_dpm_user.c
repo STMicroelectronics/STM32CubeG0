@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -36,6 +35,9 @@
 #include "string.h"
 #include "stdio.h"
 #endif /* _TRACE */
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
 
 /** @addtogroup STM32_USBPD_APPLICATION
   * @{
@@ -112,6 +114,7 @@ void                USBPD_DPM_UserExecute(void *argument);
 GUI_NOTIFICATION_POST         DPM_GUI_PostNotificationMessage   = NULL;
 GUI_NOTIFICATION_FORMAT_SEND  DPM_GUI_FormatAndSendNotification = NULL;
 GUI_SAVE_INFO                 DPM_GUI_SaveInfo                  = NULL;
+
 /* USER CODE BEGIN Private_Variables */
 extern USBPD_ParamsTypeDef DPM_Params[];
 USBPD_HandleTypeDef DPM_Ports[USBPD_PORT_COUNT];
@@ -174,6 +177,16 @@ void USBPD_DPM_SetNotification_GUI(GUI_NOTIFICATION_FORMAT_SEND PtrFormatSend, G
   DPM_GUI_PostNotificationMessage   = PtrPost;
   DPM_GUI_FormatAndSendNotification = PtrFormatSend;
   DPM_GUI_SaveInfo                  = PtrSaveInfo;
+}
+
+/**
+  * @brief  User delay implementation which is OS dependent
+  * @param  Time time in ms
+  * @retval None
+  */
+void USBPD_DPM_WaitForTime(uint32_t Time)
+{
+  osDelay(Time);
 }
 
 /**
@@ -242,19 +255,6 @@ void USBPD_DPM_UserTimerCounter(uint8_t PortNum)
   */
 
 /**
-  * @brief  Callback function called by PE layer when HardReset message received from PRL
-  * @param  PortNum The current port number
-  * @param  CurrentRole the current role
-  * @param  Status status on hard reset event
-  * @retval None
-  */
-void USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status)
-{
-/* USER CODE BEGIN USBPD_DPM_HardReset */
-/* USER CODE END USBPD_DPM_HardReset */
-}
-
-/**
   * @brief  Callback function called by PE to inform DPM about PE event.
   * @param  PortNum The current port number
   * @param  EventVal @ref USBPD_NotifyEventValue_TypeDef
@@ -270,6 +270,19 @@ void USBPD_DPM_Notification(uint8_t PortNum, USBPD_NotifyEventValue_TypeDef Even
 /* USER CODE BEGIN USBPD_DPM_Notification */
 
 /* USER CODE END USBPD_DPM_Notification */
+}
+
+/**
+  * @brief  Callback function called by PE layer when HardReset message received from PRL
+  * @param  PortNum The current port number
+  * @param  CurrentRole the current role
+  * @param  Status status on hard reset event
+  * @retval None
+  */
+void USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HR_Status_TypeDef Status)
+{
+/* USER CODE BEGIN USBPD_DPM_HardReset */
+/* USER CODE END USBPD_DPM_HardReset */
 }
 
 /**
@@ -488,6 +501,19 @@ void USBPD_DPM_ExtendedMessageReceived(uint8_t PortNum, USBPD_ExtendedMsg_TypeDe
 /* USER CODE BEGIN USBPD_DPM_ExtendedMessageReceived */
 
 /* USER CODE END USBPD_DPM_ExtendedMessageReceived */
+}
+
+/**
+  * @brief  DPM callback to allow PE to enter ERROR_RECOVERY state.
+  * @param  PortNum Port number
+  * @retval None
+  */
+void USBPD_DPM_EnterErrorRecovery(uint8_t PortNum)
+{
+/* USER CODE BEGIN USBPD_DPM_EnterErrorRecovery */
+  /* Inform CAD to enter recovery mode */
+  USBPD_CAD_EnterErrorRecovery(PortNum);
+/* USER CODE END USBPD_DPM_EnterErrorRecovery */
 }
 
 /**

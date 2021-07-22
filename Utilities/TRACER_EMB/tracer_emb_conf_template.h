@@ -60,18 +60,17 @@ extern "C" {
 #define TRACER_EMB_TX_PIN                            LL_GPIO_PIN_10
 #define TRACER_EMB_TX_AF                             LL_GPIO_AF_0
 #define TRACER_EMB_TX_GPIO_ENABLE_CLOCK()            LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOC)
-#define TRACER_EMB_TX_GPIO_DISABLE_CLOCK()           LL_IOP_GRP1_DisableClock(LL_IOP_GRP1_PERIPH_GPIOC)
 #define TRACER_EMB_RX_GPIO                           GPIOC
 #define TRACER_EMB_RX_PIN                            LL_GPIO_PIN_11
 #define TRACER_EMB_RX_AF                             LL_GPIO_AF_0
 #define TRACER_EMB_RX_GPIO_ENABLE_CLOCK()            LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOC)
-#define TRACER_EMB_RX_GPIO_DISABLE_CLOCK()           LL_IOP_GRP1_DisableClock(LL_IOP_GRP1_PERIPH_GPIOC)
 
 #define TRACER_EMB_ENABLE_CLK_USART()                LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART3)
 #define TRACER_EMB_DISABLE_CLK_USART()               LL_APB1_GRP1_DisableClock(LL_APB1_GRP1_PERIPH_USART3)
-#define TRACER_EMB_SET_CLK_SOURCE_USART()            /* No need for clock source selection in case of USART3 // LL_RCC_SetUSARTClockSource(LL_RCC_USART3_CLKSOURCE_PCLK2) */
+#define TRACER_EMB_SET_CLK_SOURCE_USART()            /* No need for clock source selection in case of USART3 */
 #define TRACER_EMB_USART_IRQ                         USART3_4_LPUART1_IRQn
 #define TRACER_EMB_USART_IRQHANDLER                  USART3_4_LPUART1_IRQHandler
+
 #define TRACER_EMB_TX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
 #define TRACER_EMB_RX_AF_FUNCTION                    LL_GPIO_SetAFPin_8_15
 #define TRACER_EMB_TX_IRQ_PRIORITY                   3
@@ -79,10 +78,12 @@ extern "C" {
 #define TRACER_EMB_DMA_INSTANCE                      DMA1
 #define TRACER_EMB_ENABLE_CLK_DMA()                  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1)
 #if defined (DMAMUX_CxCR_DMAREQ_ID)
-#define TRACER_EMB_TX_DMA_REQUEST                    LL_DMAMUX_REQ_USART3_TX         /* This define is needed only in case of DMAMUX management */
+/* This define is needed only in case of DMAMUX management */
+#define TRACER_EMB_TX_DMA_REQUEST                    LL_DMAMUX_REQ_USART3_TX
 #endif  /* DMAMUX_CxCR_DMAREQ_ID */
 #if defined(DMA_SxCR_CHSEL)
-#define TRACER_EMB_TX_DMA_STREAM		     LL_DMA_STREAM_7                 /* This define is needed only in case of use of a DMA IP supporting Streams */
+/* This define is needed only in case of use of a DMA IP supporting Streams */
+#define TRACER_EMB_TX_DMA_STREAM                     LL_DMA_STREAM_7
 #endif  /* DMA_SxCR_CHSEL */
 #define TRACER_EMB_TX_DMA_CHANNEL                    LL_DMA_CHANNEL_7
 #if defined(DMA_SxCR_CHSEL)
@@ -97,9 +98,9 @@ extern "C" {
 #define TRACER_EMB_TX_DMA_IRQ                        DMA1_Ch4_7_DMAMUX1_OVR_IRQn
 #define TRACER_EMB_TX_DMA_IRQHANDLER                 DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler
 #define TRACER_EMB_TX_DMA_ACTIVE_FLAG                LL_DMA_IsActiveFlag_TC7
-#define TRACER_EMB_TX_DMA_CLEAR_FLAG                 LL_DMA_ClearFlag_GI7
+#define TRACER_EMB_TX_DMA_CLEAR_FLAG                 LL_DMA_ClearFlag_TC7
 #define TRACER_EMB_TX_DMA_PRIORITY                   0
-#endif
+#endif  /* TRACER_EMB_DMA_MODE == 1UL */
 
 #ifdef __cplusplus
 }

@@ -8,13 +8,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -50,12 +49,12 @@
 */
 
 #if defined (FLASH_OPTR_DBANK)
-#define INDEX_PAGE              ((FLASH_PAGE_NB * 2U) - 1U)                    /* Index of latest page */
+#define INDEX_PAGE              ((FLASH_PAGE_NB * 2u) - 1u)                    /* Index of latest page */
 #else
-#define INDEX_PAGE              (FLASH_PAGE_NB - 1U)                           /* Index of latest page */
+#define INDEX_PAGE              (FLASH_PAGE_NB - 1u)                           /* Index of latest page */
 #endif /* FLASH_OPTR_DBANK */
 #define ADDR_FLASH_LAST_PAGE    (FLASH_BASE + (INDEX_PAGE * FLASH_PAGE_SIZE))  /* Base @ of latest page */
-#define ADDR_FLASH_PAGE_END     (ADDR_FLASH_LAST_PAGE + FLASH_PAGE_SIZE - 1U)
+#define ADDR_FLASH_PAGE_END     (ADDR_FLASH_LAST_PAGE + FLASH_PAGE_SIZE - 1u)
 
 #define GUI_FLASH_MAGIC_NUMBER         ADDR_FLASH_LAST_PAGE
 /* should be aligned on double word */
@@ -68,19 +67,28 @@
 #define GUI_FLASH_ADDR_PDO_SRC_P0      (GUI_FLASH_MAGIC_NUMBER + 16u)
 /* New Address should be modulo 8 */
 /* New Address = (Previous Address + (size / 8 * 8) + ((size % 8) + 7) / 8 * 8) */
-#define GUI_FLASH_ADDR_PDO_SNK_P0      (GUI_FLASH_ADDR_PDO_SRC_P0 + ((USBPD_MAX_NB_PDO * 4) / 8 * 8) + ((((USBPD_MAX_NB_PDO * 4) & 0x07) + 7) / 8 * 8 ))
-#define GUI_FLASH_ADDR_PDO_SRC_P1      (GUI_FLASH_ADDR_PDO_SNK_P0 + ((USBPD_MAX_NB_PDO * 4) / 8 * 8) + ((((USBPD_MAX_NB_PDO * 4) & 0x07) + 7) / 8 * 8 ))
-#define GUI_FLASH_ADDR_PDO_SNK_P1      (GUI_FLASH_ADDR_PDO_SRC_P1 + ((USBPD_MAX_NB_PDO * 4) / 8 * 8) + ((((USBPD_MAX_NB_PDO * 4) & 0x07) + 7) / 8 * 8 ))
+#define GUI_FLASH_ADDR_PDO_SNK_P0      (GUI_FLASH_ADDR_PDO_SRC_P0 + ((USBPD_MAX_NB_PDO * 4) / 8 * 8)\
+                                        + ((((USBPD_MAX_NB_PDO * 4) & 0x07) + 7) / 8 * 8 ))
+#define GUI_FLASH_ADDR_PDO_SRC_P1      (GUI_FLASH_ADDR_PDO_SNK_P0 + ((USBPD_MAX_NB_PDO * 4) / 8 * 8)\
+                                        + ((((USBPD_MAX_NB_PDO * 4) & 0x07) + 7) / 8 * 8 ))
+#define GUI_FLASH_ADDR_PDO_SNK_P1      (GUI_FLASH_ADDR_PDO_SRC_P1 + ((USBPD_MAX_NB_PDO * 4) / 8 * 8)\
+                                        + ((((USBPD_MAX_NB_PDO * 4) & 0x07) + 7) / 8 * 8 ))
 
-#define GUI_FLASH_ADDR_DPM_SETTINGS    (GUI_FLASH_ADDR_PDO_SNK_P1 + ((USBPD_MAX_NB_PDO * 4) / 8 * 8) + ((((USBPD_MAX_NB_PDO * 4) & 0x07) + 7) / 8 * 8 ))
+#define GUI_FLASH_ADDR_DPM_SETTINGS    (GUI_FLASH_ADDR_PDO_SNK_P1 + ((USBPD_MAX_NB_PDO * 4) / 8 * 8)\
+                                        + ((((USBPD_MAX_NB_PDO * 4) & 0x07) + 7) / 8 * 8 ))
 
-#define GUI_FLASH_ADDR_DPM_USER_SETTINGS  (GUI_FLASH_ADDR_DPM_SETTINGS + (sizeof(USBPD_SettingsTypeDef) * USBPD_PORT_COUNT))
+/* Define by default USBPD_PORT_COUNT to 2 */
+#define GUI_FLASH_ADDR_DPM_USER_SETTINGS  (GUI_FLASH_ADDR_DPM_SETTINGS\
+                                           + (sizeof(USBPD_SettingsTypeDef) * USBPD_PORT_COUNT))
 
-#define GUI_FLASH_ADDR_DPM_VDM_SETTINGS   (GUI_FLASH_ADDR_DPM_USER_SETTINGS + (sizeof(USBPD_USER_SettingsTypeDef) * USBPD_PORT_COUNT))
+#define GUI_FLASH_ADDR_DPM_VDM_SETTINGS   (GUI_FLASH_ADDR_DPM_USER_SETTINGS\
+                                           + (sizeof(USBPD_USER_SettingsTypeDef) * USBPD_PORT_COUNT))
 
-#define GUI_FLASH_ADDR_DPM_ID_SETTINGS    (GUI_FLASH_ADDR_DPM_VDM_SETTINGS + (sizeof(USBPD_VDM_SettingsTypeDef) * USBPD_PORT_COUNT))
+#define GUI_FLASH_ADDR_DPM_ID_SETTINGS    (GUI_FLASH_ADDR_DPM_VDM_SETTINGS\
+                                           + (sizeof(USBPD_VDM_SettingsTypeDef) * USBPD_PORT_COUNT))
 
-#define GUI_FLASH_ADDR_RESERVED           (GUI_FLASH_ADDR_DPM_ID_SETTINGS + (sizeof(USBPD_IdSettingsTypeDef) * USBPD_PORT_COUNT))
+#define GUI_FLASH_ADDR_RESERVED           (GUI_FLASH_ADDR_DPM_ID_SETTINGS\
+                                           + (sizeof(USBPD_IdSettingsTypeDef) * USBPD_PORT_COUNT))
 
 #define GUI_FLASH_SIZE_RESERVED           (int32_t)(ADDR_FLASH_PAGE_END - GUI_FLASH_ADDR_RESERVED)
 

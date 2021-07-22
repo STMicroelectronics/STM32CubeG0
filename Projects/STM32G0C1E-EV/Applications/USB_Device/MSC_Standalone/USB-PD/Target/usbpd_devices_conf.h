@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -35,6 +34,8 @@ extern "C" {
 #include "stm32g0xx_ll_rcc.h"
 #include "stm32g0xx_ll_pwr.h"
 #include "stm32g0xx_ll_tim.h"
+#include "stm32g0c1e_eval_pwr.h"
+#include "usbpd_pwr_if.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -98,13 +99,13 @@ extern "C" {
 #define UCPDFRS_INSTANCE1_FRSCC2
 
 #define UCPD_INSTANCE0_ENABLEIRQ  do{                                                                  \
-                                        NVIC_SetPriority(UCPD1_2_IRQn,2);                                \
-                                        NVIC_EnableIRQ(UCPD1_2_IRQn);                                    \
+                                        NVIC_SetPriority(USB_UCPD1_2_IRQn,2);                                \
+                                        NVIC_EnableIRQ(USB_UCPD1_2_IRQn);                                    \
                                     } while(0)
 
 #define UCPD_INSTANCE1_ENABLEIRQ  do{                                                                  \
-                                        NVIC_SetPriority(UCPD1_2_IRQn,2);                                \
-                                        NVIC_EnableIRQ(UCPD1_2_IRQn);                                    \
+                                        NVIC_SetPriority(USB_UCPD1_2_IRQn,2);                                \
+                                        NVIC_EnableIRQ(USB_UCPD1_2_IRQn);                                    \
                                     } while(0)
 
 /* -----------------------------------------------------------------------------
@@ -138,7 +139,7 @@ extern "C" {
 #define TIMX_CHANNEL2_GETFLAG          LL_TIM_IsActiveFlag_CC2
 #define TIMX_CHANNEL3_GETFLAG          LL_TIM_IsActiveFlag_CC3
 #define TIMX_CHANNEL4_GETFLAG          LL_TIM_IsActiveFlag_CC4
-                                     
+
 #ifdef __cplusplus
 }
 #endif

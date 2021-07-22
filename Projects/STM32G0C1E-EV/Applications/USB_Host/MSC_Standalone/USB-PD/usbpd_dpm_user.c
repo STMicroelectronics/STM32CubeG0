@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -30,6 +29,7 @@
 #include "string.h"
 #include "stdio.h"
 #endif /* _TRACE */
+#include "usbpd_usb_if.h"
 
 /** @addtogroup STM32_USBPD_APPLICATION
   * @{
@@ -164,7 +164,39 @@ void USBPD_DPM_UserCableDetection(uint8_t PortNum, USBPD_CAD_EVENT State)
   }
 /* USER CODE END USBPD_DPM_UserCableDetection */
 }
+/**
+  * @brief  Callback function called by PE to inform DPM about PE event.
+  * @param  PortNum The current port number
+  * @param  EventVal @ref USBPD_NotifyEventValue_TypeDef
+  * @retval None
+  */
+void USBPD_DPM_Notification(uint8_t PortNum, USBPD_NotifyEventValue_TypeDef EventVal)
+{
+  switch(EventVal)
+  {
+      
+    /*
+     *  USB management
+     */
+    case USBPD_NOTIFY_USBSTACK_START:
+      {
+        /* start device stack */
+        USBPD_USBIF_HostStart(PortNum);
+        break;
+      }
+    case USBPD_NOTIFY_USBSTACK_STOP:
+      {
+        /* stop device stack */
+        USBPD_USBIF_HostStop(PortNum);
+        break;
+      }
+    /*************************** end USB management *****************************/
 
+    default:
+            break;
+  }
+}
+  
 /**
   * @}
   */

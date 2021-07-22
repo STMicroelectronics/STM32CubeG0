@@ -9,13 +9,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics. 
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -188,7 +187,6 @@ static void MX_TIM1_Init(void)
   /* USER CODE END TIM1_Init 0 */
 
   LL_TIM_InitTypeDef TIM_InitStruct = {0};
-  LL_TIM_BDTR_InitTypeDef TIM_BDTRInitStruct = {0};
 
   /* Peripheral clock enable */
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM1);
@@ -211,9 +209,6 @@ static void MX_TIM1_Init(void)
   LL_TIM_SetTriggerOutput(TIM1, LL_TIM_TRGO_RESET);
   LL_TIM_SetTriggerOutput2(TIM1, LL_TIM_TRGO2_RESET);
   LL_TIM_DisableMasterSlaveMode(TIM1);
-  TIM_BDTRInitStruct.BreakAFMode = LL_TIM_BREAK_AFMODE_INPUT;
-  TIM_BDTRInitStruct.Break2AFMode = LL_TIM_BREAK_AFMODE_INPUT;
-  LL_TIM_BDTR_Init(TIM1, &TIM_BDTRInitStruct);
   /* USER CODE BEGIN TIM1_Init 2 */
 
   /* USER CODE END TIM1_Init 2 */

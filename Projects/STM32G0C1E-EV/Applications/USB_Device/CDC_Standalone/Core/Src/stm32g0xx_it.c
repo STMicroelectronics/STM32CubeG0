@@ -10,13 +10,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -64,6 +63,8 @@ extern PCD_HandleTypeDef hpcd_USB_DRD_FS;
 extern TIM_HandleTypeDef htim2;
 extern DMA_HandleTypeDef hdma_usart3_tx;
 extern UART_HandleTypeDef huart3;
+extern HCD_HandleTypeDef hhcd;
+extern ADC_HandleTypeDef hadc1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -203,11 +204,20 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32g0xx.s).                    */
 /******************************************************************************/
+/**
+* @brief  This function handles DMA interrupt request.
+* @param  None
+* @retval None
+*/
+void DMA1_Channel1_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(hadc1.DMA_Handle);
+} 
 
 /**
   * @brief This function handles DMA1 channel 1 interrupt.
   */
-void DMA1_Channel1_IRQHandler(void)
+void DMA1_Channel2_3_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
 
@@ -252,7 +262,7 @@ void USART3_4_5_6_LPUART1_IRQHandler(void)
 void USB_UCPD1_2_IRQHandler(void)
 {
   /* USER CODE BEGIN USB_UCPD1_2_IRQn 0 */
-
+  USBPD_PORT0_IRQHandler();
   /* USER CODE END USB_UCPD1_2_IRQn 0 */
   HAL_PCD_IRQHandler(&hpcd_USB_DRD_FS);
   /* USER CODE BEGIN USB_UCPD1_2_IRQn 1 */

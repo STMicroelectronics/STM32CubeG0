@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020-2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -543,6 +542,101 @@ __weak int32_t BSP_USBPD_PWR_Deinit(uint32_t Instance)
   }
   return ret;
   /* USER CODE END BSP_USBPD_PWR_Deinit */
+}
+
+/**
+  * @brief  Assign Power role for current Port (Source or Sink)
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @param  Role Type-C port role
+  *         This parameter can be take one of the following values:
+  *         @arg @ref POWER_ROLE_SOURCE
+  *         @arg @ref POWER_ROLE_SINK
+  * @retval BSP status
+  */
+__weak int32_t BSP_USBPD_PWR_SetRole(uint32_t Instance, USBPD_PWR_PowerRoleTypeDef Role)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_SetRole */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    PWR_DEBUG_TRACE(Instance, "ADVICE: Update BSP_USBPD_PWR_SetRole");
+  }
+
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_SetRole */
+}
+
+/**
+  * @brief  Set operating mode of Port regarding power saving constraints
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @param  PwrMode Type-C port power saving mode
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_MODE_OFF
+  *         @arg @ref USBPD_PWR_MODE_HIBERNATE
+  *         @arg @ref USBPD_PWR_MODE_LOWPOWER
+  *         @arg @ref USBPD_PWR_MODE_NORMAL
+  * @retval BSP status
+  */
+__weak int32_t BSP_USBPD_PWR_SetPowerMode(uint32_t Instance, USBPD_PWR_PowerModeTypeDef PwrMode)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_SetPowerMode */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    PWR_DEBUG_TRACE(Instance, "ADVICE: Update BSP_USBPD_PWR_SetPowerMode");
+  }
+
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_SetPowerMode */
+}
+
+/**
+  * @brief  Get operating mode of Port regarding power saving constraints
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @param  PwrMode Pointer on current Type-C port power saving mode value
+  *         Following values are available :
+  *         @arg @ref USBPD_PWR_MODE_OFF
+  *         @arg @ref USBPD_PWR_MODE_HIBERNATE
+  *         @arg @ref USBPD_PWR_MODE_LOWPOWER
+  *         @arg @ref USBPD_PWR_MODE_NORMAL
+  * @retval BSP status
+  */
+__weak int32_t BSP_USBPD_PWR_GetPowerMode(uint32_t Instance, USBPD_PWR_PowerModeTypeDef *PwrMode)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_GetPowerMode */
+  /* Check if instance is valid       */
+  int32_t ret = BSP_ERROR_NONE;
+
+  if (Instance >= USBPD_PWR_INSTANCES_NBR)
+  {
+    ret = BSP_ERROR_WRONG_PARAM;
+  }
+  else
+  {
+    PWR_DEBUG_TRACE(Instance, "ADVICE: Update BSP_USBPD_PWR_GetPowerMode");
+  }
+  return ret;
+  /* USER CODE END BSP_USBPD_PWR_GetPowerMode */
 }
 
 /**
@@ -1153,6 +1247,24 @@ __weak int32_t BSP_USBPD_PWR_VCCSetState(uint32_t Instance, uint32_t State)
   return ret;
   /* USER CODE END BSP_USBPD_PWR_VCCSetState */
 }
+
+/**
+  * @brief  USBPD PWR callback used to notify a asynchronous PWR event.
+  *         (This callback caould be called fromp an IT routine, associated to
+  *         any PWR related event detection mechanism)
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
+  * @retval None
+  */
+__weak void BSP_USBPD_PWR_EventCallback(uint32_t Instance)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_EventCallback */
+  PWR_DEBUG_TRACE(Instance, "ADVICE: Update BSP_USBPD_PWR_EventCallback");
+  /* USER CODE END BSP_USBPD_PWR_EventCallback */
+}
+
 /**
   * @}
   */
