@@ -220,5 +220,3 @@ void EXTI4_15_IRQHandler(void)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

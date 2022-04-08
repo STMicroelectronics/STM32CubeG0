@@ -155,6 +155,9 @@ UTIL_TIMER_Object_t TimerPE0, TimerPE1;
 #endif /* _DEBUG_TRACE */
 
 /* Private variables ---------------------------------------------------------*/
+#if defined(USBPD_THREADX)
+static TX_BYTE_POOL *USBPD_memory_pool;
+#endif /* USBPD_TREADX */
 #if defined(_RTOS) || defined(USBPD_THREADX)
 #if !defined(USBPDCORE_LIB_NO_PD)
 static OS_TASK_ID DPM_PEThreadId_Table[USBPD_PORT_COUNT];
@@ -459,7 +462,9 @@ USBPD_StatusTypeDef USBPD_DPM_InitOS(void)
   USBPD_TCPI_AlertInit();
 #endif /* USBPD_TCPM_MODULE_ENABLED */
 
+#if defined(_RTOS) || defined(USBPD_THREADX)
 error:
+#endif
   return _retr;
 }
 
@@ -879,9 +884,6 @@ void USBPD_DPM_CADCallback(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDe
 #endif /* _VCONN_SUPPORT */
       USBPD_DPM_UserCableDetection(PortNum, USBPD_CAD_EVENT_ATTEMC);
       DPM_StartPETask(PortNum);
-#if defined(_SIMULATOR)
-      DPM_CORE_DEBUG_TRACE(PortNum, "Note: VconnStatus=TRUE");
-#endif /* _VCONN_SUPPORT */
       break;
     }
     case USBPD_CAD_EVENT_ATTACHED :
@@ -902,18 +904,19 @@ void USBPD_DPM_CADCallback(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDe
       /* WakeUp PE task to let him enter suspend mode */
       USBPD_PE_TaskWakeUp(PortNum);
       /* Wait PE Let time to PE to complete the ongoing action */
-      while (!OS_TASK_IS_SUPENDED(DPM_PEThreadId_Table[PortNum]))
+      while (!OS_TASK_IS_SUSPENDED(DPM_PEThreadId_Table[PortNum]))
       {
-        (void)OS_DELAY(1);
+        (void)OS_DELAY(1u);
         _timeout++;
         if (_timeout > 30u)
         {
-          /* Suspend the PE task */
-#if defined(USBPD_THREADX)
-          (void)OS_TASK_SUSPEND(&DPM_PEThreadId_Table[PortNum]);
-#else
-          (void)OS_TASK_SUSPEND(DPM_PEThreadId_Table[PortNum]);
-#endif /* USBPD_THREADX */
+          /* Kill the PE task */
+          (void)OS_TASK_KILL(DPM_PEThreadId_Table[PortNum]);
+#if defined(_RTOS)
+          DPM_PEThreadId_Table[PortNum] = 0;
+#elif defined(USBPD_THREADX)
+          DPM_PEThreadId_Table[PortNum].tx_thread_id = 0;
+#endif /* _RTOS */
           break;
         }
       };
@@ -931,7 +934,6 @@ void USBPD_DPM_CADCallback(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDe
       USBPD_DPM_UserCableDetection(PortNum, State);
 #ifdef _VCONN_SUPPORT
       DPM_Params[PortNum].VconnStatus = USBPD_FALSE;
-      DPM_CORE_DEBUG_TRACE(PortNum, "Note: VconnStatus=FALSE");
 #endif /* _VCONN_SUPPORT */
       break;
     }
@@ -945,13 +947,29 @@ static void DPM_StartPETask(uint8_t PortNum)
 {
   USBPD_PE_StateMachine_Reset(PortNum);
 #if defined(_RTOS) || defined(USBPD_THREADX)
+#if defined(USBPD_THREADX)
+  uint32_t _retr = TX_SUCCESS;
+#elif defined(_RTOS)
+  USBPD_StatusTypeDef _retr = USBPD_OK; /* Added for comptibility with the macro OS_CreateTask */
+#endif /* USBPD_THREADX */
   /* Resume the PE task */
   switch (PortNum)
   {
     case USBPD_PORT_0:
     case USBPD_PORT_1:
     {
-      OS_TASK_RESUME(DPM_PEThreadId_Table[PortNum]);
+#if defined(_RTOS)
+      if (DPM_PEThreadId_Table[PortNum] != 0)
+#elif defined(USBPD_THREADX)
+      if (DPM_PEThreadId_Table[PortNum].tx_thread_id != 0)
+#endif /* _RTOS */
+      {
+        OS_TASK_RESUME(DPM_PEThreadId_Table[PortNum]);
+      }
+      else
+      {
+        OS_CREATE_TASK(DPM_PEThreadId_Table[PortNum], PE_0, USBPD_PE_Task, OS_PE_PRIORITY, OS_PE_STACK_SIZE, PortNum);
+      }
       break;
     }
     default :
@@ -960,6 +978,8 @@ static void DPM_StartPETask(uint8_t PortNum)
       break;
     }
   }
+error :
+   (void)_retr;
 #else
 #if defined(USE_STM32_UTILITY_OS)
   /* Resume the task */

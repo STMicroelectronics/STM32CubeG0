@@ -111,5 +111,3 @@ void RTC_TAMP_IRQHandler(void)
 {
   HAL_RTCEx_WakeUpTimerIRQHandler(&RTCHandle);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

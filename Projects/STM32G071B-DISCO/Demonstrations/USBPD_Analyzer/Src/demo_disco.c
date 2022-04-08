@@ -89,7 +89,9 @@ uint16_t MessageType :                  /*!< Message Header's message Type      
   */
 
 /* Private define ------------------------------------------------------------*/
-#define STR_SIZE_MAX 18
+#define DEMO_DISCO_VERSION                "V145"        /* Format is: V(last digit of year)(week number) */
+
+#define STR_SIZE_MAX                      18
 
 #define LCD_ALARMBOX_MESSAGES_MAX         30u
 
@@ -371,7 +373,7 @@ DEMO_ErrorCode DEMO_InitBSP(void)
     .BusConvertTime    = CONVERT_TIME_1100,
     .AveragingMode     = AVERAGING_MODE_1,
   };
-  
+
   BSP_PWRMON_Init(ALERT_VBUS, &DefaultConfig);
   BSP_PWRMON_StartMeasure(ALERT_VBUS, OPERATING_MODE_CONTINUOUS);
 
@@ -535,7 +537,7 @@ static CCxPin_TypeDef Check_cc_attachement(uint32_t CC1Voltage, uint32_t CC2Volt
 
   if ((CC2Voltage > 350) && (CC2Voltage < 2500)) {val = CC2;}
   if (MODE_SPY == hmode) /* if we are in spy mode, the offset on CC1 is different */
-  { 
+  {
     if ((CC1Voltage > 650) && (CC1Voltage < 2500)) {val = CC1;}
   }
   else
@@ -576,7 +578,7 @@ static void Display_stlogo(void)
     else
       BSP_LCD_DisplayStringAt(0,3*16, (uint8_t*)"SINK",CENTER_MODE);
   }
-  
+
 }
 
 /**
@@ -680,7 +682,7 @@ static DEMO_MENU Menu_manage_next(uint8_t MenuId)
 {
   if (MODE_SPY == hmode)
   {
-    if(_cc == CCNONE)                                   
+    if(_cc == CCNONE)
     {
       BSP_PWRMON_GetVoltage(ALERT_VBUS, &_vbusVoltage);
       if(_vbusVoltage < 1500)
@@ -710,7 +712,7 @@ static DEMO_MENU Menu_manage_next(uint8_t MenuId)
         return MENU_VERSION; /* only allowed change when nothing plugged : version */
       }
       else
-      {      
+      {
         return MENU_PD_SPEC;
       }
     }
@@ -742,7 +744,7 @@ static DEMO_MENU Menu_manage_prev(uint8_t MenuId)
 {
   if (MODE_SPY == hmode )
   {
-    if(_cc == CCNONE)      
+    if(_cc == CCNONE)
     {
       BSP_PWRMON_GetVoltage(ALERT_VBUS, &_vbusVoltage);
       if(_vbusVoltage < 1500)
@@ -852,7 +854,7 @@ static void Display_sinkcapa_menu_nav(int8_t Nav)
         _end = MIN(_max, MAX_LINE_PDO);
       }
     }
-    
+
     for(int8_t index=_start; index < _end; index++)
     {
       switch(DPM_Ports[0].DPM_ListOfRcvSNKPDO[index] & USBPD_PDO_TYPE_Msk)
@@ -1247,7 +1249,7 @@ static void Display_pd_spec_menu(void)
     {
       BSP_LCD_DisplayStringAt(0,1*20, (uint8_t*)"USBPD not",CENTER_MODE);
       BSP_LCD_DisplayStringAt(0,2*20, (uint8_t*)"supported",CENTER_MODE);
-    } 
+    }
     else /* in case we are trying to communicate to attached device : some HARD RESET may be on going */
     {
       BSP_LCD_DisplayStringAt(0,1*20, (uint8_t*)"Analysis",CENTER_MODE);
@@ -1264,7 +1266,7 @@ static void Display_pd_spec_menu(void)
     {
       BSP_LCD_DisplayStringAt(0,1*20, (uint8_t*)"USBPD not",CENTER_MODE);
       BSP_LCD_DisplayStringAt(0,2*20, (uint8_t*)"supported",CENTER_MODE);
-    } 
+    }
 }
 
 static void Display_power_menu(void)
@@ -1425,12 +1427,12 @@ static void Display_data_role_swap_menu()
 {
   uint8_t _str[20];
   uint8_t line_offset=0;
-  
+
   if(MODE_SPY == hmode)
   {
     line_offset = 10;
   }
-  
+
   /* Display the data role swap capabilities */
   if((DPM_Ports[0].DPM_NumberOfRcvSRCPDO != 0) && ( DPM_Ports[0].DPM_ListOfRcvSRCPDO[0] & USBPD_PDO_SNK_FIXED_DRD_SUPPORT_Msk))
   {
@@ -1441,8 +1443,8 @@ static void Display_data_role_swap_menu()
     BSP_LCD_DisplayStringAt(0,1*16+line_offset, _str, CENTER_MODE);
     sprintf((char *)_str, ": YES");
     BSP_LCD_DisplayStringAt(0,2*16+line_offset, _str, CENTER_MODE);
-    
-    if(MODE_SPY != hmode) 
+
+    if(MODE_SPY != hmode)
     {
       if (DPM_Params[0].PE_DataRole == 0)
       {
@@ -1452,7 +1454,7 @@ static void Display_data_role_swap_menu()
       {
         sprintf((char *)_str, "Disco :DFP");
       }
-      BSP_LCD_DisplayStringAt(0,3*16, _str, CENTER_MODE);    
+      BSP_LCD_DisplayStringAt(0,3*16, _str, CENTER_MODE);
     }
   }
   else /* Data role swap not supported */
@@ -1465,7 +1467,7 @@ static void Display_data_role_swap_menu()
     sprintf((char *)_str, ": NO");
     BSP_LCD_DisplayStringAt(0,2*16+10, _str, CENTER_MODE);
   }
-  
+
 }
 
 /**
@@ -1474,7 +1476,7 @@ static void Display_data_role_swap_menu()
 **/
 static void Display_display_port_menu()
 {
-  uint8_t _str[20];                             
+  uint8_t _str[20];
   uint8_t DP_supported=0;
   uint8_t Thunderbolt_supported=0;
 
@@ -1501,26 +1503,26 @@ static void Display_display_port_menu()
       if (DP_supported + Thunderbolt_supported>1) /* if both thunderbolt and Display Port are supported */
       {
         BSP_LCD_SetFont(&Font12);
-        sprintf((char *)_str, "Display port and");       
+        sprintf((char *)_str, "Display port and");
         BSP_LCD_DisplayStringAt(0,0*16, _str, CENTER_MODE);
         BSP_LCD_SetFont(&Font16);
-        sprintf((char *)_str, "Thunderbolt");       
+        sprintf((char *)_str, "Thunderbolt");
         BSP_LCD_DisplayStringAt(0,1*16, _str, CENTER_MODE);
         sprintf((char *)_str, "Support");
         BSP_LCD_DisplayStringAt(0,2*16, _str, CENTER_MODE);
-        sprintf((char *)_str, ": YES");      
+        sprintf((char *)_str, ": YES");
         BSP_LCD_DisplayStringAt(0,3*16, _str, CENTER_MODE);
       }
       else  /* if only one is supported : either thunderbolt, or display port */
       {
         BSP_LCD_SetFont(&Font16);
         if (1 == DP_supported){sprintf((char *)_str, "DisplayPort");}
-        else if (1== Thunderbolt_supported) {sprintf((char *)_str, "Thunderbolt");} 
-        else {sprintf((char *)_str, "Unknown VDM");} 
+        else if (1== Thunderbolt_supported) {sprintf((char *)_str, "Thunderbolt");}
+        else {sprintf((char *)_str, "Unknown VDM");}
         BSP_LCD_DisplayStringAt(0,0*16+10, _str, CENTER_MODE);
         sprintf((char *)_str, "Support");
         BSP_LCD_DisplayStringAt(0,1*16+10, _str, CENTER_MODE);
-        sprintf((char *)_str, ": YES");      
+        sprintf((char *)_str, ": YES");
         BSP_LCD_DisplayStringAt(0,2*16+10, _str, CENTER_MODE);
       }
     }
@@ -1784,7 +1786,7 @@ static void Display_menu_version()
   BSP_LCD_DisplayStringAtLine(2, (uint8_t*)"MonitorUCPD");
 
   /* Display the version of firmware */
-  sprintf((char *)str_version, "w29.5 C");
+  sprintf((char *)str_version, DEMO_DISCO_VERSION);
 #if defined(_GUI_INTERFACE)
   if(MODE_SPY != hmode) {
   strncat((char *)str_version, " GUI", sizeof(str_version) - 1);
@@ -2186,7 +2188,7 @@ static void DEMO_Manage_event(uint32_t Event)
          pe_disabled = 0; /* reset PE status information for no PD device attached */
          _tab_menu_val = MENU_STLOGO;
          Display_menuupdate_info(_tab_menu_val);
-         
+
          BSP_LED_Off(LED4);
          BSP_LED_Off(LED5);
          BSP_LED_Off(LED6);
@@ -2264,7 +2266,7 @@ static void DEMO_Manage_event(uint32_t Event)
          _tab_menu_val = MENU_PD_SPEC;
          Display_menuupdate_info(_tab_menu_val);
          break;
-        }        
+        }
       case USBPD_NOTIFY_HARDRESET_TX :
       case USBPD_NOTIFY_SNK_GOTOMIN :
       case USBPD_NOTIFY_SNK_GOTOMIN_READY :
@@ -2316,7 +2318,7 @@ void DEMO_Task_SPY(void const *arg)
 {
   NVIC_SetPriority(UCPD1_2_IRQn,0);
   NVIC_EnableIRQ(UCPD1_2_IRQn);
-    
+
   for (;;)
   {
       DEMO_Manage_spy();
@@ -2485,5 +2487,3 @@ void vTimerCallback(TimerHandle_t xTimer)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

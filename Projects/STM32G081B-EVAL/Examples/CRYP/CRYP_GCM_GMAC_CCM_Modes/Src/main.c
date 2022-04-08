@@ -87,7 +87,7 @@ uint32_t aPlaintext[AES_PAYLOAD_SIZE_GCM] = {
                             0xc3b3c41f, 0x113a31b7, 0x3d9a5cd4, 0x32103069};
 
 /* Expected text: Encrypted Data with AES 128 Mode GCM */
-uint32_t Cyphertext[AES_PAYLOAD_SIZE_GCM] = {
+uint32_t Ciphertext[AES_PAYLOAD_SIZE_GCM] = {
                             0x93FE7D9E, 0x9BFD1034, 0x8A5606E5, 0xCAFA7354};
 
 uint32_t ExpectedTAG_GCM[TAG_SIZE] = {
@@ -208,7 +208,7 @@ int main(void)
   while (HAL_CRYP_GetState(&hcryp) != HAL_CRYP_STATE_READY);
 
   /* Compare the encrypted text with the expected one *************************/
-  data_cmp(aEncryptedtext, Cyphertext, AES_PAYLOAD_SIZE_GCM);
+  data_cmp(aEncryptedtext, Ciphertext, AES_PAYLOAD_SIZE_GCM);
 
   /* Compute the authentication TAG */
   if (HAL_CRYPEx_AESGCM_GenerateAuthTAG(&hcryp, TAG, TIMEOUT_VALUE) != HAL_OK)
@@ -324,6 +324,10 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
+  /** Configure the main internal regulator output voltage
+  */
+  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -342,6 +346,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -461,5 +466,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

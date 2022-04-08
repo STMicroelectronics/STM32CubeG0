@@ -87,5 +87,3 @@ GLOBAL __IO uint8_t DMATxComplete;
 GLOBAL void * hProgressBar;
 
 /* Exported functions --------------------------------------------------------*/
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

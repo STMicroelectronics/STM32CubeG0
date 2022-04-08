@@ -154,5 +154,3 @@ static void Joystick_SetHint(void)
 /**
   * @}
   */ 
-  
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

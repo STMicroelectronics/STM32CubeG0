@@ -45,5 +45,3 @@ void OPENBL_Enable_BusyState_Sending(Send_BusyByte_Func *pCallback);
 void OPENBL_Disable_BusyState_Sending(void);
 
 #endif /* FLASH_INTERFACE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

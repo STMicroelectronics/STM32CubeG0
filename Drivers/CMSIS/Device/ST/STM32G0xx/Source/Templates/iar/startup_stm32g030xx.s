@@ -257,4 +257,3 @@ USART2_IRQHandler
         B USART2_IRQHandler
 
         END
-;************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE*****

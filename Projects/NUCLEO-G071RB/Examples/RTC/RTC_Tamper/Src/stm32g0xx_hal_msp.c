@@ -112,7 +112,7 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef* hrtc)
     /*  Get RTC clock configuration */
     HAL_RCCEx_GetPeriphCLKConfig(&PeriphClkInitStruct);
 
-    /*In case of RTC clock already enable, make sur it's the good one */
+    /*In case of RTC clock already enable, make sure it's the good one */
     if (PeriphClkInitStruct.RTCClockSelection == RtcClockSource)
     {
       /* Do nothing */
@@ -202,5 +202,3 @@ void HAL_RTC_MspDeInit(RTC_HandleTypeDef* hrtc)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

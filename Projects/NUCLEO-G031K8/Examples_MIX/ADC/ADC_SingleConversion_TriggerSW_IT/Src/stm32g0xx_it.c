@@ -200,4 +200,3 @@ void ADC1_IRQHandler(void)
 }
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

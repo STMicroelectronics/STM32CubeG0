@@ -47,5 +47,3 @@ __attribute__ ((section (".ramfunc"))) void OPENBL_I2C_SendBusyByte(void);
 #endif /* (__CC_ARM) */
 
 #endif /* I2C_INTERFACE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

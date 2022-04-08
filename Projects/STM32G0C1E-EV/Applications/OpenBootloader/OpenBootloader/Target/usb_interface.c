@@ -71,7 +71,7 @@ uint8_t OPENBL_USB_ProtocolDetection(void)
 }
 
 /**
-  * @brief  This function is used to send a nack when the address is not valide by changing
+  * @brief  This function is used to send a nack when the address is not valid by changing
   * the state of the usb to dfu_error.
   * @retval Returns USBD_FAIL.
   */
@@ -140,5 +140,3 @@ void OPENBL_USB_UploadRdpNack(USBD_HandleTypeDef *pDev)
     }
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

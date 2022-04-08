@@ -200,5 +200,3 @@ void USBPD_PWR_IF_ResetVbusThreshold(uint8_t PortNum)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

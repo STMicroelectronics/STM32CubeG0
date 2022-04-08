@@ -204,5 +204,3 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

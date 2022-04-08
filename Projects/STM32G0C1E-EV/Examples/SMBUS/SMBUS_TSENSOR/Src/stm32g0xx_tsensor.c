@@ -304,5 +304,3 @@ __weak void TSENSOR_ErrorCallback(uint16_t Error)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/     

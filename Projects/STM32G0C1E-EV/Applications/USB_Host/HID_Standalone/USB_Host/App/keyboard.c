@@ -48,5 +48,3 @@ void HID_KEYBRD_App(USBH_HandleTypeDef *phost)
     }
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

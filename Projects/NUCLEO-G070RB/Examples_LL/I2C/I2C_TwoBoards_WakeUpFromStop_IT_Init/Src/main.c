@@ -105,11 +105,8 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-
-  /* System interrupt init*/
 
   /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral
   */
@@ -245,6 +242,7 @@ static void MX_I2C1_Init(void)
   NVIC_EnableIRQ(I2C1_IRQn);
 
   /* USER CODE END I2C1_Init 1 */
+
   /** I2C Initialization
   */
   I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;
@@ -592,5 +590,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

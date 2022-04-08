@@ -40,6 +40,20 @@
   * @{
   */
 
+/** @defgroup USBH_CONF_Exported_Variables USBH_CONF_Exported_Variables
+  * @brief Public variables.
+  * @{
+  */
+
+/* Private variables ---------------------------------------------------------*/
+/* USER CODE BEGIN PV */
+#define USB_USER_DEBUG_TRACE_SIZE       100u
+extern char _usb_str[USB_USER_DEBUG_TRACE_SIZE];
+/* USER CODE END PV */
+/**
+  * @}
+  */
+   
 /** @defgroup USBH_CONF_Exported_Defines
   * @{
   */
@@ -72,18 +86,17 @@
 #define USBH_memset               memset
 #define USBH_memcpy               memcpy
 
-#define USB_USER_DEBUG_TRACE_SIZE       100u
+
 
 /* DEBUG macros */
-#if (USBH_DEBUG_LEVEL > 0)
+#if (USBH_DEBUG_LEVEL > 0)                                                                   
 
-#define USBH_UsrLog(...)  do {                                                                \
-      char _str[USB_USER_DEBUG_TRACE_SIZE];                                                   \
-      uint8_t _size = snprintf(_str, USB_USER_DEBUG_TRACE_SIZE, __VA_ARGS__);                 \
-      if (_size < USB_USER_DEBUG_TRACE_SIZE)                                                  \
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));               \
-      else                                                                                    \
-        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, USB_USER_DEBUG_TRACE_SIZE);  \
+#define USBH_UsrLog(...)  do {                                                                    \
+      uint8_t _size = snprintf(_usb_str, USB_USER_DEBUG_TRACE_SIZE, __VA_ARGS__);                 \
+      if (_size < USB_USER_DEBUG_TRACE_SIZE)                                                      \
+        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_usb_str, strlen(_usb_str));           \
+      else                                                                                        \
+        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_usb_str, USB_USER_DEBUG_TRACE_SIZE);  \
   } while(0)
 
 #else
@@ -92,13 +105,12 @@
 
 #if (USBH_DEBUG_LEVEL > 1)
 
-#define  USBH_ErrLog(...)   do {                                                                               \
-        char _str[USB_USER_DEBUG_TRACE_SIZE];                                                                  \
-        uint8_t _size = snprintf(_str, USB_USER_DEBUG_TRACE_SIZE, __VA_ARGS__);                                \
-        if (_size < USB_USER_DEBUG_TRACE_SIZE)                                                                 \
-          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));                              \
-        else                                                                                                   \
-          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, USB_USER_DEBUG_TRACE_SIZE);                 \
+#define  USBH_ErrLog(...)   do {                                                                    \
+        uint8_t _size = snprintf(_usb_str, USB_USER_DEBUG_TRACE_SIZE, __VA_ARGS__);                 \
+        if (_size < USB_USER_DEBUG_TRACE_SIZE)                                                      \
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_usb_str, strlen(_usb_str));           \
+        else                                                                                        \
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_usb_str, USB_USER_DEBUG_TRACE_SIZE);  \
   } while(0)
 
 #else
@@ -106,13 +118,12 @@
 #endif
 
 #if (USBH_DEBUG_LEVEL > 2)
-#define  USBH_DbgLog(...)   do {                                                                               \
-        char _str[USB_USER_DEBUG_TRACE_SIZE];                                                                  \
-        uint8_t _size = snprintf(_str, USB_USER_DEBUG_TRACE_SIZE, __VA_ARGS__);                                \
-        if (_size < USB_USER_DEBUG_TRACE_SIZE)                                                                 \
-          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));                              \
-        else                                                                                                   \
-          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, USB_USER_DEBUG_TRACE_SIZE);                 \
+#define  USBH_DbgLog(...)   do {                                                                    \
+        uint8_t _size = snprintf(_usb_str, USB_USER_DEBUG_TRACE_SIZE, __VA_ARGS__);                 \
+        if (_size < USB_USER_DEBUG_TRACE_SIZE)                                                      \
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_usb_str, strlen(_usb_str));           \
+        else                                                                                        \
+          USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_usb_str, USB_USER_DEBUG_TRACE_SIZE);  \
   } while(0)
 
 #else
@@ -166,4 +177,3 @@
 /**
   * @}
   */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

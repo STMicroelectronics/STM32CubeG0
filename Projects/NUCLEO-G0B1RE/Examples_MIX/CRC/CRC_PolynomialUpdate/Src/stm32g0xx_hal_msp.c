@@ -127,5 +127,3 @@ void HAL_CRC_MspDeInit(CRC_HandleTypeDef* hcrc)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

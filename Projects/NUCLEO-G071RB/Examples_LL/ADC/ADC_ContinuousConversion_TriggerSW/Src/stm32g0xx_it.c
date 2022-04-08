@@ -144,5 +144,3 @@ void ADC1_COMP_IRQHandler(void)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

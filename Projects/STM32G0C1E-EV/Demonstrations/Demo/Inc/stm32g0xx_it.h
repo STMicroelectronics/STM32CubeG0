@@ -57,5 +57,3 @@ void TRACER_EMB_TX_DMA_IRQHANDLER(void);
 #endif
 
 #endif/* STM32G0xx_IT_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

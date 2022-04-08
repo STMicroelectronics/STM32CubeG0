@@ -89,5 +89,3 @@ void Log_demo(void)
 /**
   * @}
   */ 
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -30,6 +30,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+char _usb_str[USB_USER_DEBUG_TRACE_SIZE];
 
 /* USER CODE END PV */
 HCD_HandleTypeDef hhcd;
@@ -536,5 +537,3 @@ USBH_StatusTypeDef USBH_Get_USB_Status(HAL_StatusTypeDef hal_status)
   }
   return usb_status;
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

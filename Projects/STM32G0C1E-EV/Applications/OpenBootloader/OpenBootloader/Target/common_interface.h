@@ -33,5 +33,3 @@ void Common_EnableIrq(void);
 void Common_DisableIrq(void);
 
 #endif /* COMMON_INTERFACE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

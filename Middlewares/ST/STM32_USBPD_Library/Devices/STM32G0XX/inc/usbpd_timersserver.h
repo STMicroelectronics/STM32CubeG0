@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2021 STMicroelectronics.
+  * Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -37,7 +37,8 @@ extern "C" {
   */
 
 /* Exported constants --------------------------------------------------------*/
-typedef enum {
+typedef enum
+{
   TIM_PORT0_CRC,
   TIM_PORT0_RETRY,
   TIM_PORT1_CRC,

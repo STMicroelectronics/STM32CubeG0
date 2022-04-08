@@ -185,4 +185,3 @@ static void TSENSOR_Display_Temperature(float temperature)
 /**
   * @}
   */ 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

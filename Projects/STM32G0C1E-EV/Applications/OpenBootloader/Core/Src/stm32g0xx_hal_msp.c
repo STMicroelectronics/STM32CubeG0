@@ -88,4 +88,3 @@ void HAL_FDCAN_MspDeInit(FDCAN_HandleTypeDef *hfdcan)
   /* Configure FDCANx Rx as alternate function */
   HAL_GPIO_DeInit(FDCANx_RX_GPIO_PORT, FDCANx_RX_PIN);
 }
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

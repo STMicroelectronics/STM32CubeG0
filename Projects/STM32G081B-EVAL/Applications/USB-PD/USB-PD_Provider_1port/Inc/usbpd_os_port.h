@@ -211,4 +211,3 @@ extern "C" {
 }
 #endif
 #endif /* USBPD_CORE_OSPORT_H_ */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

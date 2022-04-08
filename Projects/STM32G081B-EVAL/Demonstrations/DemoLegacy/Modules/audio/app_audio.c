@@ -100,5 +100,3 @@ static KMODULE_RETURN _AudioDemoExec(void)
   /* App initialization    */
   return KMODULE_OK;
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

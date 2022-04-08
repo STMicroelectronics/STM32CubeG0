@@ -240,5 +240,3 @@ __user_initial_stackheap
                  ENDIF
 
                  END
-
-;************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE*****

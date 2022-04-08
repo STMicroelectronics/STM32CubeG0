@@ -341,5 +341,3 @@ static void Error_Handler(void)
     BSP_LED_Toggle(LED4);
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

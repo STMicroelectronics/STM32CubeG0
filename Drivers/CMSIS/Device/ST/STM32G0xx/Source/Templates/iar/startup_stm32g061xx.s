@@ -292,4 +292,3 @@ AES_RNG_IRQHandler
         B AES_RNG_IRQHandler
 
         END
-;************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE*****

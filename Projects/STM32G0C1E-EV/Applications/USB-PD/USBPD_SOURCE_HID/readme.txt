@@ -9,13 +9,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   @endverbatim
@@ -34,7 +33,7 @@ a type C provider in the case of an USB host application based on the Human Inte
 The USB DRD IP in full speed mode USB module uses internally a 48-MHz clock which is coming from a specific output of PLL or HSI48.
 
 When the application is started, the connected HID device (Mouse/Keyboard) is detected in HID mode and 
-gets initialized. This application is based on interacting with a HID device (Mouse/Keyboard) trough a HID routine.
+gets initialized. This application is based on interacting with a HID device (Mouse/Keyboard) through a HID routine.
 
 The STM32 MCU behaves as a HID Host, it enumerates the device and extracts VID, PID, 
 manufacturer name, Serial number and product name information and displays it on The UART Hyperterminal.
@@ -132,7 +131,7 @@ USB_PD_Lib, UCPD, Type C, USBPD, FreeRTOS
 @par How to use it ?
 
 In order to make the program work, you must do the following :
- - As UCPD Monitor is using a dedicated flash area for storing USPBD port capabilties, please make sure to erase full flash content before starting. (With STM32CubeProgrammer for example)
+ - As UCPD Monitor is using a dedicated flash area for storing USPBD port capabilities, please make sure to erase full flash content before starting. (With STM32CubeProgrammer for example)
  - Open your preferred toolchain
  - Rebuild all files and load your image into target memory
  - Run the application
@@ -144,5 +143,5 @@ In order to make the program work, you must do the following :
    COM ports that have been assigned (by OS) to the Stlink VCP .
 
 
- * <h3><center>&copy; COPYRIGHT STMicroelectronics</center></h3>
+
  */

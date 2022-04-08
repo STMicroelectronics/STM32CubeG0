@@ -7,13 +7,14 @@
   * @author  MCD Application Team
   * @brief   Description of the RTC time stamp example.
   ******************************************************************************
+  * @attention
   *
-  * Copyright (c) 2020 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2020 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   @endverbatim
@@ -41,7 +42,7 @@ PWR, RTC clock source and BackUp). You may update this function to change RTC co
         /* #define RTC_CLOCK_SOURCE_LSE */
       @endcode
     - Open the ioc file with STM32CubeMX and select :
-      LSE as "Cristal/Ceramic Resonator" in RCC configuration.
+      LSE as "Crystal/Ceramic Resonator" in RCC configuration.
       LSE as RTC clock source in Clock configuration.
     - Generate code
     LSI oscillator clock is delivered by a 32 kHz RC.
@@ -105,6 +106,6 @@ In order to make the program work, you must do the following :
  - Run the example
 
 
- * <h3><center>&copy; COPYRIGHT STMicroelectronics</center></h3>
+
  */
  

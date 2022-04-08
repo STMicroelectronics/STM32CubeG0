@@ -7,13 +7,14 @@
   * @author  MCD Application Team
   * @brief   Description of STM32G081B-EVAL USB-C Power Delivery Demonstration
   ******************************************************************************
+  * @attention
   *
-  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                               www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   @endverbatim
@@ -122,7 +123,7 @@ Demonstrations, USB_PD_Lib, UCPD, Type C, USBPD, FreeRTOS
 @par How to use it ?
 
 In order to make the program work, you must do the following :
- - As UCPD Monitor is using a dedicated flash area for storing USPBD port capabilties, please make sure to erase full flash content before starting. (With STM32CubeProgrammer for example)
+ - As UCPD Monitor is using a dedicated flash area for storing USPBD port capabilities, please make sure to erase full flash content before starting. (With STM32CubeProgrammer for example)
  - Open your preferred toolchain 
  - Rebuild all files and load your image into target memory
  - Run the example
@@ -138,5 +139,5 @@ In order to make the program work, you must do the following :
       demonstration loader if the legacy daughter board (MB1351) or no daughter board is
       connected to the extension connector of the mother board (MB1350).
 
- * <h3><center>&copy; COPYRIGHT STMicroelectronics</center></h3>
+
  */

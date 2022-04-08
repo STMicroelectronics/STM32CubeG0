@@ -297,5 +297,3 @@ void RTC_TAMP_IRQHandler(void)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

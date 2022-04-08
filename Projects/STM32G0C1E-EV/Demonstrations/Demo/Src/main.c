@@ -210,5 +210,3 @@ void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
     SubDemoApi.pfnSubDemoExtiFallingEdgeDetectionManagement(GPIO_Pin);
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

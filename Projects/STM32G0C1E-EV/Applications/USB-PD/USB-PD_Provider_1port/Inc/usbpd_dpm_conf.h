@@ -151,5 +151,3 @@ USBPD_USER_SettingsTypeDef       DPM_USER_Settings[USBPD_PORT_COUNT] =
 #endif
 
 #endif /* __USBPD_DPM_CONF_H_ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

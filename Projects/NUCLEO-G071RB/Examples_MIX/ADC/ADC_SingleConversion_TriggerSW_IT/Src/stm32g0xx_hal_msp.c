@@ -215,5 +215,3 @@ void HAL_DAC_MspDeInit(DAC_HandleTypeDef* hdac)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

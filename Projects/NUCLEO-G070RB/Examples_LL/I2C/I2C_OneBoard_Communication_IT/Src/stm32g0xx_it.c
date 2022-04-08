@@ -231,5 +231,3 @@ void I2C2_IRQHandler(void)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

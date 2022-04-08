@@ -491,5 +491,3 @@ static void DPM_ManageAttachedState(uint8_t PortNum, USBPD_CAD_EVENT State, CCxP
     }
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

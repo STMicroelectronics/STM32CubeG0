@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2021 STMicroelectronics.
+  * Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -54,13 +54,13 @@ void USBPD_TIM_Init(void)
     /***************************/
     /* Counter mode: select up-counting mode */
     LL_TIM_SetCounterMode(TIMX, LL_TIM_COUNTERMODE_UP);
-    
+
     /* Set the pre-scaler value to have TIMx counter clock equal to 1 MHz */
     LL_TIM_SetPrescaler(TIMX, __LL_TIM_CALC_PSC(SystemCoreClock, 1000000u));
-    
+
     /* Set the auto-reload value to have a counter frequency of 100Hz */
     LL_TIM_SetAutoReload(TIMX, __LL_TIM_CALC_ARR(SystemCoreClock, LL_TIM_GetPrescaler(TIMX), 100u));
-    
+
     /*********************************/
     /* Output waveform configuration */
     /*********************************/
@@ -69,13 +69,13 @@ void USBPD_TIM_Init(void)
     LL_TIM_OC_SetMode(TIMX, TIMX_CHANNEL_CH2, LL_TIM_OCMODE_TOGGLE);
     LL_TIM_OC_SetMode(TIMX, TIMX_CHANNEL_CH3, LL_TIM_OCMODE_TOGGLE);
     LL_TIM_OC_SetMode(TIMX, TIMX_CHANNEL_CH4, LL_TIM_OCMODE_TOGGLE);
-    
+
     /* Set output channel polarity: OC is active high */
     LL_TIM_OC_SetPolarity(TIMX, TIMX_CHANNEL_CH1, LL_TIM_OCPOLARITY_HIGH);
     LL_TIM_OC_SetPolarity(TIMX, TIMX_CHANNEL_CH2, LL_TIM_OCPOLARITY_HIGH);
     LL_TIM_OC_SetPolarity(TIMX, TIMX_CHANNEL_CH3, LL_TIM_OCPOLARITY_HIGH);
     LL_TIM_OC_SetPolarity(TIMX, TIMX_CHANNEL_CH4, LL_TIM_OCPOLARITY_HIGH);
-    
+
     /* Enable counter */
     LL_TIM_EnableCounter(TIMX);
   }
@@ -91,7 +91,7 @@ void USBPD_TIM_Init(void)
 void USBPD_TIM_DeInit(void)
 {
   timer_initcounter--;
-  if(0 == timer_initcounter)
+  if (0 == timer_initcounter)
   {
     TIMX_CLK_DISABLE;
   }

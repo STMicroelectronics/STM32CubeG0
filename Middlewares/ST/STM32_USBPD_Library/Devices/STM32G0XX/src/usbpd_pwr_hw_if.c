@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2021 STMicroelectronics.
+  * Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -24,7 +24,7 @@
 #if  defined(_TRACE)
 #include "usbpd_core.h"
 #include "usbpd_trace.h"
-#endif
+#endif /* _TRACE */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -32,7 +32,7 @@
 #define POWER_DEBUG(__MSG__,__SIZE__)   USBPD_TRACE_Add(USBPD_TRACE_DEBUG, PortNum, 0,__MSG__,__SIZE__);
 #else
 #define POWER_DEBUG(__MSG__,__SIZE__)
-#endif
+#endif /* _TRACE */
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
@@ -60,7 +60,8 @@ int16_t HW_IF_PWR_GetCurrent(uint8_t PortNum)
 }
 
 #if defined(_SRC) || defined(_DRP)
-USBPD_StatusTypeDef HW_IF_PWR_Enable(uint8_t PortNum, USBPD_FunctionalState state, CCxPin_TypeDef Cc, uint32_t VconnState, USBPD_PortPowerRole_TypeDef role)
+USBPD_StatusTypeDef HW_IF_PWR_Enable(uint8_t PortNum, USBPD_FunctionalState state, CCxPin_TypeDef Cc,
+                                     uint32_t VconnState, USBPD_PortPowerRole_TypeDef role)
 {
   UNUSED(role);
   int32_t status;

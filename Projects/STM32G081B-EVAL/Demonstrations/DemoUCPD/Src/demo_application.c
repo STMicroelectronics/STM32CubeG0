@@ -1927,5 +1927,3 @@ static void string_completion(uint8_t *Str, uint8_t SizeMax)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

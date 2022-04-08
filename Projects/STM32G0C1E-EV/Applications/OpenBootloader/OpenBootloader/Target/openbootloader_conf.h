@@ -77,5 +77,3 @@
 /* Exported functions ------------------------------------------------------- */
 
 #endif /* OPENBOOTLOADER_CONF_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

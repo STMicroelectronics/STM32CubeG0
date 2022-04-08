@@ -843,5 +843,3 @@ void assert_failed(uint8_t* file, uint32_t line)
 }
 
 #endif
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

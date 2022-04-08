@@ -95,5 +95,3 @@ void                USBPD_DPM_UserCableDetection(uint8_t PortNum, USBPD_CAD_EVEN
 #endif
 
 #endif /* __USBPD_DPM_USER_H_ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

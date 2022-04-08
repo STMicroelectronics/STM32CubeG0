@@ -172,5 +172,3 @@ void OpenBootloader_ProtocolDetection(void)
     OPENBL_CommandProcess();
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

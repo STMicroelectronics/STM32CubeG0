@@ -7,13 +7,14 @@
   * @author  MCD Application Team
   * @brief   Description of the USB-C Power Delivery USBPD_Analyzer application.
   ******************************************************************************
+  * @attention
   *
-  * Copyright (c) 2019 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2019 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   @endverbatim
@@ -42,7 +43,7 @@ It has been implemented in context of STM32G071xx devices, embedding UCPD IP:
  
  - Joystick is used to navigate through the LCD information. 
    Right and left to change the menus, and center to select action. 
-   When available you can use select Joy-Up and Joy-Down to scroll trough actions or profile information.
+   When available you can use select Joy-Up and Joy-Down to scroll through actions or profile information.
 
  - Demonstration implementation is based on FreeRTOS.  
 
@@ -114,6 +115,6 @@ For example : the mode selection can be confirmed by the LED 6. If LD6 is on the
 In Sink Mode, the LD 4 is ON when the USB-PD is attached to a power source.
 
  
- * <h3><center>&copy; COPYRIGHT STMicroelectronics</center></h3>
+
  */
  

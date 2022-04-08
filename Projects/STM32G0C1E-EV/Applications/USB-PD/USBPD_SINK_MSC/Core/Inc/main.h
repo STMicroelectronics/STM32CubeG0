@@ -110,5 +110,3 @@ void   MX_LPTIM1_Init(void);
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

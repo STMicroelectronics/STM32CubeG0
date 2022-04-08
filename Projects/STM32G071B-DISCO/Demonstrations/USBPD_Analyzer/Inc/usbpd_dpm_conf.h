@@ -5,13 +5,14 @@
   * @author  MCD Application Team
   * @brief   Header file for stack/application settings file
   ******************************************************************************
+  * @attention
   *
-  * Copyright (c) 2019 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2019 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -78,7 +79,7 @@ USBPD_SettingsTypeDef       DPM_Settings[USBPD_PORT_COUNT] =
     .PE_PD3_Support.d =                           /*!< PD3 SUPPORT FEATURE                                              */
     {
       .PE_UnchunkSupport                = USBPD_FALSE,  /*!< Unchunked mode Support                */
-      .PE_FastRoleSwapSupport           = USBPD_FALSE,  /*!< support fast role swap only spec revsion 3.0            */
+      .PE_FastRoleSwapSupport           = USBPD_FALSE,  /*!< support fast role swap only spec revision 3.0            */
       .Is_GetPPSStatus_Supported        = USBPD_TRUE,   /*!< PPS message supported or not by DPM */
       .Is_SrcCapaExt_Supported          = USBPD_TRUE,   /*!< Source_Capabilities_Extended message supported or not by DPM */
       .Is_Alert_Supported               = USBPD_FALSE,  /*!< Alert message supported or not by DPM */
@@ -125,11 +126,11 @@ USBPD_USER_SettingsTypeDef DPM_USER_Settings[USBPD_PORT_COUNT] =
       .OperatingPowerInmWunits      = (USBPD_CORE_PDO_SNK_FIXED_MAX_CURRENT * USBPD_BOARD_REQUESTED_VOLTAGE_MV)/1000,
       .MaxOperatingPowerInmWunits   = (USBPD_CORE_PDO_SNK_FIXED_MAX_CURRENT * USBPD_BOARD_MAX_VOLTAGE_MV)/1000
     },
-    .PE_DataSwap = USBPD_TRUE,                  /* support data swap    */
-    .PE_DR_Swap_To_DFP = USBPD_TRUE,            /*  Support of DR Swap to DFP                                  */
-    .PE_DR_Swap_To_UFP = USBPD_TRUE,            /*  Support of DR Swap to UFP                                  */
-    .PE_VconnSwap = USBPD_FALSE,                /* support VCONN swap   */
-    .DPM_SNKExtendedCapa =                      /*!< SNK Extended Capability           */
+    .PE_DataSwap = USBPD_FALSE,                 /* support data swap                                         */
+    .PE_DR_Swap_To_DFP = USBPD_FALSE,           /*  Support of DR Swap to DFP                                */
+    .PE_DR_Swap_To_UFP = USBPD_FALSE,           /*  Support of DR Swap to UFP                                */
+    .PE_VconnSwap = USBPD_FALSE,                /* support VCONN swap                                        */
+    .DPM_SNKExtendedCapa =                      /*!< SNK Extended Capability                                 */
       {
         .VID                = USBPD_VID, /*!< Vendor ID (assigned by the USB-IF)                             */
         .PID                = USBPD_PID, /*!< Product ID (assigned by the manufacturer)                      */
@@ -193,5 +194,3 @@ USBPD_USER_SettingsTypeDef DPM_USER_Settings[USBPD_PORT_COUNT] =
 #endif
 
 #endif /* __USBPD_DPM_CONF_H_ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

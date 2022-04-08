@@ -151,5 +151,3 @@ void HAL_CEC_MspDeInit(CEC_HandleTypeDef* hcec)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

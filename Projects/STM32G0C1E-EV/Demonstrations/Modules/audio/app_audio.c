@@ -119,5 +119,3 @@ void AppAudio_TIM_MspDeInit(TIM_HandleTypeDef *htim)
   __HAL_RCC_TIM6_FORCE_RESET();
   __HAL_RCC_TIM6_RELEASE_RESET();
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

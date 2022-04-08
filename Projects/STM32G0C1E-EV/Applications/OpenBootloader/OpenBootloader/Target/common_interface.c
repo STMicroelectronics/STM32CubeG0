@@ -55,5 +55,3 @@ void Common_DisableIrq(void)
 {
   __disable_irq();
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

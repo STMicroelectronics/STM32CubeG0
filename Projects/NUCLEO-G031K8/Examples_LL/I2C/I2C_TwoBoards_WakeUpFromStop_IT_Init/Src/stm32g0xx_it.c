@@ -275,4 +275,3 @@ void VIRTUAL_BUTTON_IRQHANDLER(void)
 #endif /* SLAVE_BOARD */
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

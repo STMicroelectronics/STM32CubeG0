@@ -4,13 +4,14 @@
   * @author  MCD Application Team
   * @brief   USBPD provider demo file
   ******************************************************************************
+  * @attention
   *
-  * Copyright (c) 2018 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2018 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -694,38 +695,38 @@ static USBPD_StatusTypeDef USBPD_VDM_ReceiveSpecific(uint8_t PortNum, USBPD_VDM_
 
         if (USBPD_PORT_1 == PortNum)
         {
-          MUX_TypeCConnectorPinAssignmentTypeDef assignement = UFP_PIN_ASSIGNMMENT_A;
+          MUX_TypeCConnectorPinAssignmentTypeDef assignment = UFP_PIN_ASSIGNMMENT_A;
           switch(vdo.d.UFP_U_Pin)
           {
           case DP_PIN_ASSIGNMENT_NONE:         /*!< De-select pin assignment.  */
-            assignement = USB_ONLY_PIN_ASSIGNMMENT;
+            assignment = USB_ONLY_PIN_ASSIGNMMENT;
             break;
           case DP_PIN_ASSIGNMENT_A:            /*!< Select Pin Assignment A    */
-            assignement = UFP_PIN_ASSIGNMMENT_A;
+            assignment = UFP_PIN_ASSIGNMMENT_A;
             break;
           case DP_PIN_ASSIGNMENT_B:            /*!< Select Pin Assignment B    */
-            assignement = UFP_PIN_ASSIGNMMENT_B;
+            assignment = UFP_PIN_ASSIGNMMENT_B;
             break;
           case DP_PIN_ASSIGNMENT_C:            /*!< Select Pin Assignment C    */
-            assignement = UFP_PIN_ASSIGNMMENT_C;
+            assignment = UFP_PIN_ASSIGNMMENT_C;
             break;
           case DP_PIN_ASSIGNMENT_D:            /*!< Select Pin Assignment D    */
-            assignement = UFP_PIN_ASSIGNMMENT_D;
+            assignment = UFP_PIN_ASSIGNMMENT_D;
             break;
           case DP_PIN_ASSIGNMENT_E:            /*!< Select Pin Assignment E    */
-            assignement = UFP_PIN_ASSIGNMMENT_E;
+            assignment = UFP_PIN_ASSIGNMMENT_E;
             break;
           case DP_PIN_ASSIGNMENT_F:            /*!< Select Pin Assignment F    */
-            assignement = UFP_PIN_ASSIGNMMENT_F;
+            assignment = UFP_PIN_ASSIGNMMENT_F;
             break;
           default :
             status = USBPD_NAK;
             break;
           }
           if (CC1 == DPM_Params[USBPD_PORT_1].ActiveCCIs)
-            BSP_MUX_SetDPPinAssignment(TYPE_C_MUX_2, PLUG_ORIENTATION_NORMAL, assignement);
+            BSP_MUX_SetDPPinAssignment(TYPE_C_MUX_2, PLUG_ORIENTATION_NORMAL, assignment);
           else
-            BSP_MUX_SetDPPinAssignment(TYPE_C_MUX_2, PLUG_ORIENTATION_FLIPPED, assignement);
+            BSP_MUX_SetDPPinAssignment(TYPE_C_MUX_2, PLUG_ORIENTATION_FLIPPED, assignment);
         }
         *pVDO = 0;
         *pNbData = 0;
@@ -1410,6 +1411,3 @@ void USBPD_VDM_UserReset(uint8_t PortNum)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-

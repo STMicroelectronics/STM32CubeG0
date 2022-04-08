@@ -153,4 +153,3 @@ void PVD_VDDIO2_IRQHandler(void)
   HAL_PWREx_PVD_PVM_IRQHandler();
 }
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

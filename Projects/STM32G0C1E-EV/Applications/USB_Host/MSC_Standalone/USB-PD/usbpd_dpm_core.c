@@ -178,5 +178,3 @@ void USBPD_DPM_CADCallback(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDe
     break;
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

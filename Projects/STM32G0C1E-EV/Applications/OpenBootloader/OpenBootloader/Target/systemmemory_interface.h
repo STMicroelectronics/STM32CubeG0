@@ -28,5 +28,3 @@
 uint8_t OPENBL_ICP_Read(uint32_t Address);
 
 #endif /* SYSTEMMEMORY_INTERFACE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

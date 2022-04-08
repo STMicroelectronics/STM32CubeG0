@@ -45,5 +45,3 @@ void MPU_Config(void);
 void MPU_AccessPermConfig(void);
 
 #endif /* __STM32_MPU_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

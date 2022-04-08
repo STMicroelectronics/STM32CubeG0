@@ -93,5 +93,3 @@ void DEMO_Display_Error(uint8_t PortNum, uint8_t ErrorType);
 #endif
 
 #endif /* __DEMO_APPLICATION_H_ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -53,5 +53,3 @@ void OPENBL_IWDG_Refresh(void)
     Error_Handler();
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

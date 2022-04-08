@@ -54,5 +54,3 @@ void MX_USB_Device_Init(void)
     Error_Handler();
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

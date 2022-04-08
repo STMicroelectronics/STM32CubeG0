@@ -79,7 +79,7 @@ KMODULE_RETURN _ImageBrowserDemoExec(void)
 /**
   * @brief  Run the image browser 
   * @param  None.
-  * @note   run and display image accordng the user action.  
+  * @note   run and display image according the user action.  
   * @retval None.
   */
 void ImageBrowserDemo(void)
@@ -145,5 +145,3 @@ void ImageBrowserMenuUserAction(uint8_t sel)
     user_event = sel;
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

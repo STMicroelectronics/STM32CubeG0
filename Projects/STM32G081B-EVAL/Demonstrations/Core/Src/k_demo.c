@@ -69,5 +69,3 @@ void kDemo_Start(void)
   }
   while(demo_stat != DEMO_EXIT);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -73,5 +73,3 @@ void SPI2_Rx_Callback(void);
 void SPI_TransferError_Callback(void);
 void UserButton_Callback(void);
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

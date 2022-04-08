@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -356,11 +355,7 @@ typedef enum
 typedef enum
 {
   GUI_INIT_HWBOARDVERSION                    = 0x00, /*<! ASCII stream to indicate STM32 version like STM32F032xB */
-  GUI_INIT_HWPDTYPE                          = 0x01, /*<! ASCII stream to indicate PD type used by the devices like:
-                                                          - AFE solution (MB1257B)
-                                                          - 1602 solution (MB1303 rev A)
-                                                          - TCPM solution (TCPC FUSB305)
-                                                          - () */
+  GUI_INIT_HWPDTYPE                          = 0x01, /*<! ASCII stream to indicate HW PD type used by the device */
   GUI_INIT_NBPORTMAX                         = 0x02, /*<! Indicate maximum number of ports which can be configured
                                                           in the device (value 1, 2 , 3) */
   GUI_INIT_FWVERSION                         = 0x03, /*<! 4 bytes for FW version + 4 bytes for Stack version */
@@ -696,18 +691,20 @@ uint32_t GUI_InitOS(void *MemoryPtr)
 #if defined(_RTOS) || defined(USBPD_THREADX)
     GUIOS_CREATE_QUEUE(GUIMsgBox, "GUIBOX", GUI_BOX_MESSAGES_MAX, GUIOS_ELEMENT_SIZE);
     GUIOS_CREATE_TASK(GUI_ThreadID, GUI, TaskGUI, OS_GUI_PRIORITY, OS_GUI_STACK_SIZE, &GUIMsgBox);
-#else /* RTOS */
+#else
     GUI_Start();
 #if defined(USE_STM32_UTILITY_OS)
     UTIL_SEQ_RegTask(TASK_GUI, 0, GUI_Execute);
     UTIL_SEQ_SetTask(TASK_GUI, 0);
-#endif /*USE_STM32_UTILITY_OS */
+#endif /* USE_STM32_UTILITY_OS */
 #endif /* _RTOS || USBPD_THREADX */
   }
 
 #if defined(_RTOS) || defined(USBPD_THREADX)
 error:
-  return _status;
+  return(_status);
+#else
+  return(USBPD_ENABLE);
 #endif /* _RTOS || USBPD_THREADX */
 }
 
@@ -738,8 +735,8 @@ void GUI_Execute(void)
   GUI_Start();
   do
   {
-    GUIOS_QUEUE_EVENT event=0;
-    GUIOS_GETMESSAGE_QUEUE(GUIMsgBox,_timing,event);
+    GUIOS_QUEUE_EVENT event = 0;
+    GUIOS_GETMESSAGE_QUEUE(GUIMsgBox, _timing, event);
     switch ((GUI_USER_EVENT)(event & 0xFU))
     {
       case GUI_USER_EVENT_GUI:
@@ -2348,7 +2345,7 @@ static void Request_MessageReq(uint8_t PortNum, uint8_t *instruction, uint8_t *p
       break;
     case GUI_MSG_GET_MANU_INFO :
     {
-      uint16_t manu_info;
+      uint8_t manu_info[2];
       uint8_t nb_expected_tag = 0U;
       uint8_t sop = (uint8_t)USBPD_SOPTYPE_SOP;
       if (length > TLV_SIZE_MAX)
@@ -2356,16 +2353,20 @@ static void Request_MessageReq(uint8_t PortNum, uint8_t *instruction, uint8_t *p
         break;
       }
       (void)TLV_get(&process_tlv, &tag, &length, &value);
-      while ((0U != length) && (TLV_SIZE_MAX > length) && (nb_expected_tag < 2U))
+      while ((0U != length) && (TLV_SIZE_MAX > length) && (nb_expected_tag < 3U))
       {
         nb_expected_tag++;
         if (GUI_PARAM_MSG_SOPTYPE == (USBPD_GUI_Tag_ParamMsg)tag)
         {
           sop = value[0];
         }
+        else if (GUI_PARAM_MSG_BATTERYREF == (USBPD_GUI_Tag_ParamMsg)tag)
+        {
+          manu_info[1] = value[0];
+        }
         else if (GUI_PARAM_MSG_MANUINFODATA == (USBPD_GUI_Tag_ParamMsg)tag)
         {
-          manu_info = USBPD_LE16(&value[0]);
+          manu_info[0] = value[0];
         }
         else
         {
@@ -2374,7 +2375,7 @@ static void Request_MessageReq(uint8_t PortNum, uint8_t *instruction, uint8_t *p
 
         (void)TLV_get(&process_tlv, &tag, &length, &value);
       }
-      if (2U == nb_expected_tag)
+      if (3U == nb_expected_tag)
       {
         status = USBPD_DPM_RequestGetManufacturerInfo(PortNum, (USBPD_SOPType_TypeDef)sop, (uint8_t *)&manu_info);
       }
@@ -2712,7 +2713,7 @@ static void Send_DpmConfigGetCnf(uint8_t PortNum, uint8_t *instruction, uint8_t 
   /* This is a state machine. */
   do
   {
-    /* If there is no parameters, we go through each case of the state machine in one pass. (conditionnal breaks) */
+    /* If there is no parameters, we go through each case of the state machine in one pass. (conditional breaks) */
     if (0U == length)
     {
       param = (uint8_t)GUI_PARAM_ALL;
@@ -3567,4 +3568,3 @@ static void UpdateSNKPowerPort1(void)
   */
 #endif /* _GUI_INTERFACE */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

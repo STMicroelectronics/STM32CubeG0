@@ -172,5 +172,3 @@ void OPENBL_USART_SendByte(uint8_t Byte)
   {
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

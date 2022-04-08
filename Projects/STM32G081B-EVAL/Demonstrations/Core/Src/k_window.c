@@ -94,6 +94,3 @@ void kWindow_Error(char *msg)
 {
   kWindow_Popup("Error popup",LCD_COLOR_BLACK,LCD_COLOR_RED,msg,LCD_COLOR_BLACK,LCD_COLOR_RED);
 }
-
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

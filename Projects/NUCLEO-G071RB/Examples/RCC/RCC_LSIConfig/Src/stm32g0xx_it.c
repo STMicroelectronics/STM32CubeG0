@@ -167,4 +167,3 @@ void EXTI4_15_IRQHandler(void)
 }
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -140,5 +140,3 @@ extern USBD_DescriptorsTypeDef     MSC_Desc;
 #endif
 
 #endif /* __USBD_DESC__C__ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

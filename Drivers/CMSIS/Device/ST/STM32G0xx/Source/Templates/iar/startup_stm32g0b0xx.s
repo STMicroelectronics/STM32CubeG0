@@ -280,4 +280,3 @@ USART3_4_5_6_IRQHandler
         B USART3_4_5_6_IRQHandler
 
         END
-;************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE*****

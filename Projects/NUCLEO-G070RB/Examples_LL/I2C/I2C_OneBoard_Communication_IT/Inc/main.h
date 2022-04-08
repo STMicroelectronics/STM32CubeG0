@@ -88,5 +88,3 @@ void Master_Reception_Callback(void);
 void Master_Complete_Callback(void);
 void Error_Callback(void);
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

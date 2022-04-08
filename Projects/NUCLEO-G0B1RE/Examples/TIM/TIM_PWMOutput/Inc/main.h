@@ -113,5 +113,3 @@ TIM1 Configuration: generate 4 PWM signals with 4 different duty cycles.
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

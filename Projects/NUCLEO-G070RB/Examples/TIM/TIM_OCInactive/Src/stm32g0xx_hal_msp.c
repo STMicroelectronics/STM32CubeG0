@@ -165,5 +165,3 @@ void HAL_TIM_OC_MspDeInit(TIM_HandleTypeDef* htim_oc)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

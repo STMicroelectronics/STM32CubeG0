@@ -77,5 +77,3 @@ void AdcGrpRegularSequenceConvComplete_Callback(void);
 void AdcGrpRegularOverrunError_Callback(void);
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

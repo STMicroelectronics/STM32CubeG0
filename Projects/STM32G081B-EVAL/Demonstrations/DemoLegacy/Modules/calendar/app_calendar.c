@@ -1139,4 +1139,3 @@ static uint8_t Calendar_IsLeapYear(uint16_t nYear)
 
 #undef __APP_CALENDAR_C
 #endif
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

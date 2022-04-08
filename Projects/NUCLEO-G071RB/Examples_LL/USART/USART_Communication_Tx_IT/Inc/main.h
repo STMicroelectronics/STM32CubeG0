@@ -130,5 +130,3 @@ void USART_CharTransmitComplete_Callback(void);
 void Error_Callback(void); 
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -103,5 +103,3 @@ void HAL_WWDG_MspInit(WWDG_HandleTypeDef* hwwdg)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -256,5 +256,3 @@ static uint8_t Buffercmp(uint32_t* pBuffer1, uint32_t* pBuffer2, uint16_t Buffer
 /**
   * @}
   */ 
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

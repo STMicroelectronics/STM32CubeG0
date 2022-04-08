@@ -177,5 +177,3 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

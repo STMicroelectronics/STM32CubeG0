@@ -551,5 +551,3 @@ static ErrorStatus OPENBL_FLASH_DisableWriteProtection(void)
 
   return status;
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

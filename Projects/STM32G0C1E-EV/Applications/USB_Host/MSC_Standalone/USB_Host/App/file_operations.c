@@ -101,5 +101,3 @@ uint8_t msc_file_operations(void)
   }
   return (retvalue);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

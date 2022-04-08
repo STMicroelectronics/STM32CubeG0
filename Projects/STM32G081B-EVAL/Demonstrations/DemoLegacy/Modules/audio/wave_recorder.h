@@ -39,5 +39,3 @@ void WaveRecorder_UserAction(uint8_t sel);
 #endif
 
 #endif /* __WAVE_RECORDER_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

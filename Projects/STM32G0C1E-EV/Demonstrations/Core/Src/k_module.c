@@ -102,5 +102,3 @@ KMODULE_RETURN kModule_Execute(uint8_t moduleid)
   
   return KMODULE_OK;
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

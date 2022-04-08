@@ -38,5 +38,3 @@ GLOBAL const K_ModuleItem_Typedef ModuleCalendar;
 /* Private macros ------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

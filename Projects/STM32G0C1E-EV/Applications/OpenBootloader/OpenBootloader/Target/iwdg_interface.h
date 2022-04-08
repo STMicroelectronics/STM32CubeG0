@@ -29,5 +29,3 @@ void OPENBL_IWDG_Configuration(void);
 void OPENBL_IWDG_Refresh(void);
 
 #endif /* IWDG_INTERFACE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

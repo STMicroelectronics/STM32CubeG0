@@ -53,7 +53,7 @@
   #define VDDA_APPLI                       ((uint32_t)3300)
   
   /* Value of comparator thresholds based on VrefInt */
-  /* (VrefInt voltage is approximatively 1.22V, refer to device datasheet     */
+  /* (VrefInt voltage is approximately 1.22V, refer to device datasheet     */
   /* for min/typ/max values).                                                 */
   /* (unit: mV).                                                              */
   #define VREFINT                          ((uint32_t)1220)
@@ -120,11 +120,8 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-
-  /* System interrupt init*/
 
   /** Disable the internal Pull-Up in Dead Battery pins of UCPD peripheral
   */
@@ -566,5 +563,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -360,5 +360,3 @@ static uint32_t GetBank(uint32_t Address)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

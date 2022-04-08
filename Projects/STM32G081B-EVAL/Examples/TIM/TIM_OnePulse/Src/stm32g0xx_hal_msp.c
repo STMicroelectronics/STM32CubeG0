@@ -86,5 +86,3 @@ void HAL_TIM_OnePulse_MspInit(TIM_HandleTypeDef *htim)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

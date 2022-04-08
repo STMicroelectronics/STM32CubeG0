@@ -271,5 +271,3 @@ void HelpMenuUserAction(uint8_t sel)
     break;
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

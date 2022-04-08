@@ -44,5 +44,3 @@ void OPENBL_USB_UploadRdpNack(USBD_HandleTypeDef *pDev);
 }
 #endif
 #endif /* USB_INTERFACE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

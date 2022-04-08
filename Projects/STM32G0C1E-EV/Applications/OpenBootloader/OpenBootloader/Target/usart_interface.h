@@ -35,5 +35,3 @@ uint8_t OPENBL_USART_ReadByte(void);
 void OPENBL_USART_SendByte(uint8_t Byte);
 
 #endif /* USART_INTERFACE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

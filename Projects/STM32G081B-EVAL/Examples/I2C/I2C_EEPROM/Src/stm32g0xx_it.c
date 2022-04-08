@@ -126,4 +126,3 @@ void I2Cx_IRQHandler(void)
     HAL_I2C_EV_IRQHandler(&I2cHandle);
   }
 }
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

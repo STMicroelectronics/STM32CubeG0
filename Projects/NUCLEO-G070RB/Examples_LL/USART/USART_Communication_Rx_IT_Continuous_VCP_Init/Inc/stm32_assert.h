@@ -1,3 +1,4 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    stm32_assert.h
@@ -14,6 +15,7 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32_ASSERT_H
@@ -49,4 +51,3 @@
 
 #endif /* __STM32_ASSERT_H */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

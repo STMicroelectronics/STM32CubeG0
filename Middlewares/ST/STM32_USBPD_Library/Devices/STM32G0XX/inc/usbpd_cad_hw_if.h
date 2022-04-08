@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2021 STMicroelectronics.
+  * Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -55,7 +55,8 @@ uint32_t                          CAD_Set_ResistorRp(uint8_t PortNum, CAD_RP_Sou
 /** @addtogroup USBPD_DEVICE_CAD_HW_IF_Exported_Functions
   * @{
   */
-void                              CAD_Init(uint8_t PortNum, USBPD_SettingsTypeDef *Settings, USBPD_ParamsTypeDef *Params, void (*PtrWakeUp)(void));
+void                              CAD_Init(uint8_t PortNum, USBPD_SettingsTypeDef *Settings,
+                                           USBPD_ParamsTypeDef *Params, void (*PtrWakeUp)(void));
 uint32_t                          CAD_StateMachine(uint8_t PortNum, USBPD_CAD_EVENT *Event, CCxPin_TypeDef *CCXX);
 void                              CAD_Enter_ErrorRecovery(uint8_t PortNum);
 #if defined(USBPDCORE_DRP) || defined(USBPDCORE_SRC)

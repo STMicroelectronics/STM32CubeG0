@@ -48,5 +48,3 @@ uint16_t kTools_Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferL
 
   return 0;
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

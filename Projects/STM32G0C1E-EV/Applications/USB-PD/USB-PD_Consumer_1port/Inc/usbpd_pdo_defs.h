@@ -154,5 +154,3 @@ uint32_t PORT0_PDO_ListSNK[USBPD_MAX_NB_PDO] =
 #endif
 
 #endif /* __USBPD_PDO_DEF_H_ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

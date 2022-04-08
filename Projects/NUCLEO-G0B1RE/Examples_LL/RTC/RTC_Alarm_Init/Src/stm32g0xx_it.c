@@ -167,4 +167,3 @@ void RTC_TAMP_IRQHandler(void)
   LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_19);
 }
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

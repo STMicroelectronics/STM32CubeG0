@@ -51,6 +51,3 @@ void assert_failed(uint8_t *file, uint32_t line);
 #endif
 
 #endif /* STM32_ASSERT_H */
-
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

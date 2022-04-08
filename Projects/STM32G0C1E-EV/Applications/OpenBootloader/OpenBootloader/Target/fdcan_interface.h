@@ -37,5 +37,3 @@ void OPENBL_FDCAN_SendByte(uint8_t Byte);
 void OPENBL_FDCAN_SendBytes(uint8_t *Buffer, uint32_t BufferSize);
 
 #endif /* FDCAN_INTERFACE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

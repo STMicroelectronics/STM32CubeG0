@@ -14,14 +14,14 @@
 ;******************************************************************************
 ;* @attention
 ;*
-;* Copyright (c) 2019 STMicroelectronics. All rights reserved.
+;* Copyright (c) 2019 STMicroelectronics.
+;* All rights reserved.
 ;*
-;* This software component is licensed by ST under Apache License, Version 2.0,
-;* the "License"; You may not use this file except in compliance with the 
-;* License. You may obtain a copy of the License at:
-;*                        opensource.org/licenses/Apache-2.0
+;* This software is licensed under terms that can be found in the LICENSE file
+;* in the root directory of this software component.
+;* If no LICENSE file comes with this software, it is provided AS-IS.
 ;*
-;*******************************************************************************
+;******************************************************************************
 ;
 ; The modules in this file are included in the libraries, and may be replaced
 ; by any user-defined modules that define the PUBLIC symbol _program_start or
@@ -283,4 +283,3 @@ LPUART1_IRQHandler
         B LPUART1_IRQHandler
 
         END
-;************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE*****

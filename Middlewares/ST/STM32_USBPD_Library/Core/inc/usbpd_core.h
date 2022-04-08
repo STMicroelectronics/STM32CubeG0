@@ -272,6 +272,12 @@ typedef void (*TRACE_ENTRY_POINT)(TRACE_EVENT type, uint8_t port, uint8_t sop, u
 #ifdef USBPDCORE_VCONN_SUPPORT
 #define PE_TVCONNSOURCETIMEOUT           150u   /*!< tVCONNSourceTimeout: min 100ms to max 200ms               */
 #endif /* USBPDCORE_VCONN_SUPPORT */
+
+
+#define PE_TVCONNZERO                    125u   /*!< tVCONNZero          :max 125ms                            */
+#define PE_TVCONNREAPPLIED                10u   /*!< tVCONNZero          :min 10 max 20ms                      */
+#define PE_TDATARESETFAIL                300u   /*!< tDataResetFail      :min 300ms                            */
+#define PE_TDATARESET                    200u   /*!< tDataReset          :min 200ms 225ms max 250ms            */
 /**
   * @}
   */
@@ -662,6 +668,7 @@ typedef struct
     * @retval Returned values are: @ref USBPD_DISABLE or @ref USBPD_ENABLE
     */
   USBPD_FunctionalState(*USBPD_PE_IsPowerReady)(uint8_t PortNum, USBPD_VSAFE_StatusTypeDef Vsafe);
+
 
 } USBPD_PE_Callbacks;
 

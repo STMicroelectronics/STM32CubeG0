@@ -132,5 +132,3 @@ void USART3_4_LPUART1_IRQHandler(void)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

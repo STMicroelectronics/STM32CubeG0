@@ -124,5 +124,3 @@ void kWidgets_ProgressBarReset(void * hwidgetProgressBar)
                    pb->progressBar.width, 
                    pb->progressBar.height);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

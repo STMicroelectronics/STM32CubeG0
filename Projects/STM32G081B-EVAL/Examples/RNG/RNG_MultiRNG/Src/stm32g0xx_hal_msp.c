@@ -140,5 +140,3 @@ void HAL_RNG_MspDeInit(RNG_HandleTypeDef* hrng)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -124,5 +124,3 @@ extern USBD_DFU_MediaTypeDef USBD_DFU_Flash_fops;
 #endif
 
 #endif /* __USBD_DFU_FLASH_H__ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

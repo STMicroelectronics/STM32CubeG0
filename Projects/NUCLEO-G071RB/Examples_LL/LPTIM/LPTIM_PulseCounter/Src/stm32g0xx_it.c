@@ -122,5 +122,3 @@ void TIM6_DAC_LPTIM1_IRQHandler(void)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

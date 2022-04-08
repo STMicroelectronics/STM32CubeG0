@@ -39,5 +39,3 @@ void WavePlayer_UserAction(uint8_t sel);
 #endif
 
 #endif /* __WAVE_PLAYER_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

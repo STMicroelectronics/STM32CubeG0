@@ -99,5 +99,3 @@ static void OPENBL_OTP_ProgramDoubleWord(uint32_t Address, uint64_t Data)
 {
   HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, Address, Data);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

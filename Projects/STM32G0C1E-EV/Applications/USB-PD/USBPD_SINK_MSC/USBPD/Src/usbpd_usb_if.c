@@ -112,5 +112,3 @@ void USBPD_USBIF_DeviceSetVDMInfo(uint32_t PortNum, void *DataPtr)
 /**
   * @}
   */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-

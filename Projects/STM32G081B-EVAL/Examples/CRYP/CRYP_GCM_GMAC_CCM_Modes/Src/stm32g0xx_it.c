@@ -153,4 +153,3 @@ void AES_RNG_IRQHandler(void)
   HAL_CRYP_IRQHandler(&hcryp);
 }
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

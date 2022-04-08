@@ -79,7 +79,7 @@ extern "C" {
 #define MIN(a, b)  (((a) < (b)) ? (a) : (b))
 #define MAX(a, b)  (((a) > (b)) ? (a) : (b))
 
-#define USPBPD_WRITE32(addr,data)                                                  \
+#define USBPD_WRITE32(addr,data)                                                   \
   do {                                                                             \
     uint8_t bindex;                                                                \
     for(bindex = 0u; bindex < 4u; bindex++)                                        \
@@ -87,6 +87,8 @@ extern "C" {
       ((uint8_t *)addr)[bindex] = ((uint8_t)(data >> (8U * bindex)) & 0x000000FFU);\
     }                                                                              \
   } while(0u);
+
+#define USPBPD_WRITE32 USBPD_WRITE32 /* For legacy purpose */
 
 #define USBPD_LE16(addr) (((uint16_t)(*((uint8_t *)(addr))))\
                           + (((uint16_t)(*(((uint8_t *)(addr)) + 1U))) << 8U))
@@ -280,7 +282,7 @@ extern "C" {
 /* Defines for STACK version */
 #define LIB_STACK_VER_POS   12U
 #define LIB_STACK_VER_MSK   (0xFFFU << LIB_STACK_VER_POS)
-#define LIB_STACK_VER       (0x400U  << LIB_STACK_VER_POS)
+#define LIB_STACK_VER       (0x410U  << LIB_STACK_VER_POS)
 /* Defines for configuration */
 #define LIB_CONFIG_MSK      0xFFFU
 #define LIB_FULL            0x000U
@@ -355,6 +357,7 @@ extern "C" {
 /* Exported constants --------------------------------------------------------*/
 #define USBPD_PORT_0           (0U)    /*!< Port 0 identifier */
 #define USBPD_PORT_1           (1U)    /*!< Port 1 identifier */
+#define USBPD_PORT_2           (2U)    /*!< Port 2 identifier */
 
 #define USBPD_MAX_NB_PDO       (7U)    /*!< Maximum number of supported Power Data Objects: fix by the Specification */
 #define BIST_CARRIER_MODE_MS   (50U)   /*!< Time in ms of the BIST signal*/
@@ -571,6 +574,7 @@ extern "C" {
 #define USBPD_ADO_TYPE_ALERT_OPERATING_COND (1U << 4U) /*!< Operating Condition Change when set */
 #define USBPD_ADO_TYPE_ALERT_SRC_INPUT      (1U << 5U) /*!< Source Input Change Event when set */
 #define USBPD_ADO_TYPE_ALERT_OVP            (1U << 6U) /*!< Over-Voltage Protection event when set (Sink only, for Source Reserved and Shall be set to zero) */
+#define USBPD_ADO_TYPE_ALERT_EXT            (1U << 7U) /*!< Extended Alert Event */
 /**
   * @}
   */
@@ -597,14 +601,88 @@ extern "C" {
   * @}
   */
 
+/** @defgroup USBPD_ADO_EXT_TYPE_ALERT USB-PD Extended Alert Event Type definition used for Alert Data Object
+  * @{
+  */
+#define USBPD_ADO_EXT_TYPE_ALERT_PWR_STATE_CHANGE   1U /*!< Power state change (DFP only) */
+#define USBPD_ADO_EXT_TYPE_ALERT_PWR_BUTTON_PRESS   2U /*!< Power button press (UFP only) */
+#define USBPD_ADO_EXT_TYPE_ALERT_PWR_BUTTON_RELEASE 3U /*!< Power button release (UFP only) */
+#define USBPD_ADO_EXT_TYPE_ALERT_CTRL_INITIATED     4U /*!< Controller initiated wake e.g. Wake on Lan (UFP only) */
+/**
+  * @}
+  */
+
+/** @defgroup USBPD_SDB_PRESENT_INPUT USB-PD Status Data Block - Present Input
+  * @{
+  */
+#define USBPD_SDB_PRESENT_INPUT_EXT_PWR             (1U << 1U) /*!< External Power when set */
+#define USBPD_SDB_PRESENT_INPUT_EXT_PWR_ACDC        (1U << 2U) /*!< External Power AC/DC (Valid when Bit 1 set)
+                                                                      0: DC
+                                                                      1: AC
+                                                                    Reserved when Bit 1 is zero*/
+#define USBPD_SDB_PRESENT_INPUT_INT_PWR_FROM_BAT    (1U << 3U) /*!< Internal Power from Battery when set */
+#define USBPD_SDB_PRESENT_INPUT_INT_PWR_FROM_N0_BAT (1U << 4U) /*!< Internal Power from non-Battery power source when set */
+#define USBPD_SDB_PRESENT_INPUT_INT_MASK            (0x0FU << 1U) /*!< Present Input mask*/
+/**
+  * @}
+  */
+
+/** @defgroup USBPD_SDB_EVENT_FLAGS USB-PD Status Data Block - EventFlags
+  * @{
+  */
+#define USBPD_SDB_EVENT_FLAGS_OCP                   (1U << 1U) /*!< OCP event when set                      */
+#define USBPD_SDB_EVENT_FLAGS_OTP                   (1U << 2U) /*!< OTP event when set                      */
+#define USBPD_SDB_EVENT_FLAGS_OVP                   (1U << 3U) /*!< OVP event when set                      */
+#define USBPD_SDB_EVENT_FLAGS_CF_CV                 (1U << 4U) /*!< CF mode when set, CV mode when cleared  */
+#define USBPD_SDB_EVENT_FLAGS_MASK                  (0x0FU << 1U) /*!< EventFlags mask                      */
+/**
+  * @}
+  */
+
+/** @defgroup USBPD_SDB_TEMP_STATUS USB-PD Status Data Block - Temperature Status
+  * @{
+  */
+#define USBPD_SDB_EVENT_TEMP_STATUS_NOT_SUPP        (0U << 1U) /*!< 00 - Not Supported.                     */
+#define USBPD_SDB_EVENT_TEMP_STATUS_NORMAL          (1U << 1U) /*!< 01 - Normal                             */
+#define USBPD_SDB_EVENT_TEMP_STATUS_WARNING         (2U << 1U) /*!< 10 - Warning                            */
+#define USBPD_SDB_EVENT_TEMP_STATUS_OVER_TEMP       (3U << 1U) /*!< 11 - Over temperature                   */
+#define USBPD_SDB_EVENT_TEMP_STATUS_MASK            (3U << 1U) /*!< Temp status mask                        */
+/**
+  * @}
+  */
+
 /** @defgroup USBPD_SDB_POWER_STATUS USB-PD Status Data Block - Power Status
   * @{
   */
 #define USBPD_SDB_POWER_STATUS_CABLE                  (1U << 1U) /*!< Source power limited due to cable supported current */
-#define USBPD_SDB_POWER_STATUS_INSUFFICIENT_POWER     (1U << 2U) /*!< Source power limited due to insufficient power available while sourcing other ports */
+#define USBPD_SDB_POWER_STATUS_INSUFFICIENT_POWER     (1U << 2U) /*!< Source power limited due to insufficient power
+                                                                      available while sourcing other ports */
 #define USBPD_SDB_POWER_STATUS_INSUFFICIENT_EXT_POWER (1U << 3U) /*!< Source power limited due to insufficient external power */
-#define USBPD_SDB_POWER_STATUS_EVENT_FLAGS            (1U << 4U) /*!< Source power limited due to Event Flags in place (Event Flags must also be set) */
+#define USBPD_SDB_POWER_STATUS_EVENT_FLAGS            (1U << 4U) /*!< Source power limited due to Event Flags in place
+                                                                      (Event Flags must also be set) */
 #define USBPD_SDB_POWER_STATUS_TEMPERATURE            (1U << 5U) /*!< Source power limited due to temperature */
+#define USBPD_SDB_POWER_STATUS_MASK                   (0x1FU << 1U) /*!< Power status mask */
+/**
+  * @}
+  */
+
+/** @defgroup USBPD_SDB_PWR_STATE USB-PD Status Data Block - Power State Change
+  * @{
+  */
+#define USBPD_SDB_PWR_STATE_NEW_NOT_SUPP            (0U << 0U) /*!< New Power State: Status not supported   */
+#define USBPD_SDB_PWR_STATE_NEW_S0                  (1U << 0U) /*!< New Power State: S0                     */
+#define USBPD_SDB_PWR_STATE_NEW_MODERN_STDBY        (2U << 0U) /*!< New Power State: Modern Standby         */
+#define USBPD_SDB_PWR_STATE_NEW_S3                  (3U << 0U) /*!< New Power State: S3                     */
+#define USBPD_SDB_PWR_STATE_NEW_S4                  (4U << 0U) /*!< New Power State: S4                     */
+#define USBPD_SDB_PWR_STATE_NEW_S5                  (5U << 0U) /*!< New Power State: S5 (Off with battery,
+                                                                    wake events supported)                  */
+#define USBPD_SDB_PWR_STATE_NEW_G3                  (6U << 0U) /*!< New Power State: G3 (Off with no battery,
+                                                                    wake events not supported)              */
+#define USBPD_SDB_PWR_STATE_NEW_INDIC_OFF_LED       (0U << 3U) /*!< New power state indicator: Off LED      */
+#define USBPD_SDB_PWR_STATE_NEW_INDIC_ON_LED        (1U << 3U) /*!< New power state indicator: Off LED      */
+#define USBPD_SDB_PWR_STATE_NEW_INDIC_BLINK_LED     (2U << 3U) /*!< New power state indicator: Blinking LED */
+#define USBPD_SDB_PWR_STATE_NEW_INDIC_BREATH_LED    (3U << 3U) /*!< New power state indicator: Breathing LED*/
+#define USBPD_SDB_PWR_STATE_MASK                    (0x3FU)    /*!< Power State Change mask                 */
 /**
   * @}
   */
@@ -885,7 +963,7 @@ typedef enum
   USBPD_PRL_SNKTX,
 #endif /* USBPD_REV30_SUPPORT */
 
-  /* Message repply */
+  /* Message reply */
   USBPD_ACCEPT,
   USBPD_GOTOMIN,
   USBPD_REJECT,
@@ -1067,6 +1145,10 @@ typedef enum
   USBPD_CONTROLMSG_WAIT                  = 0x0CU,  /*!< Wait Control Message            */
   USBPD_CONTROLMSG_SOFT_RESET            = 0x0DU,  /*!< Soft_Reset Control Message      */
 #if defined(USBPD_REV30_SUPPORT)
+#if defined(USBPDCORE_USBDATA)
+  USBPD_CONTROLMSG_DATA_RESET            = 0x0EU,  /*!< data_Reset Control Message      */
+  USBPD_CONTROLMSG_DATA_RESET_COMPLETE   = 0x0FU,  /*!< data_Reset_complete Control Message*/
+#endif /* USBPDCORE_USBDATA */
   USBPD_CONTROLMSG_NOT_SUPPORTED         = 0x10U,  /*!< Not supported                   */
   USBPD_CONTROLMSG_GET_SRC_CAPEXT        = 0x11U,  /*!< Get source capability extended  */
   USBPD_CONTROLMSG_GET_STATUS            = 0x12U,  /*!< Get status                      */
@@ -1076,6 +1158,8 @@ typedef enum
 #if defined(USBPDCORE_SNK_CAPA_EXT)
   USBPD_CONTROLMSG_GET_SNK_CAPEXT        = 0x16U,  /*!< Get Sink Capability extended    */
 #endif /* USBPDCORE_SNK_CAPA_EXT */
+
+  USBPD_CONTROLMSG_GET_REVISION          = 0x18U,  /*!< Get revision                     */
 #endif /* USBPD_REV30_SUPPORT */
 } USBPD_ControlMsg_TypeDef;
 
@@ -1093,6 +1177,10 @@ typedef enum
   USBPD_DATAMSG_BATTERY_STATUS           = 0x05U,  /*!< Battery status                    */
   USBPD_DATAMSG_ALERT                    = 0x06U,  /*!< Alert                             */
   USBPD_DATAMSG_GET_COUNTRY_INFO         = 0x07U,  /*!< Get country info                  */
+  USBPD_DATAMSG_REVISION                 = 0x0Cu,  /*!< Revision                          */
+#if defined(USBPDCORE_USBDATA)
+  USBPD_DATAMSG_ENTER_USB                = 0x08U,  /*!< Enter usb                         */
+#endif /* USBPDCORE_USBDATA */
 #endif /* USBPD_REV30_SUPPORT */
   USBPD_DATAMSG_VENDOR_DEFINED           = 0x0Fu   /*!< Vendor_Defined Data Message       */
 } USBPD_DataMsg_TypeDef;
@@ -1460,7 +1548,13 @@ typedef enum
   USBPD_NOTIFY_STATE_SRC_READY             = 103U,
   USBPD_NOTIFY_USBSTACK_START              = 104U,
   USBPD_NOTIFY_USBSTACK_STOP               = 105U,
-  USBPD_NOTIFY_ALL                     = USBPD_NOTIFY_USBSTACK_STOP + 1U,
+  USBPD_NOTIFY_ENTERUSB_INVALID            = 106U,
+  USBPD_NOTIFY_ENTERUSB_SENT               = 107U,
+  USBPD_NOTIFY_ENTERUSB_ACCEPTED           = 108U,
+  USBPD_NOTIFY_ENTERUSB_REJECTED           = 109U,
+  USBPD_NOTIFY_DATARESET_EXECUTE           = 110U,
+  USBPD_NOTIFY_DATARESET_RESTORE           = 111U,
+  USBPD_NOTIFY_ALL                         = USBPD_NOTIFY_DATARESET_RESTORE + 1U,
 } USBPD_NotifyEventValue_TypeDef;
 /**
   * @}
@@ -1969,7 +2063,25 @@ typedef enum
   USBPD_CORE_CABLE_GETIDENTITY,       /*!< get the cable identity information (used in USBPD_PE_GetDataInfo) */
   USBPD_CORE_CABLE_GETSTATUS,         /*!< get the cable status information (used in USBPD_PE_GetDataInfo)   */
 #endif /* USBPDCORE_PECABLE */
+#if defined(USBPDCORE_USBDATA)
+  USBPD_CORE_DATATYPE_ENTERUSB,       /*!< get info to send an ENTER_USB message */
+#endif /* USBPDCORE_USBDATA */
+  USBPD_CORE_REVISION,                 /*!< get/set revision info */
 } USBPD_CORE_DataInfoType_TypeDef;
+/**
+  * @}
+  */
+#if defined(USBPDCORE_USBDATA)
+/** @defgroup USBPD_CORE_ActionType_TypeDef USB CORE Action type
+  * @brief Data Info types used in PE callbacks (USBPD_PE_GetDataInfo and USBPD_PE_SetDataInfo)
+  * @{
+  */
+typedef enum
+{
+  USBPD_ACTION_REPLY_ENTER_USB          = 0x01U,      /*!< Get DPM reply to a ENTER_USB message  */
+  USBPD_ACTION_REPLY_DATA_RESET         = 0x02U,      /*!< Get DPM reply to a DATA_RESET message */
+} USBPD_CORE_ActionType_TypeDef;
+#endif /* USBPDCORE_USBDATA */
 /**
   * @}
   */
@@ -2262,7 +2374,7 @@ typedef struct
 typedef struct
 {
 #if defined(USBPD_REV30_SUPPORT)
-  uint32_t Bits_0_22                    : 23; /*!< Bits 0 to 22 of RDO                                      */
+  uint32_t Bits_0_22                    : 23u; /*!< Bits 0 to 22 of RDO                                      */
   uint32_t UnchunkedExtendedMessage     : 1u;  /*!< Unchunked Extended Messages Supported                    */
 #else
   uint32_t Bits_0_23                    : 24u;  /*!< Bits 0 to 23 of RDO                                     */
@@ -2826,6 +2938,26 @@ typedef union
 } USBPD_ADO_TypeDef;
 
 /**
+  * @brief  USBPD revision Data Object Structure definition
+  *
+  */
+typedef union
+{
+  uint32_t d32;
+  struct
+  {
+    uint32_t Revision_major    : 4u; /*!< revision major */
+    uint32_t Revision_minor    : 4u; /*!< revision minor */
+    uint32_t Version_major     : 4u; /*!< version major */
+    uint32_t Version_minor     : 4u; /*!< version minor */
+    uint32_t                   :16u;  /*!< reserved */
+  }
+  b;
+} USBPD_RevisionDO_TypeDef;
+
+
+
+/**
   * @brief  USBPD Battery Status Data Object Structure definition
   *
   */
@@ -2918,11 +3050,13 @@ typedef struct USBPD_SKEDB_TypeDef
 typedef __PACKED_STRUCT
 {
   uint8_t InternalTemp;          /*!< Source or Sink internal temperature in degrees centigrade         */
-  uint8_t PresentInput;          /*!< Present Input                                                     */
+  uint8_t PresentInput;          /*!< Present Input based on @ref USBPD_SDB_PRESENT_INPUT               */
   uint8_t PresentBatteryInput;   /*!< Present Battery Input                                             */
-  uint8_t EventFlags;            /*!< Event Flags                                                       */
-  uint8_t TemperatureStatus;     /*!< Temperature                                                       */
+  uint8_t EventFlags;            /*!< Event Flags based on @ref USBPD_SDB_EVENT_FLAGS                   */
+  uint8_t TemperatureStatus;     /*!< Temperature based on @ref USBPD_SDB_TEMP_STATUS                   */
   uint8_t PowerStatus;           /*!< Power Status based on combination of @ref USBPD_SDB_POWER_STATUS  */
+  uint8_t PowerStateChange;      /*!< The Power state change status byte indicates a power state change
+                                      based on @ref USBPD_SDB_PWR_STATE                                 */
 } USBPD_SDB_TypeDef;
 
 /**
@@ -3257,6 +3391,41 @@ typedef struct
   uint32_t                            Reserved4        : 4u;  /*!< Reserved bits                                            */
 #endif /* USBPDCORE_PECABLE */
 } USBPD_ParamsTypeDef;
+
+#if defined(USBPDCORE_USBDATA)
+/**
+  * @brief  Enter USB Data object
+  *
+  */
+typedef union
+{
+  uint32_t d32;
+  struct {
+  uint32_t Reserved1               :13u;  /*!< Reserved  - Shall be set to zero                               */
+  uint32_t HostPresent             : 1u;  /*!< Connected to a Host.                                           */
+  uint32_t TBTSupport              : 1u;  /*!< [TBT3] is supported by the host's USB4 Connection Manager      */
+  uint32_t DPSupport               : 1u;  /*!< [USB4] DP tunneling supported by the host                      */
+  uint32_t PCISupport              : 1u;  /*!< [USB4] PCIe tunneling supported by the hosts                   */
+  uint32_t CableCurrent            : 2u;  /*!< 00b = VBUS is not supported 01b = Reserved 10b = 3A 11b = 5A   */
+  uint32_t CableType               : 2u;  /*!< 00b: Passive,
+                                               01b: Active Re-timer
+                                               10b: Active Re-driver
+                                               11b: Optically Isolatedt */
+  uint32_t CableSpeed              : 3u;  /*!< 000b: [USB 2.0] only, no SuperSpeed support,
+                                               001b: [USB 3.2] Gen1,
+                                               010b: [USB 3.2] Gen2 and [USB4] Gen2
+                                               011b: [USB4] Gen3          */
+  uint32_t Reserved2               : 1u;  /*!< Reserved  - Shall be set to zero                               */
+  uint32_t USB3DRD                 : 1u;  /*!<  0b: Not capable of operating as a [USB 3.2] Device
+                                                1b: Capable of operating as a [USB 3.2] Device                */
+  uint32_t USB4DRD                 : 1u;  /*!<  0b: Not capable of operating as a [USB 4] Device
+                                                1b: Capable of operating as a [USB 4] Device                  */
+  uint32_t Reserved3               : 1u;
+  uint32_t USBMode                 : 3u;  /*! <000b: [USB 2.0], 001b: [USB 3.2] 010b: [USB4]                  */
+  uint32_t Reserved4               : 1u;
+  }b;
+} USBPD_EnterUSBData_TypeDef;
+#endif /* USBPDCORE_USBDATA */
 
 /**
   * @}

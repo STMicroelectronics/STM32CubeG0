@@ -101,5 +101,3 @@ void USBH_HID_AppProcess(void);
 #endif
 
 #endif /* __USB_HOST__H__ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

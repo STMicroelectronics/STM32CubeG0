@@ -62,5 +62,3 @@ void AES_RNG_IRQHandler(void);
 #endif
 
 #endif /* __STM32G0xx_IT_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

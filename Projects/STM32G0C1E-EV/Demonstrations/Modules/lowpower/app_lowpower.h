@@ -39,5 +39,3 @@ GLOBAL const K_ModuleItem_Typedef ModuleLowPower;
 /* Private variables ---------------------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 void LowPowerExitDisplay(uint32_t Mode);
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

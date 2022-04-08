@@ -173,5 +173,3 @@ uint16_t USB_DFU_If_GetStatus(uint32_t Add, uint8_t Cmd, uint8_t *pBuffer)
   }
   return (USBD_OK);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

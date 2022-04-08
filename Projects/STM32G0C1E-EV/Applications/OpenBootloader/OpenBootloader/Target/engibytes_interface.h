@@ -28,5 +28,3 @@
 uint8_t OPENBL_EB_Read(uint32_t Address);
 
 #endif /* ENGIBYTES_INTERFACE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

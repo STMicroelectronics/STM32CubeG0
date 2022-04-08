@@ -29,6 +29,3 @@
 extern const Diskio_drvTypeDef  USBH_Driver;
 
 #endif /* __USBH_DISKIO_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-

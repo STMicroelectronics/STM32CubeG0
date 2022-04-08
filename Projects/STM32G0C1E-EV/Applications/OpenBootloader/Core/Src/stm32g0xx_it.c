@@ -82,5 +82,3 @@ void USB_UCPD1_2_IRQHandler(void)
 {
   HAL_PCD_IRQHandler(&hpcd);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

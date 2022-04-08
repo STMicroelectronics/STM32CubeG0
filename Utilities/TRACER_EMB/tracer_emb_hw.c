@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018(-2021) STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -66,6 +65,8 @@
 
 #define TRACER_EMB_READREG              LL_LPUART_ReadReg
 
+#define TRACER_EMB_DMA_DIRECTION        LL_LPUART_DMA_REG_DATA_TRANSMIT
+
 #else
 
 /* UART entry point */
@@ -107,6 +108,8 @@
 #define TRACER_EMB_CLEARFLAG_RTO        LL_USART_ClearFlag_RTO
 
 #define TRACER_EMB_READREG              LL_USART_ReadReg
+
+#define TRACER_EMB_DMA_DIRECTION        LL_USART_DMA_REG_DATA_TRANSMIT
 
 #endif /* TRACER_EMB_IS_INSTANCE_LPUART_TYPE == 1 */
 
@@ -180,7 +183,7 @@ void HW_TRACER_EMB_Init(void)
   /* Set clock source */
   TRACER_EMB_SET_CLK_SOURCE_USART();
 
-
+#if (TRACER_EMB_IS_INSTANCE_LPUART_TYPE == 0UL)
   if (IS_USART_INSTANCE(TRACER_EMB_USART_INSTANCE))
   {
     /* Configure USART */
@@ -225,10 +228,9 @@ void HW_TRACER_EMB_Init(void)
     }
 #endif /* USART_ISR_TEACK */
   }
-#if (TRACER_EMB_IS_INSTANCE_LPUART_TYPE == 1UL)
-  else
+#else  /* TRACER_EMB_IS_INSTANCE_LPUART_TYPE == 1UL */
   {
-    /* Configure USART */
+    /* Configure LPUART */
     LL_LPUART_InitTypeDef lpuart_initstruct;
 
     /* Disable USART prior modifying configuration registers */
@@ -236,23 +238,25 @@ void HW_TRACER_EMB_Init(void)
 
 
     /* Set fields of initialization structure                   */
-    /*  - Prescaler           : LL_USART_PRESCALER_DIV1         */
+    /*  - Prescaler           : LL_LPUART_PRESCALER_DIV1        */
     /*  - BaudRate            : TRACE_BAUDRATE                  */
-    /*  - DataWidth           : LL_USART_DATAWIDTH_8B           */
-    /*  - StopBits            : LL_USART_STOPBITS_1             */
-    /*  - Parity              : LL_USART_PARITY_NONE            */
-    /*  - TransferDirection   : LL_USART_DIRECTION_TX           */
-    /*  - HardwareFlowControl : LL_USART_HWCONTROL_NONE         */
-    /*  - OverSampling        : LL_USART_OVERSAMPLING_16        */
+    /*  - DataWidth           : LL_LPUART_DATAWIDTH_8B          */
+    /*  - StopBits            : LL_LPUART_STOPBITS_1            */
+    /*  - Parity              : LL_LPUART_PARITY_NONE           */
+    /*  - TransferDirection   : LL_LPUART_DIRECTION_TX          */
+    /*  - HardwareFlowControl : LL_LPUART_HWCONTROL_NONE        */
+    /*  - OverSampling        : LL_LPUART_OVERSAMPLING_16       */
 #if defined(USART_PRESC_PRESCALER)
-    lpuart_initstruct.PrescalerValue      = LL_USART_PRESCALER_DIV1;
-#endif /* USART_PRESC_PRESCALER */
+    lpuart_initstruct.PrescalerValue      = LL_LPUART_PRESCALER_DIV1;
+#endif
     lpuart_initstruct.BaudRate            = TRACER_EMB_BAUDRATE;
-    lpuart_initstruct.DataWidth           = LL_USART_DATAWIDTH_8B;
-    lpuart_initstruct.StopBits            = LL_USART_STOPBITS_1;
-    lpuart_initstruct.Parity              = LL_USART_PARITY_NONE;
-    lpuart_initstruct.TransferDirection   = LL_USART_DIRECTION_TX;
-    lpuart_initstruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
+    lpuart_initstruct.DataWidth           = LL_LPUART_DATAWIDTH_8B;
+    lpuart_initstruct.StopBits            = LL_LPUART_STOPBITS_1;
+    lpuart_initstruct.Parity              = LL_LPUART_PARITY_NONE;
+    lpuart_initstruct.TransferDirection   = LL_LPUART_DIRECTION_TX;
+#if defined(USART_CR3_RTSE)
+    lpuart_initstruct.HardwareFlowControl = LL_LPUART_HWCONTROL_NONE;
+#endif
 
     /* Initialize USART instance according to parameters defined in initialization structure */
     LL_LPUART_Init(TRACER_EMB_USART_INSTANCE, &lpuart_initstruct);
@@ -266,7 +270,7 @@ void HW_TRACER_EMB_Init(void)
       _temp1 = LL_LPUART_IsActiveFlag_TEACK(TRACER_EMB_USART_INSTANCE);
     }
   }
-#endif /* TRACER_EMB_IS_INSTANCE_LPUART_TYPE */
+#endif /* TRACER_EMB_IS_INSTANCE_LPUART_TYPE == 0UL */
 
 #if TRACER_EMB_DMA_MODE == 1UL
   /* Configure TX DMA */
@@ -302,9 +306,9 @@ void HW_TRACER_EMB_Init(void)
                         LL_DMA_PDATAALIGN_BYTE            |
                         LL_DMA_MDATAALIGN_BYTE);
 
-#if defined(DMAMUX_CxCR_DMAREQ_ID)
+#if defined(DMAMUX_CxCR_DMAREQ_ID) || defined(DMA_CSELR_C1S)
   LL_DMA_SetPeriphRequest(TRACER_EMB_DMA_INSTANCE, TRACER_EMB_TX_DMA_CHANNEL, TRACER_EMB_TX_DMA_REQUEST);
-#endif /* DMAMUX_CxCR_DMAREQ_ID */
+#endif /* DMAMUX_CxCR_DMAREQ_ID || DMA_CSELR_C1S */
 
 #endif /* GPDMA1 */
 
@@ -567,7 +571,7 @@ void HW_TRACER_EMB_SendData(const uint8_t *pData, uint32_t Size)
 #if defined(GPDMA1)
   LL_DMA_ConfigAddresses(TRACER_EMB_DMA_INSTANCE, TRACER_EMB_TX_DMA_CHANNEL,
                          (uint32_t)pData,
-                         TRACER_EMB_DMA_GETREGADDR(TRACER_EMB_USART_INSTANCE, LL_USART_DMA_REG_DATA_TRANSMIT));
+                         TRACER_EMB_DMA_GETREGADDR(TRACER_EMB_USART_INSTANCE, TRACER_EMB_DMA_DIRECTION));
   LL_DMA_SetBlkDataLength(TRACER_EMB_DMA_INSTANCE, TRACER_EMB_TX_DMA_CHANNEL, Size);
 
   /* Enable DMA TX Interrupt */
@@ -591,7 +595,7 @@ void HW_TRACER_EMB_SendData(const uint8_t *pData, uint32_t Size)
 #else
   LL_DMA_ConfigAddresses(TRACER_EMB_DMA_INSTANCE, TRACER_EMB_TX_DMA_CHANNEL,
                          (uint32_t)pData,
-                         TRACER_EMB_DMA_GETREGADDR(TRACER_EMB_USART_INSTANCE, LL_USART_DMA_REG_DATA_TRANSMIT),
+                         TRACER_EMB_DMA_GETREGADDR(TRACER_EMB_USART_INSTANCE, TRACER_EMB_DMA_DIRECTION),
                          LL_DMA_GetDataTransferDirection(TRACER_EMB_DMA_INSTANCE, TRACER_EMB_TX_DMA_CHANNEL));
   LL_DMA_SetDataLength(TRACER_EMB_DMA_INSTANCE, TRACER_EMB_TX_DMA_CHANNEL, Size);
 
@@ -621,4 +625,3 @@ uint8_t HW_TRACER_EMB_ReadData(void)
 {
   return TRACER_EMB_RECEIVE_DATA8(TRACER_EMB_USART_INSTANCE);
 }
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

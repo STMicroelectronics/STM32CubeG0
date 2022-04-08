@@ -25,7 +25,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#if defined(_TRACE)||defined(_GUI_INTERFACE)
+#if defined(_TRACE) || defined(_GUI_INTERFACE)
 #define PWR_DEBUG
 #endif /* _TRACE || _GUI_INTERFACE*/
 #include "stm32g0c1e_eval_pwr.h"
@@ -33,7 +33,7 @@
 #include "stm32g0xx_hal.h"
 #include "stm32g0xx_ll_lptim.h"
 #include "string.h"
-#ifdef PWR_DEBUG
+#if defined(PWR_DEBUG)
 #include "usbpd_core.h"
 #include "usbpd_trace.h"
 #endif
@@ -75,9 +75,9 @@ typedef enum
 typedef enum
 {
   ADC_VSENSE_1       = 0u,   /*< PB1  ADC used to get VBUS1 voltage level     */
-  ADC_ISENSE_1       = 1u,   /*< PB10 ADC used to get VBUS1 curent value      */
+  ADC_ISENSE_1       = 1u,   /*< PB10 ADC used to get VBUS1 current value     */
   ADC_VSENSE_2       = 2u,   /*< PA3  ADC used to get VBUS2 voltage level     */
-  ADC_ISENSE_2       = 3u,   /*< PB12 ADC used to get VBUS2 curent value      */
+  ADC_ISENSE_2       = 3u,   /*< PB12 ADC used to get VBUS2 current value     */
   ADC_VSENSE_DCDC    = 4u    /*< PB11 ADC used to get DCDC voltage level      */
 } ADC_ChannelId_TypeDef;
 
@@ -158,7 +158,7 @@ typedef struct
 #define RB  49900u
 
 /* VBUS power source calibration parameters */
-#define BSP_USBPD_PWR_DCDC_POLL_TIME          1u        /* DCDC polling periode in mS */
+#define BSP_USBPD_PWR_DCDC_POLL_TIME          1u        /* DCDC polling period in mS */
 #define BSP_USBPD_PWR_DCDC_MAX_PWM_VALUE      (3200u)   /* DCDC Vref: Max pwm min value 3.8V on RevB */
 #define BSP_USBPD_PWR_DCDC_MIN_PWM_VALUE      (1u)      /* DCDC Vref: Max pwm max value 18V on RevB */
 #define BSP_USBPD_PWR_DCDC_MAX_PWM_STEP       (55u)     /* DCDC Vref: Max pwm step = Full scale/25mS */
@@ -172,7 +172,7 @@ typedef struct
 
 /* VBUS voltage level values (in mV) */
 #define VBUS_VOLTAGE_0V_IN_MV   0u
-#define VBUS_VOLTAGE_5V_IN_MV   5100u
+#define VBUS_VOLTAGE_5V_IN_MV   5000u
 #define VBUS_VOLTAGE_9V_IN_MV   9000u
 #define VBUS_VOLTAGE_15V_IN_MV  15000u
 #define VBUS_VOLTAGE_18V_IN_MV  18000u
@@ -206,6 +206,12 @@ typedef struct
                                                   if ((__ADC_CHANNEL__) == ADCx_CHANNEL_VSENSE_DCDC) {ADCx_CHANNEL_VSENSE_DCDC_GPIO_CLK_ENABLE();}} while(0u)
 
 #define ABS(__VAL__) (((int32_t)(__VAL__)) < 0 ? - ((int32_t)(__VAL__)) : ((int32_t)(__VAL__)))
+
+#if defined(PWR_DEBUG)
+#define __PWR_DEBUG_CALLBACK(_PORT_, __MESSAGE__) USBPD_TRACE_Add(USBPD_TRACE_POWER, (_PORT_), 0u,(uint8_t*)(__MESSAGE__), sizeof(__MESSAGE__) - 1u)
+#else
+#define __PWR_DEBUG_CALLBACK(_PORT_, __MESSAGE__)
+#endif /* PWR_DEBUG */
 
 /* USER CODE END POWER_Private_Macros */
 /**
@@ -641,6 +647,7 @@ PWR_StatusTypeDef BSP_PWR_VBUSOn(uint32_t Instance)
   return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VBUSOn(Instance)) ? PWR_OK : PWR_ERROR);
 }
 
+
 /**
   * @brief  Disable power supply over VBUS.
   * @param  Instance Type-C port identifier
@@ -837,7 +844,7 @@ PWR_StatusTypeDef BSP_PWR_VCONNOff(uint32_t Instance,
 
 /**
   * @brief  Set the VBUS disconnection voltage threshold.
-  * @note   Callback funtion registered through BSP_PWR_RegisterVBUSDetectCallback
+  * @note   Callback function registered through BSP_PWR_RegisterVBUSDetectCallback
   *         function call is invoked when VBUS falls below programmed threshold.
   * @note   By default VBUS disconnection threshold is set to 3.3V
   * @param  Instance Type-C port identifier
@@ -858,7 +865,7 @@ void BSP_PWR_SetVBUSDisconnectionThreshold(uint32_t Instance,
   * @brief  Register USB Type-C Current callback function.
   * @note   Callback function invoked when VBUS rises above 4V (VBUS present) or
   *         when VBUS falls below programmed threshold (VBUS absent).
-  * @note   Callback funtion is un-registered when callback function pointer
+  * @note   Callback function is un-registered when callback function pointer
   *         argument is NULL.
   * @param  Instance Type-C port identifier
   *         This parameter can be take one of the following values:
@@ -956,7 +963,7 @@ uint32_t BSP_PWR_DCDCGetVoltage(uint32_t Instance)
       PWR_ADC_ResetChannelConfig(ADC_VSENSE_DCDC);
     }
 
-    /* Resume VBUS senging */
+    /* Resume VBUS sensing */
     PWR_ResumeVBusSensing();
   }
 
@@ -1255,6 +1262,36 @@ int32_t BSP_USBPD_PWR_VBUSOn(uint32_t Instance)
   /* USER CODE END BSP_USBPD_PWR_VBUSOn */
 }
 
+int32_t BSP_USBPD_PWR_FRSVBUSEnable(uint32_t Instance)
+{
+  /* USER CODE BEGIN BSP_USBPD_PWR_VBUSOff */
+
+  /* Wait for VBUS to get under VSAFE5V */
+  uint32_t count = 500U * (SystemCoreClock / 650U / 1000U); /* Rough 500ms timeout, depends on instructions in
+                                                                the loop, optimization and cache */
+  do
+  {
+    count--;
+    if (count == 0U)
+    {
+      __PWR_DEBUG_CALLBACK(Instance, "Timeout: FRS detected, but VBUS never dropped under vSafe5V");
+
+      /* Discard the VBUS enabling and return an error */
+      return BSP_ERROR_PERIPH_FAILURE;
+    }
+  }
+  while (BSP_PWR_VBUSGetVoltage(Instance) > 4750u);
+
+  /* Switch on VBUS */
+  PWR_GPIO_On(GPIO_SOURCE_EN);
+
+  /* Set VBUS to its default voltage level */
+  PWR_VBUSSetVoltage(Instance, VBUS_VOLTAGE_5V_IN_MV, 80u); /* 5% max = 250mV max */
+
+  return BSP_ERROR_NONE;
+  /* USER CODE END BSP_USBPD_PWR_VBUSOff */
+}
+
 /**
   * @brief  Disable power supply over VBUS.
   * @param  Instance Type-C port identifier
@@ -1330,7 +1367,7 @@ int32_t BSP_USBPD_PWR_VBUSSetVoltage_Fixed(uint32_t Instance,
       PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
     }
 
-    /* Upate the context */
+    /* Update the context */
     Context.PortInfo[Instance].VBUSVoltage = VbusTargetInmv;
     Context.PortInfo[Instance].Type = POWER_FIXED;
 
@@ -1485,7 +1522,7 @@ int32_t BSP_USBPD_PWR_VBUSSetVoltage_APDO(uint32_t Instance,
       /* Wait the power stabilization */
       PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
 
-      /* Upate the context */
+      /* Update the context */
       Context.PortInfo[Instance].VBUSVoltage = VbusTargetInmv;
       Context.PortInfo[Instance].Type = POWER_APDO;
     }
@@ -1846,7 +1883,7 @@ int32_t BSP_USBPD_PWR_VCONNIsOn(uint32_t Instance,
 
 /**
   * @brief  Set the VBUS disconnection voltage threshold.
-  * @note   Callback funtion registered through BSP_USBPD_PWR_RegisterVBUSDetectCallback
+  * @note   Callback function registered through BSP_USBPD_PWR_RegisterVBUSDetectCallback
   *         function call is invoked when VBUS falls below programmed threshold.
   * @note   By default VBUS disconnection threshold is set to 3.3V
   * @param  Instance Type-C port identifier
@@ -1883,7 +1920,7 @@ int32_t BSP_USBPD_PWR_SetVBUSDisconnectionThreshold(uint32_t Instance,
   * @brief  Register USB Type-C Current callback function.
   * @note   Callback function invoked when VBUS rises above 4V (VBUS present) or
   *         when VBUS falls below programmed threshold (VBUS absent).
-  * @note   Callback funtion is un-registered when callback function pointer
+  * @note   Callback function is un-registered when callback function pointer
   *         argument is NULL.
   * @param  Instance Type-C port identifier
   *         This parameter can be take one of the following values:
@@ -2542,7 +2579,7 @@ static uint32_t PWR_ConvertVoltageToThreshold(uint32_t Voltage)
   *         two directions.
   * @note   VDD corresponds to the zero-input level state. The Vout responds
   *         by increasing above VDD for positive differential signals (relative
-  *         to the IN– pin) and responds by decreasing below VDD for negative
+  *         to the IN- pin) and responds by decreasing below VDD for negative
   *        differential signals.
   *
   *   VBUS -----. Rs .-....
@@ -2636,11 +2673,11 @@ static void PWR_VBUSDischarge(uint32_t Instance,
   *         @arg @ref USBPD_PWR_TYPE_C_PORT_2
   * @param  VBusInmV  VBUS voltage level setpoint(in mV)
   * @param  Precision Requested precision (in mV)
-  * @note  Calibration and Precision paremeters aren't relevant when the VBUS
+  * @note  Calibration and Precision parameters aren't relevant when the VBUS
   *        voltage level isn't controlled by a PWM signal.
   * @note  When VBUS voltage level is controlled by a PWM signal, VBUS voltage is
   *        controlled by a PD (Proportional-Derivative) control loop.
-  *        The PD control implementation is ilustrated by the block diagram below:
+  *        The PD control implementation is illustrated by the block diagram below:
   *
   *                                              .-------------------.
   *                 .-------.              .------> PROPORTIONAL (Kp) >-.   .-------.
@@ -2655,7 +2692,7 @@ static void PWR_VBUSDischarge(uint32_t Instance,
   *   pwm = Kp * pwm_error + (Kd * der)
   *
   * where:
-  *  pwm_error is calulated from vbus_error
+  *  pwm_error is calculated from vbus_error
   *  Kp = Proptional Constant.
   *  Kd = Derivative Constant.
   *  der  = pwm_error - pwm_error_previous
@@ -2731,7 +2768,7 @@ static int32_t PWR_VBUSSetVoltage(uint32_t Instance,
     {
       _retr = BSP_ERROR_NONE;
 #if defined(_TRACE)
-    sprintf(_str,"==%d::%d",duty_cycle,duty_calibrated);
+    sprintf(_str,"duty_c=%d:cal=:%d",duty_cycle,duty_calibrated);
     USBPD_TRACE_Add(USBPD_TRACE_DEBUG,0,0,(uint8_t*)_str, strlen(_str));
 #endif
 
@@ -2943,7 +2980,7 @@ static int32_t PWR_VBUSSetVoltage(uint32_t Instance,
         {
         aPWMDutyCycleLUT[VBUS_PPS_V] = duty_cycle;
 #if defined(_TRACE)
-        sprintf(_str, "ca1PPS:%d", duty_cycle);
+        sprintf(_str, "calPPS:%d", duty_cycle);
         USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t*)_str, strlen(_str));
 #endif
         break;

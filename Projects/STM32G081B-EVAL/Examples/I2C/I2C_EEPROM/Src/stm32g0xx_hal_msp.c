@@ -184,5 +184,3 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

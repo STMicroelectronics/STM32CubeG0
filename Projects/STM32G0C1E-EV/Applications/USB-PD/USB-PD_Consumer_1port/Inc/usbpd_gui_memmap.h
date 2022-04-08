@@ -110,5 +110,3 @@
 #endif
 
 #endif /* __USBPD_GUI_MEMMAP_H_ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

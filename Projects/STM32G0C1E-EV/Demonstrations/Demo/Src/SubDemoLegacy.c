@@ -273,5 +273,3 @@ static void BootCheckAndExec(void)
   /* Clear Standby flag */
   __HAL_PWR_CLEAR_FLAG(PWR_FLAG_SB);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

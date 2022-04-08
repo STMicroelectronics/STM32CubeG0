@@ -30,5 +30,3 @@ extern USBD_DFU_MediaTypeDef USBD_DFU_Media_fops;
 #ifdef __cplusplus
 }
 #endif
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -80,5 +80,3 @@ void TFT_DisplayErrorMessage(uint8_t message);
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

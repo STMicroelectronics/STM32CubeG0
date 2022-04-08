@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2021 STMicroelectronics.
+  * Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -47,37 +47,37 @@ extern "C" {
 typedef struct
 {
   /**
-   * @brief  Reports that a message has been received on a specified port.
-   * @note   Received data are stored inside PortNum->pRxBuffPtr
-   *         function called in the interrupt context
-   * @param  PortNum The handle of the port
-   * @param  Type    The type of the message received @ref USBPD_SOPType_TypeDef
-   * @retval None
-   */
+    * @brief  Reports that a message has been received on a specified port.
+    * @note   Received data are stored inside PortNum->pRxBuffPtr
+    *         function called in the interrupt context
+    * @param  PortNum The handle of the port
+    * @param  Type    The type of the message received @ref USBPD_SOPType_TypeDef
+    * @retval None
+    */
   void (*USBPD_PHY_MessageReceived)(uint8_t PortNum, USBPD_SOPType_TypeDef Type);
 
   /**
-   * @brief  Reports to the PRL that a Reset received from channel.
-   * @param  PortNum The handle of the port
-   * @param  Type The type of reset performed @ref USBPD_SOPTYPE_HARD_RESET or @ref USBPD_SOPTYPE_CABLE_RESET
-   * @retval None
-   */
+    * @brief  Reports to the PRL that a Reset received from channel.
+    * @param  PortNum The handle of the port
+    * @param  Type The type of reset performed @ref USBPD_SOPTYPE_HARD_RESET or @ref USBPD_SOPTYPE_CABLE_RESET
+    * @retval None
+    */
   void (*USBPD_PHY_ResetIndication)(uint8_t PortNum, USBPD_SOPType_TypeDef Type);
 
   /**
-   * @brief  Reports to the PRL that a Reset operation has been completed.
-   * @param  PortNum The handle of the port
-   * @param  Type The type of reset performed @ref USBPD_SOPTYPE_HARD_RESET or @ref USBPD_SOPTYPE_CABLE_RESET
-   * @retval None
-   */
+    * @brief  Reports to the PRL that a Reset operation has been completed.
+    * @param  PortNum The handle of the port
+    * @param  Type The type of reset performed @ref USBPD_SOPTYPE_HARD_RESET or @ref USBPD_SOPTYPE_CABLE_RESET
+    * @retval None
+    */
   void (*USBPD_PHY_ResetCompleted)(uint8_t PortNum, USBPD_SOPType_TypeDef Type);
 
   /**
-   * @brief  Reports to the PRL that a Bist operation has been completed.
-   * @param  PortNum The handle of the port
-   * @param  Type The type of Bist performed @ref USBPD_BISTMsg_TypeDef
-   * @retval None
-   */
+    * @brief  Reports to the PRL that a Bist operation has been completed.
+    * @param  PortNum The handle of the port
+    * @param  Type The type of Bist performed @ref USBPD_BISTMsg_TypeDef
+    * @retval None
+    */
   void (*USBPD_PHY_BistCompleted)(uint8_t PortNum, USBPD_BISTMsg_TypeDef bistmode);
 
   /**
@@ -110,7 +110,8 @@ typedef struct
 /** @addtogroup USBPD_DEVICE_PHY_Exported_Functions
   * @{
   */
-USBPD_StatusTypeDef USBPD_PHY_Init(uint8_t PortNum, const USBPD_PHY_Callbacks *cbs, uint8_t *pRxBuffer, USBPD_PortPowerRole_TypeDef role, uint32_t SupportedSOP);
+USBPD_StatusTypeDef USBPD_PHY_Init(uint8_t PortNum, const USBPD_PHY_Callbacks *cbs, uint8_t *pRxBuffer,
+                                   USBPD_PortPowerRole_TypeDef role, uint32_t SupportedSOP);
 void                USBPD_PHY_Reset(uint8_t PortNum);
 uint16_t            USBPD_PHY_GetRetryTimerValue(uint8_t PortNum);
 uint16_t            USBPD_PHY_GetMinGOODCRCTimerValue(uint8_t PortNum);

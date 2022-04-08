@@ -434,6 +434,8 @@ int32_t BSP_USBPD_PWR_VBUSOn(uint32_t Instance);
 
 int32_t BSP_USBPD_PWR_VBUSOff(uint32_t Instance);
 
+int32_t BSP_USBPD_PWR_FRSVBUSEnable(uint32_t  Instance);
+
 int32_t BSP_USBPD_PWR_VBUSSetVoltage_Fixed(uint32_t Instance,
                                            uint32_t VbusTargetInmv,
                                            uint32_t OperatingCurrent,

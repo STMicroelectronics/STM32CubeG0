@@ -183,5 +183,3 @@ void DMA1_Channel1_IRQHandler(void)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

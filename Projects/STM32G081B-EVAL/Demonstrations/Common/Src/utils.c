@@ -73,6 +73,3 @@ void UTILS_DisplayBuildOption(uint32_t Timeout)
   
   HAL_Delay(Timeout);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-

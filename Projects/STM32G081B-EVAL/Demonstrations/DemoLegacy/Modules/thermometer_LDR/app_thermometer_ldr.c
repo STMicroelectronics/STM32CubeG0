@@ -323,7 +323,7 @@ void ThermometerUserInformation(float temperature)
   
   ThermometerDisplay = (uint16_t)TempFahrenheitDisplay;
 
-  /* Dynamical thermmeter is available only in range 57 to 86 Fahrenheit Degres*/
+  /* Dynamical thermmeter is available only in range 57 to 86 Fahrenheit Degrees*/
   if((ThermometerDisplay> 57)&&(ThermometerDisplay < 86))
   {
     /* Set the LCD White Color */
@@ -413,5 +413,3 @@ void ThermometerLDRMenuUserAction(uint8_t sel)
     break;
   }
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

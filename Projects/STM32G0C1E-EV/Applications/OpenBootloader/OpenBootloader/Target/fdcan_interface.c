@@ -253,5 +253,3 @@ void OPENBL_FDCAN_SendBytes(uint8_t *Buffer, uint32_t BufferSize)
   /* Clear the complete flag */
   (&hfdcan)->Instance->IR &= FDCAN_IR_TFE;
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

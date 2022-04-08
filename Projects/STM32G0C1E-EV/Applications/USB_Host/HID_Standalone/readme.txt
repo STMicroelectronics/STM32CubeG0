@@ -9,13 +9,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2020 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   @endverbatim
@@ -34,7 +33,7 @@ The SystemClock_Config() function is used to configure the system clock for STM3
 The USB DRD IP in full speed mode USB module uses internally a 48-MHz clock which is coming from a specific output of PLL or HSI48.
 
 When the application is started, the connected HID device (Mouse/Keyboard) is detected in HID mode and 
-gets initialized. This application is based on interacting with a HID device (Mouse/Keyboard) trough a HID routine.
+gets initialized. This application is based on interacting with a HID device (Mouse/Keyboard) through a HID routine.
 
 The STM32 MCU behaves as a HID Host, it enumerates the device and extracts VID, PID, 
 manufacturer name, Serial number and product name information and displays it on The UART Hyperterminal.
@@ -151,5 +150,5 @@ In order to make the program work, you must do the following :
    COM ports that have been assigned (by OS) to the Stlink VCP .
 
 
- * <h3><center>&copy; COPYRIGHT STMicroelectronics</center></h3>
+
  */

@@ -101,5 +101,3 @@ void OPENBL_RAM_JumpToAddress(uint32_t Address)
 
   jump_to_address();
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

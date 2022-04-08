@@ -249,6 +249,3 @@ void TRACER_EMB_TX_DMA_IRQHANDLER(void)
 /**
   * @}
   */
-  
-  
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -70,5 +70,3 @@ void HAL_RTC_MspDeInit(RTC_HandleTypeDef *hrtc)
   /* Disable Irq */
   HAL_NVIC_DisableIRQ(RTC_TAMP_IRQn);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -1,19 +1,21 @@
 /**
   ******************************************************************************
-  * @file    usbpd_gui_memmap.h
+  * @file    usbpd_gui_memmap_template.h
   * @author  MCD Application Team
   * @brief   This file contains memory mapping configuration to be able to run
   *          Cube-Monitor-UCPD on embedded side.
+  *          This file should be copied to the application folder and renamed
+  *          to usbpd_gui_memmap.h. Definitions should be updated according to
+  *          application configuration.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -46,17 +48,17 @@ extern "C" {
   Following example is based on STM32F401xE
 */
 
-///* Following definitions should be adapted to used Flash configuration :
-//   FLASH_SECTOR_ID : represents the ID of the sector used for storing USBPD settings (usually the last page)
-//   ADDR_FLASH_LAST_SECTOR : Flash address value of beginning of USBPD settings secteur
-//   ADDR_FLASH_PAGE_END : Flash address value of end of USBPD settings page
-//*/
-//#define FLASH_SECTOR_ID         FLASH_SECTOR_7 /* ID of the SECTOR to erase  */
-//#define ADDR_FLASH_SECTOR_7     0x08060000 /* Base @ of Sector 7, 128 Kbytes */
-//#define ADDR_FLASH_LAST_SECTOR  ADDR_FLASH_SECTOR_7  /* (FLASH_BANK1_END - FLASH_PAGE_SIZE + 1) : Base @ of Page 127, 2 Kbytes  */
-//#define ADDR_FLASH_PAGE_END     (ADDR_FLASH_SECTOR_7 + (128 * 1024) - 1)
-
-//#define GUI_FLASH_MAGIC_NUMBER         ADDR_FLASH_LAST_SECTOR
+/* Following definitions should be adapted to used Flash configuration :
+   FLASH_SECTOR_ID : represents the ID of the sector used for storing USBPD settings (usually the last page)
+   ADDR_FLASH_LAST_SECTOR : Flash address value of beginning of USBPD settings secteur
+   ADDR_FLASH_PAGE_END : Flash address value of end of USBPD settings page
+*/
+/*#define FLASH_SECTOR_ID         FLASH_SECTOR_7*/ /* ID of the SECTOR to erase  */
+/*#define ADDR_FLASH_SECTOR_7     0x08060000*/ /* Base @ of Sector 7, 128 Kbytes */
+/*#define ADDR_FLASH_LAST_SECTOR  ADDR_FLASH_SECTOR_7*/  /* (FLASH_BANK1_END - FLASH_PAGE_SIZE + 1) : \
+                                                        Base @ of Page 127, 2 Kbytes */
+/*#define ADDR_FLASH_PAGE_END     (ADDR_FLASH_SECTOR_7 + (128 * 1024) - 1)*/
+/*#define GUI_FLASH_MAGIC_NUMBER  ADDR_FLASH_LAST_SECTOR*/
 
 /*
 TO BE USED FOR SERIES USING PAGES (LIKE F0/G0/G4/L5...)
@@ -127,4 +129,3 @@ TO BE USED FOR SERIES USING PAGES (LIKE F0/G0/G4/L5...)
 
 #endif /* __USBPD_GUI_MEMMAP_H_ */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

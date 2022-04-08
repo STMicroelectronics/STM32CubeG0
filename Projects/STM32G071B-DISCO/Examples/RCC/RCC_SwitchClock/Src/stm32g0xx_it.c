@@ -159,4 +159,3 @@ void EXTI0_1_IRQHandler(void)
   HAL_GPIO_EXTI_IRQHandler(SEL_JOY_PIN);
 }
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

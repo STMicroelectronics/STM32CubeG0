@@ -32,5 +32,3 @@
 void HID_MOUSE_App(USBH_HandleTypeDef *phost);
 
 #endif /* __MOUSE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

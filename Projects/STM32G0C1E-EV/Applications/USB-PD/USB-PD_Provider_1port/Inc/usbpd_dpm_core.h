@@ -73,5 +73,3 @@ __WEAK void         USBPD_DPM_ErrorHandler(void);
 #endif
 
 #endif /* __USBPD_DPM_CORE_H_ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

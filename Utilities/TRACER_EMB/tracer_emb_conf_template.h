@@ -1,18 +1,20 @@
 /**
   ******************************************************************************
-  * @file    tracer_emb_conf.h
+  * @file    tracer_emb_conf_template.h
   * @author  MCD Application Team
   * @brief   This file contains the Trace HW related defines.
+  *          This file should be copied to the application folder and renamed
+  *          to tracer_emb_conf.h. Definitions should be updated according to
+  *          application trace configuration (USART, GPIO, DMA, ...).
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018(-2021) STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -25,13 +27,14 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32g0xx_ll_bus.h"
-#include "stm32g0xx_ll_dma.h"
-#include "stm32g0xx_ll_gpio.h"
-#include "stm32g0xx_ll_rcc.h"
-#include "stm32g0xx_ll_usart.h"
+/*#include "stm32xxxx_ll_bus.h" */ /* Uncomment and rename the stm32xxxx_ll_XXX.h header
+                                      files according your device family */
+/*#include "stm32xxxx_ll_dma.h"    */
+/*#include "stm32xxxx_ll_gpio.h"   */
+/*#include "stm32xxxx_ll_rcc.h"    */
+/*#include "stm32xxxx_ll_usart.h"  */
 #if defined(LPUART1)
-#include "stm32g0xx_ll_lpuart.h"
+/*#include "stm32xxxx_ll_lpuart.h" */
 #endif /* LPUART1 */
 /* Private typedef -----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -51,6 +54,8 @@ extern "C" {
 /* -----------------------------------------------------------------------------
       Definitions for TRACE Hw information
 -------------------------------------------------------------------------------*/
+/* All below definitions should be adapted to values corresponding to
+   your device */
 
 /* USART instance is used.*/
 #define TRACER_EMB_IS_INSTANCE_LPUART_TYPE           0UL /* set to 1UL if LPUART is used instead of USART */
@@ -107,4 +112,3 @@ extern "C" {
 #endif
 
 #endif /* TRACER_EMB_CONF_H */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

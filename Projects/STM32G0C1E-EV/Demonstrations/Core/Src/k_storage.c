@@ -412,5 +412,3 @@ void kStorage_GetExt(char * pFile, char * pExt)
   } while(pFile[i]!= '\0');
   pExt[j] = '\0';
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -7,13 +7,14 @@
   * @author  MCD Application Team
   * @brief   Description of the PWR Programmable Voltage Detector (PVD) example
   ******************************************************************************
+  * @attention
   *
-  * Copyright (c) 2020 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2020 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                       opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   @endverbatim
@@ -31,7 +32,7 @@ to be turned off if the voltage is getting really low); when the voltage moves b
 above the target threshold, LED1 starts blinking again.
 
 @note PVD thresholds have an hysteresis between rising and falling edges
-      of approximatively 100mV. For Min/Typ/Max values of thresholds and hysteresis,
+      of approximately 100mV. For Min/Typ/Max values of thresholds and hysteresis,
       refer to device datasheet.
 
 @note Care must be taken when using HAL_Delay(), this function provides accurate delay (in milliseconds)
@@ -80,5 +81,5 @@ In order to make the program work, you must do the following :
  - Run the example
 
 
- * <h3><center>&copy; COPYRIGHT STMicroelectronics</center></h3>
+
  */

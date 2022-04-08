@@ -83,5 +83,3 @@ void DMA1_ReceiveComplete_Callback(void);
 void USART_TransferError_Callback(void);
 void UserButton_Callback(void);
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

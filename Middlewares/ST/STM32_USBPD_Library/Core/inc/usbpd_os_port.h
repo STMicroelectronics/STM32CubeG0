@@ -75,8 +75,7 @@ extern "C" {
 #if defined(USBPD_THREADX)
 
 #define OS_INIT()                                        \
-    TX_BYTE_POOL *usbpd_pool = (TX_BYTE_POOL*)MemoryPtr; \
-  char *ptr;                                                              \
+    USBPD_memory_pool = (TX_BYTE_POOL*)MemoryPtr;        \
     uint32_t _retr = TX_SUCCESS;
 
 #else
@@ -116,18 +115,19 @@ extern "C" {
   */
 #if defined(USBPD_THREADX)
 
-#define OS_CREATE_QUEUE(_ID_,_NAME_, _ELT_,_ELTSIZE_)                                            \
-  do{                                                                                            \
-    _retr = tx_byte_allocate(usbpd_pool, (VOID **) &ptr,(_ELT_)*sizeof(ULONG)*(_ELTSIZE_),TX_NO_WAIT); \
-    if(_retr != TX_SUCCESS)                                                                            \
-    {                                                                                            \
-      goto error;                                                                                \
-    }                                                                                            \
-    _retr = tx_queue_create(&(_ID_),(_NAME_), (_ELTSIZE_), ptr ,(_ELT_)*sizeof(ULONG)*(_ELTSIZE_));    \
-    if(_retr != TX_SUCCESS)                                                                            \
-    {                                                                                            \
-      goto error;                                                                                \
-    }                                                                                            \
+#define OS_CREATE_QUEUE(_ID_,_NAME_, _ELT_,_ELTSIZE_)                                                         \
+  do{                                                                                                         \
+    char *ptr;                                                                                                \
+    _retr = tx_byte_allocate(USBPD_memory_pool, (VOID **) &ptr,(_ELT_)*sizeof(ULONG)*(_ELTSIZE_),TX_NO_WAIT); \
+    if(_retr != TX_SUCCESS)                                                                                   \
+    {                                                                                                         \
+      goto error;                                                                                             \
+    }                                                                                                         \
+    _retr = tx_queue_create(&(_ID_),(_NAME_), (_ELTSIZE_), ptr ,(_ELT_)*sizeof(ULONG)*(_ELTSIZE_));           \
+    if(_retr != TX_SUCCESS)                                                                                   \
+    {                                                                                                         \
+      goto error;                                                                                             \
+    }                                                                                                         \
   } while(0);
 
 #else
@@ -241,21 +241,22 @@ extern "C" {
   */
 #if defined(USBPD_THREADX)
 
-#define OS_CREATE_TASK(_ID_,_NAME_,_FUNC_,_PRIORITY_,_STACK_SIZE_, _PARAM_)           \
-  do {                                                                                \
-    _retr = tx_byte_allocate(usbpd_pool, (VOID **)&ptr,(_STACK_SIZE_),TX_NO_WAIT);    \
-    if(_retr != TX_SUCCESS)                                                           \
-    {                                                                                 \
-      goto error;                                                                     \
-    }                                                                                 \
-    _retr = tx_thread_create(&(_ID_),#_NAME_,(_FUNC_), (int)_PARAM_,                  \
-                         ptr,(_STACK_SIZE_),                                          \
-                         _PRIORITY_, 1, TX_NO_TIME_SLICE,                             \
-                         TX_AUTO_START);                                              \
-    if(_retr != TX_SUCCESS)                                                           \
-    {                                                                                 \
-      goto error;                                                                     \
-    }                                                                                 \
+#define OS_CREATE_TASK(_ID_,_NAME_,_FUNC_,_PRIORITY_,_STACK_SIZE_, _PARAM_)                  \
+  do {                                                                                       \
+    char *ptr;                                                                               \
+    _retr = tx_byte_allocate(USBPD_memory_pool, (VOID **)&ptr,(_STACK_SIZE_),TX_NO_WAIT);    \
+    if(_retr != TX_SUCCESS)                                                                  \
+    {                                                                                        \
+      goto error;                                                                            \
+    }                                                                                        \
+    _retr = tx_thread_create(&(_ID_),#_NAME_,(_FUNC_), (int)_PARAM_,                         \
+                         ptr,(_STACK_SIZE_),                                                 \
+                         _PRIORITY_, 1, TX_NO_TIME_SLICE,                                    \
+                         TX_AUTO_START);                                                     \
+    if(_retr != TX_SUCCESS)                                                                  \
+    {                                                                                        \
+      goto error;                                                                            \
+    }                                                                                        \
   } while(0);
 
 #else
@@ -292,14 +293,23 @@ extern "C" {
 #endif /* osCMSIS < 0x20000U */
 #endif /* USBPD_THREADX */
 
+/* Legacy define for typo error */
+#define OS_TASK_IS_SUPENDED OS_TASK_IS_SUSPENDED
+
 /**
   * @brief macro definition used to check is task is suspended
   */
 #if defined(USBPD_THREADX)
-#define OS_TASK_IS_SUPENDED(_ID_) (TX_SUSPENDED == (_ID_).tx_thread_state)
+#define OS_TASK_IS_SUSPENDED(_ID_) (TX_SUSPENDED == (_ID_).tx_thread_state)
 #else
-#define OS_TASK_IS_SUPENDED(_ID_) (eSuspended == eTaskGetState((_ID_)))
+#if (osCMSIS < 0x20000U)
+#define OS_TASK_IS_SUSPENDED(_ID_) (osThreadSuspended == osThreadGetState((_ID_)))
+#else
+#define OS_TASK_IS_SUSPENDED(_ID_) (osThreadBlocked == osThreadGetState((_ID_)))
+#endif /* osCMSIS < 0x20000U */
 #endif /* USBPD_THREADX */
+
+
 
 /**
   * @brief macro definition used to get the task ID
@@ -318,6 +328,16 @@ extern "C" {
 #else
 #define OS_TASK_SUSPEND(_ID_)    osThreadSuspend(_ID_)
 #endif /* USBPD_THREADX */
+
+/**
+  * @brief macro definition used to kill a task
+  */
+#if defined(USBPD_THREADX)
+#define OS_TASK_KILL(_ID_)    tx_thread_terminate(&_ID_)
+#else
+#define OS_TASK_KILL(_ID_)    osThreadTerminate(_ID_)
+#endif /* USBPD_THREADX */
+
 
 /**
   * @brief macro definition used to resume a task

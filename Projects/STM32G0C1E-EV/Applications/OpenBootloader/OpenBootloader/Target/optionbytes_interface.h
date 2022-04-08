@@ -29,5 +29,3 @@ uint8_t OPENBL_OB_Read(uint32_t Address);
 void OPENBL_OB_Write(uint32_t Address, uint8_t *Data, uint32_t DataLength);
 
 #endif /* OPTIONBYTES_INTERFACE_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

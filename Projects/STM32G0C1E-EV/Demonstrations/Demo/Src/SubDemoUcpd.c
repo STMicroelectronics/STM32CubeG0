@@ -147,6 +147,3 @@ void SubDemoUcpdExec(void)
   }
   /* USER CODE END 3 */
 }
-
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

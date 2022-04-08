@@ -56,7 +56,7 @@
 
    (#) Micro SD card operations
        (++) The micro SD card can be accessed with read/write block(s) operations once
-            it is reay for access. The access cand be performed in polling
+            it is ready for access. The access cand be performed in polling
             mode by calling the functions SD_ReadBlocks()/SD_WriteBlocks()
        (++) The SD erase block(s) is performed using the function BSP_SD_Erase() with
             specifying the number of blocks to erase.

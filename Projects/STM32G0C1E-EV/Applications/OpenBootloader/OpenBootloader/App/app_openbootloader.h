@@ -41,5 +41,3 @@ extern OPENBL_MemoryTypeDef ICP2_Descriptor;
 extern OPENBL_MemoryTypeDef EB_Descriptor;
 
 #endif /* APP_OPENBOOTLOADER_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

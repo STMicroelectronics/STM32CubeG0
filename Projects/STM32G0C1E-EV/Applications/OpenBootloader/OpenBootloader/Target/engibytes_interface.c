@@ -55,5 +55,3 @@ uint8_t OPENBL_EB_Read(uint32_t Address)
 {
   return (*(uint8_t *)(Address));
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

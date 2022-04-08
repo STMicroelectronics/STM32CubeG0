@@ -82,5 +82,3 @@ static void HID_MOUSE_ProcessData(HID_MOUSE_Info_TypeDef *data)
   }
 
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

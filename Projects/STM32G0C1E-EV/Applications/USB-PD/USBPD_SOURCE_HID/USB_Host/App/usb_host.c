@@ -143,4 +143,3 @@ void USBH_HID_EventCallback(USBH_HandleTypeDef * phost)
 {
   osSemaphoreRelease(AppEvent);
 }
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

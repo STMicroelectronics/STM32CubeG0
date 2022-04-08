@@ -85,5 +85,3 @@ GLOBAL void * hProgressBar;
 /* Exported functions --------------------------------------------------------*/
 GLOBAL void AppAudio_TIM_MspInit(TIM_HandleTypeDef *htim);
 GLOBAL void AppAudio_TIM_MspDeInit(TIM_HandleTypeDef *htim);
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

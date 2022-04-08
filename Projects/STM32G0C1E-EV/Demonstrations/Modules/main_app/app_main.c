@@ -191,6 +191,3 @@ static void AppMain_UserEvent(uint8_t sel)
 {
   exit_func = 1;
 }
-
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

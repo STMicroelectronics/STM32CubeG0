@@ -1,3 +1,4 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    stm32g0xx_hal_conf.h
@@ -15,6 +16,7 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef STM32G0xx_HAL_CONF_H
@@ -306,6 +308,3 @@
 #endif
 
 #endif /* STM32G0xx_HAL_CONF_H */
-
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

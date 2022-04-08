@@ -296,4 +296,3 @@ CEC_IRQHandler
         B CEC_IRQHandler
 
         END
-;************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE*****

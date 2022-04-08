@@ -289,4 +289,3 @@ void I2C1_IRQHandler(void)
 #endif /* SLAVE_BOARD */
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

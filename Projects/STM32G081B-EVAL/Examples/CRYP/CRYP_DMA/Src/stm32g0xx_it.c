@@ -173,4 +173,3 @@ void DMA1_Channel2_3_IRQHandler(void)
 }
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -162,5 +162,3 @@ void OPENBL_OB_Write(uint32_t Address, uint8_t *Data, uint32_t DataLength)
 
   SET_BIT(FLASH->CR, FLASH_CR_OPTSTRT);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

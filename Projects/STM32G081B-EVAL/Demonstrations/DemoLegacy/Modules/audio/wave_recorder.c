@@ -775,5 +775,3 @@ static void RecordStateUpdate(char * RecordState)
   BSP_LCD_SetTextColor(LCD_COLOR_ST_PINK);
   BSP_LCD_DisplayStringAt(0, 120, (uint8_t *)RecordState, CENTER_MODE);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -78,5 +78,3 @@ void Error_Handler(void);
 
 #endif /* __MAIN_H */
 extern osMessageQId AppliEvent, DiskEvent;
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

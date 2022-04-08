@@ -97,5 +97,3 @@ void DEMO_ExtiFallingEdgeDetection(uint16_t GPIO_Pin);
 #endif
 
 #endif /* __DEMO_APPLICATION_H_ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

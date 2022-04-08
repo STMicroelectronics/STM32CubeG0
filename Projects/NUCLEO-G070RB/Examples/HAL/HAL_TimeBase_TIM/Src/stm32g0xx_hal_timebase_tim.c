@@ -107,5 +107,3 @@ void HAL_ResumeTick(void)
   /* Enable TIM7 Update interrupt */
   __HAL_TIM_ENABLE_IT(&htim7, TIM_IT_UPDATE);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

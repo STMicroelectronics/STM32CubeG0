@@ -32,5 +32,3 @@
 void HID_KEYBRD_App(USBH_HandleTypeDef *phost);
 
 #endif /* __KEYBOARD_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

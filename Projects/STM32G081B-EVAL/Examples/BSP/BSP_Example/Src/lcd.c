@@ -180,4 +180,3 @@ static void LCD_Show_Feature(uint8_t feature)
 /**
   * @}
   */ 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

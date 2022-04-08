@@ -172,4 +172,3 @@ void I2Cx_SLAVE_IRQHandler(void)
 
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

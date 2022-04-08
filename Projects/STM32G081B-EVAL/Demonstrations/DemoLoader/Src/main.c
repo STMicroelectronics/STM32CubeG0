@@ -427,7 +427,7 @@ static void Error_Handler(void)
 }
 
 /**
-  * @brief  Load the demonstration firmware to the flash memomry
+  * @brief  Load the demonstration firmware to the flash memory
   * @param  FileName Name of the binary image
   * @retval error 0 : Demo firmware loading successful
   *               else : Demo firmware loading failed
@@ -696,5 +696,3 @@ uint32_t RowFastProg(uint32_t StartAddr, uint32_t *DataToWrite)
 #elif defined (__ICCARM__)
 #pragma default_function_attributes =
 #endif
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -30,6 +30,3 @@
 /* Exported functions ------------------------------------------------------- */
 
 #endif /* PLATFORM_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-

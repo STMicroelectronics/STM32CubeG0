@@ -429,5 +429,3 @@ void kMenu_EventHandler(uint16_t GPIO_Pin) {
     }
   }
 }
- 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

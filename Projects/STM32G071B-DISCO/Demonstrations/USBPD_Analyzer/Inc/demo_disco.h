@@ -93,5 +93,3 @@ void            DEMO_PostMMIMessage(uint32_t EventVal);
 #endif
 
 #endif /* __DEMO_APPLICATION_H_ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

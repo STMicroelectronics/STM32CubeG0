@@ -470,4 +470,3 @@ void HAL_RTCEx_AlarmBEventCallback(RTC_HandleTypeDef *hrtc)
 
 #undef __APP_LOWPOWER_C
 #endif
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -143,5 +143,3 @@ void MPU_AccessPermConfig(void)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

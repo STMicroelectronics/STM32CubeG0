@@ -41,7 +41,7 @@ extern "C" {
 /**
   * @brief  Initialize the usb layer
   * @param  None
-  * @retval 0 if initailization is success
+  * @retval 0 if initialization is success
   */
 int32_t USBPD_USBIF_Init(void);
 
@@ -122,5 +122,3 @@ void USBPD_USBIF_DeviceSetVDMInfo(uint32_t PortNum, void *DataPtr);
 #endif
 
 #endif /* __USBPD_USBIF_H_ */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

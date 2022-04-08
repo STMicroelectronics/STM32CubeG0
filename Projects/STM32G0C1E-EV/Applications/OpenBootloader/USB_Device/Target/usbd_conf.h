@@ -86,6 +86,3 @@ void USBD_static_free(void *p);
 /* Exported functions ------------------------------------------------------- */
 
 #endif /* __USBD_CONF_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-

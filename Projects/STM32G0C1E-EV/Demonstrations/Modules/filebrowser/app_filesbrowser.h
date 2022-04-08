@@ -34,5 +34,3 @@ GLOBAL const K_ModuleItem_Typedef ModuleFilesBrowser;
 /* Private macros ------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

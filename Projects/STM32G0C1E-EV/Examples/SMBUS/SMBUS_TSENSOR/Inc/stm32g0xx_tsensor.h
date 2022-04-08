@@ -142,6 +142,3 @@ void                    TSENSOR_ErrorCallback(uint16_t Error);
 #endif
   
 #endif /* __TSENSOR_H */
-
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/ 

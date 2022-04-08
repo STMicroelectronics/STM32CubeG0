@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2021 STMicroelectronics.
+  * Copyright (c) 2018 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -32,7 +32,7 @@ UCPD_TypeDef *USBPD_HW_GetUSPDInstance(uint8_t PortNum)
   return PortNum == 0u ? UCPD_INSTANCE0 : UCPD_INSTANCE1;
 #else
   return UCPD_INSTANCE0;
-#endif
+#endif /* UCPD_INSTANCE0 && UCPD_INSTANCE1 */
 }
 
 DMA_Channel_TypeDef *USBPD_HW_Init_DMARxInstance(uint8_t PortNum)
@@ -73,7 +73,7 @@ DMA_Channel_TypeDef *USBPD_HW_Init_DMARxInstance(uint8_t PortNum)
 
       (void)LL_DMA_Init(UCPDDMA_INSTANCE1_DMA_RX, UCPDDMA_INSTANCE1_LL_CHANNEL_RX, &DMA_InitStruct);
       break;
-#endif
+#endif /* UCPD_INSTANCE1 */
     default:
       break;
   }
@@ -82,7 +82,7 @@ DMA_Channel_TypeDef *USBPD_HW_Init_DMARxInstance(uint8_t PortNum)
   return (PortNum == 0u) ? UCPDDMA_INSTANCE0_CHANNEL_RX : UCPDDMA_INSTANCE1_CHANNEL_RX;
 #else
   return UCPDDMA_INSTANCE0_CHANNEL_RX;
-#endif
+#endif /* UCPD_INSTANCE1 */
 }
 
 void USBPD_HW_DeInit_DMARxInstance(uint8_t PortNum)
@@ -124,7 +124,7 @@ DMA_Channel_TypeDef *USBPD_HW_Init_DMATxInstance(uint8_t PortNum)
       DMA_InitStruct.Priority = LL_DMA_PRIORITY_MEDIUM;
       (void)LL_DMA_Init(UCPDDMA_INSTANCE1_DMA_TX, UCPDDMA_INSTANCE1_LL_CHANNEL_TX, &DMA_InitStruct);
       break;
-#endif
+#endif /* UCPD_INSTANCE1 */
     default:
       break;
   }
@@ -133,7 +133,7 @@ DMA_Channel_TypeDef *USBPD_HW_Init_DMATxInstance(uint8_t PortNum)
   return (PortNum == 0u) ? UCPDDMA_INSTANCE0_CHANNEL_TX : UCPDDMA_INSTANCE1_CHANNEL_TX;
 #else
   return UCPDDMA_INSTANCE0_CHANNEL_TX;
-#endif
+#endif /* UCPD_INSTANCE1 */
 }
 
 void USBPD_HW_DeInit_DMATxInstance(uint8_t PortNum)
@@ -180,7 +180,7 @@ void USBPD_HW_SetFRSSignalling(uint8_t PortNum, uint8_t cc)
       }
       break;
     }
-#endif
+#endif /* UCPD_INSTANCE1 */
     default:
       break;
   }

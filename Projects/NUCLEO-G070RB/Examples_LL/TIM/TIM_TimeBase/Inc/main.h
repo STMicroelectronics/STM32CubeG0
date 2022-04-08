@@ -67,5 +67,3 @@ void UserButton_Callback(void);
 void TimerUpdate_Callback(void);
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

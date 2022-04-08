@@ -135,6 +135,3 @@ void EXTI2_3_IRQHandler(void)
 /**
   * @}
   */
-  
-  
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

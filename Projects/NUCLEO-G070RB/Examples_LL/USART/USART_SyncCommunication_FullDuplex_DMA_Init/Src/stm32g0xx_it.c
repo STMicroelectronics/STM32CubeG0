@@ -241,4 +241,3 @@ void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

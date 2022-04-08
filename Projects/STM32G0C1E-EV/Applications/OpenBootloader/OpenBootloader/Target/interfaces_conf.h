@@ -62,5 +62,3 @@
 #define I2C_TIMING                        0x00800000U
 
 #endif /* INTERFACES_CONF_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

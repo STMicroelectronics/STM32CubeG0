@@ -440,5 +440,3 @@ static void FilesBrowserDisplayFiles(uint8_t sel)
   }
   BSP_LCD_SetFont(&Font24);
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

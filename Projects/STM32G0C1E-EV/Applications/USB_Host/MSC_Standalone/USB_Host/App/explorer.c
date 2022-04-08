@@ -88,5 +88,3 @@ FRESULT msc_explore_disk(char *path, uint8_t recu_level)
   }
   return res;
 }
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
