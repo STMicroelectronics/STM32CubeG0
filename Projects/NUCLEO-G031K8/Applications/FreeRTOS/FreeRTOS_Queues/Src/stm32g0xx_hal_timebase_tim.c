@@ -71,6 +71,7 @@ HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
 
   /* Enable the TIM17 global Interrupt */
   HAL_NVIC_EnableIRQ(TIM17_IRQn);
+
   /* Enable TIM17 clock */
   __HAL_RCC_TIM17_CLK_ENABLE();
 
@@ -95,6 +96,7 @@ HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   htim17.Init.Prescaler = uwPrescalerValue;
   htim17.Init.ClockDivision = 0;
   htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
+
   if(HAL_TIM_Base_Init(&htim17) == HAL_OK)
   {
     /* Start the TIM time Base generation in interrupt mode */

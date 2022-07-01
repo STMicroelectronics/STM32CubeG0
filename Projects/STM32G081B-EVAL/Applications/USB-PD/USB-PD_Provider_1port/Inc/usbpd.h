@@ -57,3 +57,4 @@ void MX_USBPD_Init(void);
 /**
   * @}
   */
+

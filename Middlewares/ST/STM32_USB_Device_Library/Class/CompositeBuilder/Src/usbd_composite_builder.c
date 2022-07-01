@@ -844,7 +844,7 @@ static void  USBD_CMPSIT_HIDMouseDesc(USBD_HandleTypeDef *pdev, uint32_t pConf,
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 1U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength  = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength  = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_HID == 1 */
 
@@ -881,7 +881,7 @@ static void  USBD_CMPSIT_MSCDesc(USBD_HandleTypeDef *pdev, uint32_t pConf, __IO 
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 1U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_MSC == 1 */
 
@@ -979,7 +979,7 @@ static void  USBD_CMPSIT_CDCDesc(USBD_HandleTypeDef *pdev, uint32_t pConf, __IO 
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 2U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_CDC == 1 */
 
@@ -1018,7 +1018,7 @@ static void  USBD_CMPSIT_DFUDesc(USBD_HandleTypeDef *pdev, uint32_t pConf, __IO 
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 1U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 
   UNUSED(idx);
 }
@@ -1113,7 +1113,7 @@ static void  USBD_CMPSIT_CDC_ECMDesc(USBD_HandleTypeDef *pdev, uint32_t pConf, _
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 2U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_CDC_ECM */
 
@@ -1249,7 +1249,7 @@ static void  USBD_CMPSIT_AUDIODesc(USBD_HandleTypeDef *pdev, uint32_t pConf, __I
   pSpEpDesc->bDescriptorType = USB_DESC_TYPE_ENDPOINT;
   pSpEpDesc->bEndpointAddress = pdev->tclasslist[pdev->classId].Eps[0].add;
   pSpEpDesc->bmAttributes = USBD_EP_TYPE_ISOC;
-  pSpEpDesc->wMaxPacketSize = USBD_AUDIO_GetEpPcktSze(pdev, 0U, 0U);
+  pSpEpDesc->wMaxPacketSize = (uint16_t)USBD_AUDIO_GetEpPcktSze(pdev, 0U, 0U);
   pSpEpDesc->bInterval = 0x01U;
   pSpEpDesc->bRefresh = 0x00U;
   pSpEpDesc->bSynchAddress = 0x00U;
@@ -1267,7 +1267,7 @@ static void  USBD_CMPSIT_AUDIODesc(USBD_HandleTypeDef *pdev, uint32_t pConf, __I
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 2U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_AUDIO */
 
@@ -1363,7 +1363,7 @@ static void  USBD_CMPSIT_RNDISDesc(USBD_HandleTypeDef *pdev, uint32_t pConf, __I
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 2U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_RNDIS == 1 */
 
@@ -1407,7 +1407,7 @@ static void  USBD_CMPSIT_CUSTOMHIDDesc(USBD_HandleTypeDef *pdev, uint32_t pConf,
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 1U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_CUSTOMHID == 1U */
 
@@ -1609,7 +1609,7 @@ static void  USBD_CMPSIT_VIDEODesc(USBD_HandleTypeDef *pdev, uint32_t pConf, __I
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 2U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_VIDEO == 1 */
 
@@ -1645,7 +1645,7 @@ static void  USBD_CMPSIT_PRNTDesc(USBD_HandleTypeDef *pdev, uint32_t pConf, __IO
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 1U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_PRINTER == 1 */
 
@@ -1715,7 +1715,7 @@ static void  USBD_CMPSIT_CCIDDesc(USBD_HandleTypeDef *pdev, uint32_t pConf, __IO
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 1U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_CCID == 1 */
 
@@ -1757,7 +1757,7 @@ static void  USBD_CMPSIT_MTPDesc(USBD_HandleTypeDef *pdev, uint32_t pConf, __IO 
 
   /* Update Config Descriptor and IAD descriptor */
   ((USBD_ConfigDescTypeDef *)pConf)->bNumInterfaces += 1U;
-  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = *Sze;
+  ((USBD_ConfigDescTypeDef *)pConf)->wTotalLength = (uint16_t)(*Sze);
 }
 #endif /* USBD_CMPSIT_ACTIVATE_MTP == 1 */
 

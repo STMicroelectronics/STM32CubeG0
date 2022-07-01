@@ -95,7 +95,11 @@ static int8_t CDC_RNDIS_Itf_Init(void)
   }
 
   /* Set Application Buffers */
+#ifdef USE_USBD_COMPOSITE
+  (void)USBD_CDC_RNDIS_SetTxBuffer(&USBD_Device, UserTxBuffer, 0U, 0U);
+#else
   (void)USBD_CDC_RNDIS_SetTxBuffer(&USBD_Device, UserTxBuffer, 0U);
+#endif /* USE_USBD_COMPOSITE */
   (void)USBD_CDC_RNDIS_SetRxBuffer(&USBD_Device, UserRxBuffer);
 
   return (0);

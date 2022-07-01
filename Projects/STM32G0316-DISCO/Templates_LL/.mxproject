@@ -6,6 +6,19 @@ SourceFiles=..\Src\main.c;..\Src\stm32g0xx_it.c;C:\workspace\Drivers\STM32G0xx_H
 HeaderPath=..\Drivers\STM32G0xx_HAL_Driver\Inc;..\Drivers\CMSIS\Device\ST\STM32G0xx\Include;..\Inc;
 CDefines=USE_FULL_LL_DRIVER;HSE_VALUE:8000000;HSE_STARTUP_TIMEOUT:100;LSE_STARTUP_TIMEOUT:5000;LSE_VALUE:32768;EXTERNAL_CLOCK_VALUE:12288000;HSI_VALUE:16000000;LSI_VALUE:32000;VDD_VALUE:3300;PREFETCH_ENABLE:0;INSTRUCTION_CACHE_ENABLE:1;DATA_CACHE_ENABLE:1;STM32G031xx;USE_FULL_LL_DRIVER;HSE_VALUE:8000000;HSE_STARTUP_TIMEOUT:100;LSE_STARTUP_TIMEOUT:5000;LSE_VALUE:32768;EXTERNAL_CLOCK_VALUE:12288000;HSI_VALUE:16000000;LSI_VALUE:32000;VDD_VALUE:3300;PREFETCH_ENABLE:0;INSTRUCTION_CACHE_ENABLE:1;DATA_CACHE_ENABLE:1;
 
+[]
+SourceFiles=;;
+
+[PreviousUsedKeilFiles]
+SourceFiles=..\Src\main.c;..\Src\stm32g0xx_it.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_utils.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_exti.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_pwr.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_gpio.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_rcc.c;C:\git\Drivers\CMSIS\Device\ST\STM32G0xx\Source\Templates\system_stm32g0xx.c;..\\Src\system_stm32g0xx.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_utils.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_exti.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_pwr.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_gpio.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_rcc.c;C:\git\Drivers\CMSIS\Device\ST\STM32G0xx\Source\Templates\system_stm32g0xx.c;..\\Src\system_stm32g0xx.c;..\readme.txt;;;
+HeaderPath=..\Drivers\STM32G0xx_HAL_Driver\Inc;..\Drivers\CMSIS\Device\ST\STM32G0xx\Include;..\Inc;
+CDefines=USE_FULL_LL_DRIVER;HSE_VALUE:8000000;HSE_STARTUP_TIMEOUT:100;LSE_STARTUP_TIMEOUT:5000;LSE_VALUE:32768;EXTERNAL_CLOCK_VALUE:12288000;HSI_VALUE:16000000;LSI_VALUE:32000;VDD_VALUE:3300;PREFETCH_ENABLE:0;INSTRUCTION_CACHE_ENABLE:1;DATA_CACHE_ENABLE:1;STM32G031xx;USE_FULL_LL_DRIVER;HSE_VALUE:8000000;HSE_STARTUP_TIMEOUT:100;LSE_STARTUP_TIMEOUT:5000;LSE_VALUE:32768;EXTERNAL_CLOCK_VALUE:12288000;HSI_VALUE:16000000;LSI_VALUE:32000;VDD_VALUE:3300;PREFETCH_ENABLE:0;INSTRUCTION_CACHE_ENABLE:1;DATA_CACHE_ENABLE:1;
+
+[PreviousUsedCubeIDEFiles]
+SourceFiles=Src\main.c;Src\stm32g0xx_it.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_utils.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_exti.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_pwr.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_gpio.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_rcc.c;C:\git\Drivers\CMSIS\Device\ST\STM32G0xx\Source\Templates\system_stm32g0xx.c;Src\system_stm32g0xx.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_utils.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_exti.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_pwr.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_gpio.c;C:\git\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_rcc.c;C:\git\Drivers\CMSIS\Device\ST\STM32G0xx\Source\Templates\system_stm32g0xx.c;Src\system_stm32g0xx.c;readme.txt;;;
+HeaderPath=..\Drivers\STM32G0xx_HAL_Driver\Inc;..\Drivers\CMSIS\Device\ST\STM32G0xx\Include;Inc;
+CDefines=USE_FULL_LL_DRIVER;HSE_VALUE:8000000;HSE_STARTUP_TIMEOUT:100;LSE_STARTUP_TIMEOUT:5000;LSE_VALUE:32768;EXTERNAL_CLOCK_VALUE:12288000;HSI_VALUE:16000000;LSI_VALUE:32000;VDD_VALUE:3300;PREFETCH_ENABLE:0;INSTRUCTION_CACHE_ENABLE:1;DATA_CACHE_ENABLE:1;STM32G031xx;USE_FULL_LL_DRIVER;HSE_VALUE:8000000;HSE_STARTUP_TIMEOUT:100;LSE_STARTUP_TIMEOUT:5000;LSE_VALUE:32768;EXTERNAL_CLOCK_VALUE:12288000;HSI_VALUE:16000000;LSI_VALUE:32000;VDD_VALUE:3300;PREFETCH_ENABLE:0;INSTRUCTION_CACHE_ENABLE:1;DATA_CACHE_ENABLE:1;
+
 [PreviousGenFiles]
 HeaderPath=..\Inc
 HeaderFiles=stm32g0xx_it.h;stm32_assert.h;main.h;

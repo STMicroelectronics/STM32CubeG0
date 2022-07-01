@@ -1123,20 +1123,21 @@ uint8_t USBD_CoreFindEP(USBD_HandleTypeDef *pdev, uint8_t index)
   * @param  pdev: device instance
   * @param  ep_dir: USBD_EP_IN or USBD_EP_OUT
   * @param  ep_type: USBD_EP_TYPE_CTRL, USBD_EP_TYPE_ISOC, USBD_EP_TYPE_BULK or USBD_EP_TYPE_INTR
+  * @param  ClassId: The Class ID
   * @retval Address of the selected endpoint or 0xFFU if no endpoint found.
   */
-uint8_t USBD_CoreGetEPAdd(USBD_HandleTypeDef *pdev, uint8_t ep_dir, uint8_t ep_type)
+uint8_t USBD_CoreGetEPAdd(USBD_HandleTypeDef *pdev, uint8_t ep_dir, uint8_t ep_type, uint8_t ClassId)
 {
   uint8_t idx;
 
   /* Find the EP address in the selected class table */
-  for (idx = 0; idx < pdev->tclasslist[pdev->classId].NumEps; idx++)
+  for (idx = 0; idx < pdev->tclasslist[ClassId].NumEps; idx++)
   {
-    if (((pdev->tclasslist[pdev->classId].Eps[idx].add & USBD_EP_IN) == ep_dir) && \
-        (pdev->tclasslist[pdev->classId].Eps[idx].type == ep_type) && \
-        (pdev->tclasslist[pdev->classId].Eps[idx].is_used != 0U))
+    if (((pdev->tclasslist[ClassId].Eps[idx].add & USBD_EP_IN) == ep_dir) && \
+        (pdev->tclasslist[ClassId].Eps[idx].type == ep_type) && \
+        (pdev->tclasslist[ClassId].Eps[idx].is_used != 0U))
     {
-      return (pdev->tclasslist[pdev->classId].Eps[idx].add);
+      return (pdev->tclasslist[ClassId].Eps[idx].add);
     }
   }
 

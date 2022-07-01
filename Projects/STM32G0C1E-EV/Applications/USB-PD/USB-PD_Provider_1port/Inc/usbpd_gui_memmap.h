@@ -48,11 +48,11 @@
    ADDR_FLASH_PAGE_END : Flash address value of end of USBPD settings page
 */
 
-#if defined (FLASH_OPTR_DBANK)
+#if defined (FLASH_OPTR_DBANK) || defined(FLASH_DBANK_SUPPORT)
 #define INDEX_PAGE              ((FLASH_PAGE_NB * 2u) - 1u)                    /* Index of latest page */
 #else
 #define INDEX_PAGE              (FLASH_PAGE_NB - 1u)                           /* Index of latest page */
-#endif /* FLASH_OPTR_DBANK */
+#endif /* FLASH_OPTR_DBANK || FLASH_DBANK_SUPPORT */
 #define ADDR_FLASH_LAST_PAGE    (FLASH_BASE + (INDEX_PAGE * FLASH_PAGE_SIZE))  /* Base @ of latest page */
 #define ADDR_FLASH_PAGE_END     (ADDR_FLASH_LAST_PAGE + FLASH_PAGE_SIZE - 1u)
 
@@ -110,3 +110,4 @@
 #endif
 
 #endif /* __USBPD_GUI_MEMMAP_H_ */
+

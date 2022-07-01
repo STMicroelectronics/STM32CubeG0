@@ -1141,6 +1141,9 @@
                     <name>$PROJ_DIR$\..\USBPD\Src\usbpd_dpm_user.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\..\USBPD\Src\usbpd_dpm_core.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\..\USBPD\Src\usbpd_pwr_if.c</name>
                 </file>
                 <file>
@@ -1350,9 +1353,6 @@
             <name>USBPD</name>
             <file>
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_cad_hw_if.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_dpm_core.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_hw.c</name>

@@ -18,9 +18,6 @@
   */
 /* USER CODE END Header */
 
-/* CubeMX Generated */
-#define CUBEMX_GENERATED
-
 #ifndef USBPD_DEVICE_CONF_H
 #define USBPD_DEVICE_CONF_H
 
@@ -122,3 +119,4 @@ extern "C" {
 #endif
 
 #endif /* USBPD_DEVICE_CONF_H */
+

@@ -66,13 +66,394 @@
 <div class="col-sm-12 col-lg-8">
 <h1 id="update-history">Update History</h1>
 <div class="collapse">
-<input type="checkbox" id="collapse-section8" checked aria-hidden="true"> <label for="collapse-section8" aria-hidden="true">V1.5.1 / 01-April-2022</label>
+<input type="checkbox" id="collapse-section9" checked aria-hidden="true"> <label for="collapse-section9" aria-hidden="true">V1.6.0 / 10-June-2022</label>
 <div>
 <h2 id="main-changes">Main Changes</h2>
 <ul>
 <li>General updates to fix known defects and enhancements implementation.</li>
+<li>Add .mxproject files on all firmware projects available in STM32CubeMX format (with .ioc) to fix project path issue during copy.</li>
 </ul>
 <h2 id="contents">Contents</h2>
+<ul>
+<li><strong>HAL/LL Drivers</strong> updates
+<ul>
+<li>General updates to fix known defects and enhancements implementation.</li>
+<li>HAL code quality enhancement for MISRA-C Rule-8.13 by adding const qualifiers</li>
+<li><strong>HAL CEC</strong> updates
+<ul>
+<li>Better performance by removing multiple volatile reads or writes in interrupt handler.</li>
+</ul></li>
+<li><strong>HAL RTC</strong> updates
+<ul>
+<li>Check if the RTC calendar has been previously initialized before entering Initialization mode.</li>
+</ul></li>
+<li><strong>HAL I2C</strong> updates
+<ul>
+<li>I2C_IsErrorOccurred does not return error if timeout is detected.</li>
+<li>The ADDRF flag is cleared too early when the restart is received but the direction has changed</li>
+</ul></li>
+<li><strong>HAL UART</strong> updates
+<ul>
+<li>Removal of HAL_LOCK/HAL_UNLOCK calls in HAL UART Tx and Rx APIs</li>
+</ul></li>
+<li><strong>HAL USB</strong> updates
+<ul>
+<li>HAL: HCD: add missing call to MspDeInit API during HCD DeInit</li>
+</ul></li>
+</ul></li>
+<li><strong>Middlewares</strong> updates
+<ul>
+<li>Upgrade to use new version of <strong>USB Device V2.11.0</strong>
+<ul>
+<li><strong>USB VIDEO Class:</strong>
+<ul>
+<li>Correction of the support of VS_PROBE_CONTROL &amp; VS_COMMIT_CONTROL requets</li>
+</ul></li>
+<li><strong>USB AUDIO Class:</strong>
+<ul>
+<li>Correction of the check on AUDIO_TOTAL_BUF_SIZE to avoid vulnerabilities</li>
+</ul></li>
+<li><strong>USB HID Class:</strong>
+<ul>
+<li>Modification of some constants names to avoid duplication versus USB host library</li>
+</ul></li>
+<li><strong>USB CustomHID Class:</strong>
+<ul>
+<li>Add support of Get Report control request Allow disabling EP OUT prepare receive using a dedicated macros that can be defined in usbd_conf.h application file</li>
+<li>Add support of Report Descriptor with length greater than 255 bytes</li>
+</ul></li>
+<li><strong>USB All Classes:</strong>
+<ul>
+<li>Update all classes to support composite multi-instance using the class id parameter</li>
+</ul></li>
+</ul></li>
+<li>Upgrade to use new version of <strong>USB Host V3.4.1</strong>
+<ul>
+<li><strong>HID Class</strong>
+<ul>
+<li>Modify some variables names to avoid duplication versus device for HID class</li>
+</ul></li>
+</ul></li>
+<li>Upgraded STM32 USB Power Delivery Device Library to use <strong>g0_v3.4.1</strong>.
+<ul>
+<li>Update FRS BSP API used for VBUS management</li>
+<li>FRS updates (false detections)</li>
+</ul></li>
+<li>Upgraded STM32 USB Power Delivery Core Library to use <strong>v4.1.0</strong>.
+<ul>
+<li>[OS] Fix THREADX thread ID struct handling</li>
+<li>[OS] Fix define for CMSIS OS v2</li>
+<li>[PE] Update FRS AMS to manage power requirement</li>
+<li>[PE] Clear RX event before FRS ACCEPT</li>
+<li>[OS] update to kill PE if does not stop executing itself</li>
+<li>[OS] replace OS Free RTOS API with cmsis OS API</li>
+<li>[SNK] After a soft reset we shall wait for source capa</li>
+<li>[DEF] Add defines for STATUS message</li>
+<li>[PE] SOP’ message needs to be sent only if sender is VCONN owner</li>
+<li>[PE] Add the support of the USB4 (message USB_ENTER and DATA_RESET)</li>
+<li>[PE] Revision message must be answered</li>
+<li>[PE] Status message has 6 bytes whereas 7 are mandatory</li>
+<li>[PRL] Update to handle retry and crc timer for more than 2 ports</li>
+<li>[PRL] MessageId is not well incremented after retry</li>
+<li>[PRL] In PD3 GoodCRC is always sent with PD revision 1</li>
+<li>[CORE] Update the stack to manage 3 ports in parallel</li>
+<li>[CORE] Solve CubeIDE compilation warning in OS_CREATE_TASK macro use.</li>
+<li>{PE] SNK AMS HardReset : the USB stack shutdown must be done after VBUS has reached VSAFE_0V</li>
+<li>[PRL] PHY state BUSY is no taken into account</li>
+<li>[UCSI] Add new ID for UCSI trace</li>
+<li>[THREADX] remove pool allocation inside the stack and Add a pool pointer on the InitOS function</li>
+</ul></li>
+</ul></li>
+<li><strong>Utilities</strong> updates
+<ul>
+<li>Upgraded STM32 TRACER_EMB to use <strong>v1.7.1</strong>.</li>
+<li>Upgraded GUI_INTERFACE to use <strong>V2.2.1</strong>.</li>
+</ul></li>
+<li><strong>Projects</strong> updates
+<ul>
+<li><p>Add .mxproject files on all firmware projects available in STM32CubeMX format (with .ioc) to fix project path issue during copy.</p></li>
+<li>The STM32CubeG0 Firmware package comes with a rich set of examples running on STMicroelectronics boards, organized by board and provided with preconfigured projects for the main supported toolchains.</li>
+<li><p>The exhaustive list of projects is provided in this table (<a href="Projects/STM32CubeProjectsList.html">STM32CubeProjectsList.html</a>).</p></li>
+</ul></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Version</th>
+<th style="text-align: left;">License</th>
+<th style="text-align: left;">Release notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Projects</strong></td>
+<td><strong>V1.6.0</strong></td>
+<td style="text-align: left;">see Projects Release note for details</td>
+<td style="text-align: left;"><a href="Projects/Release_Notes.html">release notes</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="warning"><strong>Warning</strong></h3>
+<p>For applications using device connected on CN7 (Type-C connector on MB1352):</p>
+<ul>
+<li><p>When the power source jumper JP24 is configured to D5V position (with this configuration the mother board is powered from the daughter board), there is no risk to get an over voltage on USB Vbus connector CN7.</p></li>
+<li><p>When the ST-Link is used as power source there is a risk to get an over voltage in connector. In such power configuration, software safety protection is required to detect the overvoltage. Please refer to /* SAFETY PROTECTION CODE BEGIN */ section in main.c of USB_Host applications.</p></li>
+</ul>
+<h2 id="components">Components</h2>
+<p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
+<p><strong>Drivers</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th style="text-align: left;">Version</th>
+<th style="text-align: left;">Release notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cortex-M CMSIS V5.6.0</td>
+<td style="text-align: left;">V5.6.0_cm0</td>
+<td style="text-align: left;"><a href="Drivers/CMSIS/README.md">release notes</a></td>
+</tr>
+<tr class="even">
+<td><strong>STM32G0xx CMSIS</strong></td>
+<td style="text-align: left;"><strong>V1.4.3</strong></td>
+<td style="text-align: left;"><a href="Drivers/CMSIS/Device/ST/STM32G0xx/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td><strong>STM32G0xx_HAL_Driver</strong></td>
+<td style="text-align: left;"><strong>V1.4.5</strong></td>
+<td style="text-align: left;"><a href="Drivers/STM32G0xx_HAL_Driver/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP STM32G0xx_Nucleo</td>
+<td style="text-align: left;">V1.1.1</td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G0xx_Nucleo/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td><strong>BSP STM32G0C1E-EV</strong></td>
+<td style="text-align: left;"><strong>V1.0.2</strong></td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G0C1E-EV/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP STM32G081B_EVAL</td>
+<td style="text-align: left;">V1.3.1</td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G081B_EVAL/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP STM32G071B-Discovery</td>
+<td style="text-align: left;">V1.2.1</td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G071B-Discovery/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP STM32G0316-DISCO</td>
+<td style="text-align: left;">V1.0.2</td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G0316-DISCO/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP STM32G0xx_Nucleo_32</td>
+<td style="text-align: left;">V1.0.2</td>
+<td style="text-align: left;"><a href="Drivers/BSP/STM32G0xx_Nucleo_32/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP Adafruit Shield (reference ID 802)</td>
+<td style="text-align: left;">V3.0.4</td>
+<td style="text-align: left;"><a href="Drivers/BSP/Adafruit_Shield/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP Common</td>
+<td style="text-align: left;">V5.1.2</td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/Common/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP hx8347d</td>
+<td style="text-align: left;">V1.1.2</td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/hx8347d/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP stlm75</td>
+<td style="text-align: left;">V2.0.2</td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/stlm75/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP st7735</td>
+<td style="text-align: left;">V1.1.5</td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/st7735/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP cbtl08gp053</td>
+<td style="text-align: left;">V1.0.1</td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/cbtl08gp053/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP tusb546</td>
+<td style="text-align: left;">V1.0.3</td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/tusb546/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP sn65dp141</td>
+<td style="text-align: left;">V1.0.2</td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/sn65dp141/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>BSP ina230</td>
+<td style="text-align: left;">V1.0.0</td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/ina230/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>BSP ssd1315</td>
+<td style="text-align: left;">V1.1.0</td>
+<td style="text-align: left;"><a href="Drivers/BSP/Components/ssd1315/Release_Notes.html">release notes</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Middleware</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th style="text-align: left;">Version</th>
+<th style="text-align: left;">Release notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FatFS</td>
+<td style="text-align: left;">R0.12c</td>
+<td style="text-align: left;"><a href="Middlewares/Third_Party/FatFs/src/00history.txt">release notes</a></td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: left;">ST modified 2019101</td>
+<td style="text-align: left;"><a href="Middlewares/Third_Party/FatFs/src/st_readme.txt">release notes ST</a></td>
+</tr>
+<tr class="odd">
+<td>FreeRTOS</td>
+<td style="text-align: left;">V10.3.1</td>
+<td style="text-align: left;"><a href="Middlewares/Third_Party/FreeRTOS/Source/readme.txt">release notes</a></td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: left;">ST modified 2020083</td>
+<td style="text-align: left;"><a href="Middlewares/Third_Party/FreeRTOS/Source/st_readme.txt">release notes ST</a></td>
+</tr>
+<tr class="odd">
+<td><strong>STM32_USBPD_Library - Core</strong></td>
+<td style="text-align: left;"><strong>v4.1.0</strong></td>
+<td style="text-align: left;"><a href="Middlewares/ST/STM32_USBPD_Library/Core/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td><strong>STM32_USBPD_Library - Devices</strong></td>
+<td style="text-align: left;"><strong>g0_v3.4.1</strong></td>
+<td style="text-align: left;"><a href="Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td><strong>STM32_USB_Host_Library</strong></td>
+<td style="text-align: left;"><strong>V3.4.1</strong></td>
+<td style="text-align: left;"><a href="Middlewares/ST/STM32_USB_Host_Library/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td><strong>STM32_USB_Device_Library</strong></td>
+<td style="text-align: left;"><strong>V2.11.0</strong></td>
+<td style="text-align: left;"><a href="Middlewares/ST/STM32_USB_Device_Library/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>OpenBootloader</td>
+<td style="text-align: left;">V3.0.1</td>
+<td style="text-align: left;"><a href="Middlewares/ST/OpenBootloader/Release_Notes.html">release notes</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Utilities</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th style="text-align: left;">Version</th>
+<th style="text-align: left;">Release notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CPU</td>
+<td style="text-align: left;">V1.1.1</td>
+<td style="text-align: left;"><a href="Utilities/CPU/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td>Fonts</td>
+<td style="text-align: left;">V1.0.1</td>
+<td style="text-align: left;"><a href="Utilities/Fonts/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td>Log</td>
+<td style="text-align: left;">V1.0.2</td>
+<td style="text-align: left;"><a href="Utilities/Log/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
+<td><strong>GUI_INTERFACE</strong></td>
+<td style="text-align: left;"><strong>V2.2.1</strong></td>
+<td style="text-align: left;"><a href="Utilities/GUI_INTERFACE/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="odd">
+<td><strong>TRACER_EMB</strong></td>
+<td style="text-align: left;"><strong>V1.7.1</strong></td>
+<td style="text-align: left;"><a href="Utilities/TRACER_EMB/Release_Notes.html">release notes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="development-toolchains-and-compilers">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain <strong>V8.50.9</strong> + ST-LINK</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain <strong>V5.31</strong> + STMicroelectronics.STM32G0xx_DFP.1.3.0.pack</li>
+<li>STM32CubeIDE toolchain (gcc9_2020_q2_update) v1.7.0</li>
+</ul>
+<h2 id="supported-devices-and-boards">Supported Devices and boards</h2>
+<ul>
+<li>STM32G0C1xx, STM32G0B1xx and STM32G0B0xx devices</li>
+<li>STM32G061xx, STM32G051xx and STM32G050xx devices</li>
+<li>STM32G041xx, STM32G031xx and STM32G030xx devices</li>
+<li>STM32G081xx, STM32G071xx and STM32G070xx devices</li>
+<li>STM32G0B1RE Nucleo kit (MB1360 C-01)</li>
+<li>STM32G071RB Nucleo kit RevC (MB1360 C-01)</li>
+<li>STM32G070RB Nucleo kit RevC (MB1360 C-01)</li>
+<li>STM32G0C1E Evaluation board RevB (MB1581 B-01)</li>
+<li>STM32G081B Evaluation board RevB (MB1350 B-01)</li>
+<li>STM32G081B/STM32G0C1E Legacy daughter board RevA (MB1351 A-01)</li>
+<li>STM32G081B UCPD daughter board RevC (MB1352 C-01)</li>
+<li>STM32G071B Discovery kit RevC (MB1378 C-01)</li>
+<li>STM32G031K8 Nucleo32 kit (MB1455)</li>
+<li>STM32G0316 Discovery kit (MB1454)</li>
+</ul>
+<h2 id="known-limitations">Known Limitations</h2>
+<ul>
+<li>A few applications on STM32G0C1E-EV projects are not available at STM32CubeMX format (with .ioc)</li>
+<li>USB HAL limitation: Double buffer mode is not functional with isochronous data transfers in host mode.</li>
+<li>STM32G081B-EVAL:
+<ul>
+<li>DemoLoader Demo is provided for EWARM IDE only (not provided for MDK-ARM and CubeIDE)</li>
+</ul></li>
+</ul>
+<h2 id="backward-compatibility">Backward compatibility</h2>
+<ul>
+<li>This release is compatible with the previous versions</li>
+</ul>
+<h2 id="other-compatibilities">Other compatibilities</h2>
+<p>This software release is compatible with:</p>
+<ul>
+<li>STM32CubeMX V6.6.0.</li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section8" aria-hidden="true"> <label for="collapse-section8" aria-hidden="true">V1.5.1 / 01-April-2022</label>
+<div>
+<h2 id="main-changes-1">Main Changes</h2>
+<ul>
+<li>General updates to fix known defects and enhancements implementation.</li>
+</ul>
+<h2 id="contents-1">Contents</h2>
 <ul>
 <li><strong>CMSIS Device</strong> updates
 <ul>
@@ -113,7 +494,7 @@
 <li><strong>HAL/LL RCC</strong> updates
 <ul>
 <li>Enhance the PLL configuration in HAL_RCC_ClockConfig() API.</li>
-<li>Add the followings new APIs to check if PLL output mapped on different domain clock is enabled:
+<li>Add the following new APIs to check if PLL output mapped on different domain clock is enabled:
 <ul>
 <li>LL_RCC_PLL_IsEnabledDomain_ADC()</li>
 <li>LL_RCC_PLL_IsEnabledDomain_I2S1()</li>
@@ -218,7 +599,7 @@
 </ul></li>
 </ul></li>
 </ul>
-<h2 id="components">Components</h2>
+<h2 id="components-1">Components</h2>
 <p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
 <p><strong>Drivers</strong></p>
 <table>
@@ -242,17 +623,17 @@
 </tr>
 </tbody>
 </table>
-<h2 id="development-toolchains-and-compilers">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-1">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain <strong>V8.50.9</strong> + ST-LINK</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain <strong>V5.31</strong> + STMicroelectronics.STM32G0xx_DFP.1.3.0.pack</li>
 <li>STM32CubeIDE toolchain (gcc9_2020_q2_update) v1.7.0</li>
 </ul>
-<h2 id="backward-compatibility">Backward compatibility</h2>
+<h2 id="backward-compatibility-1">Backward compatibility</h2>
 <ul>
 <li>This release is compatible with the previous versions</li>
 </ul>
-<h2 id="other-compatibilities">Other compatibilities</h2>
+<h2 id="other-compatibilities-1">Other compatibilities</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V6.3.0.</li>
@@ -262,7 +643,7 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section7" aria-hidden="true"> <label for="collapse-section7" aria-hidden="true">V1.5.0 / 17-Juin-2021</label>
 <div>
-<h2 id="main-changes-1">Main Changes</h2>
+<h2 id="main-changes-2">Main Changes</h2>
 <ul>
 <li>General updates to fix known defects and enhancements implementation.</li>
 <li>Deploy new license information and format in CMSIS devices, BSP drivers and firmware projects</li>
@@ -278,7 +659,7 @@
 </ul></li>
 </ul></li>
 </ul>
-<h2 id="contents-1">Contents</h2>
+<h2 id="contents-2">Contents</h2>
 <ul>
 <li><strong>CMSIS Device</strong> updates
 <ul>
@@ -523,13 +904,13 @@
 </tr>
 </tbody>
 </table>
-<h3 id="warning"><strong>Warning</strong></h3>
+<h3 id="warning-1"><strong>Warning</strong></h3>
 <p>For applications using device connected on CN7 (Type-C connector on MB1352):</p>
 <ul>
 <li><p>When the power source jumper JP24 is configured to D5V position (with this configuration the mother board is powered from the daughter board), there is no risk to get an over voltage on USB Vbus connector CN7.</p></li>
 <li><p>When the ST-Link is used as power source there is a risk to get an over voltage in connector. In such power configuration, software safety protection is required to detect the overvoltage. Please refer to /* SAFETY PROTECTION CODE BEGIN */ section in main.c of USB_Host applications.</p></li>
 </ul>
-<h2 id="components-1">Components</h2>
+<h2 id="components-2">Components</h2>
 <p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
 <p><strong>Drivers</strong></p>
 <table>
@@ -732,13 +1113,13 @@
 </tr>
 </tbody>
 </table>
-<h2 id="development-toolchains-and-compilers-1">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-2">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain <strong>V8.50.9</strong> + ST-LINK</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain <strong>V5.31</strong> + STMicroelectronics.STM32G0xx_DFP.1.3.0.pack</li>
 <li>STM32CubeIDE <strong>V1.7.0</strong></li>
 </ul>
-<h2 id="supported-devices-and-boards">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-1">Supported Devices and boards</h2>
 <ul>
 <li>STM32G0C1xx, STM32G0B1xx and STM32G0B0xx devices</li>
 <li>STM32G061xx, STM32G051xx and STM32G050xx devices</li>
@@ -755,7 +1136,7 @@
 <li>STM32G031K8 Nucleo32 kit (MB1455)</li>
 <li>STM32G0316 Discovery kit (MB1454)</li>
 </ul>
-<h2 id="known-limitations">Known Limitations</h2>
+<h2 id="known-limitations-1">Known Limitations</h2>
 <ul>
 <li>A few applications on STM32G0C1E-EV projects are not available at STM32CubeMX format (with .ioc)</li>
 <li>USB HAL limitation: Double buffer mode is not functional with isochronous data transfers in host mode.</li>
@@ -764,11 +1145,11 @@
 <li>DemoLoader Demo is provided for EWARM IDE only (not provided for MDK-ARM and CubeIDE)</li>
 </ul></li>
 </ul>
-<h2 id="backward-compatibility-1">Backward compatibility</h2>
+<h2 id="backward-compatibility-2">Backward compatibility</h2>
 <ul>
 <li>This release is compatible with the previous versions</li>
 </ul>
-<h2 id="other-compatibilities-1">Other compatibilities</h2>
+<h2 id="other-compatibilities-2">Other compatibilities</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V6.3.0.</li>
@@ -778,12 +1159,12 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section6" aria-hidden="true"> <label for="collapse-section6" aria-hidden="true">V1.4.1 / 25-February-2021</label>
 <div>
-<h2 id="main-changes-2">Main Changes</h2>
+<h2 id="main-changes-3">Main Changes</h2>
 <h3 id="patch-release">Patch release</h3>
 <p><strong>Patch release</strong> of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware package supporting STM32G0C1xx/B1xx/B0xx, STM32G061xx/51xx/50xx, STM32G041xx/31xx/30xx and STM32G081xx/71xx/70xx devices.</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
 <p>Demonstrations binaries are no more delivered within the STM32CubeG0 MCU package. They are available for download, in addition to their required media files if any, in a standalone package accessible through each hardware board official webpage. Please refer to the corresponding demonstration binary readme.txt to get webpage for each board.</p>
-<h2 id="contents-2">Contents</h2>
+<h2 id="contents-3">Contents</h2>
 <ul>
 <li><strong>HAL / LL Drivers</strong> updates
 <ul>
@@ -817,14 +1198,14 @@
 </tr>
 </tbody>
 </table>
-<h3 id="warning-1"><strong>Warning</strong></h3>
+<h3 id="warning-2"><strong>Warning</strong></h3>
 <p>For applications using device connected on CN7 (Type-C connector on MB1352):</p>
 <ul>
 <li><p>When the power source jumper JP24 is configured to D5V position (with this configuration the mother board is powered from the daughter board), there is no risk to get an over voltage on USB Vbus connector CN7.</p></li>
 <li><p>When the ST-Link is used as power source there is a risk to get an over voltage in connector. In such power configuration, software safety protection is required to detect the overvoltage.</p>
 <p>Please refer to /* SAFETY PROTECTION CODE BEGIN */ section in main.c of USB_Host applications.</p></li>
 </ul>
-<h2 id="components-2">Components</h2>
+<h2 id="components-3">Components</h2>
 <p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
 <p><strong>Drivers</strong></p>
 <table>
@@ -1063,7 +1444,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="development-toolchains-and-compilers-2">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-3">Development Toolchains and Compilers</h2>
 <table>
 <thead>
 <tr class="header">
@@ -1106,7 +1487,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="supported-devices-and-boards-1">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-2">Supported Devices and boards</h2>
 <ul>
 <li>STM32G0C1xx, STM32G0B1xx and STM32G0B0xx devices</li>
 <li>STM32G061xx, STM32G051xx and STM32G050xx devices</li>
@@ -1123,16 +1504,16 @@
 <li>STM32G031K8 Nucleo32 kit (MB1455)</li>
 <li>STM32G0316 Discovery kit (MB1454)</li>
 </ul>
-<h2 id="known-limitations-1">Known Limitations</h2>
+<h2 id="known-limitations-2">Known Limitations</h2>
 <ul>
 <li>A few applications on STM32G0C1E-EV projects are not available at STM32CubeMX format (with .ioc)</li>
 <li>USB HAL limitation: Double buffer mode is not functional with isochronous data transfers in host mode.</li>
 </ul>
-<h2 id="backward-compatibility-2">Backward compatibility</h2>
+<h2 id="backward-compatibility-3">Backward compatibility</h2>
 <ul>
 <li>This release is compatible with the previous versions</li>
 </ul>
-<h2 id="other-compatibilities-2">Other compatibilities</h2>
+<h2 id="other-compatibilities-3">Other compatibilities</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V6.1.0</li>
@@ -1144,13 +1525,13 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section5" aria-hidden="true"> <label for="collapse-section5" aria-hidden="true">V1.4.0 / 03-November-2020</label>
 <div>
-<h2 id="main-changes-3">Main Changes</h2>
+<h2 id="main-changes-4">Main Changes</h2>
 <h3 id="maintenance-release-and-product-update">Maintenance release and Product Update</h3>
 <p><strong>Official release</strong> of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware package introducing <strong>STM32G0C1xx/B1xx/B0xx</strong> and <strong>STM32G061xx/51xx/50xx</strong> devices.</p>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware package supporting STM32G041xx/31xx/30xx devices and STM32G081xx/71xx/70xx devices.</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
 <p>Demonstrations binaries are no more delivered within the STM32CubeG0 MCU package. They are available for download, in addition to their required media files if any, in a standalone package accessible through each hardware board official webpage. Please refer to the corresponding demonstration binary readme.txt to get webpage for each board.</p>
-<h2 id="contents-3">Contents</h2>
+<h2 id="contents-4">Contents</h2>
 <ul>
 <li><strong>CMSIS Core</strong> updates
 <ul>
@@ -1220,14 +1601,14 @@
 </tr>
 </tbody>
 </table>
-<h3 id="warning-2"><strong>Warning</strong></h3>
+<h3 id="warning-3"><strong>Warning</strong></h3>
 <p>For applications using device connected on CN7 (Type-C connector on MB1352):</p>
 <ul>
 <li><p>When the power source jumper JP24 is configured to D5V position (with this configuration the mother board is powered from the daughter board), there is no risk to get an over voltage on USB Vbus connector CN7.</p></li>
 <li><p>When the ST-Link is used as power source there is a risk to get an over voltage in connector. In such power configuration, software safety protection is required to detect the overvoltage.</p>
 <p>Please refer to /* SAFETY PROTECTION CODE BEGIN */ section in main.c of USB_Host applications.</p></li>
 </ul>
-<h2 id="components-3">Components</h2>
+<h2 id="components-4">Components</h2>
 <p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
 <p><strong>Drivers</strong></p>
 <table>
@@ -1466,7 +1847,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="development-toolchains-and-compilers-3">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-4">Development Toolchains and Compilers</h2>
 <table>
 <thead>
 <tr class="header">
@@ -1509,7 +1890,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="supported-devices-and-boards-2">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-3">Supported Devices and boards</h2>
 <ul>
 <li><strong>STM32G0C1xx, STM32G0B1xx and STM32G0B0xx devices</strong></li>
 <li><strong>STM32G061xx, STM32G051xx and STM32G050xx devices</strong></li>
@@ -1526,16 +1907,16 @@
 <li>STM32G031K8 Nucleo32 kit (MB1455)</li>
 <li>STM32G0316 Discovery kit (MB1454)</li>
 </ul>
-<h2 id="known-limitations-2">Known Limitations</h2>
+<h2 id="known-limitations-3">Known Limitations</h2>
 <ul>
 <li>A few applications on STM32G0C1E-EV projects are not available at STM32CubeMX format (with .ioc)</li>
 <li>USB HAL limitation: Double buffer mode is not functional with isochronous data transfers in host mode.</li>
 </ul>
-<h2 id="backward-compatibility-3">Backward compatibility</h2>
+<h2 id="backward-compatibility-4">Backward compatibility</h2>
 <ul>
 <li>This release is compatible with the previous versions</li>
 </ul>
-<h2 id="other-compatibilities-3">Other compatibilities</h2>
+<h2 id="other-compatibilities-4">Other compatibilities</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V6.1.0</li>
@@ -1545,12 +1926,12 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section4" aria-hidden="true"> <label for="collapse-section4" aria-hidden="true">V1.3.0 / 25-June-2019</label>
 <div>
-<h2 id="main-changes-4">Main Changes</h2>
+<h2 id="main-changes-5">Main Changes</h2>
 <h3 id="maintenance-release">Maintenance release</h3>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware package supporting STM32G041xx/31xx/30xx devices and STM32G081xx/71xx/70xx devices.</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
 <p>Demonstrations binaries are no more delivered within the STM32CubeG0 MCU package. They are available for download, in addition to their required media files if any, in a standalone package accessible through each hardware board official webpage. Please refer to the corresponding demonstration binary readme.txt to get webpage for each board.</p>
-<h2 id="contents-4">Contents</h2>
+<h2 id="contents-5">Contents</h2>
 <ul>
 <li><strong>CMSIS Core</strong> updates
 <ul>
@@ -1607,7 +1988,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="components-4">Components</h2>
+<h2 id="components-5">Components</h2>
 <p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
 <p><strong>Drivers</strong></p>
 <table>
@@ -1822,13 +2203,13 @@
 </tr>
 </tbody>
 </table>
-<h2 id="development-toolchains-and-compilers-4">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-5">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25 + ST-Link</li>
 <li>System Workbench for STM32 (SW4STM32) toolchain V2.7.2 + ST-Link</li>
 </ul>
-<h2 id="supported-devices-and-boards-3">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-4">Supported Devices and boards</h2>
 <ul>
 <li>STM32G041xx, STM32G031xx and STM32G030xx devices</li>
 <li>STM32G081xx, STM32G071xx and STM32G070xx devices</li>
@@ -1841,12 +2222,12 @@
 <li>STM32G031K8 Nucleo32 kit (MB1455)</li>
 <li>STM32G0316 Discovery kit (MB1454)</li>
 </ul>
-<h2 id="known-limitations-3">Known Limitations</h2>
-<h2 id="backward-compatibility-4">Backward compatibility</h2>
+<h2 id="known-limitations-4">Known Limitations</h2>
+<h2 id="backward-compatibility-5">Backward compatibility</h2>
 <ul>
 <li>This release is compatible with the previous versions</li>
 </ul>
-<h2 id="other-compatibilities-4">Other compatibilities</h2>
+<h2 id="other-compatibilities-5">Other compatibilities</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V5.3.0</li>
@@ -1856,13 +2237,13 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section3" aria-hidden="true"> <label for="collapse-section3" aria-hidden="true">V1.2.0 / 05-April-2019</label>
 <div>
-<h2 id="main-changes-5">Main Changes</h2>
+<h2 id="main-changes-6">Main Changes</h2>
 <h3 id="maintenance-release-and-product-update-1">Maintenance release and product Update</h3>
 <p>First Official release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware package supporting <strong>STM32G041xx/31xx/30xx</strong> devices and introducing new <strong>STM32G0316-DISCO</strong> and <strong>NUCLEO-G031K8</strong> boards.</p>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware package supporting <strong>STM32G081xx/71xx/70xx</strong> devices</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
 <p>Demonstrations binaries are no more delivered within the STM32CubeG0 MCU package. They are available for download, in addition to their required media files if any, in a standalone package accessible through each hardware board official webpage. Please refer to the corresponding demonstration binary readme.txt to get webpage for each board.</p>
-<h2 id="contents-5">Contents</h2>
+<h2 id="contents-6">Contents</h2>
 <p>The STM32CubeG0 Firmware package comes with a rich set of examples running on STMicroelectronics boards, organized by board and provided with preconfigured projects for the main supported toolchains.</p>
 <p>The exhaustive list of projects is provided in this table (<a href="Projects/STM32CubeProjectsList.html">STM32CubeProjectsList.html</a>).</p>
 <table>
@@ -1883,7 +2264,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="components-5">Components</h2>
+<h2 id="components-6">Components</h2>
 <table>
 <thead>
 <tr class="header">
@@ -2097,13 +2478,13 @@
 </tbody>
 </table>
 <p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
-<h2 id="development-toolchains-and-compilers-5">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-6">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25 + ST-Link</li>
 <li>System Workbench for STM32 (SW4STM32) toolchain V2.7.2 + ST-Link</li>
 </ul>
-<h2 id="supported-devices-and-boards-4">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-5">Supported Devices and boards</h2>
 <ul>
 <li>STM32G041xx, STM32G031xx and STM32G030xx devices</li>
 <li>STM32G081xx, STM32G071xx and STM32G070xx devices</li>
@@ -2116,12 +2497,12 @@
 <li><strong>STM32G031K8 Nucleo32 kit (MB1455)</strong></li>
 <li><strong>STM32G0316 Discovery kit (MB1454)</strong></li>
 </ul>
-<h2 id="known-limitations-4">Known Limitations</h2>
-<h2 id="backward-compatibility-5">Backward compatibility</h2>
+<h2 id="known-limitations-5">Known Limitations</h2>
+<h2 id="backward-compatibility-6">Backward compatibility</h2>
 <ul>
 <li>This release is compatible with the previous versions</li>
 </ul>
-<h2 id="other-compatibilities-5">Other compatibilities</h2>
+<h2 id="other-compatibilities-6">Other compatibilities</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V5.2.0</li>
@@ -2131,12 +2512,12 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section2" aria-hidden="true"> <label for="collapse-section2" aria-hidden="true">V1.1.0 / 06-February-2019</label>
 <div>
-<h2 id="main-changes-6">Main Changes</h2>
+<h2 id="main-changes-7">Main Changes</h2>
 <h3 id="maintenance-release-1">Maintenance release</h3>
 <p>Official release of STM32CubeG0 (STM32Cube for STM32G0 Series) supporting STM32G081xx/71xx/70xx devices and introducing new <strong>STM32G071-DISCO</strong> board, designed to highlight USBPD features.</p>
 <p>NUCLEO-G071RB, NUCLEO-G070RB and STM32G081B-EVAL completed with new examples in STM32CubeMX format.</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
-<h2 id="contents-6">Contents</h2>
+<h2 id="contents-7">Contents</h2>
 <p>The STM32CubeG0 Firmware package comes with a rich set of examples running on STMicroelectronics boards, organized by board and provided with preconfigured projects for the main supported toolchains.</p>
 <p>The exhaustive list of projects is provided in this table (<a href="Projects/STM32CubeProjectsList.html">STM32CubeProjectsList.html</a>).</p>
 <p>Demonstrations binaries are no more delivered within the STM32CubeG0 MCU package. They are available for download, in addition to their required media files if any, in a standalone package accessible through each hardware board official webpage. Please refer to the corresponding demonstration binary readme.txt to get webpage for each board.</p>
@@ -2158,7 +2539,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="components-6">Components</h2>
+<h2 id="components-7">Components</h2>
 <p><strong>Drivers</strong></p>
 <table>
 <thead>
@@ -2361,13 +2742,13 @@
 </tbody>
 </table>
 <p>Note: in the tables above, version <strong>highlighted</strong> have changed since previous release.</p>
-<h2 id="development-toolchains-and-compilers-6">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-7">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
 <li>System Workbench STM32 (SW4STM32) toolchain V2.5</li>
 </ul>
-<h2 id="supported-devices-and-boards-5">Supported Devices and boards</h2>
+<h2 id="supported-devices-and-boards-6">Supported Devices and boards</h2>
 <ul>
 <li>STM32G081xx devices RevB</li>
 <li>STM32G071xx devices RevB</li>
@@ -2379,12 +2760,12 @@
 <li>STM32G081B UCPD daughter board RevC (MB1352 C-01)</li>
 <li><strong>STM32G071B Discovery kit RevC (MB1378 C-01</strong>)</li>
 </ul>
-<h2 id="known-limitations-5">Known limitations</h2>
-<h2 id="backward-compatibility-6">Backward compatibility</h2>
+<h2 id="known-limitations-6">Known limitations</h2>
+<h2 id="backward-compatibility-7">Backward compatibility</h2>
 <ul>
 <li>This release is compatible with the previous versions</li>
 </ul>
-<h2 id="other-compatibilities-6">Other compatibilities</h2>
+<h2 id="other-compatibilities-7">Other compatibilities</h2>
 <p>This software release is compatible with:</p>
 <ul>
 <li>STM32CubeMX V5.1.x</li>
@@ -2394,11 +2775,11 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section1" aria-hidden="true"> <label for="collapse-section1" aria-hidden="true">V1.0.0 / 26-October-2018</label>
 <div>
-<h2 id="main-changes-7">Main Changes</h2>
+<h2 id="main-changes-8">Main Changes</h2>
 <h3 id="first-release">First release</h3>
 <p>First release of STM32CubeG0 (STM32Cube for STM32G0 Series) supporting STM32G081xx/71xx/70xx devices</p>
 <p>In the STM32CubeG0 MCU Package, most of the examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
-<h2 id="contents-7">Contents</h2>
+<h2 id="contents-8">Contents</h2>
 <p>The STM32CubeG0 Firmware package comes with a rich set of examples running on STMicroelectronics boards, organized by board and provided with preconfigured projects for the main supported toolchains.</p>
 <p>The exhaustive list of projects is provided in this table (<a href="Projects/STM32CubeProjectsList.html">STM32CubeProjectsList.html</a>).</p>
 <table>
@@ -2419,7 +2800,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="components-7">Components</h2>
+<h2 id="components-8">Components</h2>
 <p><strong>Drivers</strong></p>
 <table>
 <thead>
@@ -2597,7 +2978,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="development-toolchains-and-compilers-7">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-8">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2+ ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
@@ -2614,7 +2995,7 @@
 <li>STM32G081B Legacy daughter board RevA (MB1351 A-01)</li>
 <li>STM32G081B UCPD daughter board RevC (MB1352 C-01)</li>
 </ul>
-<h2 id="known-limitations-6">Known limitations</h2>
+<h2 id="known-limitations-7">Known limitations</h2>
 </div>
 </div>
 </div>

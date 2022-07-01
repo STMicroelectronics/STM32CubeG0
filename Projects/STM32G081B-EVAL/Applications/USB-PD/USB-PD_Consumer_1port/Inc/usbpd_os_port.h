@@ -211,3 +211,4 @@ extern "C" {
 }
 #endif
 #endif /* USBPD_CORE_OSPORT_H_ */
+

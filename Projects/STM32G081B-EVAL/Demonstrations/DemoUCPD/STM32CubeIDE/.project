@@ -62,6 +62,11 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Src/usbpd_dpm_user.c</locationURI>
 		</link>
 		<link>
+			<name>Application/User/usbpd_dpm_core.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Src/usbpd_dpm_core.c</locationURI>
+		</link>
+		<link>
 			<name>Application/User/usbpd_pwr_if.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Src/usbpd_pwr_if.c</locationURI>
@@ -285,11 +290,6 @@
 			<name>Middlewares/Third_Party/FreeRTOS/tasks.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-5-PROJECT_LOC%7D/Middlewares/Third_Party/FreeRTOS/Source/tasks.c</locationURI>
-		</link>
-		<link>
-			<name>Middlewares/ST/STM32_USBPD_Library/Core/usbpd_dpm_core.c</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-5-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_dpm_core.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/ST/STM32_USBPD_Library/Core/usbpd_trace.c</name>

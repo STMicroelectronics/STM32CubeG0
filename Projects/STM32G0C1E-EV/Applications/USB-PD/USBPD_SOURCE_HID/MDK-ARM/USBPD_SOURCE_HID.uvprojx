@@ -458,6 +458,11 @@
               <FileType>1</FileType>
               <FilePath>../USBPD/Src/usbpd_dpm_user.c</FilePath>
             </File>
+           <File>
+              <FileName>usbpd_dpm_core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../USBPD/Src/usbpd_dpm_core.c</FilePath>
+            </File>
             <File>
               <FileName>usbpd_pwr_if.c</FileName>
               <FileType>1</FileType>
@@ -849,12 +854,7 @@
               <FileType>1</FileType>
               <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_cad_hw_if.c</FilePath>
             </File>
-            <File>
-              <FileName>usbpd_dpm_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_dpm_core.c</FilePath>
-            </File>
-            <File>
+             <File>
               <FileName>usbpd_hw.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_hw.c</FilePath>

@@ -88,11 +88,26 @@ void HAL_MspInit(void)
 */
 void HAL_RNG_MspInit(RNG_HandleTypeDef* hrng)
 {
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
   if(hrng->Instance==RNG)
   {
   /* USER CODE BEGIN RNG_MspInit 0 */
 
   /* USER CODE END RNG_MspInit 0 */
+
+  /** Configure the RNG clock division factor
+  */
+    __HAL_RCC_RNGDIV_CONFIG(RCC_RNGCLK_DIV1);
+
+  /** Initializes the peripherals clocks
+  */
+    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RNG;
+    PeriphClkInit.RngClockSelection = RCC_RNGCLKSOURCE_HSI_DIV8;
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
     /* Peripheral clock enable */
     __HAL_RCC_RNG_CLK_ENABLE();
   /* USER CODE BEGIN RNG_MspInit 1 */

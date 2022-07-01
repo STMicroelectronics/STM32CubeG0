@@ -89,11 +89,22 @@ void HAL_MspInit(void)
 void HAL_CEC_MspInit(CEC_HandleTypeDef* hcec)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
   if(hcec->Instance==CEC)
   {
   /* USER CODE BEGIN CEC_MspInit 0 */
 
   /* USER CODE END CEC_MspInit 0 */
+
+  /** Initializes the peripherals clocks
+  */
+    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_CEC;
+    PeriphClkInit.CecClockSelection = RCC_CECCLKSOURCE_HSI_DIV488;
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
     /* Peripheral clock enable */
     __HAL_RCC_CEC_CLK_ENABLE();
 

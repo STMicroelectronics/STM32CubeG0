@@ -295,9 +295,9 @@ static uint8_t USBD_CDC_ECM_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 
 #ifdef USE_USBD_COMPOSITE
   /* Get the Endpoints addresses allocated for this class instance */
-  ECMInEpAdd  = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_BULK);
-  ECMOutEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_OUT, USBD_EP_TYPE_BULK);
-  ECMCmdEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_INTR);
+  ECMInEpAdd  = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_BULK, (uint8_t)pdev->classId);
+  ECMOutEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_OUT, USBD_EP_TYPE_BULK, (uint8_t)pdev->classId);
+  ECMCmdEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_INTR, (uint8_t)pdev->classId);
 #endif /* USE_USBD_COMPOSITE */
 
   hcdc = (USBD_CDC_ECM_HandleTypeDef *)USBD_malloc(sizeof(USBD_CDC_ECM_HandleTypeDef));
@@ -390,9 +390,9 @@ static uint8_t USBD_CDC_ECM_DeInit(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 
 #ifdef USE_USBD_COMPOSITE
   /* Get the Endpoints addresses allocated for this class instance */
-  ECMInEpAdd  = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_BULK);
-  ECMOutEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_OUT, USBD_EP_TYPE_BULK);
-  ECMCmdEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_INTR);
+  ECMInEpAdd  = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_BULK, (uint8_t)pdev->classId);
+  ECMOutEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_OUT, USBD_EP_TYPE_BULK, (uint8_t)pdev->classId);
+  ECMCmdEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_INTR, (uint8_t)pdev->classId);
 #endif /* USE_USBD_COMPOSITE */
 
   /* Close EP IN */
@@ -537,7 +537,7 @@ static uint8_t USBD_CDC_ECM_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 
 #ifdef USE_USBD_COMPOSITE
   /* Get the Endpoints addresses allocated for this class instance */
-  ECMInEpAdd  = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_BULK);
+  ECMInEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_BULK, (uint8_t)pdev->classId);
 #endif /* USE_USBD_COMPOSITE */
 
   if (pdev->pClassDataCmsit[pdev->classId] == NULL)
@@ -597,7 +597,7 @@ static uint8_t USBD_CDC_ECM_DataOut(USBD_HandleTypeDef *pdev, uint8_t epnum)
 
 #ifdef USE_USBD_COMPOSITE
   /* Get the Endpoints addresses allocated for this class instance */
-  ECMOutEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_OUT, USBD_EP_TYPE_BULK);
+  ECMOutEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_OUT, USBD_EP_TYPE_BULK, (uint8_t)pdev->classId);
 #endif /* USE_USBD_COMPOSITE */
 
   if (pdev->pClassDataCmsit[pdev->classId] == NULL)
@@ -823,11 +823,18 @@ static uint8_t *USBD_CDC_ECM_USRStringDescriptor(USBD_HandleTypeDef *pdev, uint8
   * @param  pdev: device instance
   * @param  pbuff: Tx Buffer
   * @param  length: Tx Buffer length
+  * @param  ClassId: The Class ID
   * @retval status
   */
+#ifdef USE_USBD_COMPOSITE
+uint8_t USBD_CDC_ECM_SetTxBuffer(USBD_HandleTypeDef *pdev, uint8_t *pbuff, uint32_t length, uint8_t ClassId)
+{
+  USBD_CDC_ECM_HandleTypeDef *hcdc = (USBD_CDC_ECM_HandleTypeDef *)pdev->pClassDataCmsit[ClassId];
+#else
 uint8_t USBD_CDC_ECM_SetTxBuffer(USBD_HandleTypeDef *pdev, uint8_t *pbuff, uint32_t length)
 {
   USBD_CDC_ECM_HandleTypeDef *hcdc = (USBD_CDC_ECM_HandleTypeDef *)pdev->pClassDataCmsit[pdev->classId];
+#endif
 
   if (hcdc == NULL)
   {
@@ -861,23 +868,32 @@ uint8_t USBD_CDC_ECM_SetRxBuffer(USBD_HandleTypeDef *pdev, uint8_t *pbuff)
   return (uint8_t)USBD_OK;
 }
 
+
 /**
   * @brief  USBD_CDC_ECM_TransmitPacket
   *         Transmit packet on IN endpoint
   * @param  pdev: device instance
+  * @param  ClassId: The Class ID
   * @retval status
   */
+#ifdef USE_USBD_COMPOSITE
+uint8_t USBD_CDC_ECM_TransmitPacket(USBD_HandleTypeDef *pdev, uint8_t ClassId)
+{
+  USBD_CDC_ECM_HandleTypeDef *hcdc = (USBD_CDC_ECM_HandleTypeDef *)pdev->pClassDataCmsit[ClassId];
+#else
 uint8_t USBD_CDC_ECM_TransmitPacket(USBD_HandleTypeDef *pdev)
 {
   USBD_CDC_ECM_HandleTypeDef *hcdc = (USBD_CDC_ECM_HandleTypeDef *)pdev->pClassDataCmsit[pdev->classId];
+#endif /* USE_USBD_COMPOSITE */
+
   USBD_StatusTypeDef ret = USBD_BUSY;
 
 #ifdef USE_USBD_COMPOSITE
   /* Get the Endpoints addresses allocated for this class instance */
-  ECMInEpAdd  = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_BULK);
+  ECMInEpAdd  = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_BULK, ClassId);
 #endif /* USE_USBD_COMPOSITE */
 
-  if (pdev->pClassDataCmsit[pdev->classId] == NULL)
+  if (hcdc == NULL)
   {
     return (uint8_t)USBD_FAIL;
   }
@@ -912,7 +928,7 @@ uint8_t USBD_CDC_ECM_ReceivePacket(USBD_HandleTypeDef *pdev)
 
 #ifdef USE_USBD_COMPOSITE
   /* Get the Endpoints addresses allocated for this class instance */
-  ECMOutEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_OUT, USBD_EP_TYPE_BULK);
+  ECMOutEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_OUT, USBD_EP_TYPE_BULK, (uint8_t)pdev->classId);
 #endif /* USE_USBD_COMPOSITE */
 
   if (pdev->pClassDataCmsit[pdev->classId] == NULL)
@@ -951,7 +967,7 @@ uint8_t USBD_CDC_ECM_SendNotification(USBD_HandleTypeDef *pdev,
 
 #ifdef USE_USBD_COMPOSITE
   /* Get the Endpoints addresses allocated for this class instance */
-  ECMCmdEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_INTR);
+  ECMCmdEpAdd = USBD_CoreGetEPAdd(pdev, USBD_EP_IN, USBD_EP_TYPE_INTR, (uint8_t)pdev->classId);
 #endif /* USE_USBD_COMPOSITE */
 
   /* Initialize the request fields */

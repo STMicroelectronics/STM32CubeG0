@@ -562,11 +562,6 @@
               <FilePath>../../../../../Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_trace.c</FilePath>
             </File>
             <File>
-              <FileName>usbpd_dpm_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_dpm_core.c</FilePath>
-            </File>
-            <File>
               <FileName>USBPDCORE_PD3_FULL_CM0PLUS_Keil.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\..\..\Middlewares\ST\STM32_USBPD_Library\Core\lib\USBPDCORE_PD3_FULL_CM0PLUS_Keil.lib</FilePath>
@@ -725,6 +720,11 @@
               <FileName>usbpd_dpm_user.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/usbpd_dpm_user.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbpd_dpm_core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/usbpd_dpm_core.c</FilePath>
             </File>
             <File>
               <FileName>usbpd_pwr_if.c</FileName>

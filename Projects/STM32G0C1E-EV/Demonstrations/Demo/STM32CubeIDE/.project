@@ -347,6 +347,11 @@
 			<locationURI>$%7BPARENT-2-PROJECT_LOC%7D/Modules/ucpd/usbpd_dpm_user.c</locationURI>
 		</link>
 		<link>
+			<name>Application/Modules/Ucpd/usbpd_dpm_core.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-2-PROJECT_LOC%7D/Modules/ucpd/usbpd_dpm_core.c</locationURI>
+		</link>
+		<link>
 			<name>Application/Modules/Ucpd/usbpd_pwr_if.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-2-PROJECT_LOC%7D/Modules/ucpd/usbpd_pwr_if.c</locationURI>
@@ -435,11 +440,6 @@
 			<name>Middlewares/ST/STM32_USBPD_Library/Core/USBPDCORE_PD3_FULL_CM0PLUS_wc32.a</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/ST/STM32_USBPD_Library/Core/lib/USBPDCORE_PD3_FULL_CM0PLUS_wc32.a</locationURI>
-		</link>
-		<link>
-			<name>Middlewares/ST/STM32_USBPD_Library/Core/usbpd_dpm_core.c</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-5-PROJECT_LOC%7D/Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_dpm_core.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/ST/STM32_USBPD_Library/Core/usbpd_trace.c</name>

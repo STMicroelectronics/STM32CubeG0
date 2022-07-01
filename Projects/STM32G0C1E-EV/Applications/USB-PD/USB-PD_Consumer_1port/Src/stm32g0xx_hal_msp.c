@@ -97,6 +97,8 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
   /* USER CODE BEGIN ADC1_MspInit 0 */
 
   /* USER CODE END ADC1_MspInit 0 */
+    LL_RCC_SetADCClockSource(LL_RCC_ADC_CLKSOURCE_SYSCLK);
+
     /* Peripheral clock enable */
     __HAL_RCC_ADC_CLK_ENABLE();
 
@@ -198,6 +200,8 @@ void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* hlptim)
   /* USER CODE BEGIN LPTIM1_MspInit 0 */
 
   /* USER CODE END LPTIM1_MspInit 0 */
+    LL_RCC_SetLPTIMClockSource(LL_RCC_LPTIM1_CLKSOURCE_PCLK1);
+
     /* Peripheral clock enable */
     __HAL_RCC_LPTIM1_CLK_ENABLE();
 

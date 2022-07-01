@@ -563,8 +563,20 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\Modules\ucpd\usbpd_usb_if.c</PathWithFileName>
+      <PathWithFileName>../../Modules/ucpd/usbpd_usb_if.c</PathWithFileName>
       <FilenameWithoutPath>usbpd_usb_if.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>26</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>../../Modules/ucpd/usbpd_dpm_core.c</PathWithFileName>
+      <FilenameWithoutPath>usbpd_dpm_core.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1207,18 +1219,6 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>../../../../../Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_dpm_core.c</PathWithFileName>
-      <FilenameWithoutPath>usbpd_dpm_core.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>19</GroupNumber>
-      <FileNumber>75</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
       <PathWithFileName>../../../../../Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_trace.c</PathWithFileName>
       <FilenameWithoutPath>usbpd_trace.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
@@ -1226,7 +1226,7 @@
     </File>
     <File>
       <GroupNumber>19</GroupNumber>
-      <FileNumber>76</FileNumber>
+      <FileNumber>75</FileNumber>
       <FileType>4</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

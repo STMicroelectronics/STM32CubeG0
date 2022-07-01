@@ -49,6 +49,7 @@ HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
 
   /* Enable the TIM7 global Interrupt */
   HAL_NVIC_EnableIRQ(TIM7_IRQn);
+
   /* Enable TIM7 clock */
   __HAL_RCC_TIM7_CLK_ENABLE();
 
@@ -57,7 +58,6 @@ HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
 
   /* Compute TIM7 clock */
   uwTimclock = HAL_RCC_GetPCLK1Freq();
-
   /* Compute the prescaler value to have TIM7 counter clock equal to 1MHz */
   uwPrescalerValue = (uint32_t) ((uwTimclock / 1000000U) - 1U);
 
@@ -74,6 +74,7 @@ HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   htim7.Init.Prescaler = uwPrescalerValue;
   htim7.Init.ClockDivision = 0;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
+
   if(HAL_TIM_Base_Init(&htim7) == HAL_OK)
   {
     /* Start the TIM time Base generation in interrupt mode */

@@ -86,6 +86,7 @@ void HAL_MspInit(void)
 void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* hlptim)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
   if(hlptim->Instance==LPTIM2)
   {
   /* USER CODE BEGIN LPTIM2_MspInit 0 */
@@ -114,6 +115,16 @@ void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* hlptim)
     __HAL_RCC_LPTIM2_RELEASE_RESET();
 
   /* USER CODE END LPTIM2_MspInit 0 */
+
+  /** Initializes the peripherals clocks
+  */
+    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_LPTIM2;
+    PeriphClkInit.Lptim2ClockSelection = RCC_LPTIM2CLKSOURCE_PCLK1;
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
     /* Peripheral clock enable */
     __HAL_RCC_LPTIM2_CLK_ENABLE();
 

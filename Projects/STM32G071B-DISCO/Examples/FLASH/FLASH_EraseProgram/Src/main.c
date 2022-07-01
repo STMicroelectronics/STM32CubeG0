@@ -33,7 +33,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define FLASH_USER_START_ADDR   (FLASH_BASE + (3 * FLASH_PAGE_SIZE))   /* Start @ of user Flash area */
+#define FLASH_USER_START_ADDR   (FLASH_BASE + (4 * FLASH_PAGE_SIZE))   /* Start @ of user Flash area */
 #define FLASH_USER_END_ADDR     (FLASH_BASE + FLASH_SIZE - 1)   /* End @ of user Flash area */
 
 #define DATA_64                 ((uint64_t)0x1234567812345678)

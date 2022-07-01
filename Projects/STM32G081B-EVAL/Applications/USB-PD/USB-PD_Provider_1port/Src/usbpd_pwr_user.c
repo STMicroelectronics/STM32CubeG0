@@ -3456,3 +3456,4 @@ static void PWR_VBUSDischarge(uint32_t PortId,
 /**
   * @}
   */
+

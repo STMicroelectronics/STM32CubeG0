@@ -619,19 +619,6 @@
     <File>
       <GroupNumber>2</GroupNumber>
       <FileNumber>29</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>1</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../../../../../Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_dpm_core.c</PathWithFileName>
-      <FilenameWithoutPath>usbpd_dpm_core.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>30</FileNumber>
       <FileType>4</FileType>
       <tvExp>0</tvExp>
       <Focus>1</Focus>
@@ -1049,6 +1036,19 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\Src\usbpd_vdm_user.c</PathWithFileName>
       <FilenameWithoutPath>usbpd_vdm_user.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>57</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>1</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Src\usbpd_dpm_core.c</PathWithFileName>
+      <FilenameWithoutPath>usbpd_dpm_core.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

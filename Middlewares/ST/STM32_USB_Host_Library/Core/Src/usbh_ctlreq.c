@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2015 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2015 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                      www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -349,8 +348,8 @@ USBH_StatusTypeDef USBH_ClrFeature(USBH_HandleTypeDef *phost, uint8_t ep_num)
   * @param  length: Length of the descriptor
   * @retval None
   */
-static void  USBH_ParseDevDesc(USBH_DevDescTypeDef *dev_desc, uint8_t *buf,
-                               uint16_t length)
+static void USBH_ParseDevDesc(USBH_DevDescTypeDef *dev_desc, uint8_t *buf,
+                              uint16_t length)
 {
   dev_desc->bLength            = *(uint8_t *)(buf +  0);
   dev_desc->bDescriptorType    = *(uint8_t *)(buf +  1);
@@ -403,7 +402,7 @@ static USBH_StatusTypeDef USBH_ParseCfgDesc(USBH_HandleTypeDef *phost, uint8_t *
 {
   USBH_CfgDescTypeDef *cfg_desc = &phost->device.CfgDesc;
   USBH_StatusTypeDef           status = USBH_OK;
-  USBH_InterfaceDescTypeDef    *pif ;
+  USBH_InterfaceDescTypeDef    *pif;
   USBH_EpDescTypeDef           *pep;
   USBH_DescHeader_t            *pdesc = (USBH_DescHeader_t *)(void *)buf;
   uint16_t                     ptr;
@@ -422,7 +421,7 @@ static USBH_StatusTypeDef USBH_ParseCfgDesc(USBH_HandleTypeDef *phost, uint8_t *
   cfg_desc->bmAttributes        = *(uint8_t *)(buf + 7);
   cfg_desc->bMaxPower           = *(uint8_t *)(buf + 8);
 
-  /* Make sure that the Confguration descriptor's bLength is equal to USB_CONFIGURATION_DESC_SIZE */
+  /* Make sure that the Configuration descriptor's bLength is equal to USB_CONFIGURATION_DESC_SIZE */
   if (cfg_desc->bLength  != USB_CONFIGURATION_DESC_SIZE)
   {
     cfg_desc->bLength = USB_CONFIGURATION_DESC_SIZE;
@@ -467,13 +466,9 @@ static USBH_StatusTypeDef USBH_ParseCfgDesc(USBH_HandleTypeDef *phost, uint8_t *
             }
             /* Make sure that the endpoint descriptor's bLength is equal to
                USB_ENDPOINT_DESC_SIZE for all other endpoints types */
-            else if (pdesc->bLength != USB_ENDPOINT_DESC_SIZE)
-            {
-              pdesc->bLength = USB_ENDPOINT_DESC_SIZE;
-            }
             else
             {
-              /* ... */
+              pdesc->bLength = USB_ENDPOINT_DESC_SIZE;
             }
 
             pep = &cfg_desc->Itf_Desc[if_ix].Ep_Desc[ep_ix];
@@ -512,8 +507,8 @@ static USBH_StatusTypeDef USBH_ParseCfgDesc(USBH_HandleTypeDef *phost, uint8_t *
   * @param  buf: Buffer where the descriptor data is available
   * @retval None
   */
-static void  USBH_ParseInterfaceDesc(USBH_InterfaceDescTypeDef *if_descriptor,
-                                     uint8_t *buf)
+static void USBH_ParseInterfaceDesc(USBH_InterfaceDescTypeDef *if_descriptor,
+                                    uint8_t *buf)
 {
   if_descriptor->bLength            = *(uint8_t *)(buf + 0);
   if_descriptor->bDescriptorType    = *(uint8_t *)(buf + 1);
@@ -535,8 +530,8 @@ static void  USBH_ParseInterfaceDesc(USBH_InterfaceDescTypeDef *if_descriptor,
   * @param  buf: Buffer where the parsed descriptor stored
   * @retval USBH Status
   */
-static USBH_StatusTypeDef  USBH_ParseEPDesc(USBH_HandleTypeDef *phost, USBH_EpDescTypeDef  *ep_descriptor,
-                                            uint8_t *buf)
+static USBH_StatusTypeDef USBH_ParseEPDesc(USBH_HandleTypeDef *phost, USBH_EpDescTypeDef  *ep_descriptor,
+                                           uint8_t *buf)
 {
   USBH_StatusTypeDef status = USBH_OK;
   ep_descriptor->bLength          = *(uint8_t *)(buf + 0);
@@ -551,24 +546,21 @@ static USBH_StatusTypeDef  USBH_ParseEPDesc(USBH_HandleTypeDef *phost, USBH_EpDe
   {
     status = USBH_NOT_SUPPORTED;
   }
-  else if (USBH_MAX_EP_PACKET_SIZE < (uint16_t)USBH_MAX_DATA_BUFFER)
-  {
-    /* Make sure that maximum packet size (bits 0..10) does not exceed the max endpoint packet size */
-    ep_descriptor->wMaxPacketSize &= ~0x7FFU;
-    ep_descriptor->wMaxPacketSize |=  MIN((uint16_t)(LE16(buf + 4) & 0x7FFU), (uint16_t)USBH_MAX_EP_PACKET_SIZE);
-
-  }
-  else if ((uint16_t)USBH_MAX_DATA_BUFFER < USBH_MAX_EP_PACKET_SIZE)
-  {
-    /* Make sure that maximum packet size (bits 0..10) does not exceed the total buffer length */
-    ep_descriptor->wMaxPacketSize &= ~0x7FFU;
-    ep_descriptor->wMaxPacketSize |= MIN((uint16_t)(LE16(buf + 4) & 0x7FFU), (uint16_t)USBH_MAX_DATA_BUFFER);
-  }
   else
   {
-    /* ... */
+    if (USBH_MAX_EP_PACKET_SIZE < (uint16_t)USBH_MAX_DATA_BUFFER)
+    {
+      /* Make sure that maximum packet size (bits 0..10) does not exceed the max endpoint packet size */
+      ep_descriptor->wMaxPacketSize &= ~0x7FFU;
+      ep_descriptor->wMaxPacketSize |= MIN((uint16_t)(LE16(buf + 4) & 0x7FFU), (uint16_t)USBH_MAX_EP_PACKET_SIZE);
+    }
+    else
+    {
+      /* Make sure that maximum packet size (bits 0..10) does not exceed the total buffer length */
+      ep_descriptor->wMaxPacketSize &= ~0x7FFU;
+      ep_descriptor->wMaxPacketSize |= USBH_MAX_EP_PACKET_SIZE;
+    }
   }
-
   /* For high-speed interrupt/isochronous endpoints, bInterval can vary from 1 to 16 */
   if (phost->device.speed == (uint8_t)USBH_SPEED_HIGH)
   {
@@ -657,7 +649,7 @@ static void USBH_ParseStringDesc(uint8_t *psrc, uint8_t *pdest, uint16_t length)
   * @param  ptr: data pointer inside the cfg descriptor
   * @retval next header
   */
-USBH_DescHeader_t  *USBH_GetNextDesc(uint8_t   *pbuf, uint16_t  *ptr)
+USBH_DescHeader_t *USBH_GetNextDesc(uint8_t *pbuf, uint16_t *ptr)
 {
   USBH_DescHeader_t  *pnext;
 
@@ -1132,8 +1124,6 @@ static USBH_StatusTypeDef USBH_HandleControl(USBH_HandleTypeDef *phost)
 /**
   * @}
   */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 
 
 

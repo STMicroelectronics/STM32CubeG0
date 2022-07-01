@@ -276,11 +276,6 @@
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_cad_hw_if.c</locationURI>
 		</link>
 		<link>
-			<name>Middlewares/USBPD/usbpd_dpm_core.c</name>
-			<type>1</type>
-			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_dpm_core.c</locationURI>
-		</link>
-		<link>
 			<name>Middlewares/USBPD/usbpd_hw.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/src/usbpd_hw.c</locationURI>
@@ -344,6 +339,11 @@
 			<name>Application/User/USBPD/usbpd_dpm_user.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/USBPD/Src/usbpd_dpm_user.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/usbpd_dpm_core.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/USBPD/Src/usbpd_dpm_core.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/USBPD/usbpd_pwr_if.c</name>

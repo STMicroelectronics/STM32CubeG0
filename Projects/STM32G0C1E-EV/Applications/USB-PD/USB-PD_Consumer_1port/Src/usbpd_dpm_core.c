@@ -45,9 +45,6 @@ DEF_TASK_FUNCTION(USBPD_CAD_Task);
 DEF_TASK_FUNCTION(USBPD_PE_CableTask);
 
 DEF_TASK_FUNCTION(USBPD_PE_Task);
- /* !USBPDCORE_LIB_NO_PD */
-
- /* _RTOS || USBPD_THREADX */
 
 #if defined(USE_STM32_UTILITY_OS)
 void TimerCADfunction(void *);
@@ -72,8 +69,6 @@ void TimerPE1function(void *pArg);
 
 #define OS_CAD_PRIORITY                   osPriorityRealtime
 #define OS_CAD_STACK_SIZE                 (300 * DPM_STACK_SIZE_ADDON_FOR_CMSIS)
-
- /* _RTOS */
 
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -100,14 +95,11 @@ static OS_TASK_ID DPM_PEThreadId_Table[USBPD_PORT_COUNT];
 static OS_QUEUE_ID CADQueueId;
 static OS_TASK_ID CADThread;
 static OS_QUEUE_ID PEQueueId[USBPD_PORT_COUNT];
- /* USBPDCORE_LIB_NO_PD */
- /* _RTOS || USBPD_THREADX */
 
 USBPD_ParamsTypeDef   DPM_Params[USBPD_PORT_COUNT];
 /* Private function prototypes -----------------------------------------------*/
 static void USBPD_PE_TaskWakeUp(uint8_t PortNum);
 static void DPM_StartPETask(uint8_t PortNum);
- /* USBPDCORE_LIB_NO_PD */
 
 void USBPD_DPM_CADCallback(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDef Cc);
 
@@ -203,8 +195,6 @@ USBPD_StatusTypeDef USBPD_DPM_InitCore(void)
     USBPD_CAD_PortEnable(_port_index, USBPD_CAD_ENABLE);
   }
 
- /* !_RTOS */
-
 #ifdef _LOW_POWER
   USBPD_LOWPOWER_Init();
 #endif /* _LOW_POWER */
@@ -212,7 +202,6 @@ USBPD_StatusTypeDef USBPD_DPM_InitCore(void)
 error :
   return _retr;
 }
- /* USBPDCORE_LIB_NO_PD */
 
 /**
   * @brief  Initialize the OS parts (task, queue,... )
@@ -249,9 +238,8 @@ USBPD_StatusTypeDef USBPD_DPM_InitOS(void)
     }
 #endif /* USBPD_PORT_COUNT > 1*/
   }
- /* !USBPDCORE_LIB_NO_PD */
 error:
- /* _RTOS || USBPD_THREADX */
+
   return _retr;
 }
 
@@ -263,7 +251,6 @@ void USBPD_DPM_Run(void)
 {
   OS_KERNEL_START();
 }
- /* _RTOS */
 
 /**
   * @brief  Initialize DPM (port power role, PWR_IF, CAD and PE Init procedures)
@@ -297,10 +284,7 @@ void USBPD_DPM_TimerCounter(void)
 static void USBPD_PE_TaskWakeUp(uint8_t PortNum)
 {
   OS_PUT_MESSAGE_QUEUE(PEQueueId[PortNum], 0xFFFFU, 0U);
- /* _RTOS || USBPD_THREADX */
 }
-
- /* USBPDCORE_LIB_NO_PD */
 
 /**
   * @brief  WakeUp CAD task
@@ -309,7 +293,6 @@ static void USBPD_PE_TaskWakeUp(uint8_t PortNum)
 static void USBPD_DPM_CADTaskWakeUp(void)
 {
   OS_PUT_MESSAGE_QUEUE(CADQueueId, 0xFFFF, 0);
- /* _RTOS || USBPD_THREADX */
 }
 
 /**
@@ -340,7 +323,6 @@ DEF_TASK_FUNCTION(USBPD_PE_Task)
     OS_GETMESSAGE_QUEUE(PEQueueId[_port], _timing);
   }
 }
- /* !USBPDCORE_LIB_NO_PD */
 
 /**
   * @brief  Main task for CAD layer
@@ -359,7 +341,6 @@ DEF_TASK_FUNCTION(USBPD_CAD_Task)
     OS_GETMESSAGE_QUEUE(CADQueueId, _timing);
   }
 }
- /* _RTOS || USBPD_THREADX */
 
 /**
   * @brief  CallBack reporting events on a specified port from CAD layer.
@@ -371,6 +352,7 @@ DEF_TASK_FUNCTION(USBPD_CAD_Task)
 void USBPD_DPM_CADCallback(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDef Cc)
 {
   USBPD_TRACE_Add(USBPD_TRACE_CADEVENT, PortNum, (uint8_t)State, NULL, 0);
+ /* _TRACE */
   (void)(Cc);
   switch (State)
   {
@@ -409,13 +391,12 @@ void USBPD_DPM_CADCallback(uint8_t PortNum, USBPD_CAD_EVENT State, CCxPin_TypeDe
         {
           /* Suspend the PE task */
           (void)OS_TASK_SUSPEND(DPM_PEThreadId_Table[PortNum]);
- /* USBPD_THREADX */
+
           break;
         }
       };
       /* Stop the PE state machine */
       USBPD_PE_StateMachine_Stop(PortNum);
- /* _RTOS || USBPD_THREADX */
       DPM_Params[PortNum].PE_SwapOngoing = USBPD_FALSE;
       DPM_Params[PortNum].PE_Power   = USBPD_POWER_NO;
       USBPD_DPM_UserCableDetection(PortNum, State);
@@ -450,7 +431,7 @@ static void DPM_StartPETask(uint8_t PortNum)
       break;
     }
   }
- /* _RTOS || USBPD_THREADX */
+ /* _RTOS || THREADX */
   USBPD_DPM_Notification(PortNum, USBPD_NOTIFY_USBSTACK_START);
 }
  /* USBPDCORE_LIB_NO_PD */

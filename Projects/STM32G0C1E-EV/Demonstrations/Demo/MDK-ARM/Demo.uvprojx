@@ -548,6 +548,11 @@
               <FilePath>../../Modules/ucpd/usbpd_dpm_user.c</FilePath>
             </File>
             <File>
+              <FileName>usbpd_dpm_core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../Modules/ucpd/usbpd_dpm_core.c</FilePath>
+            </File>
+            <File>
               <FileName>usbpd_pwr_if.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../Modules/ucpd/usbpd_pwr_if.c</FilePath>
@@ -837,11 +842,6 @@
         <Group>
           <GroupName>Middlewares/ST/STM32_USBPD_Library/Core</GroupName>
           <Files>
-            <File>
-              <FileName>usbpd_dpm_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../../../../Middlewares/ST/STM32_USBPD_Library/Core/src/usbpd_dpm_core.c</FilePath>
-            </File>
             <File>
               <FileName>usbpd_trace.c</FileName>
               <FileType>1</FileType>

@@ -1220,8 +1220,8 @@ int32_t BSP_USBPD_PWR_VBUSOn(uint32_t Instance)
         if ((((HAL_GetTick() - _tickstart) > 2000u)) && ((_delta - _dcdc) < 500u))
         {
 #if defined(_TRACE)
-          uint8_t _str[20];
-          sprintf((char *)_str,"V:%ld-%ld", _dcdc, _delta);
+          uint8_t _str[40];
+          sprintf((char *)_str,"V:%d-%d", (unsigned int)_dcdc, (unsigned int)_delta);
           USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, _str, strlen((char *)_str));
           USBPD_TRACE_Add(USBPD_TRACE_DEBUG, 0, 0, (uint8_t *) "V:decrease error", 16);
 #endif
@@ -1262,6 +1262,13 @@ int32_t BSP_USBPD_PWR_VBUSOn(uint32_t Instance)
   /* USER CODE END BSP_USBPD_PWR_VBUSOn */
 }
 
+/**
+  * @brief  Enable FRS VBUS.
+  * @param  Instance Type-C port identifier
+  *         This parameter can be take one of the following values:
+  *         @arg @ref USBPD_PWR_TYPE_C_PORT_1
+  * @retval BSP status
+  */
 int32_t BSP_USBPD_PWR_FRSVBUSEnable(uint32_t Instance)
 {
   /* USER CODE BEGIN BSP_USBPD_PWR_VBUSOff */
@@ -2716,7 +2723,7 @@ static int32_t PWR_VBUSSetVoltage(uint32_t Instance,
   uint8_t           duty_calibrated = 0u;
   uint32_t          vbus_measured;
 #if defined(_TRACE)
-  char _str[20u];
+  char _str[40u];
 #endif
 
   if (Instance == USBPD_PWR_TYPE_C_PORT_1)
@@ -2790,7 +2797,7 @@ static int32_t PWR_VBUSSetVoltage(uint32_t Instance,
             __DSB();
           };
 #ifdef PWR_DEBUG
-          sprintf(_str,"svcc:%ld:%d", vbus_measured, duty_cycle);
+          sprintf(_str,"svcc:%d:%d", (unsigned int)vbus_measured, (unsigned int)duty_cycle);
           USBPD_TRACE_Add(USBPD_TRACE_DEBUG, Instance, 0, (uint8_t*)_str, strlen(_str));
 #endif
           /* timeout to avoid infinite loop in case of power default */

@@ -240,3 +240,4 @@ void USBPD_PWR_IF_ResetVbusThreshold(uint8_t PortNum);
 #endif
 
 #endif /* __USBPD_PW_IF_H_ */
+

@@ -18,9 +18,6 @@
   */
 /* USER CODE END Header */
 
-/* CubeMX Generated */
-#define CUBEMX_GENERATED
-
 #ifndef TRACER_EMB_CONF_H
 #define TRACER_EMB_CONF_H
 
@@ -94,3 +91,4 @@ extern "C" {
 #endif
 
 #endif /* TRACER_EMB_CONF_H */
+
