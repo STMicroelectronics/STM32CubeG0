@@ -78,6 +78,7 @@ void Error_Handler(void);
 #define I2C_SLAVE_ADDRESS1 0x13E
 #define I2C_SLAVE_ADDRESS2 0xC8
 #define I2C_TIMING 0x00303D5B
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

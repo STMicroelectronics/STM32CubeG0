@@ -41,6 +41,9 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported define -----------------------------------------------------------*/
+#if defined(_LOW_POWER) || defined(USBPDM1_VCC_FEATURE_ENABLED)
+#define CAD_DELAY_READ_CC_STATUS         (300U/2U)
+#endif /* _LOW_POWER || USBPDM1_VCC_FEATURE_ENABLED */
 
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/

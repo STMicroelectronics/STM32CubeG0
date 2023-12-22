@@ -136,7 +136,7 @@ USBPD_StatusTypeDef USBPD_PHY_Init(uint8_t PortNum, const USBPD_PHY_Callbacks *p
 
 /**
   * @brief  this function return the retry counter value in us.
-  * @note   time used to determine when the protocol layer must re-send a message not aknowledge by a goodCRC
+  * @note   time used to determine when the protocol layer must re-send a message not acknowledged by a goodCRC
   * @param  PortNum    Number of the port.
   * @retval retry counter value in us.
   */

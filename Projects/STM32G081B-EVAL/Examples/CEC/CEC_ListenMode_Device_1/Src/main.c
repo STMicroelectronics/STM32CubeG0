@@ -44,7 +44,7 @@
 /* Private variables ---------------------------------------------------------*/
 CEC_HandleTypeDef hcec;
 
-uint8_t Tab_Rx[16];
+   uint8_t Tab_Rx[16];
 /* USER CODE BEGIN PV */
 uint8_t  Tab_Tx[CEC_MAX_PAYLOAD-1]; /* Transmitted data buffer. 
                                      * header is not included in Tab_Tx.
@@ -300,10 +300,14 @@ static void MX_HDMI_CEC_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */

@@ -32,10 +32,10 @@
   * @brief  Handle a window display.
   * @param  title to display a message, \n is used for multiple line.
   * @param  title_tc : title text color.
-  * @param  title_bc : title backgroun color.
+  * @param  title_bc : title background color.
   * @param  Msg to display a message, \n is used for multiple line.
   * @param  msg_tc : title text color.
-  * @param  msg_bc : title backgroun color.
+  * @param  msg_bc : title background color.
   * @retval None
   */
 void kWindow_Popup(char *title, uint16_t title_tc, uint16_t title_bc ,char *Msg, uint16_t msg_tc, uint16_t msg_bc )

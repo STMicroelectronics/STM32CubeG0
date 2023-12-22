@@ -64,6 +64,7 @@ void Error_Handler(void);
 
 /* Private defines -----------------------------------------------------------*/
 #define I2C_ADDRESS 0x3E
+
 /* USER CODE BEGIN Private defines */
 /* Define used to enable Virtual Com Port use : 
      USE_VCP_CONNECTION == 0

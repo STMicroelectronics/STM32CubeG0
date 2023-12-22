@@ -74,6 +74,7 @@ void LPTimerAutoreloadMatch_Callback(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED1_Pin LL_GPIO_PIN_5
 #define LED1_GPIO_Port GPIOD
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

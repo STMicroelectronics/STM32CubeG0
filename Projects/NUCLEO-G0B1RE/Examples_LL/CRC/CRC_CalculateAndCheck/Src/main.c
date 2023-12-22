@@ -59,7 +59,7 @@ static const uint8_t aDataBuffer[BUFFER_SIZE] =
 };
 
 /* Expected CRC Value */
-uint32_t uwExpectedCRCValue = 0xA9866043;
+uint32_t uwExpectedCRCValue = 0xB553F395;
 
 /* USER CODE END PV */
 
@@ -211,6 +211,8 @@ static void MX_CRC_Init(void)
 static void MX_GPIO_Init(void)
 {
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
@@ -226,6 +228,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(LED4_GPIO_Port, &GPIO_InitStruct);
 
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -243,7 +247,7 @@ uint32_t Calculate_CRC(uint32_t BufferSize)
   /* Compute the CRC of Data Buffer array*/
   for (index = 0; index < (BufferSize / 4); index++)
   {
-    data = (uint32_t)((aDataBuffer[4 * index + 3] << 24) | (aDataBuffer[4 * index + 2] << 16) | (aDataBuffer[4 * index + 1] << 8) | aDataBuffer[4 * index]);
+    data = (uint32_t)((aDataBuffer[4 * index] << 24) | (aDataBuffer[4 * index + 1] << 16) | (aDataBuffer[4 * index + 2] << 8) | aDataBuffer[4 * index + 3]);
     LL_CRC_FeedData32(CRC, data);
   }
 
@@ -256,11 +260,11 @@ uint32_t Calculate_CRC(uint32_t BufferSize)
     }
     if (BUFFER_SIZE % 4 == 2)
     {
-      LL_CRC_FeedData16(CRC, (uint16_t)((aDataBuffer[4 * index + 1] << 8) | aDataBuffer[4 * index]));
+      LL_CRC_FeedData16(CRC, (uint16_t)((aDataBuffer[4 * index] << 8) | aDataBuffer[4 * index + 1]));
     }
     if (BUFFER_SIZE % 4 == 3)
     {
-      LL_CRC_FeedData16(CRC, (uint16_t)((aDataBuffer[4 * index + 1] << 8) | aDataBuffer[4 * index]));
+      LL_CRC_FeedData16(CRC, (uint16_t)((aDataBuffer[4 * index] << 8) | aDataBuffer[4 * index + 1]));
       LL_CRC_FeedData8(CRC, aDataBuffer[4 * index + 2]);
     }
   }

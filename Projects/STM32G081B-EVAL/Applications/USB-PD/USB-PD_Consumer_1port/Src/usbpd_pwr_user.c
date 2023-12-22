@@ -64,9 +64,9 @@ typedef enum
 typedef enum
 {
     ADC_VSENSE_1       = 0,   /*< PB1  ADC used to get VBUS1 voltage level     */
-    ADC_ISENSE_1       = 1,   /*< PB10 ADC used to get VBUS1 curent value      */
+    ADC_ISENSE_1       = 1,   /*< PB10 ADC used to get VBUS1 current value      */
     ADC_VSENSE_2       = 2,   /*< PA3  ADC used to get VBUS2 voltage level     */
-    ADC_ISENSE_2       = 3,   /*< PB12 ADC used to get VBUS2 curent value      */
+    ADC_ISENSE_2       = 3,   /*< PB12 ADC used to get VBUS2 current value      */
     ADC_VSENSE_DCDC    = 4    /*< PB11 ADC used to get DCDC voltage level      */
 } ADC_ChannelId_TypeDef;
 
@@ -228,7 +228,7 @@ typedef struct {
 #define RB  49900
 
 /* VBUS power source calibration parameters */
-#define BSP_PWR_DCDC_POLL_TIME          1        /* DCDC polling periode in mS */
+#define BSP_PWR_DCDC_POLL_TIME          1        /* DCDC polling period in mS */
 #define BSP_PWR_DCDC_MAX_PWM_VALUE      (3200u)   /* DCDC Vref: Max pwm min value 3.8V on RevB */
 #define BSP_PWR_DCDC_MIN_PWM_VALUE      (1)      /* DCDC Vref: Max pwm max value 18V on RevB */
 #define BSP_PWR_DCDC_MAX_PWM_STEP       (55)     /* DCDC Vref: Max pwm step = Full scale/25mS */
@@ -745,7 +745,7 @@ __weak PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Fixed(uint32_t PortId,
     PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
   }
 
-  /* Upate the context */
+  /* Update the context */
   Context.PortInfo[PortId].VBUSVoltage = VbusTargetInmv;
   Context.PortInfo[PortId].Type = POWER_FIXED;
 
@@ -1621,7 +1621,7 @@ __weak int32_t BSP_USBPD_PWR_VBUSSetVoltage_Fixed(uint32_t Instance,
       PWR_GPIO_Off(GPIO_VBUS_DISCHARGE1);
     }
 
-    /* Upate the context */
+    /* Update the context */
     Context.PortInfo[Instance].VBUSVoltage = VbusTargetInmv;
     Context.PortInfo[Instance].Type = POWER_FIXED;
 
@@ -3116,11 +3116,11 @@ end_of_DCDC_voltage_measure:
  *         0: :calibration disabled
  *         1: :calibration enabled
  * @param  Precision Requested precision (in mV)
- * @note  Calibration and Precision paremeters aren't relevant when the VBUS
+ * @note  Calibration and Precision parameters aren't relevant when the VBUS
  *        voltage level isn't controlled by a PWM signal.
  * @note  When VBUS voltage level is controlled by a PWM signal, VBUS voltage is
  *        controlled by a PD (Proportional-Derivative) control loop.
- *        The PD control implementation is ilustrated by the block diagram below:
+ *        The PD control implementation is illustrated by the block diagram below:
  *
  *                                              .-------------------.
  *                 .-------.              .------> PROPORTIONAL (Kp) >-.   .-------.
@@ -3135,7 +3135,7 @@ end_of_DCDC_voltage_measure:
  *   pwm = Kp * pwm_error + (Kd * der)
  *
  * where:
- *  pwm_error is calulated from vbus_error
+ *  pwm_error is calculated from vbus_error
  *  Kp = Proptional Constant.
  *  Kd = Derivative Constant.
  *  der  = pwm_error - pwm_error_previous

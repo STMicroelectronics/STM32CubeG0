@@ -229,7 +229,7 @@ void HelpUserHeader(void)
   BSP_LCD_DisplayStringAt(64, LINE(6), (uint8_t*)  "to go to the next/previous slide", LEFT_MODE);  
   BSP_LCD_DisplayStringAt(64, LINE(7), (uint8_t*)  "and DOWN to exit.      ", LEFT_MODE);  
   
-  BSP_LCD_DisplayStringAt(64, LINE(10), (uint8_t*)  "Caution: Daugther board MB1351A ", LEFT_MODE);
+  BSP_LCD_DisplayStringAt(64, LINE(10), (uint8_t*)  "Caution: Daughter board MB1351A ", LEFT_MODE);
   BSP_LCD_DisplayStringAt(64, LINE(11), (uint8_t*)  "must be plugged to run Demonstration", LEFT_MODE);        
   BSP_LCD_DisplayStringAt(64, LINE(12), (uint8_t*)  "Firmware.", LEFT_MODE);    
 

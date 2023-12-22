@@ -122,7 +122,7 @@ int main(void)
   /* Start the demo thread */
   kDemo_Initialization();
 
-  /* Get the daugther board id */
+  /* Get the daughter board id */
   if (BSP_DB_GetId(&daughter_board_id) !=0)
   {
     kWindow_Error("Failed to identify\ndaughter board !\n");

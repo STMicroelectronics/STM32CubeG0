@@ -218,7 +218,7 @@ void kMenu_HandleSelection(tMenu MainMenu, uint8_t *sel)
 }
 
 /**
-  * @brief  Function in charge to execture a menu 
+  * @brief  Function in charge to execute a menu 
   * @param  menu 
   * @retval None
   */

@@ -123,19 +123,21 @@ typedef struct
   */
 typedef struct
 {
-  UCPD_TypeDef                   *husbpd;         /*!< UCPD Handle parameters             */
-  DMA_Channel_TypeDef            *hdmatx;         /*!< Tx DMA Handle parameters           */
-  DMA_Channel_TypeDef            *hdmarx;         /*!< Rx DMA Handle parameters           */
+  UCPD_TypeDef                   *husbpd;         /*!< UCPD Handle parameters                              */
+  DMA_Channel_TypeDef            *hdmatx;         /*!< Tx DMA Handle parameters                            */
+  DMA_Channel_TypeDef            *hdmarx;         /*!< Rx DMA Handle parameters                            */
 
   USBPD_SettingsTypeDef          *settings;
   USBPD_ParamsTypeDef            *params;
-  USBPD_HW_IF_Callbacks_TypeDef  cbs;             /*!< USBPD_PHY_HW_IF callbacks          */
+  USBPD_HW_IF_Callbacks_TypeDef  cbs;             /*!< USBPD_PHY_HW_IF callbacks                           */
 
-  void (*USBPD_CAD_WakeUp)(void);                 /*!< function used to wakeup cad task   */
+  void (*USBPD_CAD_WakeUp)(void);                 /*!< function used to wakeup cad task                    */
 
-  uint8_t                        *ptr_RxBuff;     /*!< Pointer to Raw Rx transfer Buffer  */
+  uint8_t                        *ptr_RxBuff;     /*!< Pointer to Raw Rx transfer Buffer                   */
 
-  CCxPin_TypeDef                 CCx;             /*!< CC pin used for communication      */
+  CCxPin_TypeDef                 CCx;             /*!< CC pin used for communication                       */
+  __IO uint8_t                   RXStatus;        /*!< Tracks the reception of a message to forbid any new
+                                                       TX transaction until message completion             */
 } USBPD_PORT_HandleTypeDef;
 
 extern USBPD_PORT_HandleTypeDef Ports[USBPD_PORT_COUNT];
@@ -244,28 +246,28 @@ uint16_t HW_IF_PWR_GetVoltage(uint8_t PortNum);
 int16_t HW_IF_PWR_GetCurrent(uint8_t PortNum);
 
 /**
-  * @brief  Connect the Rp resitors on the CC lines
+  * @brief  Connect the Rp resistors on the CC lines
   * @param  PortNum The port handle.
   * @retval none
   */
 void USBPDM1_AssertRp(uint8_t PortNum);
 
 /**
-  * @brief  Disconnect the Rp resitors on the CC lines
+  * @brief  Disconnect the Rp resistors on the CC lines
   * @param  PortNum The port handle.
   * @retval none
   */
 void USBPDM1_DeAssertRp(uint8_t PortNum);
 
 /**
-  * @brief  Connect the Rd resitors on the CC lines
+  * @brief  Connect the Rd resistors on the CC lines
   * @param  PortNum The port handle.
   * @retval none
   */
 void USBPDM1_AssertRd(uint8_t PortNum);
 
 /**
-  * @brief  Disconnect the Rd resitors on the CC lines
+  * @brief  Disconnect the Rd resistors on the CC lines
   * @param  PortNum The port handle.
   * @retval none
   */

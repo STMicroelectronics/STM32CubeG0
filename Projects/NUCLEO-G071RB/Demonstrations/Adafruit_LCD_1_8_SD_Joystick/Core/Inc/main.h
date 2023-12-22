@@ -62,6 +62,7 @@ void TFT_DisplayErrorMessage(uint8_t message);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+
 /* USER CODE BEGIN Private defines */
 #define APP_OK                     0
 #define APP_ERROR                  -1

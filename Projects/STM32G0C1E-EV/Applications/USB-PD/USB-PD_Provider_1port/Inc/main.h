@@ -64,6 +64,12 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void MX_GPIO_Init(void);
+void MX_DMA_Init(void);
+void MX_UCPD1_Init(void);
+void MX_ADC1_Init(void);
+void MX_USART3_UART_Init(void);
+void MX_LPTIM1_Init(void);
 
 /* USER CODE BEGIN EFP */
 
@@ -93,12 +99,7 @@ void Error_Handler(void);
 #define SOURCE_EN_GPIO_Port GPIOD
 #define VCONN_EN1_Pin LL_GPIO_PIN_4
 #define VCONN_EN1_GPIO_Port GPIOD
-void   MX_GPIO_Init(void);
-void   MX_DMA_Init(void);
-void   MX_UCPD1_Init(void);
-void   MX_ADC1_Init(void);
-void   MX_USART3_UART_Init(void);
-void   MX_LPTIM1_Init(void);
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

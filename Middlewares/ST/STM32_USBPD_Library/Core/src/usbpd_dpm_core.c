@@ -415,20 +415,20 @@ error :
 uint32_t USBPD_DPM_InitOS(VOID *MemoryPtr)
 #else
 USBPD_StatusTypeDef USBPD_DPM_InitOS(void)
-#endif
+#endif /* USBPD_THREADX */
 {
   OS_INIT();
 #if defined(_RTOS) || defined(USBPD_THREADX)
 #if defined(USBPD_TCPM_MODULE_ENABLED)
   {
     OS_CREATE_QUEUE(AlarmMsgBox, "QAlarme", TCPM_ALARMBOX_MESSAGES_MAX, OS_ELEMENT_SIZE);
-    OS_CREATE_TASK(ALAThread, ALERT, USBPD_ALERT_Task, OS_ALERT_PRIORITY, OS_ALERT_STACK_SIZE, NULL);
+    OS_CREATE_TASK(ALAThread, ALERT, USBPD_ALERT_Task, OS_ALERT_PRIORITY, OS_ALERT_STACK_SIZE, ((int)NULL));
   }
 #else
   {
     OS_CREATE_QUEUE(CADQueueId, "QCAD", USBPD_PORT_COUNT, OS_ELEMENT_SIZE);
     OS_DEFINE_TASK(CAD, USBPD_CAD_Task, OS_CAD_PRIORITY, OS_CAD_STACK_SIZE, NULL);
-    OS_CREATE_TASK(CADThread, CAD, USBPD_CAD_Task,  OS_CAD_PRIORITY, OS_CAD_STACK_SIZE, NULL);
+    OS_CREATE_TASK(CADThread, CAD, USBPD_CAD_Task,  OS_CAD_PRIORITY, OS_CAD_STACK_SIZE, ((int)NULL));
   }
 #endif /* USBPD_TCPM_MODULE_ENABLED */
 
@@ -443,7 +443,7 @@ USBPD_StatusTypeDef USBPD_DPM_InitOS(void)
       /* Tasks definition */
       OS_DEFINE_TASK(PE_0, USBPD_PE_Task, OS_PE_PRIORITY,  OS_PE_STACK_SIZE,  USBPD_PORT_0);
       OS_CREATE_TASK(DPM_PEThreadId_Table[USBPD_PORT_0], PE_0, USBPD_PE_Task,
-                     OS_PE_PRIORITY, OS_PE_STACK_SIZE, index);
+                     OS_PE_PRIORITY, OS_PE_STACK_SIZE, ((int)index));
     }
 #if USBPD_PORT_COUNT > 1
     if (index == USBPD_PORT_1)
@@ -451,7 +451,7 @@ USBPD_StatusTypeDef USBPD_DPM_InitOS(void)
       /* Tasks definition */
       OS_DEFINE_TASK(PE_1, USBPD_PE_Task, OS_PE_PRIORITY,  OS_PE_STACK_SIZE,  USBPD_PORT_1);
       OS_CREATE_TASK(DPM_PEThreadId_Table[USBPD_PORT_1], PE_1, USBPD_PE_Task,
-                     OS_PE_PRIORITY, OS_PE_STACK_SIZE, index);
+                     OS_PE_PRIORITY, OS_PE_STACK_SIZE, ((int)index));
     }
 #endif /* USBPD_PORT_COUNT > 1*/
   }
@@ -464,7 +464,7 @@ USBPD_StatusTypeDef USBPD_DPM_InitOS(void)
 
 #if defined(_RTOS) || defined(USBPD_THREADX)
 error:
-#endif
+#endif /* _RTOS || USBPD_THREADX */
   return _retr;
 }
 
@@ -968,7 +968,8 @@ static void DPM_StartPETask(uint8_t PortNum)
       }
       else
       {
-        OS_CREATE_TASK(DPM_PEThreadId_Table[PortNum], PE_0, USBPD_PE_Task, OS_PE_PRIORITY, OS_PE_STACK_SIZE, PortNum);
+        OS_CREATE_TASK(DPM_PEThreadId_Table[PortNum], PE_0, USBPD_PE_Task, OS_PE_PRIORITY, OS_PE_STACK_SIZE,
+                       ((int)PortNum));
       }
       break;
     }
@@ -979,7 +980,7 @@ static void DPM_StartPETask(uint8_t PortNum)
     }
   }
 error :
-   (void)_retr;
+  (void)_retr;
 #else
 #if defined(USE_STM32_UTILITY_OS)
   /* Resume the task */

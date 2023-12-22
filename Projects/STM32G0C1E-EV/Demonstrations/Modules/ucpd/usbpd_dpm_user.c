@@ -41,7 +41,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN Private_Typedef */
-/** @brief  Sink Request characteritics Structure definition
+/** @brief  Sink Request characteristics Structure definition
   *
   */
 typedef struct

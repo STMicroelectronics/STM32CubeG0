@@ -1245,7 +1245,7 @@ static void Display_sinkextcapa_menu(uint8_t PortNum)
   */
 static void Display_sinkextcapa_menu_nav(uint8_t PortNum, int8_t Orientation)
 {
-  uint8_t _str[15][20];
+  uint8_t _str[15][22];
   uint8_t _max = 15;  /* Nb field inside sink extended capa */
   uint8_t _start, _end;
 

@@ -71,7 +71,7 @@ void OPENBL_OB_Write(uint32_t Address, uint8_t *Data, uint32_t DataLength)
   HAL_FLASH_OB_Unlock();
 
   /* Clear error programming flags */
-  __HAL_FLASH_CLEAR_FLAG(FLASH_SR_ERRORS);
+  WRITE_REG(FLASH->SR, FLASH_SR_ERRORS);
 
   /* Write RDP Level */
   WRITE_REG(FLASH->OPTR, *(Data));

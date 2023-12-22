@@ -121,7 +121,7 @@ int main(void)
 
   /* Create the semaphores(s) */
   /* creation of osSemaphore */
-  osSemaphoreHandle = osSemaphoreNew(1, 1, &osSemaphore_attributes);
+  osSemaphoreHandle = osSemaphoreNew(1, 0, &osSemaphore_attributes);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
 

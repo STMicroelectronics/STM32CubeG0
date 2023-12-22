@@ -94,6 +94,7 @@ void TimerCaptureCompare_Callback(void);
 #define LED4_GPIO_Port GPIOA
 #define TIM3_CH1_Pin LL_GPIO_PIN_6
 #define TIM3_CH1_GPIO_Port GPIOA
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

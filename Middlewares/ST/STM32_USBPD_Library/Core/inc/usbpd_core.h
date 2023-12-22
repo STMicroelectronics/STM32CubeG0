@@ -128,14 +128,14 @@ uint32_t                USBPD_CAD_Process(void);
 void                    USBPD_CAD_PortEnable(uint8_t PortNum, USBPD_CAD_activation State);
 
 /**
-  * @brief  Set the resitor to present a SNK.
+  * @brief  Set the resistor to present a SNK.
   * @param  PortNum Index of current used port
   * @retval None
   */
 void                    USBPD_CAD_AssertRd(uint8_t PortNum);
 
 /**
-  * @brief  Set the resitor to present a SRC.
+  * @brief  Set the resistor to present a SRC.
   * @param  PortNum Index of current used port
   * @retval None
   */
@@ -251,15 +251,17 @@ typedef void (*TRACE_ENTRY_POINT)(TRACE_EVENT type, uint8_t port, uint8_t sop, u
 
 #define PE_TSWAPSRCSTART_MIN             20u    /*!< tSwapSourceStart: 20 ms                                   */
 
-#define PE_TBISTCONTMODE                 58u    /*!< tBISTContMode: min 30ms to 60 ms                          */
+#define PE_TBISTCONTMODE                 45u    /*!< tBISTContMode: min 30ms to 60 ms                          */
 #if defined(USBPDCORE_VCONN_SUPPORT)
 #define PE_TDISCOVERIDENTITY             45u    /*!< tDiscoverIdentity: min 40ms to max 50ms                   */
 #endif /* USBPDCORE_VCONN_SUPPORT */
 
 #define PE_TVDMSENDERRESPONSE            30u    /*!< tVDMSenderResponse: min 24ms to max 30ms                  */
 
-#if defined(USBPDCORE_SVDM)
+#if defined(USBPDCORE_SVDM) || defined(USBPDCORE_ANSWER_DISCOIDENT)
 #define PE_TVDMRECEIVERRESPONSE          15u    /*!< tVDMReceiverResponse: max 15ms                            */
+#endif /* USBPDCORE_SVDM || USBPDCORE_ANSWER_DISCOIDENT */
+#if defined(USBPDCORE_SVDM)
 #define PE_TVDMENTERMODE                 25u    /*!< tVDMEnterMode: max 25ms                                   */
 #define PE_TVDMEXITMODE                  25u    /*!< tVDMExitMode: max 25ms                                    */
 #endif /* USBPDCORE_SVDM */
@@ -282,7 +284,7 @@ typedef void (*TRACE_ENTRY_POINT)(TRACE_EVENT type, uint8_t port, uint8_t sop, u
   * @}
   */
 
-#if defined(USBPDCORE_SVDM) || defined(USBPDCORE_UVDM) || defined(USBPDCORE_VCONN_SUPPORT)
+#if defined(USBPDCORE_SVDM) || defined(USBPDCORE_UVDM) || defined(USBPDCORE_VCONN_SUPPORT) || defined(USBPDCORE_ANSWER_DISCOIDENT)
 /** @defgroup USBPD_CORE_VDM_Exported_Callback USBPD CORE VDM Exported Callback
   * @{
   */
@@ -292,7 +294,7 @@ typedef void (*TRACE_ENTRY_POINT)(TRACE_EVENT type, uint8_t port, uint8_t sop, u
   * */
 typedef struct
 {
-#if defined(USBPDCORE_SVDM) || defined(USBPDCORE_VCONN_SUPPORT)
+#if defined(USBPDCORE_SVDM) || defined(USBPDCORE_VCONN_SUPPORT) || defined(USBPDCORE_ANSWER_DISCOIDENT)
   /**
     * @brief  VDM Discovery identity callback
     * @note   Function is called to get Discovery identity information linked to the device and answer
@@ -302,7 +304,9 @@ typedef struct
     * @retval USBPD status: @ref USBPD_ACK or @ref USBPD_BUSY
     */
   USBPD_StatusTypeDef(*USBPD_VDM_DiscoverIdentity)(uint8_t PortNum, USBPD_DiscoveryIdentity_TypeDef *pIdentity);
+#endif /* USBPDCORE_SVDM || USBPDCORE_VCONN_SUPPORT || USBPDCORE_ANSWER_DISCOIDENT */
 
+#if defined(USBPDCORE_SVDM) || defined(USBPDCORE_VCONN_SUPPORT)
   /**
     * @brief  VDM Discover SVID callback
     * @note   Function is called to retrieve SVID supported by device and answer
@@ -511,7 +515,7 @@ typedef struct
   * @}
   */
 
-#endif /* USBPDCORE_SVDM || USBPDCORE_UVDM || USBPDCORE_VCONN_SUPPORT */
+#endif /* USBPDCORE_SVDM || USBPDCORE_UVDM || USBPDCORE_VCONN_SUPPORT || USBPDCORE_ANSWER_DISCOIDENT */
 
 /** @defgroup USBPD_CORE_PE_Exported_TypesDefinitions USBPD CORE PE Exported Types Definitions
   * @{
@@ -589,7 +593,7 @@ typedef struct
   void (*USBPD_PE_SetDataInfo)(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef DataId, uint8_t *Ptr, uint32_t Size);
 
   /**
-    * @brief  Callback used by a SOURCE to evluate the SINK request
+    * @brief  Callback used by a SOURCE to evaluate the SINK request
     * @param  PortNum Port number
     * @param  PtrPowerObject  Pointer on the power data object
     * @retval Returned values are: @ref USBPD_ACCEPT, @ref USBPD_REJECT, @ref USBPD_WAIT, @ref USBPD_GOTOMIN
@@ -787,7 +791,7 @@ void USBPD_PE_IsCableConnected(uint8_t PortNum, uint8_t IsConnected);
 
 /**
   * @brief  Increment PE Timers tick
-  * @note   This function must be called each elasped ms
+  * @note   This function must be called each elapsed ms
   * @param  PortNum Index of current used port
   * @retval None
   */
@@ -838,7 +842,7 @@ uint32_t            USBPD_PE_StateMachine_SNK(uint8_t PortNum);
   */
 #endif /* USBPDCORE_SNK || USBPDCORE_DRP */
 
-#if defined(USBPDCORE_SVDM) || defined(USBPDCORE_UVDM) || defined(USBPDCORE_VCONN_SUPPORT)
+#if defined(USBPDCORE_SVDM) || defined(USBPDCORE_UVDM) || defined(USBPDCORE_VCONN_SUPPORT) || defined(USBPDCORE_ANSWER_DISCOIDENT)
 /** @defgroup USBPD_CORE_PE_Exported_Functions_Group2 USBPD CORE PE Exported Functions to VDM USER
   * @{
   */
@@ -852,7 +856,7 @@ void USBPD_PE_InitVDM_Callback(uint8_t PortNum, USBPD_VDM_Callbacks *VDMCallback
 /**
   * @}
   */
-#endif /* USBPDCORE_SVDM || USBPDCORE_UVDM || USBPDCORE_VCONN_SUPPORT*/
+#endif /* USBPDCORE_SVDM || USBPDCORE_UVDM || USBPDCORE_VCONN_SUPPORT || USBPDCORE_ANSWER_DISCOIDENT */
 
 /** @defgroup USBPD_CORE_PE_Exported_Functions_Group3 USBPD CORE PE Exported Functions to DPM USER
   * @{
@@ -1069,7 +1073,7 @@ void USBPD_PRL_TimerCounter(uint8_t PortNum);
   * @{
   */
 
-/** @defgroup USBPD_CORE_TCPM_Exported_Functions_Grp1 USBPD CORE TCPM Exported Functions to applications (DPM and PWR_IF)
+/** @defgroup USBPD_CORE_TCPM_Exported_Functions_Grp1 USBPD CORE TCPM Exported Functions to DPM and PWR_IF applications
   * @{
   */
 

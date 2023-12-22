@@ -1,6 +1,6 @@
-# BSP STM32G0XX-NUCLEO Component
+# Middleware USBPD Core MCU Component
 
-![latest tag](https://img.shields.io/github/v/tag/STMicroelectronics/stm32g0xx-nucleo.svg?color=brightgreen)
+![latest tag](https://img.shields.io/github/v/tag/STMicroelectronics/stm32-mw-usbpd-core.svg?color=brightgreen)
 
 ## Overview
 
@@ -19,17 +19,11 @@ Two models of publication are proposed for the STM32Cube embedded software:
 
 ## Description
 
-This **stm32g0xx-nucleo** MCU component repository is one element of the **STM32CubeG0** MCU embedded software package, providing the **STM32G0XX-NUCLEO** BSP BOARD component part.
+This **stm32-mw-usbpd-core** MCU component repository is one element **common to all** STM32Cube MCU embedded software packages, providing the **USBPD MCU Middleware** part.
 
 ## Release note
 
-Details about the content of this release are available in the release note [here](https://htmlpreview.github.io/?https://github.com/STMicroelectronics/stm32g0xx-nucleo/blob/main/Release_Notes.html).
-
-## Compatibility information
-
-Below is the list of the BSP *component* drivers to be used with this BSP *board* driver. It is **crucial** that you use a consistent set of CMSIS - HAL - BSP versions, as mentioned in [this](https://htmlpreview.github.io/?https://github.com/STMicroelectronics/STM32CubeG0/blob/master/Release_Notes.html) release note.
-
-* [stm32-bsp-common](https://github.com/STMicroelectronics/stm32-bsp-common)
+Details about the content of this release are available in the release note [here](https://htmlpreview.github.io/?https://github.com/STMicroelectronics/stm32-mw-usbpd-core/blob/main/Release_Notes.html).
 
 ## Troubleshooting
 

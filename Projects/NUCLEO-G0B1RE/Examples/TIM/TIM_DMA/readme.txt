@@ -67,7 +67,13 @@ The CPU at 64 MHz
 @note This example needs to ensure that the SysTick time base is always set to 1 millisecond
       to have correct HAL operation.
 
-	  
+@note In this examples, the output channel is configured in PWM1 mode meaning that in up-counting mode,
+      channel 1 is active as long as TIMx_CNT < TIMx_CCR1. As, in the HAL_TIM_PWM_Start* function,
+      the output channel is enabled prior enabling the timer's counter a timing difference might be observed
+      on the first generated PWM pulse.
+      This difference corresponds to the delay - in term of number of CPU cycles - between the channel enable
+      and the counter enable in the HAL_TIM_PWM_Start* function.
+
 @par Keywords
 
 Timer, DMA, PWM, Frequency, Duty Cycle, Waveform, Oscilloscope, Output, Signal

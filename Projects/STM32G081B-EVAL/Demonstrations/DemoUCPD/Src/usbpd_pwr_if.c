@@ -676,7 +676,7 @@ void USBPD_PWR_IF_AlarmType(USBPD_PWR_IF_ERROR ErrorType)
   /* Disable the power on SRC */
   BSP_USBPD_PWR_VBUSOff(0);
 
-  /* Remove the resitor */
+  /* Remove the resistor */
   USBPD_CAD_EnterErrorRecovery(0);
   USBPD_CAD_EnterErrorRecovery(1);
 

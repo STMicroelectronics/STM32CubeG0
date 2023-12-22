@@ -89,16 +89,16 @@ Connectivity, USB_Host, USB, HID, Human Interface, Full Speed, High Speed, Mouse
   - USB_Host/HID_Standalone/USB_Host/App/keyboard.h                 HID keyboard functions Header File
   - USB_Host/HID_Standalone/USB_Host/Target/usbh_conf.c             General low level driver configuration
   - USB_Host/HID_Standalone/USB_Host/Target/usbh_conf.h             USB Host driver configuration File
-  - USB_Host/MSC_Standalone/USB-PD/usbpd.c                          Ucpd init file
-  - USB_Host/MSC_Standalone/USB-PD/usbpd.h                          header of Ucpd init file
-  - USB_Host/MSC_Standalone/USB-PD/usbpd_devices_conf.h             UCPD device configuration file
-  - USB_Host/MSC_Standalone/USB-PD/usbpd_dpm_conf.h                 UCPD stack configuration file
-  - USB_Host/MSC_Standalone/USB-PD/usbpd_dpm_core.h                 device policy manager core header file
-  - USB_Host/MSC_Standalone/USB-PD/usbpd_dpm_core.c                 device policy manager core file
-  - USB_Host/MSC_Standalone/USB-PD/usbpd_dpm_user.h                 device policy manager users header file
-  - USB_Host/MSC_Standalone/USB-PD/usbpd_dpm_user.c                 device policy manager users file
-  - USB_Host/MSC_Standalone/USB-PD/usbpd_pwr_if.h                   power if management header file
-  - USB_Host/MSC_Standalone/USB-PD/usbpd_pwr_if.c                   power if management file
+  - USB_Host/HID_Standalone/USB-PD/usbpd.c                          Ucpd init file
+  - USB_Host/HID_Standalone/USB-PD/usbpd.h                          header of Ucpd init file
+  - USB_Host/HID_Standalone/USB-PD/usbpd_devices_conf.h             UCPD device configuration file
+  - USB_Host/HID_Standalone/USB-PD/usbpd_dpm_conf.h                 UCPD stack configuration file
+  - USB_Host/HID_Standalone/USB-PD/usbpd_dpm_core.h                 device policy manager core header file
+  - USB_Host/HID_Standalone/USB-PD/usbpd_dpm_core.c                 device policy manager core file
+  - USB_Host/HID_Standalone/USB-PD/usbpd_dpm_user.h                 device policy manager users header file
+  - USB_Host/HID_Standalone/USB-PD/usbpd_dpm_user.c                 device policy manager users file
+  - USB_Host/HID_Standalone/USB-PD/usbpd_pwr_if.h                   power if management header file
+  - USB_Host/HID_Standalone/USB-PD/usbpd_pwr_if.c                   power if management file
 
 
 @par Hardware and Software environment
@@ -119,7 +119,7 @@ Connectivity, USB_Host, USB, HID, Human Interface, Full Speed, High Speed, Mouse
       In such power configuration, software safety protection is required to detect the overvoltage. Please refer to SAFETY PROTECTION CODE BEGIN section in main.c.
       
 
-    - Plug the USB key into the STM32G0C1E-EV board through 'USB Type C-Male
+    - Plug the mouse/keyboard into the STM32G0C1E-EV board through 'USB Type C-Male
       to A-Female' cable to the connector:CN7
     - Connect ST-Link cable to the PC USB port to display data on the HyperTerminal.
 

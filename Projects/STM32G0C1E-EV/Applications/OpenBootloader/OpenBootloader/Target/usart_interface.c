@@ -108,7 +108,7 @@ uint8_t OPENBL_USART_ProtocolDetection(void)
     /* Read byte in order to flush the 0x7F synchronization byte */
     OPENBL_USART_ReadByte();
 
-    /* Aknowledge the host */
+    /* Acknowledge the host */
     OPENBL_USART_SendByte(ACK_BYTE);
 
     detected = 1;

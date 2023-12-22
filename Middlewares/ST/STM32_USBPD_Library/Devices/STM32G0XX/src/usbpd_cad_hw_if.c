@@ -157,10 +157,6 @@ typedef struct
 #define CAD_VBUS_POLLING_TIME            10u
 #endif /* _LOW_POWER */
 
-#if defined(_LOW_POWER) || defined(USBPDM1_VCC_FEATURE_ENABLED)
-#define CAD_DELAY_READ_CC_STATUS         (300U/2U)
-#endif /* _LOW_POWER || USBPDM1_VCC_FEATURE_ENABLED */
-
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
@@ -954,7 +950,14 @@ uint32_t CAD_StateMachine(uint8_t PortNum, USBPD_CAD_EVENT *pEvent, CCxPin_TypeD
 #if !defined(_LOW_POWER) && !defined(USBPDM1_VCC_FEATURE_ENABLED)
       LL_UCPD_EnableIT_TypeCEventCC2(Ports[PortNum].husbpd);
       LL_UCPD_EnableIT_TypeCEventCC1(Ports[PortNum].husbpd);
-#endif /* !_LOW_POWER */
+#elif defined(_LOW_POWER)
+      if (USBPD_PORTPOWERROLE_SRC == Ports[PortNum].params->PE_PowerRole)
+      {
+        LL_UCPD_EnableIT_TypeCEventCC2(Ports[PortNum].husbpd);
+        LL_UCPD_EnableIT_TypeCEventCC1(Ports[PortNum].husbpd);
+      }
+#endif /* !_LOW_POWER && !USBPDM1_VCC_FEATURE_ENABLED */
+
       if (0 == PortNum)
       {
         UCPD_INSTANCE0_ENABLEIRQ;
@@ -1071,7 +1074,14 @@ uint32_t CAD_StateMachine(uint8_t PortNum, USBPD_CAD_EVENT *pEvent, CCxPin_TypeD
 #ifndef _LOW_POWER
       LL_UCPD_EnableIT_TypeCEventCC2(Ports[PortNum].husbpd);
       LL_UCPD_EnableIT_TypeCEventCC1(Ports[PortNum].husbpd);
-#endif /* _LOW_POWER */
+#else
+      if (USBPD_PORTPOWERROLE_SRC == Ports[PortNum].params->PE_PowerRole)
+      {
+        LL_UCPD_EnableIT_TypeCEventCC2(Ports[PortNum].husbpd);
+        LL_UCPD_EnableIT_TypeCEventCC1(Ports[PortNum].husbpd);
+      }
+#endif /* !_LOW_POWER */
+
       if (0 == PortNum)
       {
         UCPD_INSTANCE0_ENABLEIRQ;
@@ -1221,24 +1231,8 @@ void CAD_Check_HW_SRC(uint8_t PortNum)
   -----------------------------------------------------------------------------
   */
 
-#ifdef _LOW_POWER
-  /* Enable type C state machine */
-  CLEAR_BIT(Ports[PortNum].husbpd->CR, UCPD_CR_CC1TCDIS | UCPD_CR_CC2TCDIS);
-
-  for (int32_t index = 0; index < CAD_DELAY_READ_CC_STATUS; index++)
-  {
-    __DSB();
-  };
-#endif /* _LOW_POWER */
-
   CC1_value = (Ports[PortNum].husbpd->SR & UCPD_SR_TYPEC_VSTATE_CC1) >> UCPD_SR_TYPEC_VSTATE_CC1_Pos;
   CC2_value = (Ports[PortNum].husbpd->SR & UCPD_SR_TYPEC_VSTATE_CC2) >> UCPD_SR_TYPEC_VSTATE_CC2_Pos;
-
-#ifdef _LOW_POWER
-  /* Disable the C state machine */
-  SET_BIT(Ports[PortNum].husbpd->CR, UCPD_CR_CC1TCDIS | UCPD_CR_CC2TCDIS);
-#endif /* _LOW_POWER */
-
 
 #if !defined(_RTOS)
   /* Workaround linked to issue with Ellisys test TD.PC.E5
@@ -1355,8 +1349,8 @@ static uint32_t ManageStateDetached_SRC(uint8_t PortNum)
   if (_handle->CurrentHWcondition == HW_Detachment)
   {
 #ifdef _LOW_POWER
-    /* value returned by a SRC or a SINK */
-    _timing = CAD_DETACH_POLLING; /* 100ms in the sink cases */
+    /* value returned for a SRC */
+    _timing = CAD_DETACH_POLLING;
 #else
     _timing = CAD_INFINITE_TIME;
 #endif /* _LOW_POWER */
@@ -1556,6 +1550,8 @@ static uint32_t ManageStateEMC(uint8_t PortNum, USBPD_CAD_EVENT *pEvent, CCxPin_
         }
         _timing = 0;
       }
+#else
+      _timing = 2;
 #endif /* _DRP */
       break;
   }
@@ -1721,11 +1717,11 @@ static uint32_t ManageStateAttached_SNK(uint8_t PortNum, USBPD_CAD_EVENT *pEvent
   if ((USBPD_TRUE == USBPD_PWR_IF_GetVBUSStatus(PortNum,
                                                 USBPD_PWR_SNKDETACH)) /* Check if Vbus is below disconnect threshold */
       &&
-      (comp == ccx)                                                   /* confirm that there is no RP */
+      (comp == ccx)                                                   /* Confirm that there is no RP */
      )
   {
     HW_SignalDetachment(PortNum);
-    /* restart the toggle time */
+    /* Restart the toggle time */
     _handle->CurrentHWcondition = HW_Detachment;
     _handle->cstate             = USBPD_CAD_STATE_DETACHED;
 #if defined(_ACCESSORY_SNK)
@@ -1743,6 +1739,11 @@ static uint32_t ManageStateAttached_SNK(uint8_t PortNum, USBPD_CAD_EVENT *pEvent
     _timing = CAD_VBUS_POLLING_TIME;
   }
 
+#if defined(_LOW_POWER) || defined(USBPDM1_VCC_FEATURE_ENABLED)
+  /* Disable type C state machine */
+  SET_BIT(Ports[PortNum].husbpd->CR, UCPD_CR_CC1TCDIS | UCPD_CR_CC2TCDIS);
+#endif /* _LOW_POWER || USBPDM1_VCC_FEATURE_ENABLED */
+
   return _timing;
 }
 #endif /* _SNK || _DRP */
@@ -1751,18 +1752,48 @@ static uint32_t ManageStateAttached_SNK(uint8_t PortNum, USBPD_CAD_EVENT *pEvent
 void CAD_HW_IF_VBUSDetectCallback(uint32_t PortNum,
                                   USBPD_PWR_VBUSConnectionStatusTypeDef VBUSConnectionStatus)
 {
-#if defined(_TRACE)
   if (VBUSConnectionStatus == VBUS_CONNECTED)
   {
+#if defined(_TRACE)
     USBPD_TRACE_Add(USBPD_TRACE_DEBUG, PortNum, 0,
                     (uint8_t *)"-- USBPD_PWR_VBUSDetectCallback : VBUS_CONNECTED --", 51);
+#endif /* _TRACE */
   }
   else
   {
+#if defined(_TRACE)
     USBPD_TRACE_Add(USBPD_TRACE_DEBUG, PortNum, 0,
                     (uint8_t *)"-- USBPD_PWR_VBUSDetectCallback : VBUS_NOT_CONNECTED --", 55);
-  }
 #endif /* _TRACE */
+
+    /* VBUS_NOT_CONNECTED indications could be caused by false OCP/OVP errors detected at BSP level.
+       If reported here, it is assumed that it might be possible to recover from error.
+       If error could not be recovered, or is assumed to be related to a true safety issue, it will not be notified
+       by BSP */
+#if defined(USBPDCORE_LIB_NO_PD)
+    CAD_HW_HandleTypeDef *_handle = &CAD_HW_Handles[PortNum];
+
+    /* VBUS_NOT_CONNECTED indication management in case of NO_PD configuration */
+    if (Ports[PortNum].params->PE_PowerRole == USBPD_PORTPOWERROLE_SRC)
+    {
+      /* Current role is SRC when VBUS_NOT_CONNECTED signal is received */
+      HW_SignalDetachment(PortNum);
+      _handle->CAD_tDebounce_flag = USBPD_FALSE;
+      _handle->cstate             = USBPD_CAD_STATE_DETACH_SRC;
+    }
+    else
+    {
+      /* Current role is SNK when VBUS_NOT_CONNECTED signal is received */
+      HW_SignalDetachment(PortNum);
+      _handle->CurrentHWcondition = HW_Detachment;
+      _handle->cstate             = USBPD_CAD_STATE_DETACHED;
+    }
+#else
+    /* VBUS_NOT_CONNECTED indication management : Error has to be handled through a Detach/Attach procedure.
+       Handled using ErrorRecovery mechanism */
+    CAD_Enter_ErrorRecovery(PortNum);
+#endif /* USBPDCORE_LIB_NO_PD */
+  }
 }
 #endif /* TCPP0203_SUPPORT */
 

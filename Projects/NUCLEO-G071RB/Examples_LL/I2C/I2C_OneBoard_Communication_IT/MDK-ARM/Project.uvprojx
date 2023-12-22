@@ -379,7 +379,7 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Appliaction/MDK-ARM</GroupName>
+          <GroupName>Application/MDK-ARM</GroupName>
           <Files>
             <File>
               <FileName>startup_stm32g071xx.s</FileName>

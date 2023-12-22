@@ -79,6 +79,7 @@ void TimerCaptureCompare_Callback(void);
 #define USER_BUTTON_EXTI_IRQn EXTI4_15_IRQn
 #define TIM3_CH1_Pin LL_GPIO_PIN_6
 #define TIM3_CH1_GPIO_Port GPIOA
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

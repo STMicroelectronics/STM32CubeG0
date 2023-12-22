@@ -332,7 +332,7 @@ ErrorStatus OPENBL_FLASH_Erase(uint8_t *p_Data, uint32_t DataLength)
   OPENBL_FLASH_Unlock();
 
   /* Clear error programming flags */
-  __HAL_FLASH_CLEAR_FLAG(FLASH_SR_ERRORS);
+  WRITE_REG(FLASH->SR, FLASH_SR_ERRORS);
 
   pages_number  = (uint32_t)(*(uint16_t *)(p_Data));
   p_Data       += 2;

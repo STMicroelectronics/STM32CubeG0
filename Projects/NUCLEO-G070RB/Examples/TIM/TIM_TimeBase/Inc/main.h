@@ -57,6 +57,7 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+
 /* USER CODE BEGIN Private defines */
 /* 
     In this example TIM3 input clock (TIM3CLK)  is set to APB1 clock (PCLK1),

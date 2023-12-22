@@ -154,6 +154,7 @@ extern "C" {
 #if !defined(USBPDCORE_LIB_PD3_CONFIG_MINSNK)
 #define USBPDCORE_SRC
 #define USBPDCORE_VCONN_SUPPORT
+#define USBPDCORE_ANSWER_DISCOIDENT
 #endif /* USBPDCORE_LIB_PD3_CONFIG_MINSNK */
 
 #if !defined(USBPDCORE_LIB_PD3_CONFIG_MINSRC)
@@ -1057,6 +1058,7 @@ typedef uint32_t USBPD_VDM_VDO_ActiveCable_Version_TypeDef;
   */
 #define USBPD_VDM_VDO_UFP_VERSION_REV1P1           1u  /*!< Version Number of the UFP VDO Revision 1.1      */
 #define USBPD_VDM_VDO_UFP_VERSION_REV1P2           2u  /*!< Version Number of the UFP VDO Revision 1.2      */
+#define USBPD_VDM_VDO_UFP_VERSION_REV1P3           3u  /*!< Version Number of the UFP VDO Revision 1.3      */
 
 typedef uint32_t USBPD_VDM_VDO_UFP_Version_TypeDef;
 /**
@@ -1068,6 +1070,7 @@ typedef uint32_t USBPD_VDM_VDO_UFP_Version_TypeDef;
   * @{
   */
 #define USBPD_VDM_VDO_DFP_VERSION_REV1P1           1u  /*!< Version Number of the DFP VDO Revision 1.1      */
+#define USBPD_VDM_VDO_DFP_VERSION_REV1P2           2u  /*!< Version Number of the DFP VDO Revision 1.2      */
 
 typedef uint32_t USBPD_VDM_VDO_DFP_Version_TypeDef;
 /**
@@ -1177,10 +1180,13 @@ typedef enum
   USBPD_DATAMSG_BATTERY_STATUS           = 0x05U,  /*!< Battery status                    */
   USBPD_DATAMSG_ALERT                    = 0x06U,  /*!< Alert                             */
   USBPD_DATAMSG_GET_COUNTRY_INFO         = 0x07U,  /*!< Get country info                  */
-  USBPD_DATAMSG_REVISION                 = 0x0Cu,  /*!< Revision                          */
 #if defined(USBPDCORE_USBDATA)
   USBPD_DATAMSG_ENTER_USB                = 0x08U,  /*!< Enter usb                         */
 #endif /* USBPDCORE_USBDATA */
+  USBPD_DATAMSG_EPR_REQUEST              = 0x09U,  /*!< EPR request                       */
+  USBPD_DATAMSG_EPR_MODE                 = 0x0AU,  /*!< EPR mode                          */
+  USBPD_DATAMSG_SOURCE_INFO              = 0x0BU,  /*!< Source info                       */
+  USBPD_DATAMSG_REVISION                 = 0x0Cu,  /*!< Revision                          */
 #endif /* USBPD_REV30_SUPPORT */
   USBPD_DATAMSG_VENDOR_DEFINED           = 0x0Fu   /*!< Vendor_Defined Data Message       */
 } USBPD_DataMsg_TypeDef;
@@ -2946,11 +2952,11 @@ typedef union
   uint32_t d32;
   struct
   {
-    uint32_t Revision_major    : 4u; /*!< revision major */
-    uint32_t Revision_minor    : 4u; /*!< revision minor */
-    uint32_t Version_major     : 4u; /*!< version major */
-    uint32_t Version_minor     : 4u; /*!< version minor */
-    uint32_t                   :16u;  /*!< reserved */
+    uint32_t                   :16u; /*!< Reserved       */
+    uint32_t Version_minor     : 4u; /*!< Version minor  */
+    uint32_t Version_major     : 4u; /*!< Version major  */
+    uint32_t Revision_minor    : 4u; /*!< Revision minor */
+    uint32_t Revision_major    : 4u; /*!< Revision major */
   }
   b;
 } USBPD_RevisionDO_TypeDef;
@@ -2977,7 +2983,7 @@ typedef union
   * @brief  USBPD Source Capabilities Extended Message Structure definition
   *
   */
-typedef struct USBPD_SCEDB_TypeDef
+typedef __PACKED_STRUCT
 {
   uint16_t VID;                 /*!< Vendor ID (assigned by the USB-IF)                   */
   uint16_t PID;                 /*!< Product ID (assigned by the manufacturer)            */
@@ -2994,7 +3000,8 @@ typedef struct USBPD_SCEDB_TypeDef
   uint8_t  Touchtemp;           /*!< Touch Temp                                           */
   uint8_t  Source_inputs;       /*!< Source Inputs                                        */
   uint8_t  NbBatteries;         /*!< Number of Batteries/Battery Slots                    */
-  uint8_t  SourcePDP;           /*!< Source PDP                                           */
+  uint8_t  SourcePDP;           /*!< SPR Source PDP rating                                */
+  uint8_t  EPRSourcePDP;        /*!< EPR Source PDP rating                                */
 } USBPD_SCEDB_TypeDef;
 
 #if defined(USBPDCORE_SNK_CAPA_EXT)
@@ -3400,30 +3407,31 @@ typedef struct
 typedef union
 {
   uint32_t d32;
-  struct {
-  uint32_t Reserved1               :13u;  /*!< Reserved  - Shall be set to zero                               */
-  uint32_t HostPresent             : 1u;  /*!< Connected to a Host.                                           */
-  uint32_t TBTSupport              : 1u;  /*!< [TBT3] is supported by the host's USB4 Connection Manager      */
-  uint32_t DPSupport               : 1u;  /*!< [USB4] DP tunneling supported by the host                      */
-  uint32_t PCISupport              : 1u;  /*!< [USB4] PCIe tunneling supported by the hosts                   */
-  uint32_t CableCurrent            : 2u;  /*!< 00b = VBUS is not supported 01b = Reserved 10b = 3A 11b = 5A   */
-  uint32_t CableType               : 2u;  /*!< 00b: Passive,
-                                               01b: Active Re-timer
-                                               10b: Active Re-driver
-                                               11b: Optically Isolatedt */
-  uint32_t CableSpeed              : 3u;  /*!< 000b: [USB 2.0] only, no SuperSpeed support,
-                                               001b: [USB 3.2] Gen1,
-                                               010b: [USB 3.2] Gen2 and [USB4] Gen2
-                                               011b: [USB4] Gen3          */
-  uint32_t Reserved2               : 1u;  /*!< Reserved  - Shall be set to zero                               */
-  uint32_t USB3DRD                 : 1u;  /*!<  0b: Not capable of operating as a [USB 3.2] Device
-                                                1b: Capable of operating as a [USB 3.2] Device                */
-  uint32_t USB4DRD                 : 1u;  /*!<  0b: Not capable of operating as a [USB 4] Device
-                                                1b: Capable of operating as a [USB 4] Device                  */
-  uint32_t Reserved3               : 1u;
-  uint32_t USBMode                 : 3u;  /*! <000b: [USB 2.0], 001b: [USB 3.2] 010b: [USB4]                  */
-  uint32_t Reserved4               : 1u;
-  }b;
+  struct
+  {
+    uint32_t Reserved1               :13u;  /*!< Reserved  - Shall be set to zero                               */
+    uint32_t HostPresent             : 1u;  /*!< Connected to a Host.                                           */
+    uint32_t TBTSupport              : 1u;  /*!< [TBT3] is supported by the host's USB4 Connection Manager      */
+    uint32_t DPSupport               : 1u;  /*!< [USB4] DP tunneling supported by the host                      */
+    uint32_t PCISupport              : 1u;  /*!< [USB4] PCIe tunneling supported by the hosts                   */
+    uint32_t CableCurrent            : 2u;  /*!< 00b = VBUS is not supported 01b = Reserved 10b = 3A 11b = 5A   */
+    uint32_t CableType               : 2u;  /*!< 00b: Passive,
+                                                 01b: Active Re-timer
+                                                 10b: Active Re-driver
+                                                 11b: Optically Isolatedt */
+    uint32_t CableSpeed              : 3u;  /*!< 000b: [USB 2.0] only, no SuperSpeed support,
+                                                 001b: [USB 3.2] Gen1,
+                                                 010b: [USB 3.2] Gen2 and [USB4] Gen2
+                                                 011b: [USB4] Gen3          */
+    uint32_t Reserved2               : 1u;  /*!< Reserved  - Shall be set to zero                               */
+    uint32_t USB3DRD                 : 1u;  /*!< 0b: Not capable of operating as a [USB 3.2] Device
+                                                 1b: Capable of operating as a [USB 3.2] Device                 */
+    uint32_t USB4DRD                 : 1u;  /*!< 0b: Not capable of operating as a [USB 4] Device
+                                                 1b: Capable of operating as a [USB 4] Device                   */
+    uint32_t Reserved3               : 1u;
+    uint32_t USBMode                 : 3u;  /*!< 000b: [USB 2.0], 001b: [USB 3.2] 010b: [USB4]                  */
+    uint32_t Reserved4               : 1u;
+  } b;
 } USBPD_EnterUSBData_TypeDef;
 #endif /* USBPDCORE_USBDATA */
 

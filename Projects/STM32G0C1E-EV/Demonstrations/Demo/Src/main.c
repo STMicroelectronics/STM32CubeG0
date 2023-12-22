@@ -65,7 +65,7 @@ int main(void)
   BSP_LED_Init(LED3);
   BSP_LED_Init(LED4);
 
-  /* Get the daugther board id */
+  /* Get the daughter board id */
   if (BSP_DB_GetId(&daughter_board_id) !=0)
   {
     BSP_LCD_Init();

@@ -85,6 +85,7 @@ void Alarm_Callback(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED3_Pin LL_GPIO_PIN_6
 #define LED3_GPIO_Port GPIOC
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

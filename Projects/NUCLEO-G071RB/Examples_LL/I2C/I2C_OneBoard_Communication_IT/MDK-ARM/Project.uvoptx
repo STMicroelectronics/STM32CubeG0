@@ -195,7 +195,7 @@
   </Target>
 
   <Group>
-    <GroupName>Appliaction/MDK-ARM</GroupName>
+    <GroupName>Application/MDK-ARM</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>

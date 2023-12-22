@@ -91,6 +91,7 @@ void UserButton_Callback(void);
 #define USER_BUTTON_Pin LL_GPIO_PIN_15
 #define USER_BUTTON_GPIO_Port GPIOA
 #define USER_BUTTON_EXTI_IRQn EXTI4_15_IRQn
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
