@@ -6,3 +6,27 @@
 	path = Drivers/CMSIS/Device/ST/STM32G0xx
 	url = https://github.com/STMicroelectronics/cmsis_device_g0.git
 	branch = master
+[submodule "Drivers/BSP/STM32G0xx_Nucleo"]
+	path = Drivers/BSP/STM32G0xx_Nucleo
+	url = https://github.com/STMicroelectronics/stm32g0xx-nucleo-bsp.git
+	branch = main
+[submodule "Drivers/BSP/STM32G0xx_Nucleo_32"]
+	path = Drivers/BSP/STM32G0xx_Nucleo_32
+	url = https://github.com/STMicroelectronics/stm32g0xx-nucleo-32-bsp.git
+	branch = main
+[submodule "Drivers/BSP/STM32G0316-DISCO"]
+	path = Drivers/BSP/STM32G0316-DISCO
+	url = https://github.com/STMicroelectronics/stm32g0316-disco-bsp.git
+	branch = main
+[submodule "Drivers/BSP/STM32G071B-Discovery"]
+	path = Drivers/BSP/STM32G071B-Discovery
+	url = https://github.com/STMicroelectronics/stm32g071b-disco-bsp.git
+	branch = main
+[submodule "Drivers/BSP/STM32G0C1E-EV"]
+	path = Drivers/BSP/STM32G0C1E-EV
+	url = https://github.com/STMicroelectronics/stm32g0c1e-ev-bsp.git
+	branch = main
+[submodule "Drivers/BSP/STM32G081B_EVAL"]
+	path = Drivers/BSP/STM32G081B_EVAL
+	url = https://github.com/STMicroelectronics/stm32g081b-eval-bsp.git
+	branch = main
