@@ -30,3 +30,39 @@
 	path = Drivers/BSP/STM32G081B_EVAL
 	url = https://github.com/STMicroelectronics/stm32g081b-eval-bsp.git
 	branch = main
+[submodule "Drivers/BSP/Components/Common"]
+	path = Drivers/BSP/Components/Common
+	url = https://github.com/STMicroelectronics/stm32-bsp-common.git
+	branch = main
+[submodule "Drivers/BSP/Components/cbtl08gp053"]
+	path = Drivers/BSP/Components/cbtl08gp053
+	url = https://github.com/STMicroelectronics/stm32-cbtl08gp053.git
+	branch = main
+[submodule "Drivers/BSP/Components/hx8347d"]
+	path = Drivers/BSP/Components/hx8347d
+	url = https://github.com/STMicroelectronics/stm32-hx8347d.git
+	branch = main
+[submodule "Drivers/BSP/Components/ina230"]
+	path = Drivers/BSP/Components/ina230
+	url = https://github.com/STMicroelectronics/stm32-ina230.git
+	branch = main
+[submodule "Drivers/BSP/Components/sn65dp141"]
+	path = Drivers/BSP/Components/sn65dp141
+	url = https://github.com/STMicroelectronics/stm32-sn65dp141.git
+	branch = main
+[submodule "Drivers/BSP/Components/ssd1315"]
+	path = Drivers/BSP/Components/ssd1315
+	url = https://github.com/STMicroelectronics/stm32-ssd1315.git
+	branch = main
+[submodule "Drivers/BSP/Components/st7735"]
+	path = Drivers/BSP/Components/st7735
+	url = https://github.com/STMicroelectronics/stm32-st7735.git
+	branch = main
+[submodule "Drivers/BSP/Components/stlm75"]
+	path = Drivers/BSP/Components/stlm75
+	url = https://github.com/STMicroelectronics/stm32-stlm75.git
+	branch = main
+[submodule "Drivers/BSP/Components/tusb546"]
+	path = Drivers/BSP/Components/tusb546
+	url = https://github.com/STMicroelectronics/stm32-tusb546.git
+	branch = main
