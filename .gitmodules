@@ -66,3 +66,31 @@
 	path = Drivers/BSP/Components/tusb546
 	url = https://github.com/STMicroelectronics/stm32-tusb546.git
 	branch = main
+[submodule "Middlewares/Third_Party/FatFs"]
+	path = Middlewares/Third_Party/FatFs
+	url = https://github.com/STMicroelectronics/stm32-mw-fatfs
+	branch = master
+[submodule "Middlewares/Third_Party/FreeRTOS"]
+	path = Middlewares/Third_Party/FreeRTOS
+	url = https://github.com/STMicroelectronics/stm32-mw-freertos
+	branch = master
+[submodule "Middlewares/ST/STM32_USB_Device_Library"]
+	path = Middlewares/ST/STM32_USB_Device_Library
+	url = https://github.com/STMicroelectronics/stm32-mw-usb-device
+	branch = master
+[submodule "Middlewares/ST/STM32_USB_Host_Library"]
+	path = Middlewares/ST/STM32_USB_Host_Library
+	url = https://github.com/STMicroelectronics/stm32-mw-usb-host
+	branch = master
+[submodule "Middlewares/ST/OpenBootloader"]
+	path = Middlewares/ST/OpenBootloader
+	url = https://github.com/STMicroelectronics/stm32-mw-openbl
+	branch = main
+[submodule "Middlewares/ST/STM32_USBPD_Library/Core"]
+	path = Middlewares/ST/STM32_USBPD_Library/Core
+	url = https://github.com/STMicroelectronics/stm32-mw-usbpd-core
+	branch = main
+[submodule "Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX"]
+	path = Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX
+	url = https://github.com/STMicroelectronics/stm32-mw-usbpd-device-g0
+	branch = main
