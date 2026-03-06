@@ -187,7 +187,7 @@ static int32_t FS_FileOperations(void)
             f_close(&SDFile);
 
             /* Compare read data with the expected data */
-            if((bytesread == byteswritten))
+            if(bytesread == byteswritten)
             {
               if(Buffercmp((uint32_t *)rtext, (uint32_t *)wtext, sizeof(rtext)))
               {  /* Success of the demo: no error occurrence */

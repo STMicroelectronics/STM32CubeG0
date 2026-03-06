@@ -205,11 +205,7 @@ void OPENBL_I2C_WaitAddress(void)
   * @brief  This function is used to wait until NACK is detected.
   * @retval None.
   */
-#if defined (__CC_ARM)
-void OPENBL_I2C_WaitNack(void)
-#elif defined (__ICCARM__)
-void OPENBL_I2C_WaitNack(void)
-#elif defined   (__GNUC__)
+#if defined (__CC_ARM) || defined (__ICCARM__) || defined (__GNUC__)
 void OPENBL_I2C_WaitNack(void)
 #else
 __attribute__ ((section (".ramfunc"))) void OPENBL_I2C_WaitNack(void);
@@ -240,11 +236,7 @@ __attribute__ ((section (".ramfunc"))) void OPENBL_I2C_WaitNack(void);
   * @brief  This function is used to wait until STOP is detected.
   * @retval None.
   */
-#if defined (__CC_ARM)
-void OPENBL_I2C_WaitStop(void)
-#elif defined (__ICCARM__)
-void OPENBL_I2C_WaitStop(void)
-#elif defined   (__GNUC__)
+#if defined (__CC_ARM) || defined (__ICCARM__) || defined (__GNUC__)
 void OPENBL_I2C_WaitStop(void)
 #else
 __attribute__ ((section (".ramfunc"))) void OPENBL_I2C_WaitStop(void);
@@ -295,11 +287,7 @@ void OPENBL_I2C_SendAcknowledgeByte(uint8_t Byte)
   * @param
   * @retval None.
   */
-#if defined (__CC_ARM)
-void OPENBL_I2C_SendBusyByte(void)
-#elif defined (__ICCARM__)
-void OPENBL_I2C_SendBusyByte(void)
-#elif defined   (__GNUC__)
+#if defined (__CC_ARM) || defined (__ICCARM__) || defined (__GNUC__)
 void OPENBL_I2C_SendBusyByte(void)
 #else
 __attribute__ ((section (".ramfunc"))) void OPENBL_I2C_SendBusyByte(void);

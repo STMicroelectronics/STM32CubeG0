@@ -258,7 +258,7 @@ int main(void)
 
         /*##-3- Wait for the end of the transfer #################################*/  
         /*  Before starting a new communication transfer, you need to check the current   
-            state of the peripheral; if it’s busy you need to wait for the end of current
+            state of the peripheral; if it's busy you need to wait for the end of current
             transfer before starting a new one.
             For simplicity reasons, this example is just waiting till the end of the 
             transfer, but application may perform other tasks while transfer operation
@@ -298,7 +298,7 @@ int main(void)
 
         /*##-3- Wait for the end of the transfer #################################*/  
         /*  Before starting a new communication transfer, you need to check the current   
-            state of the peripheral; if it’s busy you need to wait for the end of current
+            state of the peripheral; if it's busy you need to wait for the end of current
             transfer before starting a new one.
             For simplicity reasons, this example is just waiting till the end of the 
             transfer, but application may perform other tasks while transfer operation
@@ -326,7 +326,7 @@ int main(void)
 
         /*##-5- Wait for the end of the transfer #################################*/  
         /*  Before starting a new communication transfer, you need to check the current   
-            state of the peripheral; if it’s busy you need to wait for the end of current
+            state of the peripheral; if it's busy you need to wait for the end of current
             transfer before starting a new one.
             For simplicity reasons, this example is just waiting till the end of the 
             transfer, but application may perform other tasks while transfer operation

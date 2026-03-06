@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2016 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -124,16 +123,16 @@ typedef struct
   */
 typedef struct
 {
-  __IO uint8_t  ManufacturerID;       /* ManufacturerID */
-  __IO uint16_t OEM_AppliID;          /* OEM/Application ID */
-  __IO uint32_t ProdName1;            /* Product Name part1 */
-  __IO uint8_t  ProdName2;            /* Product Name part2*/
-  __IO uint8_t  ProdRev;              /* Product Revision */
-  __IO uint32_t ProdSN;               /* Product Serial Number */
-  __IO uint8_t  Reserved1;            /* Reserved1 */
-  __IO uint16_t ManufactDate;         /* Manufacturing Date */
-  __IO uint8_t  CID_CRC;              /* CID CRC */
-  __IO uint8_t  Reserved2;            /* always 1 */
+  uint8_t  ManufacturerID;       /* ManufacturerID */
+  uint16_t OEM_AppliID;          /* OEM/Application ID */
+  uint32_t ProdName1;            /* Product Name part1 */
+  uint8_t  ProdName2;            /* Product Name part2*/
+  uint8_t  ProdRev;              /* Product Revision */
+  uint32_t ProdSN;               /* Product Serial Number */
+  uint8_t  Reserved1;            /* Reserved1 */
+  uint16_t ManufactDate;         /* Manufacturing Date */
+  uint8_t  CID_CRC;              /* CID CRC */
+  uint8_t  Reserved2;            /* always 1 */
 } SD_CID;
 
 /**
@@ -228,4 +227,3 @@ void HAL_Delay(__IO uint32_t Delay);
   * @}
   */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

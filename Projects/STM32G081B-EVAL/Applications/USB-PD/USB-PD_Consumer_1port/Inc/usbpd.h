@@ -41,6 +41,8 @@
 
 /* USBPD init function */
 void MX_USBPD_Init(void);
+const uint8_t*  BSP_GetBoardName(void);
+const uint8_t*  BSP_GetBoardID(void);
 
 /* USER CODE BEGIN 2 */
 /* USER CODE END 2 */

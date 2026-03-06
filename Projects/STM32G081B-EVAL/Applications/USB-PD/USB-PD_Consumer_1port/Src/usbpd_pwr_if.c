@@ -31,6 +31,7 @@
 #include "usbpd_trace.h"
 #endif /* _TRACE */
 #include "string.h"
+#include "gui_api.h"
 /* USER CODE BEGIN Include */
 #include "string.h"
 /* USER CODE END Include */
@@ -230,8 +231,8 @@ USBPD_StatusTypeDef USBPD_PWR_IF_Disable_VConn(uint8_t PortNum, CCxPin_TypeDef C
 void USBPD_PWR_IF_GetPortPDOs(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef DataId, uint8_t *Ptr, uint32_t *Size)
 {
     {
-      *Size = PORT0_NB_SINKPDO;
-      memcpy(Ptr,PORT0_PDO_ListSNK, sizeof(uint32_t) * PORT0_NB_SINKPDO);
+      *Size = USBPD_NbPDO[0];
+      memcpy(Ptr,PORT0_PDO_ListSNK, sizeof(uint32_t) * USBPD_NbPDO[0]);
     }
 /* USER CODE BEGIN USBPD_PWR_IF_GetPortPDOs */
   *Size = 1;

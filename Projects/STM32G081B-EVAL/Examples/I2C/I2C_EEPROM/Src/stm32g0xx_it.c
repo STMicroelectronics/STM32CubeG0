@@ -120,9 +120,12 @@ void I2Cx_DMA_RX_IRQHandler(void)
   */
 void I2Cx_IRQHandler(void)
 {
-  if (I2cHandle.Instance->ISR & (I2C_FLAG_BERR | I2C_FLAG_ARLO | I2C_FLAG_OVR)) {
+  if (I2cHandle.Instance->ISR & (I2C_FLAG_BERR | I2C_FLAG_ARLO | I2C_FLAG_OVR))
+  {
     HAL_I2C_ER_IRQHandler(&I2cHandle);
-  } else {
+  }
+  else
+  {
     HAL_I2C_EV_IRQHandler(&I2cHandle);
   }
 }

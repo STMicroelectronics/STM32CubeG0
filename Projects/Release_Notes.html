@@ -59,10 +59,71 @@
 <div class="col-sm-12 col-lg-8">
 <h1 id="update-history">Update History</h1>
 <div class="collapse">
-<input type="checkbox" id="collapse-section9" checked aria-hidden="true"> <label for="collapse-section9" aria-hidden="true">V1.6.2 / 15-12-2023</label>
+<input type="checkbox" id="collapse-section10" checked aria-hidden="true"> <label for="collapse-section10" aria-hidden="true">V1.6.3 / 27-February-2026</label>
 <div>
 <h2 id="main-changes">Main Changes</h2>
 <h3 id="patch-release">Patch release</h3>
+<ul>
+<li>NUCLEO-G070RB/NUCLEO-G071RB:
+<ul>
+<li>Fix typo and remove ambiguity from <strong>FreeRTOS_Mutexes</strong> application.</li>
+</ul></li>
+<li>STM32G081B-EVAL:
+<ul>
+<li>Update <strong>I2C_EEPROM</strong> example to be aligned with HAL_I2C_IsDeviceReady() API returned value: HAL_I2C_IsDeviceReady() API is no more returning HAL_TIMEOUT.</li>
+<li>Enable _GUI_INTERFACE in <strong>USB-PD_Consumer_1port</strong> application to be compliant with Cube Monitor.</li>
+<li>Fix typo and remove ambiguity from <strong>FreeRTOS_Mutexes</strong> application.</li>
+</ul></li>
+<li>STM32G0C1E-EV:
+<ul>
+<li>General fixes to support GCC in STM32CubeIDE projects.</li>
+<li>Modify the clock source for all <strong>FDCAN examples</strong> to use HSE instead of HSI.</li>
+</ul></li>
+</ul>
+<h2 id="development-toolchains-and-compilers">Development Toolchains and Compilers</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Toolchain + ST-Link</th>
+<th>Version</th>
+<th style="text-align: left;">Device</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">IAR Embedded Workbench for ARM (EWARM)</td>
+<td>V8.50.9</td>
+<td style="text-align: left;">G0C1xx/B1xx/B0xx</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IAR Embedded Workbench for ARM (EWARM)</td>
+<td>V8.50.9</td>
+<td style="text-align: left;">G061xx/51xx/50xx</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RealView Microcontroller Development Kit (MDK-ARM)</td>
+<td><strong>V5.38</strong></td>
+<td style="text-align: left;">G0C1xx/B1xx/B0xx</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RealView Microcontroller Development Kit (MDK-ARM)</td>
+<td><strong>V5.38</strong></td>
+<td style="text-align: left;">G061xx/51xx/50xx</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STM32CubeIDE</td>
+<td><strong>V1.19.0</strong></td>
+<td style="text-align: left;">G0C1xx/B1xx/B0xx</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section9" aria-hidden="true"> <label for="collapse-section9" aria-hidden="true">V1.6.2 / 15-12-2023</label>
+<div>
+<h2 id="main-changes-1">Main Changes</h2>
+<h3 id="patch-release-1">Patch release</h3>
 <ul>
 <li>Update stm32g0xx_hal_timebase_tim.c to be aligned with hal_timebase_tim_template.c</li>
 <li>Update CRC LL examples to fix incorrect bytes stream handling.</li>
@@ -78,7 +139,7 @@
 <li>Fix FLASH clear error programming flags that was not done properly before starting FLASH operations in OpenBootloader application.</li>
 </ul></li>
 </ul>
-<h2 id="development-toolchains-and-compilers">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-1">Development Toolchains and Compilers</h2>
 <table>
 <thead>
 <tr class="header">
@@ -117,19 +178,18 @@
 </table>
 </div>
 </div>
-<h1 id="update-history-1">Update History</h1>
 <div class="collapse">
 <input type="checkbox" id="collapse-section8" aria-hidden="true"> <label for="collapse-section8" aria-hidden="true">V1.6.1 / 08-July-2022</label>
 <div>
-<h2 id="main-changes-1">Main Changes</h2>
-<h3 id="patch-release-1">Patch release</h3>
+<h2 id="main-changes-2">Main Changes</h2>
+<h3 id="patch-release-2">Patch release</h3>
 <p>Update *ioc files to avoid “Firmware Location Error” popup message generated with STM32CubeMx.</p>
 </div>
 </div>
 <div class="collapse">
 <input type="checkbox" id="collapse-section7" aria-hidden="true"> <label for="collapse-section7" aria-hidden="true">V1.6.0 / 10-June-2022</label>
 <div>
-<h2 id="main-changes-2">Main Changes</h2>
+<h2 id="main-changes-3">Main Changes</h2>
 <h3 id="maintenance-release">Maintenance release</h3>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting STM32G041xx/31xx/30xx and STM32G081xx/71xx/70xx devices.</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
@@ -515,7 +575,7 @@
 <ul>
 <li>A few applications on STM32G0C1E-EV projects are not available at CubeMx format (with .ioc)</li>
 </ul>
-<h2 id="development-toolchains-and-compilers-1">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-2">Development Toolchains and Compilers</h2>
 <table>
 <thead>
 <tr class="header">
@@ -586,7 +646,7 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section6" aria-hidden="true"> <label for="collapse-section6" aria-hidden="true">V1.5.0 / 17-June-2021</label>
 <div>
-<h2 id="main-changes-3">Main Changes</h2>
+<h2 id="main-changes-4">Main Changes</h2>
 <h3 id="maintenance-release-and-product-update">Maintenance release and Product Update</h3>
 <p>Official Release of STM32CubeG0 Firmware projects introducing <strong>STM32G0C1xx/B1xx/B0xx</strong> devices.</p>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting STM32G041xx/31xx/30xx and STM32G081xx/71xx/70xx devices.</p>
@@ -1000,7 +1060,7 @@
 <ul>
 <li>A few applications on STM32G0C1E-EV projects are not available at CubeMx format (with .ioc)</li>
 </ul>
-<h2 id="development-toolchains-and-compilers-2">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-3">Development Toolchains and Compilers</h2>
 <table>
 <thead>
 <tr class="header">
@@ -1071,7 +1131,7 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section5" aria-hidden="true"> <label for="collapse-section5" aria-hidden="true">V1.4.0 / 03-November-2020</label>
 <div>
-<h2 id="main-changes-4">Main Changes</h2>
+<h2 id="main-changes-5">Main Changes</h2>
 <h3 id="maintenance-release-and-product-update-1">Maintenance release and Product Update</h3>
 <p>Official Release of STM32CubeG0 Firmware projects introducing <strong>STM32G0C1xx/B1xx/B0xx</strong> devices.</p>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting STM32G041xx/31xx/30xx and STM32G081xx/71xx/70xx devices.</p>
@@ -1591,7 +1651,7 @@
 <ul>
 <li>A few applications on STM32G0C1E-EV projects are not available at CubeMx format (with .ioc)</li>
 </ul>
-<h2 id="development-toolchains-and-compilers-3">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-4">Development Toolchains and Compilers</h2>
 <table>
 <thead>
 <tr class="header">
@@ -1662,7 +1722,7 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section4" aria-hidden="true"> <label for="collapse-section4" aria-hidden="true">V1.3.0 / 25-June-2019</label>
 <div>
-<h2 id="main-changes-5">Main Changes</h2>
+<h2 id="main-changes-6">Main Changes</h2>
 <h3 id="maintenance-release-1">Maintenance release</h3>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting STM32G041xx/31xx/30xx and STM32G081xx/71xx/70xx devices</p>
 <p>In the STM32CubeG0 MCU Package, examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
@@ -1970,7 +2030,7 @@
 </table>
 <p>Note: in the tables above, project categories <strong>highlighted</strong> have changed since previous release.</p>
 <h2 id="known-limitations-3">Known Limitations</h2>
-<h2 id="development-toolchains-and-compilers-4">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-5">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25 + ST-Link</li>
@@ -2001,7 +2061,7 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section3" aria-hidden="true"> <label for="collapse-section3" aria-hidden="true">V1.2.0 / 05-April-2019</label>
 <div>
-<h2 id="main-changes-6">Main Changes</h2>
+<h2 id="main-changes-7">Main Changes</h2>
 <h3 id="maintenance-release-and-product-update-2">Maintenance release and product Update</h3>
 <p>First Official release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting <strong>STM32G041xx/31xx/30xx</strong> devices and introducing new <strong>STM32G0316-DISCO</strong> and <strong>NUCLEO-G031K8</strong> boards.</p>
 <p>Maintenance release of STM32CubeG0 (STM32Cube for STM32G0 Series) Firmware projects supporting <strong>STM32G081xx/71xx/70xx</strong> devices</p>
@@ -2256,7 +2316,7 @@
 <li>SW4STM32 project is not provided for STM32G081B-EVAL UCPD demonstration in relocate mode</li>
 <li>SW4STM32 and MDK-ARM projects are not provided for STM32G081B-EVAL CRYP_DMA examples</li>
 </ul>
-<h2 id="development-toolchains-and-compilers-5">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-6">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25 + ST-Link</li>
@@ -2287,7 +2347,7 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section2" aria-hidden="true"> <label for="collapse-section2" aria-hidden="true">V1.1.0 / 06-February-2019</label>
 <div>
-<h2 id="main-changes-7">Main Changes</h2>
+<h2 id="main-changes-8">Main Changes</h2>
 <h3 id="maintenance-release-2">Maintenance release</h3>
 <p>Official release of STM32CubeG0 (STM32Cube for STM32G0 Series) supporting STM32G081xx/71xx/70xx devices and introducing new <strong>STM32G071-DISCO</strong> board, designed to highlight <strong>USBPD features</strong>.</p>
 <p>NUCLEO-G071RB, NUCLEO-G070RB and STM32G081B-EVAL completed with new examples in STM32CubeMx format.</p>
@@ -2494,7 +2554,7 @@
 <li>SW4STM32 project is not provided for STM32G081B-EVAL UCPD demonstration in relocate mode</li>
 <li>SW4STM32 and MDK-ARM projects are not provided for STM32G081B-EVAL CRYP_DMA examples</li>
 </ul>
-<h2 id="development-toolchains-and-compilers-6">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-7">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2 + ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>
@@ -2524,7 +2584,7 @@
 <div class="collapse">
 <input type="checkbox" id="collapse-section1" aria-hidden="true"> <label for="collapse-section1" aria-hidden="true">V1.0.0 / 26-October-2018</label>
 <div>
-<h2 id="main-changes-8">Main Changes</h2>
+<h2 id="main-changes-9">Main Changes</h2>
 <h3 id="first-release">First release</h3>
 <p>First release of STM32CubeG0 (STM32Cube for STM32G0 Series) projects supporting <strong>STM32G081xx/71xx/70xx devices</strong></p>
 <p>In the STM32CubeG0 MCU Package, most of the examples and applications projects are generated with the STM32CubeMX tool to initialize the system, peripherals and middleware stacks. User can open the provided ioc file in STM32CubeMX to modify the settings, add additional peripherals and/or middleware, to build his final application.</p>
@@ -2656,7 +2716,7 @@
 <li>FatFs applications generated with CubeMx not yet available</li>
 <li>USB PD applications generated with CubeMx not yet available</li>
 </ul>
-<h2 id="development-toolchains-and-compilers-7">Development Toolchains and Compilers</h2>
+<h2 id="development-toolchains-and-compilers-8">Development Toolchains and Compilers</h2>
 <ul>
 <li>IAR Embedded Workbench for ARM (EWARM) toolchain V8.20.2+ ST-Link</li>
 <li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.25</li>

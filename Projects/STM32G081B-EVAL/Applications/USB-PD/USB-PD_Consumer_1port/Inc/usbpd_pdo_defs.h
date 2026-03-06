@@ -26,6 +26,7 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#include "main.h"
 #include "usbpd_def.h"
 
 /* USER CODE BEGIN Includes */
@@ -81,9 +82,12 @@
 /* USER CODE END variables */
 
 #ifndef __USBPD_PWR_IF_C
+extern uint8_t USBPD_NbPDO[4];
 extern uint32_t PORT0_PDO_ListSRC[USBPD_MAX_NB_PDO];
 extern uint32_t PORT0_PDO_ListSNK[USBPD_MAX_NB_PDO];
 #else
+uint8_t USBPD_NbPDO[4] = {(PORT0_NB_SINKPDO),
+                          (PORT0_NB_SOURCEPDO)};
 /* Definition of Source PDO for Port 0 */
 uint32_t PORT0_PDO_ListSRC[USBPD_MAX_NB_PDO] =
 {

@@ -24,6 +24,7 @@
 #include "task.h"
 #include "usbpd.h"
 #include "tracer_emb.h"
+#include "gui_api.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #if defined(_TRACE)
@@ -116,6 +117,7 @@ void SysTick_Handler(void)
   }
 #endif /* INCLUDE_xTaskGetSchedulerState */
   USBPD_DPM_TimerCounter();
+  GUI_TimerCounter();
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */

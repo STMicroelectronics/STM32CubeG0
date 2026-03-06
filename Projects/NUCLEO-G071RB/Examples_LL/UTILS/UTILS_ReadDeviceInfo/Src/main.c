@@ -152,7 +152,7 @@ void GetMCUInfo(void)
   register uint32_t size_string = 0, read_info = 0, read_info2 = 0;
 
   /* Display Device ID in string format */
-  sprintf((char*)aShowDeviceID,"Device ID = 0x%lX", LL_DBGMCU_GetDeviceID());
+  sprintf((char*)aShowDeviceID,"Device ID =0x%lX", LL_DBGMCU_GetDeviceID());
   
   /* Display Revision ID in string format */
   sprintf((char*)aShowRevisionID,"Revision ID = 0x%lX", LL_DBGMCU_GetRevisionID());

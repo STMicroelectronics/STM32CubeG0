@@ -75,6 +75,7 @@ void MX_LPTIM1_Init(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define USBPD_FW_VERSION 0x16092020
 #define V_CTL1_Pin LL_GPIO_PIN_2
 #define V_CTL1_GPIO_Port GPIOC
 #define V_CTL2_Pin LL_GPIO_PIN_1

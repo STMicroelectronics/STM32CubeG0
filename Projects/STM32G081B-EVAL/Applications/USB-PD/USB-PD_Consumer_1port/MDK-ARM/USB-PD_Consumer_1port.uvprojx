@@ -371,9 +371,9 @@
             <vShortWch>1</vShortWch>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_FULL_LL_DRIVER,USBPD_PORT_COUNT=1,USBPDCORE_LIB_PD3_FULL,_RTOS,_SNK,USE_HAL_DRIVER,STM32G081xx,_TRACE,__DEBUG_CAD</Define>
+              <Define>USE_FULL_LL_DRIVER,USBPD_PORT_COUNT=1,USBPDCORE_LIB_PD3_FULL,_RTOS,_SNK,USE_HAL_DRIVER,STM32G081xx,_TRACE,_GUI_INTERFACE,__DEBUG_CAD</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc; ../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc; ../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy; ../../../../../../Middlewares/Third_Party/FreeRTOS/Source/include; ../../../../../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS; ../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM0; ../../../../../../Middlewares/ST/STM32_USBPD_Library/Core/inc; ../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/inc; ../../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include; ../../../../../../Utilities/TRACER_EMB; ../../../../../../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Inc; ../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc; ../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy; ../../../../../../Middlewares/Third_Party/FreeRTOS/Source/include; ../../../../../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS; ../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM0; ../../../../../../Middlewares/ST/STM32_USBPD_Library/Core/inc; ../../../../../../Middlewares/ST/STM32_USBPD_Library/Devices/STM32G0XX/inc; ../../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include; ../../../../../../Utilities/GUI_INTERFACE; ../../../../../../Utilities/TRACER_EMB; ../../../../../../Drivers/CMSIS/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -685,6 +685,26 @@
               <FileName>port.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM0/port.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Middlewares/GUI_INTERFACE_Utility</GroupName>
+          <Files>
+            <File>
+              <FileName>data_struct_tlv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Utilities/GUI_INTERFACE/data_struct_tlv.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_gui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Utilities/GUI_INTERFACE/bsp_gui.c</FilePath>
+            </File>
+            <File>
+              <FileName>gui_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../../Utilities/GUI_INTERFACE/gui_api.c</FilePath>
             </File>
           </Files>
         </Group>

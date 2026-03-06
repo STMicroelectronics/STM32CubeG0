@@ -36,7 +36,7 @@ void OPENBL_I2C_SendByte(uint8_t Byte);
 void OPENBL_I2C_WaitAddress(void);
 void OPENBL_I2C_SendAcknowledgeByte(uint8_t Byte);
 
-#if defined (__CC_ARM)
+#if defined (__CC_ARM) || defined (__GNUC__)
 void OPENBL_I2C_WaitNack(void);
 void OPENBL_I2C_WaitStop(void);
 void OPENBL_I2C_SendBusyByte(void);
