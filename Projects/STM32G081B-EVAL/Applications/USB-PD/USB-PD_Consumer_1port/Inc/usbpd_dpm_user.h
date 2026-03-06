@@ -39,24 +39,6 @@
   */
 
 /* Exported typedef ----------------------------------------------------------*/
-typedef struct
-{
-  uint32_t PE_DataSwap                                    : 1U;  /*!< support data swap                                     */
-  uint32_t PE_VconnSwap                                   : 1U;  /*!< support VCONN swap                                    */
-  uint32_t PE_DR_Swap_To_DFP                              : 1U;  /*!< If supported, DR Swap to DFP can be accepted or not by the user else directly rejected */
-  uint32_t PE_DR_Swap_To_UFP                              : 1U;  /*!< If supported, DR Swap to UFP can be accepted or not by the user else directly rejected */
-  uint32_t Reserved1                                      :28U;  /*!< Reserved bits */
-  USBPD_SNKPowerRequest_TypeDef DPM_SNKRequestedPower;          /*!< Requested Power by the sink board                     */
-  USBPD_MIDB_TypeDef  DPM_ManuInfoPort;                         /*!< Manufacturer information used for the port            */
-  uint16_t            ReservedManu;                             /*!< Reserved bits to match with Manufacturer information            */
-} USBPD_USER_SettingsTypeDef;
-
-typedef struct
-{
-  uint32_t XID;               /*!< Value provided by the USB-IF assigned to the product   */
-  uint16_t VID;               /*!< Vendor ID (assigned by the USB-IF)                     */
-  uint16_t PID;               /*!< Product ID (assigned by the manufacturer)              */
-} USBPD_IdSettingsTypeDef;
 /* USER CODE BEGIN Typedef */
 typedef struct
 {
@@ -69,6 +51,9 @@ typedef struct
 } USBPD_HandleTypeDef;
 /* USER CODE END Typedef */
 
+typedef void     (*GUI_NOTIFICATION_POST)(uint8_t PortNum, uint16_t EventVal);
+typedef uint32_t (*GUI_NOTIFICATION_FORMAT_SEND)(uint32_t PortNum, uint32_t TypeNotification, uint32_t Value);
+typedef void     (*GUI_SAVE_INFO)(uint8_t PortNum, uint8_t DataId, uint8_t *Ptr, uint32_t Size);
 /* Exported define -----------------------------------------------------------*/
 /* USER CODE BEGIN Define */
 
@@ -96,6 +81,7 @@ typedef struct
   * @{
   */
 USBPD_StatusTypeDef USBPD_DPM_UserInit(void);
+void                USBPD_DPM_SetNotification_GUI(GUI_NOTIFICATION_FORMAT_SEND PtrFormatSend, GUI_NOTIFICATION_POST PtrPost, GUI_SAVE_INFO PtrSaveInfo);
 void                USBPD_DPM_WaitForTime(uint32_t Time);
 void                USBPD_DPM_UserCableDetection(uint8_t PortNum, USBPD_CAD_EVENT State);
 void                USBPD_DPM_UserTimerCounter(uint8_t PortNum);

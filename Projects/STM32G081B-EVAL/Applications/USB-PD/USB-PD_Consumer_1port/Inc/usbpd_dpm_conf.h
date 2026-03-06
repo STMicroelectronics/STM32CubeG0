@@ -30,6 +30,9 @@
 #include "usbpd_dpm_user.h"
 #include "usbpd_vdm_user.h"
 
+#include "gui_api.h"
+#include "usbpd_gui_memmap.h"
+
 /* USER CODE BEGIN Includes */
 /* Section where include file can be added */
 

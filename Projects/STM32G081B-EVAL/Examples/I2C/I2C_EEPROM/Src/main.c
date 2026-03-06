@@ -131,7 +131,7 @@ int main(void)
 
     /* Wait for the end of the transfer */
     /*  Before starting a new communication transfer, you need to check the current   
-      state of the peripheral; if it’s busy you need to wait for the end of current
+      state of the peripheral; if it's busy you need to wait for the end of current
       transfer before starting a new one.
       For simplicity reasons, this example is just waiting till the end of the 
       transfer, but application may perform other tasks while transfer operation
@@ -141,7 +141,7 @@ int main(void)
     }
 
     /* Check if the EEPROM is ready for a new operation */
-    while (HAL_I2C_IsDeviceReady(&I2cHandle, EEPROM_ADDRESS, EEPROM_MAX_TRIALS, I2C_XFER_TIMEOUT_MAX) == HAL_TIMEOUT);
+    while (HAL_I2C_IsDeviceReady(&I2cHandle, EEPROM_ADDRESS, EEPROM_MAX_TRIALS, I2C_XFER_TIMEOUT_MAX) != HAL_OK);
 
     /* Wait for the end of the transfer */
     while (HAL_I2C_GetState(&I2cHandle) != HAL_I2C_STATE_READY)

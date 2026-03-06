@@ -42,6 +42,21 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/readme.txt</locationURI>
 		</link>
 		<link>
+			<name>Utilities/bsp_gui.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Utilities/GUI_INTERFACE/bsp_gui.c</locationURI>
+		</link>
+		<link>
+			<name>Utilities/data_struct_tlv.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Utilities/GUI_INTERFACE/data_struct_tlv.c</locationURI>
+		</link>
+		<link>
+			<name>Utilities/gui_api.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Utilities/GUI_INTERFACE/gui_api.c</locationURI>
+		</link>
+		<link>
 			<name>Utilities/tracer_emb.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-6-PROJECT_LOC%7D/Utilities/TRACER_EMB/tracer_emb.c</locationURI>

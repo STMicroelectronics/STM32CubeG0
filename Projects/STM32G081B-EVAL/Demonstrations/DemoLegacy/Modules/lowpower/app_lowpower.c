@@ -326,7 +326,7 @@ static void LowPowerHandleAlarm(void)
   uint8_t temp[16];
   uint8_t exit = 0;
   uint8_t index = SECONDS;
-  uint8_t position;
+  uint8_t position = 0;
   uint8_t statpos;
 
   /* get current font */

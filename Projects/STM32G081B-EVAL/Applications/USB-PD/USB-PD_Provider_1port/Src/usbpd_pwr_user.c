@@ -778,7 +778,7 @@ __weak PWR_StatusTypeDef BSP_PWR_VBUSSetVoltage_Variable(uint32_t PortId,
   PWR_DEBUG_TRACE(PortId, "ADVICE: Obsolete BSP_PWR_VBUSSetVoltage_Variable");
 /* USER CODE BEGIN BSP_PWR_VBUSSetVoltage_Variable */
   return ((BSP_ERROR_NONE == BSP_USBPD_PWR_VBUSSetVoltage_Variable(PortId, VbusTargetMinInmv, VbusTargetMaxInmv, OperatingCurrent, MaxOperatingCurrent)) ? PWR_OK : PWR_ERROR);
-/* USER CODE BEGIN BSP_PWR_VBUSSetVoltage_Variable */
+/* USER CODE END BSP_PWR_VBUSSetVoltage_Variable */
 }
 
 /**

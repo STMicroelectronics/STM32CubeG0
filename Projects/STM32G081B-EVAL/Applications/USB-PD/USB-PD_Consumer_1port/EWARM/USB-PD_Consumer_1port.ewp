@@ -233,6 +233,7 @@
           <state>USE_HAL_DRIVER</state>
           <state>STM32G081xx</state>
           <state>_TRACE</state>
+          <state>_GUI_INTERFACE</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -367,6 +368,8 @@
           <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Device/ST/STM32G0xx/Include</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/CMSIS/Include</state>
           <state>$PROJ_DIR$/../../../../../../Utilities/TRACER_EMB</state>
+          <state>$PROJ_DIR$/../../../../../../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy</state>
+          <state>$PROJ_DIR$/../../../../../../Utilities/GUI_INTERFACE</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -628,7 +631,7 @@
         </option>
         <option>
           <name>AUserIncludes</name>
-          <state>$PROJ_DIR$\..\Inc</state>
+          <state>$PROJ_DIR$/../Inc</state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>
@@ -1257,6 +1260,15 @@
   </group>
   <group>
     <name>Utilities</name>
+    <file>
+      <name>$PROJ_DIR$/../../../../../../Utilities/GUI_INTERFACE/data_struct_tlv.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$/../../../../../../Utilities/GUI_INTERFACE/bsp_gui.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$/../../../../../../Utilities/GUI_INTERFACE/gui_api.c</name>
+    </file>
     <file>
       <name>$PROJ_DIR$/../../../../../../Utilities/TRACER_EMB/tracer_emb.c</name>
     </file>
