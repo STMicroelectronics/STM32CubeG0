@@ -279,9 +279,9 @@
                 <Size>0x80000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
-                <Type>254</Type>
-                <StartAddress>0xf4ffffff</StartAddress>
-                <Size>0x3100ef06</Size>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
               </OCR_RVCT5>
               <OCR_RVCT6>
                 <Type>0</Type>
